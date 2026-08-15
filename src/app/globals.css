@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+}
+
+@theme {
+  --color-lime: #c7ef3a;
+  --color-lime-dark: #9fc426;
+  --color-gold: #e8b44a;
+  --color-gold-dark: #c9932c;
+  --color-ink: #12200f;
+  --color-ink-deep: #0a1a10;
+  --color-cream: #f4f1e6;
+
+  /* Site-wide brand palette (Unifarm) — the only 3 colors sections should
+     draw from for brand text/backgrounds/accents. */
+  --color-brand-yellow: #fffacd;
+  --color-brand-green: #006400;
+  --color-brand-blue: #87cefa;
+  /* Aliases used by a couple of older components (bg-forest, var(--color-forest)/
+     var(--color-green)) that previously pointed at nothing/off-palette hexes. */
+  --color-forest: #006400;
+  --color-green: #006400;
+
+  --animate-rise-in: rise-in 0.8s cubic-bezier(0.22, 0.9, 0.28, 1) forwards;
+  --animate-bob: bob 2.2s ease-in-out infinite;
+  --animate-marquee: marquee 28s linear infinite;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes imagePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) rotate(-2deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08) rotate(1deg);
+  }
+  78% {
+    transform: scale(0.97) rotate(-0.5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradientMove 5s ease-in-out infinite;
+}
+
+@keyframes fadeBackdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes hero-zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.09);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
