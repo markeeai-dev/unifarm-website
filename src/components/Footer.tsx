@@ -153,27 +153,36 @@ export default function Footer() {
             <ul className="space-y-3 text-sm leading-relaxed text-white/70">
               <li>
                 <span className="font-semibold text-white/90">
-                  Công ty cổ phần ST Farm
-                </span>{" "}
-                — 56 Vân Côi, P.7, Q. Tân Bình, TPHCM
+                  CÔNG TY CỔ PHẦN NÔNG NGHIỆP U&amp;I (UNIFARM)
+                </span>
               </li>
               <li>
-                Mã số thuế: 0311465876 do Sở Kế hoạch đầu tư TP HCM cấp ngày
-                29/06/2011
+                <span className="font-semibold text-white/90">Trụ sở chính:</span>{" "}
+                158, Đường Ngô Gia Tự, Phường Thủ Dầu Một, Tp. Hồ Chí Minh
+              </li>
+              <li>
+                <span className="font-semibold text-white/90">Chi nhánh:</span>{" "}
+                368, Đường Thuận Giao 09, Phường Thuận Giao, Tp. Hồ Chí Minh; 20
+                Bờ Sông Sét, P. Tân Mai, Quận Hoàng Mai, Tp Hà Nội
+              </li>
+              <li>
+                <span className="font-semibold text-white/90">Trang trại:</span>{" "}
+                Dự án nông nghiệp ứng dụng công nghệ cao An Thái, Phước Thành,
+                Tp. Hồ Chí Minh
               </li>
               <li className="flex items-center gap-2 text-white/90">
                 <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#87cefa]" fill="currentColor">
                   <path d="M6.6 10.8c1.4 2.7 3.6 5 6.4 6.4l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.8 21 3 13.2 3 3.7c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" />
                 </svg>
-                1900 636 099 – 1900 636 099
+                (0274) 3889887
               </li>
-              <li>Fax: 08.38666237</li>
               <li className="flex items-center gap-2">
                 <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[#87cefa]" fill="currentColor">
                   <path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.2.5 7.8 5.7L19.8 6H4.2ZM20 8.1l-7.4 5.4a1 1 0 0 1-1.2 0L4 8.1V18h16V8.1Z" />
                 </svg>
-                hi@haravan.com
+                info@unifarm.com.vn
               </li>
+              <li>MST: 3701528386 — Ngày thành lập: 12/06/2009</li>
             </ul>
           </div>
 

@@ -46,10 +46,11 @@ const IMAGES = {
 
 const NAV_LINKS = [
   { label: "Trang chủ", href: "#" },
-  { label: "Về chúng tôi", href: "#about" },
-  { label: "Dịch vụ", href: "#services" },
-  { label: "Lợi ích", href: "#benefits" },
-  { label: "Tin tức", href: "#blog" },
+  { label: "Về chúng tôi", href: "/gioi-thieu" },
+  { label: "Dự án", href: "#projects" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Góc chia sẻ", href: "#blog" },
+  { label: "Tuyển dụng", href: "#careers" },
 ];
 
 export default function AgricultureHero() {
@@ -88,7 +89,7 @@ export default function AgricultureHero() {
   }, []);
 
   return (
-    <div className="bg-white px-3 pt-3 sm:px-6 sm:pt-6">
+    <div className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-3 pt-3 sm:px-6 sm:pt-6">
       {/* ================= STICKY NAV — appears once the hero scrolls out of
           view, stays fixed to the top over every other component, and
           disappears again on scrolling back up to the hero. ================= */}
@@ -97,7 +98,7 @@ export default function AgricultureHero() {
           showStickyNav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="w-full bg-white/95 shadow-[0_8px_30px_rgba(0,0,0,0.1)] backdrop-blur-md">
+        <div className="w-full bg-[#fffde7]/95 shadow-[0_8px_30px_rgba(0,0,0,0.1)] backdrop-blur-md">
           <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-4 sm:h-[72px] sm:px-6 lg:px-8">
           {/* Logo */}
           <a href="#" className="flex items-center">
@@ -117,7 +118,7 @@ export default function AgricultureHero() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
-                  e.preventDefault();
+                  if (!link.href.startsWith("/")) e.preventDefault();
                   setActive(link.label);
                 }}
                 className={`rounded-full px-4 py-2 text-[12px] font-semibold uppercase tracking-wide transition-all duration-300 ease-out ${
@@ -162,7 +163,7 @@ export default function AgricultureHero() {
 
         {/* Mobile dropdown panel for the sticky nav */}
         <div
-          className={`overflow-hidden bg-white/95 shadow-lg backdrop-blur-md transition-all duration-300 md:hidden ${
+          className={`overflow-hidden bg-[#fffde7]/95 shadow-lg backdrop-blur-md transition-all duration-300 md:hidden ${
             stickyMenuOpen ? "max-h-96 border-b border-black/5 py-2" : "max-h-0"
           }`}
         >
@@ -172,7 +173,7 @@ export default function AgricultureHero() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
-                  e.preventDefault();
+                  if (!link.href.startsWith("/")) e.preventDefault();
                   setActive(link.label);
                   setStickyMenuOpen(false);
                 }}
@@ -257,12 +258,12 @@ export default function AgricultureHero() {
               mounted ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
             }`}
           >
-            <div className="absolute inset-0 rounded-br-[28px] bg-white sm:rounded-br-[36px]" />
+            <div className="absolute inset-0 rounded-br-[28px] bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat sm:rounded-br-[36px]" />
 
-            {/* LOGO */}
+            {/* LOGO — bigger than before, with a slow, gentle bob for a livelier feel */}
             <a
               href="#"
-              className="absolute left-4 top-[13px] z-10 flex items-center sm:left-15 sm:top-4"
+              className="absolute left-4 top-[8px] z-10 flex items-center sm:left-15 sm:top-2"
             >
               <Image
                 src="/images/logo-unifarm.png"
@@ -270,9 +271,19 @@ export default function AgricultureHero() {
                 width={829}
                 height={400}
                 priority
-                className="h-9 w-auto sm:h-11"
+                className="h-11 w-auto animate-bob sm:h-14"
               />
             </a>
+
+            {/* Cute banana mascot peeking out of the corner */}
+            <Image
+              src="/images/mascot/banana-mascot.png"
+              alt=""
+              aria-hidden="true"
+              width={200}
+              height={200}
+              className="pointer-events-none absolute -bottom-2 -right-2 z-20 h-9 w-9 rotate-[-10deg] drop-shadow-md sm:h-11 sm:w-11"
+            />
           </div>
 
           {/* MENU — glassy pill nav, eases in with a quick fade + rise so it doesn't feel
@@ -288,7 +299,7 @@ export default function AgricultureHero() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
-                  e.preventDefault();
+                  if (!link.href.startsWith("/")) e.preventDefault();
                   setActive(link.label);
                 }}
                 className={`rounded-full px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wide transition-all duration-[420ms] ease-out ${
@@ -309,7 +320,17 @@ export default function AgricultureHero() {
               mounted ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
             }`}
           >
-            <div className="absolute inset-0 rounded-bl-[28px] bg-white sm:rounded-bl-[36px]" />
+            <div className="absolute inset-0 rounded-bl-[28px] bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat sm:rounded-bl-[36px]" />
+
+            {/* Cute banana mascot peeking out of the corner, mirroring the logo side */}
+            <Image
+              src="/images/mascot/banana-mascot.png"
+              alt=""
+              aria-hidden="true"
+              width={200}
+              height={200}
+              className="pointer-events-none absolute -bottom-2 -left-2 z-20 h-9 w-9 rotate-[10deg] scale-x-[-1] drop-shadow-md sm:h-11 sm:w-11"
+            />
 
             {/* CONTACT */}
             <a
@@ -350,7 +371,7 @@ export default function AgricultureHero() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => {
-                  e.preventDefault();
+                  if (!link.href.startsWith("/")) e.preventDefault();
                   setActive(link.label);
                   setMenuOpen(false);
                 }}
@@ -376,8 +397,10 @@ export default function AgricultureHero() {
 
         {/* ================= HERO CONTENT ================= */}
         <div className="relative h-[560px] sm:h-[640px] md:h-[680px]">
-          {/* CENTER TEXT — tagline then headline rise in one after another over ~3s */}
-          <div className="absolute inset-x-0 top-[13%] z-10 mx-auto max-w-4xl px-6 text-center">
+          {/* CENTER TEXT — tagline then headline rise in one after another over ~3s.
+              Sits a bit higher (top-[9%] instead of 13%) so the headline has more
+              breathing room above the banner image below. */}
+          <div className="absolute inset-x-0 top-[9%] z-10 mx-auto max-w-4xl px-6 text-center">
             <h2
               className={`font-display text-sm font-semibold uppercase tracking-[0.35em] text-white/80 transition-all duration-[1100ms] ease-out sm:text-base md:text-lg ${
                 mounted ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
@@ -393,7 +416,7 @@ export default function AgricultureHero() {
               }`}
               style={{ transitionDelay: mounted ? "500ms" : "0ms" }}
             >
-              LÀM NÔNG NGHIỆP LÀ YÊU ĐẤT NƯỚC
+              SAFE FOOD FOR LIFE
             </h1>
           </div>
 
@@ -492,7 +515,7 @@ function Card({
 
   return (
     <div
-      className={`group relative z-10 min-h-[196px] overflow-visible rounded-[36px] rounded-tr-[72px] border border-black/[0.03] bg-white p-7 pt-10 shadow-[0_25px_70px_-10px_rgba(0,60,0,0.22)] ring-1 ring-[#87cefa]/10 transition-all duration-[3000ms] ease-out hover:-translate-y-1.5 hover:shadow-[0_35px_90px_-10px_rgba(0,60,0,0.28)] sm:min-h-[212px] sm:p-8 sm:pt-11 ${
+      className={`group relative z-10 min-h-[196px] overflow-visible rounded-[36px] rounded-tr-[72px] border border-black/[0.03] bg-[#fffde7] p-7 pt-10 shadow-[0_25px_70px_-10px_rgba(0,60,0,0.22)] ring-1 ring-[#87cefa]/10 transition-all duration-[3000ms] ease-out hover:-translate-y-1.5 hover:shadow-[0_35px_90px_-10px_rgba(0,60,0,0.28)] sm:min-h-[212px] sm:p-8 sm:pt-11 ${
         visible
           ? isLeft
             ? "translate-x-6 opacity-100 sm:translate-x-10"

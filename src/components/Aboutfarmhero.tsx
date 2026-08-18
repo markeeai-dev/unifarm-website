@@ -29,28 +29,16 @@ const FRUITS = [
 // text column on the left) + starting offset (bunched up near the photo
 // on the right) + rotation/scale so they "toss" outward on scroll.
 const FLOATING_ITEMS = [
-  { icon: "🍅", top: "-10%", left: "-10%", finalSize: 80, startX: 260, startRot: 50, delay: 0 },
-  { icon: "🌶️", top: "-5%", left: "10%", finalSize: 72, startX: 220, startRot: -40, delay: 70 },
-//   { icon: "🫐", top: "3%", left: "25%", finalSize: 34, startX: 200, startRot: 60, delay: 140 },
-//   { icon: "🥬", top: "20%", left: "30%", finalSize: 54, startX: 180, startRot: -55, delay: 210 },
-  { icon: "🫐", top: "8%", left: "35%", finalSize: 50, startX: 180, startRot: -55, delay: 210 },
-  { icon: "🫑", top: "0%", left: "0%", finalSize: 46, startX: 240, startRot: 35, delay: 280 },
-  { icon: "🫑", top: "84%", left: "32%", finalSize: 76, startX: 160, startRot: 45, delay: 350 },
-  { icon: "🍅", top: "38%", left: "45%", finalSize: 56, startX: 90, startRot: -30, delay: 420 },
-  { icon: "🍅", top: "75%", left: "20%", finalSize: 68, startX: 210, startRot: -50, delay: 490 },
-  { icon: "🫐", top: "93%", left: "5%", finalSize: 58, startX: 260, startRot: 40, delay: 560 },
-  { icon: "🫑", top: "95%", left: "-10%", finalSize: 80, startX: 270, startRot: -60, delay: 630 },
-//   { icon: "🍅", top: "58%", left: "42%", finalSize: 38, startX: 90, startRot: -30, delay: 420 },
-  { icon: "🍅", top: "8%", left: "20%", finalSize: 56, startX: 90, startRot: -30, delay: 420 },
-
-  // extra scatter, including several over the RIGHT (photo) side
-  { icon: "🫑", top: "-8%", left: "60%", finalSize: 54, startX: 120, startRot: 45, delay: 700 },
-  { icon: "🍅", top: "5%", left: "90%", finalSize: 46, startX: 100, startRot: -35, delay: 770 },
-  { icon: "🫐", top: "42%", left: "97%", finalSize: 62, startX: 90, startRot: 40, delay: 840 },
-  { icon: "🫑", top: "68%", left: "88%", finalSize: 50, startX: 110, startRot: -45, delay: 910 },
-  { icon: "🍅", top: "90%", left: "68%", finalSize: 70, startX: 130, startRot: 55, delay: 980 },
-  { icon: "🫐", top: "55%", left: "8%", finalSize: 48, startX: 200, startRot: -40, delay: 1050 },
-  { icon: "🫑", top: "22%", left: "-8%", finalSize: 44, startX: 230, startRot: 35, delay: 1120 },
+  { icon: "🍅", top: "-10%", left: "-10%", finalSize: 92, startX: 260, startRot: 50, delay: 0 },
+  { icon: "🍅", top: "20%", left: "40%", finalSize: 122, startX: 260, startRot: 50, delay: 0 },
+  { icon: "🌶️", top: "-5%", left: "10%", finalSize: 104, startX: 220, startRot: -40, delay: 70 },
+  { icon: "🫑", top: "84%", left: "32%", finalSize: 88, startX: 160, startRot: 45, delay: 140 },
+  { icon: "🍅", top: "75%", left: "20%", finalSize: 130, startX: 210, startRot: -50, delay: 210 },
+  { icon: "🫑", top: "85%", left: "0%", finalSize: 100, startX: 270, startRot: -60, delay: 280 },
+  { icon: "🍅", top: "5%", left: "90%", finalSize: 100, startX: 100, startRot: -35, delay: 350 },
+  { icon: "🫐", top: "42%", left: "97%", finalSize: 104, startX: 90, startRot: 40, delay: 420 },
+  { icon: "🍅", top: "90%", left: "68%", finalSize: 102, startX: 130, startRot: 55, delay: 490 },
+  { icon: "🫐", top: "55%", left: "48%", finalSize: 130, startX: 200, startRot: -40, delay: 560 },
 ];
 
 export default function AboutFarmHero() {
@@ -78,7 +66,7 @@ export default function AboutFarmHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden py-16 sm:py-20 lg:py-25"
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-35"
     >
       {/* soft light-blue ambient blobs */}
       <div
@@ -87,7 +75,7 @@ export default function AboutFarmHero() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#FFFACD] blur-3xl"
+        className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-[#87CEFA]/20 blur-3xl"
       />
 
       <div className="relative mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2 lg:gap-8 lg:px-8">
@@ -134,28 +122,26 @@ export default function AboutFarmHero() {
           }`}
         >
           <p className="mb-3 inline-block rounded-full bg-[#87CEFA]/25 px-4 py-1 text-xs font-semibold tracking-wide text-[#006400]">
-            NÔNG TRẠI HỮU CƠ
+            NÔNG NGHIỆP CÔNG NGHỆ CAO
           </p>
 
           <h2 className="font-display text-3xl font-extrabold leading-tight text-[#006400] sm:text-4xl lg:text-[42px]">
-            Trang trại{" "}
+            Tiên phong phát triển{" "}
             <span className="relative inline-block">
-              chúng tôi
-              <span className="absolute -bottom-1 left-0 h-3 w-full -z-10 bg-[#FFFACD]" />
+              nông nghiệp công nghệ cao
+              <span className="absolute -bottom-1 left-0 h-3 w-full -z-10 bg-white" />
             </span>
           </h2>
 
-          <p className="mt-4 text-lg font-medium text-gray-700">
-            Thực phẩm tự nhiên cho một tương lai tốt đẹp hơn
+          <p className="mx-auto mt-5 text-justify max-w-xl text-sm leading-relaxed text-gray-500 lg:mx-0">
+            Unifarm phát triển hệ sinh thái nông nghiệp khép kín, từ nghiên cứu
+            và sản xuất giống, phát triển vùng trồng, canh tác bền vững đến chế
+            biến, thị trường và giải pháp nông nghiệp số.
           </p>
 
-          <p className="mx-auto mt-5 text-justify max-w-xl text-sm leading-relaxed text-gray-500 lg:mx-0">
-            Chúng tôi canh tác theo phương pháp hữu cơ, không hóa chất, thu
-            hoạch mỗi ngày để mang đến rau củ tươi sạch nhất cho bàn ăn gia
-            đình bạn. Mỗi sản phẩm đều được chăm sóc bằng tâm huyết của những
-            người nông dân gắn bó với đất từ nhiều thế hệ.Mỗi sản phẩm đều được chăm sóc bằng tâm huyết của những
-            người nông dân gắn bó với đất từ nhiều thế hệ.Mỗi sản phẩm đều được chăm sóc bằng tâm huyết của những
-            người nông dân gắn bó với đất từ nhiều thế hệ.
+          <p className="mx-auto mt-4 text-justify max-w-xl text-sm leading-relaxed text-gray-500 lg:mx-0">
+            Chúng tôi ứng dụng công nghệ và tự động hóa để nâng cao năng suất,
+            chất lượng và giá trị nông sản Việt Nam.
           </p>
 
           <button
@@ -169,7 +155,7 @@ export default function AboutFarmHero() {
         </div>
 
         {/* RIGHT: image + scattered fruit icons */}
-        <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[420px]">
+        <div className="relative mx-auto w-full max-w-[380px] sm:max-w-[440px] lg:ml-auto lg:mr-0 lg:max-w-[480px] lg:translate-x-4">
           {/* offset green frame */}
           <div
             aria-hidden="true"
@@ -187,17 +173,17 @@ export default function AboutFarmHero() {
                 : "translate-y-8 opacity-0"
             }`}
           >
-            {/* fruit-box cutout — bigger (scaled up, minimal padding), shifted further
-                left and slightly rotated so it leans out well past the panel's edge for
-                a strong layered/3D feel. It's a PNG cutout so spilling outside the panel
-                is safe — no overflow-hidden anywhere in this stack. */}
-            <div className="relative h-[440px] w-full sm:h-[500px] lg:h-[560px]">
+            {/* fruit-box cutout — bigger still (scaled up, minimal padding), shifted
+                further left and slightly rotated so it leans out well past the panel's
+                edge for a strong layered/3D feel. It's a PNG cutout so spilling outside
+                the panel is safe — no overflow-hidden anywhere in this stack. */}
+            <div className="relative h-[480px] w-full sm:h-[540px] lg:h-[600px]">
               <Image
                 src="/images/Gio-trai-cay.png"
                 alt="Giỏ trái cây tươi Unifarm"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain object-bottom p-1 scale-125 -translate-x-16 -translate-y-2 rotate-[-3deg] drop-shadow-[0_30px_40px_rgba(0,0,0,0.3)] sm:-translate-x-20 lg:-translate-x-24"
+                className="object-contain object-bottom p-1 scale-150 -translate-x-16 -translate-y-4 rotate-[-6deg] drop-shadow-[0_30px_40px_rgba(0,0,0,0.3)] sm:-translate-x-20 lg:-translate-x-10"
               />
             </div>
           </div>

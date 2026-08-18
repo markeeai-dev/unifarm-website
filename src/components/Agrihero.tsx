@@ -13,25 +13,25 @@ type SlotImage = {
 const INITIAL_SLOTS: SlotImage[] = [
   {
     id: 'main',
-    src: '/images/agrihero/farmer-tending-vegetables.jpg',
-    alt: 'Người làm vườn đang chăm sóc luống rau hữu cơ',
+    src: '/images/agritech/vertical-farm-hydroponic-greenhouse.jpg',
+    alt: 'Nhà kính công nghệ cao trồng rau thủy canh',
   },
   {
     id: 'sprout',
-    src: '/images/agrihero/seedling-sprout.jpg',
-    alt: 'Mầm cây non nhú lên từ lớp đất tơi xốp',
+    src: '/images/agritech/precision-agriculture-drone-field.jpg',
+    alt: 'Drone ứng dụng công nghệ cao trong canh tác',
   },
   {
     id: 'harvest',
-    src: '/images/agrihero/harvest-hands.jpg',
-    alt: 'Đôi tay đang thu hoạch rau củ hữu cơ',
+    src: '/images/agritech/aerial-crop-field-oilseed-rape.jpg',
+    alt: 'Vùng trồng nông nghiệp công nghệ cao nhìn từ trên cao',
   },
 ];
 
 const CHECKLIST_ITEMS = [
-  'Thực phẩm hữu cơ giàu vitamin tự nhiên',
-  'Đáp ứng nhu cầu ăn sạch mỗi ngày',
-  'Không chiếu xạ, không hoá chất bảo quản',
+  'Nông sản chất lượng cao từ vùng trồng công nghệ',
+  'Kiểm soát chất lượng xuyên suốt quá trình canh tác',
+  'Đáp ứng tiêu chuẩn thị trường trong nước và quốc tế',
 ];
 
 /** Kích hoạt hiệu ứng khi phần tử cuộn vào khung nhìn (chỉ 1 lần). */
@@ -215,16 +215,14 @@ export default function AgricultureHero() {
 
         {/* CỘT PHẢI — nội dung */}
         <div ref={contentRef} className="agrihero-content-col" data-inview={contentInView}>
-          <span className="agrihero-eyebrow">Giới thiệu về chúng tôi</span>
+          <span className="agrihero-eyebrow">Unifarm</span>
 
-          <h2 className="agrihero-heading">
-            <span className="agrihero-accent-gold">Nông nghiệp &amp;</span> Sản phẩm hữu cơ
-          </h2>
+          <h2 className="agrihero-heading">Nâng Tầm Giá Trị Nông Sản</h2>
 
           <p className="agrihero-paragraph">
-            Chúng tôi đồng hành cùng những người nông dân canh tác thuận tự nhiên, mang đến
-            nguồn thực phẩm sạch, an toàn và giàu dinh dưỡng cho mọi gia đình, từ luống rau
-            trong vườn đến bàn ăn của bạn.
+            Chúng tôi đồng hành cùng những người Nông dân ứng dụng công nghệ vào canh tác
+            và phát triển vùng trồng, mang đến những nông sản chất lượng cao, an toàn và
+            đáp ứng tiêu chuẩn thị trường.
           </p>
 
           {/* Danh sách check-mark và 2 vòng thống kê nằm cùng một hàng */}
@@ -247,8 +245,8 @@ export default function AgricultureHero() {
                 tone="green"
               />
               <StatRing
-                percent={60}
-                label={'Chất lượng\nnông sản'}
+                percent={100}
+                label={'Đạt chuẩn VietGAP\n& GlobalG.A.P'}
                 delay={650}
                 inView={contentInView}
                 tone="blue"
@@ -556,10 +554,6 @@ export default function AgricultureHero() {
           opacity: 1;
           transform: translateY(0);
           transition-delay: 0.18s;
-        }
-        .agrihero-accent-gold {
-          color: var(--agrihero-yellow-deep);
-          font-style: italic;
         }
 
         .agrihero-paragraph {

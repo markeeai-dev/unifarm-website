@@ -2,7 +2,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Leaf, User, Mail, Phone, MessageSquare, Send, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import { Leaf, User, Mail, Phone, MessageSquare, CheckCircle2 } from "lucide-react";
 
 /**
  * ContactSection — "Liên hệ" (Trà xanh / tea-plantation brand)
@@ -99,16 +100,24 @@ export default function ContactSection() {
             {/* Eyebrow */}
             <div className="mt-3 flex justify-center">
               <span className="inline-flex items-center rounded-full border border-[#87cefa] bg-[#fffacd]/60 px-3 py-1 text-[11px] font-medium tracking-wide text-[#006400] sm:text-xs">
-                Đồi chè · Liên hệ tư vấn
+                Kết nối cùng Unifarm
               </span>
             </div>
 
             {/* Tiêu đề */}
-            <h2 className="font-display mt-4 text-center text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
+            <h2 className="font-display mt-4 flex items-center justify-center gap-2 text-center text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
               Liên hệ
+              <Image
+                src="/images/mascot/banana-mascot.png"
+                alt=""
+                aria-hidden="true"
+                width={200}
+                height={200}
+                className="h-9 w-9 rotate-[-8deg] sm:h-11 sm:w-11"
+              />
             </h2>
             <p className="mx-auto mt-2 max-w-xs text-center text-sm text-neutral-500 sm:text-[15px]">
-              Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!
+              Đội ngũ tư vấn của chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất!
             </p>
 
             {submitted ? (
@@ -194,7 +203,14 @@ export default function ContactSection() {
                   className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] sm:w-auto sm:mx-auto sm:px-10"
                 >
                   Gửi liên hệ
-                  <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  <Image
+                    src="/images/mascot/banana-mascot.png"
+                    alt=""
+                    aria-hidden="true"
+                    width={200}
+                    height={200}
+                    className="h-6 w-6 transition-transform group-hover:translate-x-0.5"
+                  />
                 </button>
               </form>
             )}

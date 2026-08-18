@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * SmartFarmingShowcase
+ * SmartFarmingShowcase — dùng riêng cho trang /gioi-thieu
  * Next.js + Tailwind CSS component — no extra dependencies.
  *
  * - LEFT: photo with two rows of pill "tag" buttons overlaid at the

@@ -12,21 +12,18 @@ import { useEffect, useRef, useState } from "react";
  * - Mobile: card logo tự co nhỏ, khoảng cách giảm, tốc độ chạy giữ nguyên cảm
  *   giác vì dùng % thay vì px.
  *
- * THAY LOGO THẬT:
- *  - Sửa mảng CLIENTS bên dưới. Mỗi item có thể dùng `logo` (đường dẫn ảnh,
- *    nên là .svg/.png nền trong suốt) hoặc chỉ để `name` + `accent` để hiện
- *    dạng chữ (placeholder) như demo này.
- *  - Nếu dùng next/image, thay thẻ <img> bằng <Image> (nhớ đặt fill hoặc
- *    width/height cố định).
+ * LOGO KHÁCH HÀNG:
+ *  - Mảng CLIENTS bên dưới dùng logo thật (PNG) của các chuỗi siêu thị/nhà
+ *    phân phối, đặt trong `public/images/clients/`.
  */
 
 const CLIENTS = [
-  { name: "Vườn Xanh", bg: "#d9f2d9", text: "#1c6b1c" },
-  { name: "Chợ Quê", bg: "#ffd9d9", text: "#8a1f1f" },
-  { name: "Trà Việt", bg: "#ffd9ec", text: "#a3186f" },
-  { name: "Nông Sản A", bg: "#ffe9c2", text: "#8a5a00" },
-  { name: "Mùa Vụ", bg: "#fff3b0", text: "#7a5c00" },
-  { name: "Đồi Chè", bg: "#d7f5d7", text: "#0a5c0a" },
+  { name: "Co.opmart", logo: "/images/clients/coopmart.png" },
+  { name: "WinMart", logo: "/images/clients/winmart.png" },
+  { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
+  { name: "AEON", logo: "/images/clients/aeon.png" },
+  { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
+  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
 ];
 
 // Nhân đôi mảng để tạo vòng lặp liền mạch (seamless loop)
@@ -99,15 +96,14 @@ export default function ClientsMarquee() {
             {LOOP_CLIENTS.map((client, i) => (
               <div
                 key={`${client.name}-${i}`}
-                className="flex h-16 w-32 shrink-0 items-center justify-center rounded-xl border border-black/5 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 sm:h-20 sm:w-44"
-                style={{ backgroundColor: client.bg }}
+                className="flex h-16 w-32 shrink-0 items-center justify-center rounded-xl border border-black/5 bg-white px-4 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 sm:h-20 sm:w-44"
               >
-                <span
-                  className="px-2 text-center text-xs font-semibold tracking-wide sm:text-sm"
-                  style={{ color: client.text }}
-                >
-                  {client.name}
-                </span>
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  draggable={false}
+                  className="h-10 w-full object-contain sm:h-12"
+                />
               </div>
             ))}
           </div>

@@ -127,7 +127,7 @@ export default function RiceTabsShowcase() {
 };
 
   return (
-    <section ref={sectionRef} className="w-full bg-white px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+    <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto w-full max-w-[1500px]">
         {/* TABS — split into equal-width columns across the full container,
             eases in from the right over 4s on first scroll-into-view */}
@@ -141,7 +141,7 @@ export default function RiceTabsShowcase() {
             opacity: inView ? 1 : 0,
           }}
         >
-          <div className="flex w-full min-w-max border-b border-gray-200 sm:grid sm:min-w-0 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="flex w-full min-w-max border-b border-black sm:grid sm:min-w-0 sm:grid-cols-3 lg:grid-cols-6">
             {TABS.map((tab, i) => {
               const isActive = i === activeIndex;
               return (
@@ -150,10 +150,10 @@ export default function RiceTabsShowcase() {
                     onClick={() => handleTabClick(i)}
                     onMouseEnter={() => setHoverIndex(i)}
                     onMouseLeave={() => setHoverIndex(null)}
-                    className={`group relative shrink-0 whitespace-nowrap px-5 pb-4 text-center text-sm font-semibold transition-all duration-500 ease-out sm:whitespace-normal sm:px-3 ${
+                    className={`group relative shrink-0 whitespace-nowrap border-r border-black px-5 pb-4 text-center text-base font-semibold text-black transition-all duration-500 ease-out sm:whitespace-normal sm:px-3 ${
                         isActive
-                        ? "text-[#006400]"
-                        : "text-gray-400 hover:-translate-y-[1px] hover:text-[#006400]"
+                        ? ""
+                        : "hover:-translate-y-[1px] hover:text-[#006400]"
                     }`}
                     >
                     {tab.label}

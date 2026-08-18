@@ -127,7 +127,7 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[number] }) {
 
 export default function ServicesSection() {
   return (
-    <section className="bg-white pb-20 pt-81 lg:pb-28 lg:pt-[60px]">
+    <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat pb-20 pt-81 lg:pb-28 lg:pt-[60px]">
       <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
         <RevealFromRight className="flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-3">
           {/* <Image
@@ -145,7 +145,7 @@ export default function ServicesSection() {
           </h2>
         </RevealFromRight>
 
-        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-6 sm:mt-14 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-0 lg:divide-x lg:divide-gray-200">
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-6 sm:mt-14 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4 lg:gap-x-0 lg:divide-x lg:divide-black">
           {SERVICES.map((service, i) => (
             <RevealFromRight key={service.title} delayMs={i * 130} className="h-full">
               <ServiceCard service={service} />

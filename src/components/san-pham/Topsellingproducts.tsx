@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * TopSellingProducts
+ * TopSellingProducts — dùng riêng cho trang /san-pham
  * Next.js + Tailwind CSS component — no extra dependencies.
  *
  * - Infinite-loop carousel (7 real cards, cloned edges) showing ~4 full
@@ -124,7 +124,7 @@ function ProductCard({
 
   return (
     <div
-      className="group relative aspect-[4/5.2] w-full cursor-pointer select-none overflow-hidden bg-[#fffacd] shadow-[0_14px_34px_rgba(0,0,0,0.12)]"
+      className="group relative aspect-[4/5.2] w-full cursor-pointer select-none overflow-hidden bg-[#fffde7] shadow-[0_14px_34px_rgba(0,0,0,0.12)]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => {
@@ -310,10 +310,10 @@ export default function TopSellingProducts() {
   const dragOffsetPercent = dragBaseWidth ? (dragX / dragBaseWidth) * 100 : 0;
 
   return (
-    <section className="w-full bg-white py-16 sm:py-20 lg:py-15">
+    <section className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16 sm:py-20 lg:py-15">
       <div
         ref={sectionRef}
-        className="mx-auto max-w-full px-4 transition-all ease-out sm:px-6 lg:px-8"
+        className="mx-auto w-full max-w-none transition-all ease-out"
         style={{
           transitionDuration: "6500ms",
           opacity: inView ? 1 : 0,

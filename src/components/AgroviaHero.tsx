@@ -11,29 +11,47 @@ const SLIDES = [
   {
     title: (
       <>
-        Trồng cây công nghệ cao, <em>kiến tạo tương lai</em>
+        Khởi tạo từ mầm giống, <em>kiến tạo giá trị tương lai</em>
       </>
     ),
     subhead:
-      'Ứng dụng công nghệ hiện đại vào canh tác để nâng cao năng suất, chất lượng và giá trị nông sản.',
+      'Nghiên cứu, lai tạo và tuyển chọn các giống cây trồng đạt năng suất cao, sức chống chịu tốt và chuẩn hóa chất lượng ngay từ nguồn.',
   },
   {
     title: (
       <>
-        Nông nghiệp thông minh, <em>phát triển bền vững</em>
+        Mở rộng vùng trồng hiện đại, <em>chuẩn hóa quy trình quốc tế</em>
       </>
     ),
     subhead:
-      'Kết hợp khoa học, dữ liệu và công nghệ để tạo nên những vùng trồng hiệu quả, an toàn và thân thiện với môi trường.',
+      'Quy hoạch các trang trại nông nghiệp công nghệ cao trên toàn quốc, áp dụng tiêu chuẩn canh tác sạch để đảm bảo sản lượng và chất lượng đồng đều.',
   },
   {
     title: (
       <>
-        Từ mầm xanh đến <em>giá trị tương lai</em>
+        Đồng hành cùng nhà nông, <em>phát triển chuỗi giá trị liên kết</em>
       </>
     ),
     subhead:
-      'Công nghệ giúp người trồng kiểm soát tốt hơn từng giai đoạn, tối ưu nguồn lực và nâng tầm giá trị nông sản.',
+      'Chuyển giao kỹ thuật canh tác tiên tiến, bao tiêu và kết nối người nông dân vào mạng lưới sản xuất nông nghiệp quy mô lớn.',
+  },
+  {
+    title: (
+      <>
+        Chế biến sâu nông sản, <em>đưa thương hiệu Việt ra thế giới</em>
+      </>
+    ),
+    subhead:
+      'Đầu tư công nghệ sau thu hoạch và chế biến chuyên sâu nhằm gia tăng giá trị nông sản, đáp ứng các tiêu chuẩn khắt khe của thị trường nội địa lẫn xuất khẩu.',
+  },
+  {
+    title: (
+      <>
+        Tiên phong giải pháp công nghệ, <em>thúc đẩy nông nghiệp tuần hoàn</em>
+      </>
+    ),
+    subhead:
+      'Ứng dụng tự động hóa, chuyển đổi số nông nghiệp và đầu tư vào các sáng kiến xanh nhằm tối ưu nguồn lực và bảo vệ môi trường sinh thái.',
   },
 ];
 

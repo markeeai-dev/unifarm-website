@@ -80,7 +80,7 @@ export default function NewsUpdatesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full bg-white px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+    <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <style>{FONT_IMPORT}</style>
 
       <div className="mx-auto w-full max-w-[1500px]">
@@ -140,7 +140,7 @@ export default function NewsUpdatesSection() {
                   </p>
                 </div>
 
-                <div className="w-px shrink-0 bg-gray-200" />
+                <div className="w-px shrink-0 bg-black" />
 
                 <div className="min-w-0 flex-1 gap-1.5 sm:ml-5">
                   <h3

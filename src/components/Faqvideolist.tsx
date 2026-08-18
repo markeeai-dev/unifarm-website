@@ -107,7 +107,7 @@ export default function FaqVideoList() {
   }, [openIndex]);
 
   return (
-    <section ref={sectionRef} className="w-full bg-white">
+    <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat">
       <div className="mx-auto w-full max-w-[1000px] px-[20px] py-[64px] sm:px-[40px] sm:py-[88px] lg:py-[104px]">
         {/* Badge — rises from below on scroll-in */}
         <div
@@ -141,7 +141,7 @@ export default function FaqVideoList() {
             return (
               <div
                 key={item.question}
-                className="relative border-b border-neutral-900/10 transition-all duration-500 ease-out first:border-t"
+                className="relative border-b border-black transition-all duration-500 ease-out first:border-t"
                 style={{
                   opacity: visible ? 1 : 0,
                   transform: visible ? 'translateY(0)' : 'translateY(36px)',
@@ -152,7 +152,7 @@ export default function FaqVideoList() {
               >
                 {/* highlight layer */}
                 <div
-                  className="pointer-events-none absolute inset-y-[3px] inset-x-[-10px] rounded-[18px] bg-[#fffacd] transition-all duration-400 ease-out sm:inset-x-[-16px]"
+                  className="pointer-events-none absolute inset-y-[3px] inset-x-[-10px] rounded-[18px] bg-white transition-all duration-400 ease-out sm:inset-x-[-16px]"
                   style={{
                     opacity: isHovered ? 1 : 0,
                     transform: isHovered ? 'scale(1)' : 'scale(0.97)',

@@ -12,9 +12,7 @@ import AboutFarmHero from "@/components/Aboutfarmhero";
 import AgroviaHero from "@/components/AgroviaHero";
 import Agrihero from "@/components/Agrihero";
 import RiceTabsShowcase from "@/components/Ricetabsshowcase";
-import SmartFarmingShowcase from "@/components/Smartfarmingshowcase";
 import Servicessection from "@/components/Servicessection";
-import TopSellingProducts from "@/components/Topsellingproducts";
 import NewsUpdatesSection from "@/components/Newsupdatessection";
 import QuoteSlider from "@/components/Quoteslider";
 import Footer from "@/components/Footer";
@@ -23,6 +21,7 @@ import ClientsMarquee from "@/components/Clientsmarquee";
 import FaqVideoList from "@/components/Faqvideolist";
 import ScrollToTopButton from "@/components/Scrolltotopbutton";
 import SocialFloat from "@/components/Socialfloat";
+import TopSellingProducts from "@/components/san-pham/Topsellingproducts";
 
 export default function Home() {
   return (
@@ -35,19 +34,21 @@ export default function Home() {
       <ClientsMarquee />
       {/* 3-4. About us — broad intro, then a deeper feature/stats look */}
       <AboutFarmHero />      
-      <Agrihero />
+      
       <AgroviaHero />
+      
       {/* 5-6. What we do / why choose us */}
-      <Servicessection />   
-      <SmartFarmingShowcase />
+      <Servicessection />
+      <TopSellingProducts />
+      <Agrihero />
       {/* 7-8. Products — detailed showcase, then bestsellers */}
       <QuoteSlider />
-      <RiceTabsShowcase />
-      <TopSellingProducts />
+      {/* <RiceTabsShowcase /> */}
       <NewsUpdatesSection />
       {/* 9. Secondary promo / investor CTA banner, breaks up the page before social proof */}
       {/* 10-11. Social proof + fresh content */}
       {/* 12. Contact */}
+      <FaqVideoList />
       <Contactsection />
       {/* <FarmQuotesBanner /> */}
       {/* <TrustedBy />
@@ -57,7 +58,7 @@ export default function Home() {
       <SmartSolutionsSlider />
       <Testimonialsslider />
        */}
-       <FaqVideoList />
+       
 
       <Footer />
     </>

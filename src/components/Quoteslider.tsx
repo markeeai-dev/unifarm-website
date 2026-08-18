@@ -83,7 +83,7 @@ export default function QuoteSlider() {
   }, [index]);
 
   return (
-    <section className="relative isolate min-h-screen w-full overflow-hidden bg-black">
+    <section className="relative isolate min-h-[460px] w-full overflow-hidden bg-black sm:min-h-[520px] lg:min-h-[600px]">
       <style>{`
         @keyframes qs-kenburns {
           0%   { transform: scale(1); }
