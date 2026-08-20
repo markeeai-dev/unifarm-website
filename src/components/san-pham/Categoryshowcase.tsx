@@ -29,35 +29,35 @@ type Category = {
 
 const CATEGORIES: Category[] = [
   {
-    id: 'vegetable',
-    title: 'VEGETABLE',
+    id: 'fresh-fruit',
+    title: 'Trái cây tươi',
     count: '24 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80',
-    Icon: Salad,
-  },
-  {
-    id: 'fruit',
-    title: 'FRUIT',
-    count: '8 sản phẩm',
-    image:
-      'https://images.unsplash.com/photo-1518635017498-87f514b751ba?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1200&q=85',
     Icon: Cherry,
   },
   {
-    id: 'fruit-juice',
-    title: 'FRUIT JUICE',
+    id: 'tissue-culture',
+    title: 'Cây giống nuôi cấy mô',
+    count: '8 sản phẩm',
+    image:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=85',
+    Icon: Salad,
+  },
+  {
+    id: 'processed',
+    title: 'Sản phẩm chế biến',
     count: '16 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=85',
     Icon: GlassWater,
   },
   {
-    id: 'dried',
-    title: 'DRIED',
+    id: 'other',
+    title: 'Khác',
     count: '10 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1200&q=85',
     Icon: Wheat,
   },
 ];

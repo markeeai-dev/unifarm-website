@@ -91,7 +91,7 @@ export default function SmartFarmingShowcase() {
         >
           <div className="relative w-full overflow-hidden">
             <img
-              src="/images/agritech/precision-agriculture-drone-field.jpg"
+              src="/images/UNIFARM/1787218973789_1582751505492234802_4935324150679931320_ae20e008b6b700cead007d04eae29597.jpg"
               alt="Ứng dụng công nghệ cao trong nông nghiệp"
               className="kb-zoom h-[360px] w-full object-cover sm:h-[460px] lg:h-[620px]"
             />

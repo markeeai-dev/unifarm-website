@@ -6,7 +6,7 @@
 // import TrustedBy from "@/components/TrustedBy";
 // import Testimonialsslider from "@/components/Testimonialsslider";
 // import FaqVideoList from "@/components/Faqvideolist";
-import AgricultureHero from "@/components/Agriculturehero";
+import HomeBanner from "@/components/Homebanner";
 import AboutFarmHero from "@/components/Aboutfarmhero";
 // import FarmQuotesBanner from "@/components/FarmQuotesBanner";
 import AgroviaHero from "@/components/AgroviaHero";
@@ -22,6 +22,8 @@ import FaqVideoList from "@/components/Faqvideolist";
 import ScrollToTopButton from "@/components/Scrolltotopbutton";
 import SocialFloat from "@/components/Socialfloat";
 import TopSellingProducts from "@/components/san-pham/Topsellingproducts";
+import AgricultureProjects from "@/components/Agricultureprojects";
+import AgriTechHero from "@/components/Agritechhero";
 
 export default function Home() {
   return (
@@ -29,18 +31,24 @@ export default function Home() {
     <SocialFloat />
       <ScrollToTopButton />
       {/* 1. Hero — first impression, full nav + CTA */}
-      <AgricultureHero />
+      <HomeBanner />
+      {/*   */}
       {/* 2. Quick trust signal right under the hero */}
-      <ClientsMarquee />
+      
       {/* 3-4. About us — broad intro, then a deeper feature/stats look */}
-      <AboutFarmHero />      
+      {/* <AboutFarmHero />       */}
+      <ClientsMarquee />
+      <AgriTechHero />
       
       <AgroviaHero />
       
       {/* 5-6. What we do / why choose us */}
-      <Servicessection />
-      <TopSellingProducts />
+      {/* <Servicessection /> */}
+      <AgricultureProjects />
+      
+      {/* <TopSellingProducts /> */}
       <Agrihero />
+      <FaqVideoList />
       {/* 7-8. Products — detailed showcase, then bestsellers */}
       <QuoteSlider />
       {/* <RiceTabsShowcase /> */}
@@ -48,7 +56,7 @@ export default function Home() {
       {/* 9. Secondary promo / investor CTA banner, breaks up the page before social proof */}
       {/* 10-11. Social proof + fresh content */}
       {/* 12. Contact */}
-      <FaqVideoList />
+      
       <Contactsection />
       {/* <FarmQuotesBanner /> */}
       {/* <TrustedBy />

@@ -104,7 +104,7 @@ export default function NewProductAnnouncement() {
           }}
         >
           <Image
-            src="/images/fruits/chuoi.png"
+            src="/images/products/dua-vip.png"
             alt="Chuối Unifarm"
             width={1280}
             height={961}

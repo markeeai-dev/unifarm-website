@@ -81,18 +81,26 @@ export default function FaqVideoList() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
+      ([entry]) => {
+        // Cuộn vào component → chạy animation
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+        // Cuộn ra khỏi component → reset animation
+        else {
+          setVisible(false);
+        }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -60px 0px',
+      }
     );
+
     observer.observe(el);
+
     return () => observer.disconnect();
   }, []);
 
@@ -111,10 +119,12 @@ export default function FaqVideoList() {
       <div className="mx-auto w-full max-w-[1000px] px-[20px] py-[64px] sm:px-[40px] sm:py-[88px] lg:py-[104px]">
         {/* Badge — rises from below on scroll-in */}
         <div
-          className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-neutral-900/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-neutral-900/70 transition-all duration-500 ease-out"
+          className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-neutral-900/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-neutral-900/70 transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] ease-out"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(16px)',
+            transform: visible
+              ? 'translateY(0) scale(1)'
+              : 'translateY(25px) scale(0.94)',
           }}
         >
           <span className="h-[6px] w-[6px] rounded-full bg-[#006400]" />
@@ -123,10 +133,13 @@ export default function FaqVideoList() {
 
         {/* Heading — rises from below on scroll-in */}
         <h2
-          className="font-display max-w-[720px] text-3xl font-extrabold leading-[1.18] tracking-tight text-neutral-900 transition-all duration-[900ms] ease-out sm:text-4xl lg:text-[42px]"
+          className="font-display max-w-[720px] text-3xl font-extrabold leading-[1.18] tracking-tight text-neutral-900 transition-all duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:text-4xl lg:text-[42px]"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(34px)',
+            transform: visible
+              ? 'translateY(0) scale(1)'
+              : 'translateY(40px) scale(0.95)',
+            transitionDelay: visible ? '250ms' : '0ms',
           }}
         >
           Bạn Có Thắc Mắc? Chúng Tôi Có <em className="font-normal italic text-[#006400]">Câu Trả Lời Thực Tế</em> Cho Bạn
@@ -144,8 +157,15 @@ export default function FaqVideoList() {
                 className="relative border-b border-black transition-all duration-500 ease-out first:border-t"
                 style={{
                   opacity: visible ? 1 : 0,
-                  transform: visible ? 'translateY(0)' : 'translateY(36px)',
-                  transitionDelay: `${140 + i * 110}ms`,
+                  transform: visible
+                    ? 'translateY(0) scale(1)'
+                    : 'translateY(45px) scale(0.96)',
+                  transitionProperty: 'opacity, transform',
+                  transitionDuration: '2000ms',
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                  transitionDelay: visible
+                    ? `${300 + i * 220}ms`
+                    : '0ms',
                 }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex((h) => (h === i ? null : h))}

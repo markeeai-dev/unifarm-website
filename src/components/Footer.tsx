@@ -125,7 +125,7 @@ export default function Footer() {
           className="absolute inset-0 bg-cover bg-center opacity-45"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1447175008436-054170c2e979?auto=format&fit=crop&w=1600&q=60')",
+              "url('/images/UNIFARM/1787207482427_1582751505492234802_4935324150679931320_939749211a6e5c72f28397e7e138b486.jpg')",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#00230f]/90 via-[#001b0b]/55 to-black" />

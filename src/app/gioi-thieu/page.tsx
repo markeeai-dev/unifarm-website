@@ -11,6 +11,10 @@ import HeroBanner from "@/components/gioi-thieu/Herobanner";
 import AboutBanner from "@/components/gioi-thieu/Aboutbanner";
 import PhilosophySection from "@/components/gioi-thieu/Philosophysection";
 import StatsSectionPreview from "@/components/gioi-thieu/Statssectionpreview";
+import EarthWaterBannerPreview from "@/components/gioi-thieu/Earthwaterbannerpreview";
+import EcosystemModel from "@/components/gioi-thieu/Ecosystemmodel";
+import AgriTechPillars from "@/components/gioi-thieu/Agritechpillars";
+import TimelineJourney from "@/components/gioi-thieu/Timelinejourney";
 
 const NAV_LINKS = [
   { label: "Trang chủ", href: "/" },
@@ -27,14 +31,19 @@ export default function GioiThieuPage() {
       <SocialFloat />
       <ScrollToTopButton />
       <HeroBanner />
-      <EarthWaterLove />
+      
+      {/* <EarthWaterLove /> */}
       <AboutBanner />
-      <PhilosophySection />
+      {/* <PhilosophySection /> */}
+      
+      <EarthWaterBannerPreview />
       <StatsSectionPreview />
       <SmartFarmingShowcase />
-      <TeamMembers />
-      
+      <EcosystemModel />
+      {/* <TeamMembers /> */}
+      <AgriTechPillars />
       {/* <CompanyJourney /> */}
+      <TimelineJourney />
 
       <Footer />
     </>

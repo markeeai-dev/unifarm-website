@@ -97,7 +97,7 @@ export default function AgroviaHero() {
   loop
   playsInline
 >
-  <source src="/videos/banana-green.mp4" type="video/mp4" />
+  <source src="/videos/unripe-green-bananas-on-tree.mp4" type="video/mp4" />
 </video>
 
       <div

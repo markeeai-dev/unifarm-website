@@ -154,7 +154,7 @@ const PRODUCTS: Product[] = [
     price: 12,
     category: 'seedling',
     type: 'banana',
-    image: 'https://picsum.photos/seed/uf-p7/500/500',
+    image: '/images/products/chuoi-chin-3.png',
     description: 'Cây giống chuối già VIP 126 nuôi cấy mô sạch bệnh 100%, mang gen kháng bệnh Panama vượt trội, sinh trưởng đồng đều và khỏe mạnh ngay từ vườn ươm. Đây là dòng giống được Unifarm chọn lọc và nhân giống trên quy mô công nghiệp, sẵn sàng đáp ứng các vùng trồng chuối xuất khẩu quy mô lớn.',
     specs: [
       { label: 'Giống', value: 'VIP 126 (Kháng Panama, Grand Naine, Williams)' },
@@ -265,8 +265,8 @@ const PRODUCTS: Product[] = [
     price: 22,
     category: 'processed',
     type: 'other',
-    image: '/images/products/xoai-1.png',
-    gallery: ['/images/products/xoai-1.png', '/images/products/xoai-2.png'],
+    image: 'https://chuahoangphap.com.vn/Images/News/bizmac__full_27002.jpg',
+    gallery: ['https://chuahoangphap.com.vn/Images/News/bizmac__full_27002.jpg'],
     description: 'Hệ thống tích hợp của Unifarm kết nối đồng bộ các hoạt động, từ nông trại đến nhà máy Tropitaste. Xoài tươi chất lượng cao được xử lý, kiểm soát chất lượng và cấp đông nhanh (IQF) trên dây chuyền hiện đại, đáp ứng các tiêu chuẩn nghiêm ngặt cho thị trường xuất khẩu.',
     specs: [
       { label: 'Giống', value: 'Đa dạng theo từng loại trái cây' },
@@ -337,8 +337,8 @@ const PRODUCTS: Product[] = [
     price: 18,
     category: 'processed',
     type: 'other',
-    image: '/images/products/duahau-1.png',
-    gallery: ['/images/products/duahau-1.png', '/images/products/duahau-2.png'],
+    image: 'https://product.hstatic.net/1000141988/product/dua_hau_do_d7a6bb707b8c4201b8e48884e82a93ab_master.png',
+    gallery: ['https://product.hstatic.net/1000141988/product/dua_hau_do_d7a6bb707b8c4201b8e48884e82a93ab_master.png', '/images/products/duahau-2.png'],
     description: 'Hệ thống tích hợp của Unifarm kết nối đồng bộ các hoạt động, từ nông trại đến nhà máy Tropitaste. Dưa hấu tươi chất lượng cao được xử lý, kiểm soát chất lượng và cấp đông nhanh (IQF) trên dây chuyền hiện đại, đáp ứng các tiêu chuẩn nghiêm ngặt cho thị trường xuất khẩu.',
     specs: [
       { label: 'Giống', value: 'Đa dạng theo từng loại trái cây' },
@@ -395,8 +395,8 @@ const PRODUCTS: Product[] = [
     price: 20,
     category: 'processed',
     type: 'other',
-    image: '/images/products/xoai-2.png',
-    gallery: ['/images/products/xoai-2.png', '/images/products/xoai-1.png'],
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdIR0BkbvyemzhddEy9JaScT0HaAYL5ygHwMvm1dAdEg&s=10',
+    gallery: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdIR0BkbvyemzhddEy9JaScT0HaAYL5ygHwMvm1dAdEg&s=10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCrQtL1SO73WUA4TvzO6DfJSWcyeZeINDtFtv2UAlGpw&s=10'],
     description: 'Hệ thống tích hợp của Unifarm kiểm soát chất lượng từ khâu canh tác đến thành phẩm. Xoài tươi chất lượng cao được xử lý, xay nhuyễn và thanh trùng tại nhà máy Tropitaste trên dây chuyền hiện đại, đáp ứng các tiêu chuẩn nghiêm ngặt về an toàn thực phẩm cho thị trường trong nước và xuất khẩu.',
     specs: [
       { label: 'Giống', value: 'Đa dạng theo từng loại trái cây' },
@@ -455,8 +455,8 @@ const PRODUCTS: Product[] = [
     price: 22,
     category: 'processed',
     type: 'other',
-    image: '/images/products/thanhlong-2.png',
-    gallery: ['/images/products/thanhlong-2.png', '/images/products/thanhlong-1.png'],
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThofxfyM1VyBhac5kznsY2BLI9r-uKkW3NcJAHI4FkGA&s=10',
+    gallery: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThofxfyM1VyBhac5kznsY2BLI9r-uKkW3NcJAHI4FkGA&s=10', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFN1XB3cA6YWXe4ERIk-4sljdFWp57CnGBfTD8Nol73g&s=10'],
     description: 'Hệ thống tích hợp của Unifarm kiểm soát chất lượng từ khâu canh tác đến thành phẩm. Thanh long tươi chất lượng cao được xử lý, xay nhuyễn và thanh trùng tại nhà máy Tropitaste trên dây chuyền hiện đại, đáp ứng các tiêu chuẩn nghiêm ngặt về an toàn thực phẩm cho thị trường trong nước và xuất khẩu.',
     specs: [
       { label: 'Giống', value: 'Đa dạng theo từng loại trái cây' },
@@ -475,8 +475,8 @@ const PRODUCTS: Product[] = [
     price: 16,
     category: 'processed',
     type: 'other',
-    image: '/images/products/duahau-2.png',
-    gallery: ['/images/products/duahau-2.png', '/images/products/duahau-1.png'],
+    image: 'https://tienthinh.vn/public/upload/images/hinhsanpham/-30831689906661.png',
+    gallery: ['https://tienthinh.vn/public/upload/images/hinhsanpham/-30831689906661.png'],
     description: 'Hệ thống tích hợp của Unifarm kiểm soát chất lượng từ khâu canh tác đến thành phẩm. Dưa hấu tươi chất lượng cao được xử lý, xay nhuyễn và thanh trùng tại nhà máy Tropitaste trên dây chuyền hiện đại, đáp ứng các tiêu chuẩn nghiêm ngặt về an toàn thực phẩm cho thị trường trong nước và xuất khẩu.',
     specs: [
       { label: 'Giống', value: 'Đa dạng theo từng loại trái cây' },

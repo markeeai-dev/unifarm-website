@@ -63,65 +63,111 @@ export default function NewsUpdatesSection() {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+useEffect(() => {
+  const el = sectionRef.current;
+  if (!el) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setInView(entry.isIntersecting);
+    },
+    {
+      threshold: 0.15,
+    }
+  );
+
+  observer.observe(el);
+
+  return () => observer.disconnect();
+}, []);
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-      <style>{FONT_IMPORT}</style>
+  <section
+    ref={sectionRef}
+    className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8"
+  >
+    <style>{FONT_IMPORT}</style>
 
-      <div className="mx-auto w-full max-w-[1500px]">
-        {/* heading — gentle fade-in on scroll */}
-        <h2
-            className="
-                font-display
-                text-3xl
-                font-extrabold
-                leading-[1.15]
-                tracking-[-0.03em]
-                text-[#006400]
-                sm:text-4xl
-                lg:text-[42px]
-            "
-            style={{
-                transition: "transform 900ms ease-out, opacity 900ms ease-out",
-                transform: inView ? "translateY(0)" : "translateY(24px)",
-                opacity: inView ? 1 : 0,
-            }}
-            >
-            Tin tức &amp; Cập nhật
-            </h2>
+    <div className="mx-auto w-full max-w-[1500px]">
 
-        {/* cards — rise up + fade in, staggered, ~4.5s each */}
-        <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {ARTICLES.map((a, i) => (
+      {/* ================= HEADING ================= */}
+      <h2
+        className="
+          font-display
+          text-3xl
+          font-extrabold
+          leading-[1.15]
+          tracking-[-0.03em]
+          text-[#006400]
+          sm:text-4xl
+          lg:text-[42px]
+        "
+        style={{
+          transition:
+            "transform 4500ms cubic-bezier(0.16,1,0.3,1), opacity 4500ms ease-out",
+          transform: inView
+            ? "translateY(0) scale(1)"
+            : "translateY(40px) scale(0.96)",
+          opacity: inView ? 1 : 0,
+        }}
+      >
+        Tin tức &amp; Cập nhật
+      </h2>
+
+      {/* ================= CARDS ================= */}
+      <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        {ARTICLES.map((a, i) => {
+          /*
+           * CARD 1: 108% -> 100%, đi xuống
+           * CARD 2: 72%  -> 100%, đi lên
+           * CARD 3: 108% -> 100%, đi xuống
+           */
+          const initialScale = i === 1 ? 0.72 : 1.08;
+          const initialY = i === 1 ? -70 : 70;
+
+          return (
             <article
               key={i}
               style={{
-                transition: inView
-                  ? `transform 4500ms cubic-bezier(0.16,1,0.3,1) ${i * 250}ms, opacity 4500ms ease-out ${
-                      i * 250
-                    }ms`
-                  : "none",
-                transform: inView ? "translateY(0)" : "translateY(70px)",
                 opacity: inView ? 1 : 0,
+                transform: inView
+                  ? "translateY(0) scale(1)"
+                  : `translateY(${initialY}px) scale(${initialScale})`,
+                transition: inView
+                  ? `
+                    transform 4500ms cubic-bezier(0.16,1,0.3,1),
+                    opacity 4500ms ease-out
+                  `
+                  : `
+                    transform 0ms,
+                    opacity 0ms
+                  `,
+                transitionDelay: inView
+                  ? `${i * 180}ms`
+                  : "0ms",
+                willChange: "transform, opacity",
               }}
             >
-              {/* image with slow continuous zoom loop */}
-              <div className="overflow-hidden shadow-lg">
+
+              {/* ================= ẢNH ================= */}
+              <div
+                className="overflow-hidden shadow-lg"
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView
+                    ? "scale(1)"
+                    : `scale(${initialScale})`,
+                  transition: inView
+                    ? `
+                      transform 4500ms cubic-bezier(0.16,1,0.3,1),
+                      opacity 4500ms ease-out
+                    `
+                    : "none",
+                  transitionDelay: inView
+                    ? `${i * 180}ms`
+                    : "0ms",
+                }}
+              >
                 <img
                   src={a.image}
                   alt={a.title}
@@ -129,52 +175,92 @@ export default function NewsUpdatesSection() {
                 />
               </div>
 
-              {/* content row: date (~20%) | divider | title / excerpt / button */}
-              <div className="mt-12 flex gap-1.5 sm:mt-10">
+              {/* =====================================================
+                  TOÀN BỘ PHẦN DATE + TITLE + EXCERPT + BUTTON
+                  ===================================================== */}
+              <div
+                className="mt-12 flex gap-1.5 sm:mt-10"
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView
+                    ? "translateY(0)"
+                    : "translateY(70px)",
+                  transition:
+                    "opacity 4500ms ease-out, transform 4500ms cubic-bezier(0.16,1,0.3,1)",
+                  transitionDelay: inView
+                    ? `${900 + i * 250}ms`
+                    : "0ms",
+                }}
+              >
+
+                {/* ================= DATE ================= */}
                 <div className="w-[20%] shrink-0 translate-x-7">
-                  <p className="text-5xl font-extrabold leading-none text-gray-900 font-display">
+                  <p className="font-display text-5xl font-extrabold leading-none text-gray-900">
                     {a.day}
                   </p>
+
                   <p className="mt-1 text-xs font-medium text-gray-500">
                     {a.monthYear}
                   </p>
                 </div>
 
+                {/* ================= DIVIDER ================= */}
                 <div className="w-px shrink-0 bg-black" />
 
+                {/* ================= CONTENT ================= */}
                 <div className="min-w-0 flex-1 gap-1.5 sm:ml-5">
+
+                  {/* TITLE */}
                   <h3
                     className="
-                        min-h-[50px]
-                        line-clamp-2
-                        text-[17px]
-                        font-semibold
-                        leading-[1.45]
-                        tracking-normal
-                        text-gray-900
-                        sm:text-[18px]
+                      min-h-[50px]
+                      line-clamp-2
+                      text-[17px]
+                      font-semibold
+                      leading-[1.45]
+                      tracking-normal
+                      text-gray-900
+                      sm:text-[18px]
                     "
-                    >
+                  >
                     {a.title}
-                    </h3>
+                  </h3>
+
+                  {/* EXCERPT */}
                   <p
                     className="
-                        mt-3
-                        line-clamp-2
-                        text-[15px]
-                        font-normal
-                        leading-[1.6]
-                        text-gray-500
-                        sm:text-[16px]
+                      mt-3
+                      line-clamp-2
+                      text-[15px]
+                      font-normal
+                      leading-[1.6]
+                      text-gray-500
+                      sm:text-[16px]
                     "
-                    >
+                  >
                     {a.excerpt}
-                    </p>
+                  </p>
 
+                  {/* BUTTON */}
                   <button className="group mt-4 inline-flex items-center gap-3">
                     <span
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white shadow-md transition-transform duration-300 group-hover:scale-110"
-                      style={{ backgroundColor: ACCENT }}
+                      className="
+                        flex
+                        h-9
+                        w-9
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        text-white
+                        shadow-md
+                        transition-transform
+                        duration-300
+                        group-hover:scale-110
+                      "
+                      style={{
+                        backgroundColor: ACCENT,
+                      }}
                     >
                       <svg
                         className="h-4 w-4"
@@ -187,16 +273,29 @@ export default function NewsUpdatesSection() {
                         <path d="M12 5v14M5 12h14" />
                       </svg>
                     </span>
-                    <span className="text-sm font-semibold text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
+
+                    <span
+                      className="
+                        text-sm
+                        font-semibold
+                        text-gray-800
+                        transition-colors
+                        duration-300
+                        group-hover:text-[#006400]
+                      "
+                    >
                       Xem thêm
                     </span>
                   </button>
+
                 </div>
               </div>
+
             </article>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

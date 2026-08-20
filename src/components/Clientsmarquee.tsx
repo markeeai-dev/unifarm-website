@@ -23,7 +23,7 @@ const CLIENTS = [
   { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
   { name: "AEON", logo: "/images/clients/aeon.png" },
   { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
-  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
+  { name: "MM Mega Market", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK6VwqALI2emL9_x9j-HOobc8fFXPNwleebk8B9xWb8g&s=10" },
 ];
 
 // Nhân đôi mảng để tạo vòng lặp liền mạch (seamless loop)

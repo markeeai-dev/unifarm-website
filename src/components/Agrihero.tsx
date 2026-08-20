@@ -13,17 +13,17 @@ type SlotImage = {
 const INITIAL_SLOTS: SlotImage[] = [
   {
     id: 'main',
-    src: '/images/agritech/vertical-farm-hydroponic-greenhouse.jpg',
+    src: '/images/UNIFARM/DJI_20260805085036_0330_D.JPG',
     alt: 'Nhà kính công nghệ cao trồng rau thủy canh',
   },
   {
     id: 'sprout',
-    src: '/images/agritech/precision-agriculture-drone-field.jpg',
+    src: '/images/UNIFARM/UNIFARM/peggy_marco-banana-2058196_1920.jpg',
     alt: 'Drone ứng dụng công nghệ cao trong canh tác',
   },
   {
     id: 'harvest',
-    src: '/images/agritech/aerial-crop-field-oilseed-rape.jpg',
+    src: '/images/UNIFARM/UNIFARM/moritz320-banana-2060720_1920.jpg',
     alt: 'Vùng trồng nông nghiệp công nghệ cao nhìn từ trên cao',
   },
 ];
@@ -34,8 +34,9 @@ const CHECKLIST_ITEMS = [
   'Đáp ứng tiêu chuẩn thị trường trong nước và quốc tế',
 ];
 
+
 /** Kích hoạt hiệu ứng khi phần tử cuộn vào khung nhìn (chỉ 1 lần). */
-function useInView<T extends HTMLElement>(threshold = 0.25) {
+function useInView<T extends HTMLElement>(threshold = 0.2) {
   const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
 
@@ -45,15 +46,13 @@ function useInView<T extends HTMLElement>(threshold = 0.25) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
+        setInView(entry.isIntersecting);
       },
       { threshold }
     );
 
     observer.observe(el);
+
     return () => observer.disconnect();
   }, [threshold]);
 
@@ -229,7 +228,7 @@ export default function AgricultureHero() {
           <div className="agrihero-bottom-row">
             <ul className="agrihero-checklist">
               {CHECKLIST_ITEMS.map((item, i) => (
-                <li key={item} style={{ transitionDelay: `${450 + i * 120}ms` }}>
+                <li key={item} style={{ transitionDelay: `${2200 + i * 220}ms` }}>
                   <CheckIcon />
                   <span>{item}</span>
                 </li>
@@ -240,14 +239,14 @@ export default function AgricultureHero() {
               <StatRing
                 percent={80}
                 label={'Giải pháp\nhữu cơ'}
-                delay={500}
+                delay={3000}
                 inView={contentInView}
                 tone="green"
               />
               <StatRing
                 percent={100}
                 label={'Đạt chuẩn VietGAP\n& GlobalG.A.P'}
-                delay={650}
+                delay={3300}
                 inView={contentInView}
                 tone="blue"
               />
@@ -329,9 +328,11 @@ export default function AgricultureHero() {
           display: flex;
           justify-content: center;
           opacity: 0;
-          transform: translateX(-90px) scale(0.94);
-          transition: opacity 4.5s cubic-bezier(0.16, 0.8, 0.24, 1),
-            transform 4.5s cubic-bezier(0.16, 0.8, 0.24, 1);
+          transform: scale(0.2);
+          transform-origin: center center;
+          transition:
+            opacity 4s cubic-bezier(0.16, 0.8, 0.24, 1),
+            transform 4s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-media-col[data-inview='true'] {
           opacity: 1;
@@ -398,9 +399,10 @@ export default function AgricultureHero() {
           position: absolute;
           inset: 0;
           opacity: 0;
-          transform: scale(1.28);
-          transition: opacity 1.4s ease 0.1s,
-            transform 3s cubic-bezier(0.16, 0.8, 0.24, 1) 0.1s;
+          transform: scale(1.15);
+          transition:
+            opacity 2s ease 0.6s,
+            transform 3s cubic-bezier(0.16, 0.8, 0.24, 1) 0.6s;
         }
         .agrihero-media-col[data-inview='true'] .agrihero-main-img-wrap {
           opacity: 1;
@@ -442,19 +444,23 @@ export default function AgricultureHero() {
           background: none;
           cursor: pointer;
           box-shadow: 0 16px 32px -12px rgba(0, 40, 10, 0.4);
+
           opacity: 0;
-          transform: scale(0.7) translateY(14px);
-          transition: opacity 0.9s ease var(--agrihero-enter-delay, 0.4s),
-            transform 0.9s cubic-bezier(0.34, 1.4, 0.4, 1) var(--agrihero-enter-delay, 0.4s),
-            box-shadow 0.35s ease, filter 0.35s ease;
+          transform: scale(0.2);
+
+          transition:
+            opacity 2s cubic-bezier(0.16, 0.8, 0.24, 1),
+            transform 3s cubic-bezier(0.16, 0.8, 0.24, 1),
+            box-shadow 0.35s ease,
+            filter 0.35s ease;
         }
         .agrihero-small-circle-top {
-          --agrihero-enter-delay: 0.4s;
+          --agrihero-enter-delay: 1.2s;
           top: -6%;
           left: -8%;
         }
         .agrihero-small-circle-bottom {
-          --agrihero-enter-delay: 0.65s;
+          --agrihero-enter-delay: 1.6s;
           top: 66%;
           right: 0%;
         }
@@ -503,9 +509,10 @@ export default function AgricultureHero() {
           width: 100%;
           max-width: 560px;
           opacity: 0;
-          transform: translateX(90px);
-          transition: opacity 4.5s cubic-bezier(0.16, 0.8, 0.24, 1),
-            transform 4.5s cubic-bezier(0.16, 0.8, 0.24, 1);
+          transform: translateX(60px);
+          transition:
+            opacity 3.5s cubic-bezier(0.16, 0.8, 0.24, 1),
+            transform 3.5s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-content-col[data-inview='true'] {
           opacity: 1;
@@ -524,7 +531,7 @@ export default function AgricultureHero() {
           margin-bottom: 16px;
           opacity: 0;
           transform: translateY(-10px);
-          transition: opacity 3s ease, transform 3s ease;
+          transition: opacity 1.5s ease, transform 1.5s ease;
         }
         .agrihero-content-col[data-inview='true'] .agrihero-eyebrow {
           opacity: 1;
@@ -548,12 +555,14 @@ export default function AgricultureHero() {
           color: var(--agrihero-green-ink);
           opacity: 0;
           transform: translateY(16px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          transition:
+          opacity 1.3s ease,
+          transform 1.3s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-content-col[data-inview='true'] .agrihero-heading {
           opacity: 1;
           transform: translateY(0);
-          transition-delay: 0.18s;
+          transition-delay: 1.2s;
         }
 
         .agrihero-paragraph {
@@ -566,12 +575,14 @@ export default function AgricultureHero() {
           margin: 0 0 30px;
           opacity: 0;
           transform: translateY(16px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          transition:
+          opacity 1.2s ease,
+          transform 1.2s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-content-col[data-inview='true'] .agrihero-paragraph {
           opacity: 1;
           transform: translateY(0);
-          transition-delay: 0.32s;
+          transition-delay: 1.8s;
         }
 
         .agrihero-bottom-row {
@@ -600,7 +611,9 @@ export default function AgricultureHero() {
           color: var(--agrihero-green-ink);
           opacity: 0;
           transform: translateX(-18px);
-          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 0.8, 0.24, 1);
+          transition:
+          opacity 1s ease,
+          transform 1s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-content-col[data-inview='true'] .agrihero-checklist li {
           opacity: 1;
@@ -624,7 +637,9 @@ export default function AgricultureHero() {
           gap: 8px;
           opacity: 0;
           transform: translateY(16px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
+          transition:
+          opacity 1s ease,
+          transform 1s cubic-bezier(0.16, 0.8, 0.24, 1);
         }
         .agrihero-stat-ring[data-inview='true'] {
           opacity: 1;
