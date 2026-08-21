@@ -44,7 +44,7 @@ const CHAR_STAGGER_MS = 22;
 // 3 kiểu hiệu ứng chữ tiêu đề — mỗi slide 1 kiểu riêng
 const TEXT_STYLES = ["spin", "runin", "swirl"] as const;
 
-const MARQUEE_TEXT = "SAFE FOOD FOR LIFE ";
+const MARQUEE_TEXT = "SAFE FOOD FOR LIFE";
 
 /** Tách chuỗi thành từng ký tự, mỗi ký tự tự chạy animation riêng theo độ trễ so le. */
 function AnimatedChars({
@@ -224,6 +224,7 @@ export default function HomeBanner() {
            <span
             key={i}
             className="
+              mr-16
               font-sans
               text-9xl
               font-bold
@@ -231,7 +232,9 @@ export default function HomeBanner() {
               tracking-[0.01em]
               leading-none
               text-white
+              sm:mr-20
               sm:text-[10rem]
+              md:mr-24
               md:text-[11rem]
             "
             style={{
