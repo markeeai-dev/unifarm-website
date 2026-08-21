@@ -193,23 +193,23 @@ export default function EarthWaterBannerPreview() {
 
           <Watermark />
 
-          {/* ================= CARD TRÁI — đè lên góc dưới-trái của ảnh ================= */}
-          <InfoCard
-            {...cardLeft}
-            inView={inView}
-            delay={150}
-            compact
-            className="absolute bottom-8 left-8 z-20 w-[230px] xl:bottom-60 xl:left-50 xl:w-[460px]"
-          />
-
-          {/* ================= CARD PHẢI — đè lên góc dưới-phải của ảnh ================= */}
-          <InfoCard
-            {...cardRight}
-            inView={inView}
-            delay={300}
-            compact
-            className="absolute bottom-8 right-8 z-20 w-[230px] xl:bottom-100 xl:left-300 xl:w-[460px]"
-          />
+          {/* ================= 2 CARD — flex, luôn cân đối 2 mép trái/phải bất kể độ rộng/zoom ================= */}
+          <div className="absolute inset-x-8 bottom-8 z-20 flex flex-col items-stretch gap-6 xl:inset-x-16 xl:bottom-16 xl:flex-row xl:items-end xl:justify-between">
+            <InfoCard
+              {...cardLeft}
+              inView={inView}
+              delay={150}
+              compact
+              className="w-full xl:w-[440px]"
+            />
+            <InfoCard
+              {...cardRight}
+              inView={inView}
+              delay={300}
+              compact
+              className="w-full xl:w-[440px]"
+            />
+          </div>
         </div>
 
         {/* ================= TIÊU ĐỀ BÊN DƯỚI ẢNH ================= */}

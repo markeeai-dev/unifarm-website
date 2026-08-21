@@ -34,7 +34,7 @@ const SLIDES: Slide[] = [
     image: "/images/UNIFARM/2.jpg",
     quote:
       "Công nghệ không thay thế người nông dân, mà trao cho họ đôi mắt nhìn xa hơn và đôi tay chính xác hơn trên từng luống đất.",
-    name: "Nguyễn Minh Khoa",
+    name: "xxxx xxxx",
     role: "Kỹ sư nông nghiệp công nghệ cao",
     avatar: "https://i.pravatar.cc/160?img=12",
   },
@@ -42,7 +42,7 @@ const SLIDES: Slide[] = [
     image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
     quote:
       "Một nhà kính có cảm biến học được điều mà một đời người trồng trọt phải đúc kết qua hàng chục vụ mùa.",
-    name: "Trần Thị Hồng Anh",
+    name: "xxxx xxxx",
     role: "Chuyên gia canh tác thông minh",
     avatar: "https://i.pravatar.cc/160?img=32",
   },
@@ -50,7 +50,7 @@ const SLIDES: Slide[] = [
     image: "/images/banana-leaf-drops.jpg",
     quote:
       "Trồng cây công nghệ cao không phải là bỏ đất mà lên máy, mà là để đất được chăm sóc đúng lúc, đúng lượng, đúng cách.",
-    name: "Lê Anh Tuấn",
+    name: "xxxx xxxx",
     role: "Giám đốc nông trại số",
     avatar: "https://i.pravatar.cc/160?img=51",
   },
@@ -58,7 +58,7 @@ const SLIDES: Slide[] = [
     image: "/images/banana/banana-plantation-aerial.jpg",
     quote:
       "Dữ liệu là hạt giống mới của nền nông nghiệp hiện đại — gieo đúng, thu hoạch được cả mùa vụ lẫn tri thức.",
-    name: "Hoàng Lê",
+    name: "xxxx xxxx",
     role: "Nhà sáng lập AgriTech",
     avatar: "https://i.pravatar.cc/160?img=68",
   },
@@ -83,8 +83,8 @@ export default function QuoteSlider() {
   }, [index]);
 
   return (
-    <section className="relative isolate min-h-[460px] w-full overflow-hidden bg-black sm:min-h-[520px] lg:min-h-[600px]">
-      <style>{`
+<section className="relative isolate min-h-[460px] w-full overflow-hidden bg-black sm:min-h-[540px] lg:min-h-[590px]">
+        <style>{`
         @keyframes qs-kenburns {
           0%   { transform: scale(1); }
           100% { transform: scale(1.15); }
@@ -126,7 +126,7 @@ export default function QuoteSlider() {
       ))}
 
       {/* Content */}
-      <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-20 sm:px-8 sm:py-64 lg:px-20">
+      <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-20">
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#87cefa] sm:text-sm">
           Câu nói nổi tiếng về trồng cây công nghệ cao
         </p>

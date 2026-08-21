@@ -199,7 +199,7 @@ export default function HeroBanner() {
       </div>
 
       {/* Gợi ý cuộn xuống */}
-      <div
+      {/* <div
         className={`hero-scroll-hint absolute bottom-6 right-8 z-10 hidden flex-col items-center gap-1.5 text-xs font-medium text-white/80 transition-opacity duration-700 sm:flex ${
           mounted ? "opacity-80" : "opacity-0"
         }`}
@@ -209,7 +209,7 @@ export default function HeroBanner() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M12 5v14M6 13l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      </div>
+      </div> */}
 
       <style>{`
         .hero-blob {
