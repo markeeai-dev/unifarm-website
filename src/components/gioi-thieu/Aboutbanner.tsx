@@ -118,7 +118,7 @@ export interface AboutBannerProps {
 
 export default function AboutBanner({
   eyebrow = "GIỚI THIỆU",
-  title = "Định hướng phát triển",
+  title = "CHIẾN LƯỢC NHẬN DIỆN THƯƠNG HIỆU",
   subtitle = "Nông nghiệp công nghệ cao theo hướng sinh học — nơi khoa học gặp gỡ đất và nước.",
 }: AboutBannerProps) {
   return (
@@ -177,7 +177,7 @@ function Header({
       </span>
 
       <h2
-        className="mt-5 font-display text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-5xl"
+        className="mt-5 font-extrabold text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-4xl"
         style={{ color: "#06301B" }}
       >
         {title}
@@ -194,124 +194,107 @@ function Header({
 /* Tầm nhìn / Sứ mệnh — hai thẻ "hướng vào nhau"                       */
 /* ------------------------------------------------------------------ */
 
+/** Ảnh dọc – chữ – ảnh tròn to (trung tâm) – chữ – ảnh dọc. Mỗi khối bay vào
+ * theo hướng riêng (ảnh trái từ trái, ảnh phải từ phải, ảnh tròn giữa phóng to
+ * xoay vào có nảy nhẹ), so le nhau để cả dải hoàn tất trong khoảng 4.5–5s. */
 function VisionMission() {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, amount: 0.25 });
-  const v = useRevealVariants(0.15);
+  const reduce = useReducedMotion();
+  const backOut = [0.34, 1.56, 0.64, 1] as const;
+
+  const timing = (i: number, duration = 1.8) => ({
+    duration: reduce ? 0 : duration,
+    delay: reduce ? 0 : 0.15 + i * 0.75,
+    ease: easeOut,
+  });
 
   return (
     <div ref={ref} className="relative mt-14 sm:mt-20">
-      {/* clipPath dạng objectBoundingBox — cho phép bo cong mép trên của thẻ
-          (kết hợp với mũi nhọn chỉa vào nhau) và tự co giãn theo kích thước thẻ */}
-      <svg aria-hidden width="0" height="0" className="absolute">
-        <defs>
-          <clipPath id="vm-clip-left" clipPathUnits="objectBoundingBox">
-            <path d="M0,0.1 Q0.38,-0.12 0.76,0.1 L1,0.5 L0.76,1 L0,1 Z" />
-          </clipPath>
-          <clipPath id="vm-clip-right" clipPathUnits="objectBoundingBox">
-            <path d="M0.24,0.1 Q0.62,-0.12 1,0.1 L1,1 L0.24,1 L0,0.5 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-0">
-        {/* Tầm nhìn — mũi nhọn hướng sang phải, chỉa vào Sứ mệnh, mép trên cong lên.
-            Icon nằm cạnh chữ (không xếp chồng lên) để card thấp/gọn dù chiều ngang rộng. */}
-        <motion.article
-          variants={v(0)}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="vm-card vm-card--left relative flex-1 border p-5 pt-8 shadow-[0_14px_32px_-22px_rgba(0,100,0,0.3)] sm:flex sm:items-center sm:gap-5 sm:p-6 sm:pt-9 sm:pr-16"
-          style={{
-            background: "linear-gradient(160deg, #FFFFFF 0%, #F4FBFF 100%)",
-            borderColor: "#2E7DC255",
-          }}
+      <div className="flex flex-col items-center gap-7 sm:flex-row sm:items-center sm:justify-center sm:gap-5 lg:gap-10">
+        {/* 0 — ảnh dọc Tầm nhìn, bay vào từ trái */}
+        <motion.div
+          initial={{ opacity: 0, x: -60, rotate: -4 }}
+          animate={inView ? { opacity: 1, x: 0, rotate: 0 } : { opacity: 0, x: -60, rotate: -4 }}
+          transition={timing(0)}
+          className="relative h-56 w-40 shrink-0 overflow-hidden rounded-[1rem] shadow-[0_20px_45px_-20px_rgba(0,60,20,0.45)] sm:h-72 sm:w-48 lg:h-80 lg:w-52"
         >
-          <span
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white [&_svg]:h-6 [&_svg]:w-6"
-            style={{ background: "#2E7DC2" }}
-          >
-            <IconCompass />
-          </span>
-          <div className="mt-3 sm:mt-0">
-            <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
-              Tầm nhìn{" "}
-              <span className="font-mono text-xs font-medium text-slate-400">
-                (đến 2030)
-              </span>
-            </h3>
-            <p className="mt-1 max-w-sm text-sm leading-relaxed text-slate-600">
-              Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu VN, Việt Nam trở
-              ngõ và vươn tầm thế giới.
-            </p>
-          </div>
-        </motion.article>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/UNIFARM/UNIFARM/peggy_marco-banana-2058196_1920.jpg"
+            alt="Tầm nhìn Unifarm"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 rounded-[1rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)]" />
+        </motion.div>
 
-        {/* Huy hiệu nối giữa hai mũi tên */}
-        <div className="relative z-10 flex items-center justify-center sm:w-0">
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={
-              inView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }
-            }
-            transition={{ duration: 0.7, delay: 0.9, ease: easeOut }}
-            className="-my-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-lg sm:-mx-6 sm:my-0"
-            style={{
-              background: "conic-gradient(from 180deg, #2E7DC2, #006400, #2E7DC2)",
-            }}
-          >
-            <span
-              className="flex h-[2.15rem] w-[2.15rem] items-center justify-center rounded-full"
-              style={{ background: "#06301B" }}
-            >
-              <IconSeed />
+        {/* 1 — chữ Tầm nhìn */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+          transition={timing(1)}
+          className="max-w-[15rem] text-center sm:text-left"
+        >
+          <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
+            Tầm nhìn{" "}
+            <span className="font-mono text-xs font-medium text-slate-400">
+              (đến 2030)
             </span>
-          </motion.div>
-        </div>
+          </h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+            Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu VN, Việt Nam trở
+            ngõ và vươn tầm thế giới.
+          </p>
+        </motion.div>
 
-        {/* Sứ mệnh — mũi nhọn hướng sang trái, chỉa vào Tầm nhìn. Icon vẫn nằm
-            ở mép ngoài (phải), chữ nằm gần mũi nhọn (trái) trên desktop. */}
-        <motion.article
-          variants={v(1)}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="vm-card vm-card--right relative flex-1 border p-5 pt-8 text-right shadow-[0_14px_32px_-22px_rgba(0,100,0,0.3)] sm:flex sm:items-center sm:gap-5 sm:p-6 sm:pt-9 sm:pl-16"
-          style={{
-            background: "linear-gradient(200deg, #FFFFFF 0%, #FFFDF0 100%)",
-            borderColor: "#00640022",
-          }}
+        {/* 2 — ảnh tròn to ở giữa, phóng to + xoay vào có nảy nhẹ */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.4, rotate: -30 }}
+          animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.4, rotate: -30 }}
+          transition={{ ...timing(2, 1.6), ease: backOut }}
+          className="relative z-10 h-32 w-32 shrink-0 overflow-hidden rounded-full shadow-[0_25px_60px_-15px_rgba(0,60,20,0.5)] ring-[6px] ring-white sm:h-40 sm:w-40 lg:h-48 lg:w-48"
         >
-          <span
-            className="ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white [&_svg]:h-6 [&_svg]:w-6 sm:order-2"
-            style={{ background: "#006400" }}
-          >
-            <IconLeaf />
-          </span>
-          <div className="mt-3 sm:order-1 sm:mt-0 sm:flex-1">
-            <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
-              Sứ mệnh
-            </h3>
-            <p className="ml-auto mt-1 max-w-sm text-sm leading-relaxed text-slate-600">
-              Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
-              & một hành tinh xanh.
-            </p>
-          </div>
-        </motion.article>
-      </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/UNIFARM/UNIFARM/photoshoot4you-banana-7471060_1920.jpg"
+            alt="Hạt giống Unifarm"
+            className="h-full w-full object-cover"
+          />
+          <span className="absolute inset-0 rounded-full shadow-[inset_0_0_0_2px_rgba(0,100,0,0.25)]" />
+        </motion.div>
 
-      <style>{`
-        .vm-card { border-radius: 1.75rem; }
-        @media (min-width: 640px) {
-          .vm-card--left {
-            clip-path: url(#vm-clip-left);
-            border-radius: 0;
-          }
-          .vm-card--right {
-            clip-path: url(#vm-clip-right);
-            border-radius: 0;
-          }
-        }
-      `}</style>
+        {/* 3 — chữ Sứ mệnh */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+          transition={timing(3)}
+          className="max-w-[15rem] text-center sm:text-right"
+        >
+          <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
+            Sứ mệnh
+          </h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
+            Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
+            & một hành tinh xanh.
+          </p>
+        </motion.div>
+
+        {/* 4 — ảnh dọc Sứ mệnh, bay vào từ phải */}
+        <motion.div
+          initial={{ opacity: 0, x: 60, rotate: 4 }}
+          animate={inView ? { opacity: 1, x: 0, rotate: 0 } : { opacity: 0, x: 60, rotate: 4 }}
+          transition={timing(4)}
+          className="relative h-56 w-40 shrink-0 overflow-hidden rounded-[1rem] shadow-[0_20px_45px_-20px_rgba(0,60,20,0.45)] sm:h-72 sm:w-48 lg:h-80 lg:w-52"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/UNIFARM/UNIFARM/thaithu007-banana-4671645_1920.jpg"
+            alt="Sứ mệnh Unifarm"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 rounded-[1rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)]" />
+        </motion.div>
+      </div>
     </div>
   );
 }
@@ -555,33 +538,6 @@ function IconCompass() {
       <path
         d="M15 9l-2.2 5.2L9 16l2.2-5.2L15 9z"
         fill="currentColor"
-      />
-    </svg>
-  );
-}
-function IconLeaf() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M20 4C10 4 4 10 4 18c0 .8 0 1.4.1 2 6.7-.1 10.9-2 13.5-5.6C19.4 11.7 20 8 20 4Z"
-        fill="currentColor"
-      />
-      <path
-        d="M5 19c3-4 7-6.5 12.5-8.5"
-        stroke="#ffffff"
-        strokeOpacity="0.5"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-function IconSeed() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 3c4 3 7 6 7 10a7 7 0 11-14 0c0-4 3-7 7-10Z"
-        fill="#FFFACD"
       />
     </svg>
   );

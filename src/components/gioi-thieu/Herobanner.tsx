@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 
 /**
@@ -172,28 +173,39 @@ export default function HeroBanner() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            <button
-              type="button"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5 active:translate-y-0 sm:text-base"
-              style={{ background: COLORS.primary }}
+            <Link
+              href="/san-pham"
+              className="group relative isolate inline-flex items-center gap-2 overflow-hidden bg-[#FFFACD] px-7 py-3.5 text-sm font-bold text-[#06301B] shadow-lg transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl sm:text-base"
             >
-              <span
-                className="absolute inset-0 -z-10 translate-x-[-105%] transition-transform duration-500 ease-out group-hover:translate-x-0"
-                style={{ background: `linear-gradient(90deg, ${COLORS.primaryHover}, #1E6FA8)` }}
+              {/* Vệt sáng tự chạy */}
+              <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-[#87cefa]/70 blur-md animate-button-shine" />
+              {/* Màu hover kéo từ trái sang phải */}
+              <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
+              <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
+                Tìm hiểu ngay
+              </span>
+              <ArrowRight
+                className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
+                strokeWidth={2.5}
               />
-              Tìm hiểu ngay
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
+            </Link>
 
-            <button
-              type="button"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border-[1.5px] border-white/70 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors sm:text-base"
-              style={{ background: "rgba(255,255,255,0.12)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.25)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
+            <Link
+              href="/#contact"
+              className="group relative isolate inline-flex items-center gap-2 overflow-hidden border border-white/50 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#FFFACD] hover:shadow-lg sm:text-base"
             >
-              Liên hệ
-            </button>
+              {/* Nền hover kéo từ trái sang phải */}
+              <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#FFFACD] transition-transform duration-500 ease-out group-hover:scale-x-100" />
+              {/* Vệt sáng tự chạy */}
+              <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
+              <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
+                Liên hệ
+              </span>
+              <ArrowRight
+                className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"
+                strokeWidth={2.5}
+              />
+            </Link>
           </div>
         </div>
       </div>
@@ -228,6 +240,13 @@ export default function HeroBanner() {
         }
         .hero-scroll-hint svg {
           animation: heroScrollBounce 1.8s ease-in-out infinite;
+        }
+        .animate-button-shine {
+          animation: button-shine 2s ease-in-out infinite;
+        }
+        @keyframes button-shine {
+          0% { left: -80%; }
+          45%, 100% { left: 140%; }
         }
         @keyframes heroScrollBounce {
           0%, 100% { transform: translateY(0); }

@@ -30,9 +30,10 @@ const MILESTONES = [
       title: "Khởi đầu",
       bullets: ["Thành lập Unifarm (06/2009)", "Thành lập Unifarm Phú Giáo", "Tiên phong trồng dưa lưới trong nhà kính"],
     },
+    image: "/images/agrihero/seedling-sprout.jpg",
     media: [
-      { label: "Thành lập Unifarm Phú Giáo" },
-      { label: "Dưa lưới trong nhà kính" },
+      { label: "Thành lập Unifarm Phú Giáo", video: "/videos/banana-leaves-closeup.mp4" },
+      { label: "Dưa lưới trong nhà kính", video: "/videos/unripe-green-bananas-on-tree.mp4" },
     ],
     bottom: ["Thành lập Unifarm (06/2009)", "Thành lập Unifarm Phú Giáo", "Tiên phong trồng dưa lưới trong nhà kính"],
   },
@@ -48,9 +49,10 @@ const MILESTONES = [
       title: "Phát triển vùng trồng chuối",
       bullets: ["Kinh doanh chuối vàng nội địa", "Xuất khẩu chuối đi Nhật, Hàn, Trung"],
     },
+    image: "/images/banana/banana-plantation-aerial.jpg",
     media: [
-      { label: "Chuối vàng nội địa" },
-      { label: "Xuất khẩu Nhật – Hàn – Trung" },
+      { label: "Chuối vàng nội địa", video: "/videos/7.mp4" },
+      { label: "Xuất khẩu Nhật – Hàn – Trung", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
     ],
     bottom: ["Kinh doanh chuối vàng nội địa", "Xuất khẩu chuối đi Nhật, Hàn, Trung"],
   },
@@ -66,9 +68,10 @@ const MILESTONES = [
       title: "Hợp tác chiến lược",
       bullets: ["Xuất khẩu dưa lưới đi Singapore", "Hợp tác độc quyền với Dole", "Thành lập Unifarm Dầu Tiếng"],
     },
+    image: "/images/UNIFARM/16.JPG",
     media: [
-      { label: "Hợp tác độc quyền với Dole" },
-      { label: "Unifarm Dầu Tiếng" },
+      { label: "Hợp tác độc quyền với Dole", video: "/videos/unripe-green-bananas-on-tree.mp4" },
+      { label: "Unifarm Dầu Tiếng", video: "/videos/banana-leaves-closeup.mp4" },
     ],
     bottom: ["Xuất khẩu dưa lưới đi Singapore", "Hợp tác độc quyền với Dole", "Thành lập Unifarm Dầu Tiếng"],
   },
@@ -84,9 +87,10 @@ const MILESTONES = [
       title: "Mở rộng hệ sinh thái",
       bullets: ["Đầu tư vào Vietplants", "Lập Chi nhánh Unifarm Miền Bắc"],
     },
+    image: "/images/agritech/vertical-farm-hydroponic-greenhouse.jpg",
     media: [
-      { label: "Đầu tư vào Vietplants" },
-      { label: "Chi nhánh Unifarm Miền Bắc" },
+      { label: "Đầu tư vào Vietplants", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
+      { label: "Chi nhánh Unifarm Miền Bắc", video: "/videos/7.mp4" },
     ],
     bottom: ["Đầu tư vào Vietplants", "Lập Chi nhánh Unifarm Miền Bắc"],
   },
@@ -102,9 +106,10 @@ const MILESTONES = [
       title: "Bứt phá KHCN",
       bullets: ["Đầu tư Unifarm Ventures", "Đầu tư Unifarm Foodtech", "Đầu tư Unifarm Highland"],
     },
+    image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
     media: [
-      { label: "Đầu tư Unifarm Ventures" },
-      { label: "Chứng nhận Doanh nghiệp KHCN" },
+      { label: "Đầu tư Unifarm Ventures", video: "/videos/banana-leaves-closeup.mp4" },
+      { label: "Chứng nhận Doanh nghiệp KHCN", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
     ],
     bottom: ["Đầu tư Unifarm Ventures", "Đầu tư Unifarm Foodtech", "Đầu tư Unifarm Highland", "Đạt chứng nhận Doanh nghiệp KHCN"],
   },
@@ -120,9 +125,10 @@ const MILESTONES = [
       title: "Mở rộng vùng trồng",
       bullets: ["Vùng chuối & dứa: Dầu Tiếng, Phước Hòa, Đồng Phú, Bình Thuận", "Quy mô hơn 600 ha", "Đầu tư vào Green Agritech"],
     },
+    image: "/images/UNIFARM/bgr.jpg",
     media: [
-      { label: "Vùng chuối & dứa" },
-      { label: "Đầu tư Green Agritech" },
+      { label: "Vùng chuối & dứa", video: "/videos/7.mp4" },
+      { label: "Đầu tư Green Agritech", video: "/videos/unripe-green-bananas-on-tree.mp4" },
     ],
     bottom: ["Vùng chuối & dứa: Dầu Tiếng, Phước Hòa, Đồng Phú, Bình Thuận", "Quy mô hơn 600 ha", "Đầu tư vào Green Agritech"],
   },
@@ -138,9 +144,10 @@ const MILESTONES = [
       title: "Tiên phong",
       bullets: ["Chuyển đổi số", "Chuyển đổi xanh", "Nghiên cứu khoa học"],
     },
+    image: "/images/banana/banana-shrub-3289749.jpg",
     media: [
-      { label: "Chuyển đổi số" },
-      { label: "Chuyển đổi xanh" },
+      { label: "Chuyển đổi số", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
+      { label: "Chuyển đổi xanh", video: "/videos/banana-leaves-closeup.mp4" },
     ],
     bottom: ["Chuyển đổi số", "Chuyển đổi xanh", "Nghiên cứu khoa học", "Liên kết hợp tác", "Phát triển nông nghiệp bền vững"],
   },
@@ -150,33 +157,25 @@ const MILESTONES = [
 /*  Thẻ media minh hoạ (không phụ thuộc ảnh ngoài)                     */
 /* ------------------------------------------------------------------ */
 
-const MEDIA_BG = {
-  green: "/images/hero/green-lettuce-rows.jpg",
-  sky: "/images/agritech/smart-farming-drone-technology.jpg",
-} as const;
-
-function MediaCard({ label, tone }: { label: string; tone: "green" | "sky" }) {
-//   const grad =
-//     tone === "green"
-//       ? "linear-gradient(135deg,rgba(10,92,10,0.82) 0%,rgba(10,61,10,0.88) 100%)"
-//       : "linear-gradient(135deg,rgba(79,168,224,0.8) 0%,rgba(28,106,154,0.88) 100%)";
+function MediaCard({ label, video }: { label: string; video: string }) {
   return (
-    <div className="group relative flex h-full min-h-[86px] w-full items-end overflow-hidden rounded-2xl p-3">
-      {/* ảnh nền mờ phía sau */}
-      <Image
-        src={MEDIA_BG[tone]}
-        alt=""
-        aria-hidden="true"
-        fill
-        sizes="(max-width: 768px) 50vw, 300px"
-        className="tl-bg-zoom object-cover blur-[1.5px]"
+    <div className="group relative flex h-full min-h-[130px] w-full items-end overflow-hidden rounded-2xl p-3 sm:min-h-[150px]">
+      {/* video nền */}
+      <video
+        src={video}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
-      <div className="absolute inset-0"  />
-      <div className="pointer-events-none absolute inset-0 opacity-25">
-        <svg viewBox="0 0 200 120" className="h-full w-full" preserveAspectRatio="none">
-          <path d="M0 90 Q50 60 100 85 T200 70 V120 H0 Z" fill="#fffacd" />
-        </svg>
-      </div>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg,rgba(6,48,27,0) 45%,rgba(6,48,27,0.75) 100%)",
+        }}
+      />
       <div className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow transition-transform duration-300 group-hover:scale-110">
         <PlayCircle className="h-4 w-4 text-[#006400]" />
       </div>
@@ -251,7 +250,7 @@ export default function TimelineJourney() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16 sm:py-20"
+      className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-28"
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap');
@@ -646,7 +645,7 @@ export default function TimelineJourney() {
 
           <div
             className={`
-              relative order-1 flex min-h-[220px]
+              relative order-1 flex min-h-[280px]
               flex-col items-center justify-center
               gap-4 overflow-hidden rounded-3xl
               border border-[#006400]/15
@@ -662,7 +661,7 @@ export default function TimelineJourney() {
           >
             {/* ảnh nền mờ phía sau */}
             <Image
-              src="/images/agrihero/seedling-sprout.jpg"
+              src={current.image}
               alt=""
               aria-hidden="true"
               fill
@@ -709,7 +708,7 @@ export default function TimelineJourney() {
           >
             <MediaCard
               label={current.media[0].label}
-              tone="green"
+              video={current.media[0].video}
             />
           </div>
 
@@ -730,7 +729,7 @@ export default function TimelineJourney() {
           >
             <MediaCard
               label={current.media[1].label}
-              tone="sky"
+              video={current.media[1].video}
             />
           </div>
 

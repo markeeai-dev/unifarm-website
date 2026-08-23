@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -47,6 +49,7 @@ type Product = {
 };
 
 const CATEGORIES: Category[] = [
+  { id: 'all', label: 'Tất cả sản phẩm' },
   { id: 'fresh', label: 'Trái cây tươi' },
   { id: 'seedling', label: 'Cây giống nuôi cấy mô' },
   { id: 'processed', label: 'Sản phẩm chế biến' },
@@ -794,7 +797,7 @@ export default function ProductsShowcase() {
   }, [activeCat, quickFilter]);
 
   const displayed = PRODUCTS.filter(
-    (p) => p.category === displayCat && (!displayQuick || p.type === displayQuick)
+    (p) => (displayCat === 'all' || p.category === displayCat) && (!displayQuick || p.type === displayQuick)
   );
 
   function handleAddToCart(id: string) {
@@ -948,11 +951,17 @@ export default function ProductsShowcase() {
 
                     <h3 className="mt-4 text-[13px] font-bold text-neutral-800 sm:text-sm">{p.name}</h3>
 
-                    {/* Giá tiền <-> 3 icon hành động, đổi chỗ cho nhau khi hover, không xô lệch layout */}
+                    {/* Icon liên hệ (bấm được) <-> 3 icon hành động, đổi chỗ cho nhau khi hover, không xô lệch layout */}
                     <div className="relative mt-2 flex h-9 items-center justify-center">
-                      <p className="absolute text-[13px] text-neutral-500 transition-all duration-300 ease-out group-hover:scale-0 group-hover:opacity-0 sm:text-sm">
-                        {p.price}$
-                      </p>
+                      <Link
+                        href="/#contact"
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={`Liên hệ tư vấn giá ${p.name}`}
+                        className="absolute inline-flex items-center gap-1.5 rounded-full bg-[#87cefa]/20 px-3 py-1 text-[12px] font-bold text-[#006400] transition-all duration-300 ease-out hover:bg-[#006400] hover:text-[#fffacd] group-hover:scale-0 group-hover:opacity-0 sm:text-[13px]"
+                      >
+                        <PhoneIcon className="h-3.5 w-3.5" />
+                        Liên hệ
+                      </Link>
                       <div className="absolute flex items-center gap-2 scale-75 opacity-0 transition-all duration-300 ease-out group-hover:scale-100 group-hover:opacity-100">
                         <IconButton
                           label="Xem nhanh"

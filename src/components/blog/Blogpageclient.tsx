@@ -255,11 +255,11 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                   }}
                 />
                 <Image
-                  src="/images/mascot/mascot-duo.png"
+                  src="/images/products/dua-vip.png"
                   alt="Unifarm Blog"
-                  width={460}
-                  height={460}
-                  className="h-auto w-full max-w-[380px] object-contain transition-transform duration-700 hover:scale-105 sm:max-w-[420px] lg:max-w-[460px]"
+                  width={557}
+                  height={640}
+                  className="h-auto w-full max-w-[300px] object-contain transition-transform duration-700 hover:scale-105 sm:max-w-[340px] lg:max-w-[380px]"
                 />
                 <p
                   className="-mt-6 text-center text-2xl font-extrabold tracking-[0.15em] text-[#006400]"
@@ -270,14 +270,14 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               </div>
 
               <StatCard
-                pos="left-[-8%] top-[20%]"
+                pos="left-0 top-[8%] sm:left-[-8%] sm:top-[20%]"
                 label="Bài viết"
                 value={`${posts.length}+`}
                 delay={0.5}
                 icon={<FileText className="h-4 w-4 text-white" />}
               />
               <StatCard
-                pos="right-[-5%] top-[35%]"
+                pos="right-0 top-[42%] sm:right-[-5%] sm:top-[35%]"
                 label="Lượt đọc"
                 value="12,400+"
                 delay={0.7}
@@ -399,8 +399,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
       {latestPosts.length > 0 && (
         <section
           id="latest"
-          className="relative overflow-hidden py-24"
-          style={{ background: "linear-gradient(170deg, #faf9f4 0%, #fffef2 40%, #fffde7 70%, #faf9f4 100%)" }}
+          className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-24"
         >
           <div
             className="pointer-events-none absolute inset-0"
@@ -511,10 +510,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
       )}
 
       {/* ═══════ ALL POSTS ═══════ */}
-      <section
-        className="relative overflow-hidden py-24"
-        style={{ background: "linear-gradient(175deg, #ffffff 0%, #fffef5 35%, #fffde7 65%, #ffffff 100%)" }}
-      >
+      <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-24">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -624,10 +620,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
       </section>
 
       {/* ═══════ CTA ═══════ */}
-      <section
-        className="relative overflow-hidden py-16"
-        style={{ background: "linear-gradient(160deg, #ffffff 0%, #fffef2 45%, #fffde7 100%)" }}
-      >
+      <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16">
         <Particles count={14} light seed={5} />
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
           <div

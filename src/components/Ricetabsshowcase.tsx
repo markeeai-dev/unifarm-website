@@ -2,21 +2,20 @@
 "use client";
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 /**
- * RiceTabsShowcase
+ * RiceTabsShowcase — "Hồ sơ tiêu chuẩn Unifarm"
  * Next.js + Tailwind CSS component — no extra dependencies.
  *
- * - Tab bar is split into equal-width columns across the full 1500px
- *   container; the whole bar eases in from the right over 4s on first
- *   scroll-into-view.
- * - Below: a tall, portrait-oriented image on the left and title / body
- *   copy (justified) / a "+ Xem thêm" button on the right, separated by
- *   a thin divider rule.
- * - First scroll-in: image eases in from the left, text eases in from
- *   the right, both over 4s.
- * - Tab switch: the image reveals with a left-anchored "curtain opening"
- *   wipe (clip-path), the text crossfades — both smooth and quick.
+ * - Rút gọn về đúng 5 mục tiêu chuẩn/quy trình thật của Unifarm.
+ * - Thanh tab được thiết kế theo kiểu "hồ sơ file" (folder tab): tab đang
+ *   chọn nổi lên, nối liền với khung nội dung màu trắng bên dưới; các tab
+ *   còn lại lùi xuống thấp hơn và tối màu hơn, như những hồ sơ nằm phía
+ *   sau — đúng cảm giác đang "rút một tệp hồ sơ" ra xem.
+ * - Khung nội dung: đánh số "Hồ sơ 0x/05", tiêu đề lớn, danh sách các mục
+ *   thông tin (đậm phần đầu dòng), nút liên hệ riêng theo từng hồ sơ.
+ * - Đổi tab: ảnh mở màn theo kiểu cuốn màn từ trái, chữ crossfade nhẹ.
  *
  * Palette:
  *   Yellow      #FFFACD  (soft accent tint)
@@ -26,75 +25,192 @@ import { SetStateAction, useEffect, useRef, useState } from "react";
 
 const ACCENT = "#87cefa";
 
+function ShieldCheckIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function FlaskIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M9 3h6M10 3v6.2L5.5 18a2 2 0 0 0 1.8 2.9h9.4a2 2 0 0 0 1.8-2.9L14 9.2V3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7.5 15h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function PackageIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M21 8v8a1 1 0 0 1-.5.87l-8 4.5a1 1 0 0 1-1 0l-8-4.5A1 1 0 0 1 3 16V8a1 1 0 0 1 .5-.87l8-4.5a1 1 0 0 1 1 0l8 4.5A1 1 0 0 1 21 8Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M3.3 7.3 12 12l8.7-4.7M12 12v9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function SnowflakeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M12 2v20M4.9 5.5l14.2 13M19.1 5.5 4.9 18.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M12 2 9.8 4.2M12 2l2.2 2.2M12 22l-2.2-2.2M12 22l2.2-2.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function QrCodeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M14 14h3v3h-3v-3ZM20 14h1v1h-1v-1ZM14 20h1v1h-1v-1ZM17 17h1v1h-1v-1ZM20 20h1v1h-1v-1Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 const TABS = [
   {
-    id: "chuoi-xanh",
-    label: "Chuối Xanh",
-    title: "Chuối Xanh Tự Nhiên",
-    image: "/images/banana/banana-bunch-green-615119.jpg",
-    paragraphs: [
-      "Chuối xanh Unifarm được thu hoạch đúng độ già, vỏ còn xanh nhưng thịt quả đã đủ tinh bột, thường dùng để chế biến các món ăn dân dã như chuối xanh nấu ốc, gỏi chuối xanh hay ăn kèm rau sống. Nhờ được trồng theo quy trình canh tác sạch, chuối xanh giữ được vị chát nhẹ đặc trưng và độ giòn tự nhiên.",
-      "Khác với chuối chín chứa nhiều đường, chuối xanh giàu tinh bột kháng và chất xơ, hỗ trợ tiêu hóa và tạo cảm giác no lâu. Đây cũng là nguyên liệu quen thuộc trong nhiều bài thuốc dân gian, được nhiều gia đình Việt tin dùng trong bữa ăn hằng ngày.",
+    id: "tieu-chuan-nong-trai",
+    tabLabel: "Tiêu Chuẩn Nông Trại",
+    title: "Vùng Canh Tác Công Nghệ Cao Chuẩn GlobalGAP",
+    image: "/images/UNIFARM/1787207482450_1582751505492234802_4935324150679931320_0794621ead9929dd3c30a18993f1671e.jpg",
+    icon: ShieldCheckIcon,
+    items: [
+      {
+        lead: "Quy mô hơn 400 ha tại An Thái (Bình Dương)",
+        text: "Vùng sản xuất tập trung khép kín, được cách ly an toàn với môi trường ô nhiễm bên ngoài.",
+      },
+      {
+        lead: "Hạ tầng tự động hóa",
+        text: "Ứng dụng công nghệ tưới bù áp tự động và mạng lưới nhà kính hiện đại, chuyển giao kỹ thuật trực tiếp từ các chuyên gia Philippines và Israel.",
+      },
+      {
+        lead: "Chứng nhận Quốc tế",
+        text: "Đạt chuẩn GlobalGAP và VietGAP toàn diện, trực tiếp đáp ứng tiêu chuẩn kiểm dịch và chất lượng của các thị trường khó tính như Nhật Bản và Hàn Quốc.",
+      },
     ],
+    cta: "Liên hệ xem hồ sơ chứng nhận",
   },
   {
-    id: "chuoi-su",
-    label: "Chuối Sứ",
-    title: "Chuối Sứ Đặc Sản",
-    image: "/images/banana/bananas-musa-571542.jpg",
-    paragraphs: [
-      "Chuối sứ (chuối hương) có quả to, vỏ dày, khi còn xanh thường được dùng để luộc, nướng hoặc chiên giòn — món ăn vặt quen thuộc của người Việt. Chuối sứ Unifarm được trồng trên vùng đất phù sa, quả đều, cùi dày và ít hạt.",
-      "Khi chín, chuối sứ có vị ngọt thanh, mùi thơm dịu đặc trưng khác hẳn các giống chuối khác. Chuối sứ xanh còn được nhiều hộ gia đình sử dụng để chế biến các món gỏi, chuối sứ chấm muối ớt hay ăn kèm bánh xèo, mắm nêm.",
+    id: "kiem-dinh-du-luong",
+    tabLabel: "Kiểm Định Dư Lượng",
+    title: "Kiểm Soát 100% An Toàn & Không Dư Lượng",
+    image: "/images/UNIFARM/2.jpg",
+    icon: FlaskIcon,
+    items: [
+      {
+        lead: "Bảo vệ sinh học",
+        text: "Tối ưu hóa thiên địch (sử dụng kiến vàng, bẫy sinh học) để diệt côn trùng, hạn chế tối đa việc can thiệp hóa chất nông nghiệp.",
+      },
+      {
+        lead: "Thời gian cách ly tuyệt đối",
+        text: "Quy trình bón phân và chăm sóc tuân thủ thời gian cách ly nghiêm ngặt trước kỳ thu hoạch.",
+      },
+      {
+        lead: "Kiểm nghiệm độc lập",
+        text: "Lấy mẫu định kỳ xét nghiệm hàng trăm hoạt chất BVTV và chỉ số kim loại nặng, cam kết 0% dư lượng cấm khi ra thị trường.",
+      },
     ],
+    cta: "Liên hệ Xem Kết Quả Kiểm Nghiệm Mẫu",
   },
   {
-    id: "chuoi-tieu-xanh",
-    label: "Chuối Tiêu Xanh",
-    title: "Chuối Tiêu Xanh Sạch",
-    image: "/images/banana/banana-shrub-1628206.jpg",
-    paragraphs: [
-      "Chuối tiêu xanh được tuyển chọn theo tiêu chuẩn xuất khẩu, quả thẳng, đều, được thu hoạch khi vỏ vẫn còn xanh để đảm bảo thời gian bảo quản và vận chuyển dài ngày. Đây là giống chuối phổ biến nhất trong các đơn hàng xuất khẩu của Unifarm.",
-      "Sau thu hoạch, chuối tiêu xanh được xử lý qua các bước làm sạch, phân loại và đóng gói theo quy trình khép kín, hạn chế tối đa dư lượng thuốc bảo vệ thực vật. Nhờ vậy, chuối tiêu xanh Unifarm luôn giữ được độ tươi và chất lượng đồng đều khi đến tay đối tác.",
+    id: "quy-trinh-so-che",
+    tabLabel: "Quy Trình Sơ Chế",
+    title: "Quy Trình Sơ Chế 4 Giờ Chuẩn Xuất Khẩu",
+    image: "/images/UNIFARM/DJI_20260805085036_0330_D.JPG",
+    icon: PackageIcon,
+    items: [
+      {
+        lead: "Thu hoạch bằng hệ thống cáp treo ròng rọc",
+        text: "Buồng chuối sau khi cắt được treo trên dàn ròng rọc tự động đưa thẳng vào xưởng, loại bỏ 100% rủi ro va đập, dập thâm quả.",
+      },
+      {
+        lead: "Bể rửa khử khuẩn & xử lý mủ",
+        text: "Rửa sạch bụi bẩn và mủ tự nhiên bằng nguồn nước kiểm soát nhiệt độ và xử lý vi sinh vô trùng.",
+      },
+      {
+        lead: "Quy cách đóng gói xuất khẩu",
+        text: "Phân nải chuẩn kích cỡ, cân định lượng chuẩn xác từng khay/thùng, sử dụng túi thoáng khí và thùng carton 5 lớp chống ẩm chịu lực.",
+      },
     ],
+    cta: "Liên hệ để biết thêm về quy trình",
   },
   {
-    id: "rau-cu-sach",
-    label: "Rau Củ Sạch",
-    title: "Rau Củ Quả Sạch",
-    image:
-      "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
-    paragraphs: [
-      "Rau củ sạch Unifarm được canh tác theo hướng hữu cơ, hạn chế tối đa phân bón hóa học và thuốc trừ sâu, ưu tiên sử dụng phân hữu cơ vi sinh và các biện pháp phòng trừ sâu bệnh sinh học. Mỗi luống rau đều được kiểm tra độ an toàn trước khi thu hoạch.",
-      "Từ rau ăn lá, củ quả đến các loại rau gia vị, tất cả đều được thu hái đúng độ tuổi, đóng gói trong ngày để giữ trọn độ tươi ngon và giá trị dinh dưỡng. Đây là nguồn thực phẩm xanh, sạch mà Unifarm mong muốn mang đến từng bữa ăn gia đình Việt.",
+    id: "he-thong-kho-lanh",
+    tabLabel: "Hệ Thống Kho Lạnh",
+    title: "Bảo Quản Chuỗi Lạnh Khép Kín Từ Nông Trại",
+    image: "/images/UNIFARM/16.JPG",
+    icon: SnowflakeIcon,
+    items: [
+      {
+        lead: "Quy tắc vàng 4 giờ",
+        text: "Toàn bộ chuối từ lúc cắt tại vườn đến khi hoàn tất đóng gói và đưa vào kho lạnh diễn ra không quá 4 tiếng đồng hồ.",
+      },
+      {
+        lead: "Nhiệt độ bảo quản chuẩn 13°C – 15°C",
+        text: "Kiểm soát độ ẩm và dòng khí lạnh đồng đều, kìm hãm độ chín tự nhiên mà vẫn giữ trọn màu sắc và cấu trúc tươi giòn của quả.",
+      },
+      {
+        lead: "Vận chuyển container lạnh chuyên dụng",
+        text: "Kết nối liền mạch từ kho lạnh An Thái đến các hệ thống siêu thị nội địa và cảng biển xuất khẩu.",
+      },
     ],
+    cta: "Liên hệ để xem kho lạnh",
   },
   {
-    id: "trai-cay-huu-co",
-    label: "Trái Cây Hữu Cơ",
-    title: "Trái Cây Hữu Cơ",
-    image: "/images/banana/banana-plant-1590834.jpg",
-    paragraphs: [
-      "Trái cây hữu cơ tại Unifarm được trồng theo quy trình khép kín, không sử dụng thuốc bảo vệ thực vật hóa học, đảm bảo an toàn tuyệt đối cho người tiêu dùng. Từng vườn cây đều được theo dõi sát sao từ khâu chăm sóc đến thu hoạch.",
-      "Nhờ canh tác hữu cơ, trái cây giữ được hương vị tự nhiên, hàm lượng dinh dưỡng cao và thời gian bảo quản tốt hơn. Đây là lựa chọn lý tưởng cho những gia đình quan tâm đến sức khỏe và ưu tiên thực phẩm sạch trong bữa ăn hằng ngày.",
+    id: "truy-xuat-nguon-goc",
+    tabLabel: "Truy Xuất Nguồn Gốc Bằng QR",
+    title: "Minh Bạch Xuất Xứ & Mã Số Vùng Trồng (PUC)",
+    image: "/images/UNIFARM/20260805_083315.jpg",
+    icon: QrCodeIcon,
+    items: [
+      {
+        lead: "Mã số vùng trồng quốc gia (Farm Code)",
+        text: "Mỗi lô hàng đều được cấp mã vùng trồng được Cục Bảo vệ Thực vật và hải quan các nước nhập khẩu cấp phép.",
+      },
+      {
+        lead: "Nhật ký canh tác số hóa",
+        text: "Toàn bộ thông tin từ ngày trổ buồng, bọc nải, ngày thu hoạch và kỹ sư giám sát đều được lưu trữ minh bạch.",
+      },
+      {
+        lead: "Mã QR định danh trên từng thùng hàng",
+        text: "Khách hàng và đối tác chỉ cần quét mã QR để tra cứu đầy đủ nguồn gốc xuất xứ của từng lô sản phẩm.",
+      },
     ],
-  },
-  {
-    id: "xuat-khau",
-    label: "Xuất Khẩu Nông Sản",
-    title: "Nông Sản Xuất Khẩu Tiêu Chuẩn Quốc Tế",
-    image: "/images/banana/banana-green-2444554.jpg",
-    paragraphs: [
-      "Nông sản xuất khẩu của Unifarm được sản xuất và đóng gói theo quy trình khép kín, đạt các tiêu chuẩn kiểm định nghiêm ngặt về dư lượng thuốc bảo vệ thực vật, độ tươi và quy cách đóng gói trước khi rời kho. Mỗi lô hàng đều được truy xuất nguồn gốc rõ ràng từ vùng trồng đến cảng xuất.",
-      "Với sản lượng ổn định và chất lượng đồng đều qua từng vụ mùa, chuối xanh và nông sản Việt Nam ngày càng khẳng định vị thế trên thị trường quốc tế, được nhiều đối tác tại châu Á, châu Âu và Trung Đông tin chọn nhập khẩu dài hạn.",
-    ],
+    cta: "Liên hệ để xem truy xuất nguồn gốc",
   },
 ];
+
+function FileTabIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M6 3h8l4 4v14H6V3Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+      <path d="M14 3v4h4" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PhoneIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path
+        d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export default function RiceTabsShowcase() {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [visible, setVisible] = useState(true); // controls tab-switch reveal
 
   const active = TABS[activeIndex];
@@ -116,21 +232,22 @@ export default function RiceTabsShowcase() {
   }, []);
 
   const handleTabClick = (i: SetStateAction<number>) => {
-  if (i === activeIndex) return;
+    if (i === activeIndex) return;
 
-  setVisible(false);
+    setVisible(false);
 
-  window.setTimeout(() => {
-    setActiveIndex(i);
-    setVisible(true);
-  }, 700);
-};
+    window.setTimeout(() => {
+      setActiveIndex(i);
+      setVisible(true);
+    }, 700);
+  };
 
   return (
     <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto w-full max-w-[1500px]">
-        {/* TABS — split into equal-width columns across the full container,
-            eases in from the right over 4s on first scroll-into-view */}
+        {/* TABS — kiểu "hồ sơ file": tab đang mở nổi lên và nối liền với
+            khung nội dung màu trắng, các tab còn lại lùi thấp hơn/tối màu
+            hơn như đang nằm phía sau trong một tập hồ sơ. */}
         <div
           className="overflow-x-auto sm:overflow-visible"
           style={{
@@ -141,87 +258,65 @@ export default function RiceTabsShowcase() {
             opacity: inView ? 1 : 0,
           }}
         >
-          <div className="flex w-full min-w-max border-b border-black sm:grid sm:min-w-0 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="flex w-full min-w-max items-end gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5 sm:items-end sm:gap-2">
             {TABS.map((tab, i) => {
               const isActive = i === activeIndex;
               return (
                 <button
-                    key={tab.id}
-                    onClick={() => handleTabClick(i)}
-                    onMouseEnter={() => setHoverIndex(i)}
-                    onMouseLeave={() => setHoverIndex(null)}
-                    className={`group relative shrink-0 whitespace-nowrap border-r border-black px-5 pb-4 text-center text-base font-semibold text-black transition-all duration-500 ease-out sm:whitespace-normal sm:px-3 ${
-                        isActive
-                        ? ""
-                        : "hover:-translate-y-[1px] hover:text-[#006400]"
+                  key={tab.id}
+                  onClick={() => handleTabClick(i)}
+                  className={`group relative flex shrink-0 items-center gap-2 whitespace-nowrap rounded-t-xl border px-4 py-3.5 text-left text-[12px] font-bold transition-all duration-300 ease-out sm:w-full sm:justify-center sm:whitespace-normal sm:px-3 sm:text-center sm:text-[13px] lg:text-sm ${
+                    isActive
+                      ? "-mb-px z-10 border-neutral-200 border-b-[#fffde7] bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat text-[#006400] shadow-[0_-10px_24px_-12px_rgba(0,0,0,0.18)]"
+                      : "translate-y-2 border-transparent bg-[#f2e9c4]/80 text-neutral-500 hover:-translate-y-0.5 hover:bg-[#f8f0d4] hover:text-[#006400]"
+                  }`}
+                >
+                  {/* dải màu nhấn trên đỉnh tab đang mở, như nhãn màu của hồ sơ */}
+                  <span
+                    className="absolute inset-x-3 top-0 h-[3px] rounded-full transition-opacity duration-300"
+                    style={{ backgroundColor: ACCENT, opacity: isActive ? 1 : 0 }}
+                  />
+                  <FileTabIcon
+                    className={`h-4 w-4 shrink-0 transition-colors duration-300 ${
+                      isActive ? "text-[#87cefa]" : "text-neutral-400 group-hover:text-[#87cefa]"
                     }`}
-                    >
-                    {tab.label}
-
-                    <span
-                        className="absolute bottom-0 left-0 h-[3px] w-full origin-left rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                        style={{
-                        backgroundColor: ACCENT,
-                        transform:
-                            isActive || hoverIndex === i
-                            ? "scaleX(1)"
-                            : "scaleX(0)",
-                        opacity:
-                            isActive || hoverIndex === i
-                            ? 1
-                            : 0,
-                        }}
-                    />
+                  />
+                  {tab.tabLabel}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* CONTENT */}
-        <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_1fr] lg:gap-5">
-          {/* LEFT: tall portrait image — slides in from the left over 4s on
-              first scroll-in; on tab change it reveals with a left-anchored
-              "curtain opening" wipe */}
-          <div
-            className="mx-auto w-full max-w-[650px] "
-            style={{
-              transition: inView
-                ? "transform 4000ms cubic-bezier(0.16,1,0.3,1), opacity 4000ms ease-out"
-                : "none",
-              transform: inView ? "translateX(0)" : "translateX(-140px)",
-              opacity: inView ? 1 : 0,
-            }}
-          >
-            <div className="overflow-hidden">
-              <div
-                style={{
-                  clipPath: visible ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+        {/* KHUNG HỒ SƠ — nối liền phía dưới tab đang mở */}
+        <div
+          className="relative  bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat p-5  sm:p-8 lg:p-10"
+          style={{
+            transition: inView ? "opacity 1200ms ease-out, transform 1200ms ease-out" : "none",
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateY(0)" : "translateY(24px)",
+          }}
+        >
+          <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-12">
+            {/* ẢNH — mở màn kiểu cuốn màn từ trái mỗi khi đổi hồ sơ */}
+            <div className="mx-auto w-full max-w-[560px]">
+              <div className="overflow-hidden">
+                <div
+                  style={{
+                    clipPath: visible ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
                     transition: "clip-path 700ms cubic-bezier(0.65,0,0.35,1)",
-                }}
-              >
-                <img
-                  src={active.image}
-                  alt={active.title}
-                  className="h-[360px] w-full object-cover sm:h-[460px] lg:h-[620px]"
-                />
+                  }}
+                >
+                  <img
+                    src={active.image}
+                    alt={active.title}
+                    className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[480px]"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* RIGHT: title / justified body copy / divider / button —
-              slides in from the right over 4s on first scroll-in, quick
-              crossfade on tab change */}
-            <div
-                className="lg:max-w-[660px] lg:justify-self-center"
-                style={{
-                    transition: inView
-                    ? "transform 4000ms cubic-bezier(0.16,1,0.3,1), opacity 4000ms ease-out"
-                    : "none",
-                    transform: inView ? "translateX(0)" : "translateX(140px)",
-                    opacity: inView ? 1 : 0,
-                }}
-            >
+            {/* NỘI DUNG HỒ SƠ */}
             <div
               className="transition-all duration-500 ease-out"
               style={{
@@ -229,44 +324,47 @@ export default function RiceTabsShowcase() {
                 transform: visible ? "translateY(0)" : "translateY(10px)",
               }}
             >
-              <h3 className="text-3xl font-extrabold leading-tight tracking-[-0.01em] text-[#006400] font-display sm:text-4xl lg:text-[42px]">
+              <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400">
+                <FileTabIcon className="h-3.5 w-3.5 text-[#87cefa]" />
+                Hồ sơ {String(activeIndex + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
+              </div>
+
+              <h3 className="font-display mt-3 text-balance text-3xl font-extrabold leading-[1.2] tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[38px]">
                 {active.title}
               </h3>
+              <span
+                className="mt-4 block h-1 w-14 rounded-full"
+                style={{ background: `linear-gradient(90deg, #006400, ${ACCENT})` }}
+              />
 
-              <div className="mt-6 space-y-4">
-                {active.paragraphs.map((p, i) => (
-                  <p
-                    key={i}
-                    className="text-justify text-[15px] leading-relaxed text-gray-500"
-                  >
-                    {p}
-                  </p>
+              <ul className="mt-6 space-y-4">
+                {active.items.map((it, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#006400]/10 text-[#006400]">
+                      <active.icon className="h-3.5 w-3.5" />
+                    </span>
+                    <p className="text-[15px] leading-relaxed text-gray-600">
+                      <span className="font-bold text-neutral-800">{it.lead}: </span>
+                      {it.text}
+                    </p>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
               {/* divider rule between the body copy and the button */}
               <div className="my-7 h-px w-full bg-gray-200" />
 
-              <button className="group inline-flex items-center gap-4">
+              <Link href="/#contact" className="group inline-flex items-center gap-4">
                 <span
                   className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-md ring-4 ring-[#87cefa]/15 transition-all duration-300 group-hover:ring-[#87cefa]/30"
                   style={{ backgroundColor: ACCENT }}
                 >
-                  <svg
-                    className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  >
-                    <path d="M12 5v14M5 12h14" />
-                  </svg>
+                  <PhoneIcon />
                 </span>
                 <span className="text-sm font-semibold tracking-wide text-gray-800 font-display transition-colors duration-300 group-hover:text-[#006400]">
-                  Xem thêm
+                  {active.cta}
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

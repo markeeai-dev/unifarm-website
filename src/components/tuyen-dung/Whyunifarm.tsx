@@ -91,7 +91,10 @@ function RevealFromRight({
 
 export default function WhyUnifarm() {
   return (
-    <section id="gioi-thieu-unifarm" className="bg-white py-14 lg:py-20">
+    <section
+      id="gioi-thieu-unifarm"
+      className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 lg:py-20"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="flex items-center justify-center gap-2 text-sm font-semibold text-[#006400]">

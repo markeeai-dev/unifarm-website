@@ -290,7 +290,7 @@ function Reveal({
 
 function CompanyLogo() {
   return (
-    <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-white p-2 shadow-sm">
+    <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-white p-1.5 shadow-sm sm:h-16 sm:w-16 sm:p-2">
       <Image
         src={UNIFARM.logo}
         alt={UNIFARM.name}
@@ -322,7 +322,7 @@ function JobCard({
         {job.level}
       </span>
 
-      <div className="flex items-start gap-3 pr-20">
+      <div className="flex items-start gap-3 pr-14 sm:pr-20">
         <CompanyLogo />
         <div className="min-w-0 flex-1">
           <h3 className="min-h-[3rem] text-base font-bold leading-snug text-[#06301B] line-clamp-2">

@@ -120,7 +120,7 @@ function ProjectCard({
   return (
     <div
       className={[
-        "group relative overflow-hidden",
+        "group relative overflow-hidden rounded-xl",
         "shadow-[0_10px_30px_-15px_rgba(0,100,0,0.35)]",
         "will-change-transform",
         "transition-[opacity,transform]",
@@ -155,18 +155,18 @@ function ProjectCard({
       </div>
 
       {/* Icon */}
-      <div className="absolute left-4 top-4 z-10 flex h-10 w-10 items-center justify-center bg-[#fffacd]/95 text-[#006400] shadow-sm ring-1 ring-black/5 md:left-5 md:top-5">
+      <div className="absolute left-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-lg bg-[#fffacd]/95 text-[#006400] shadow-sm ring-1 ring-black/5 md:left-5 md:top-5">
         <Icon className="h-5 w-5" strokeWidth={2} />
       </div>
 
       {/* Nội dung */}
-      <div className="absolute inset-x-4 bottom-4 z-10 bg-white/95 p-5 shadow-lg backdrop-blur-sm md:inset-x-5 md:bottom-5 md:p-6">
+      <div className="absolute inset-x-4 bottom-4 z-10 rounded-xl bg-white/95 p-5 shadow-lg backdrop-blur-sm md:inset-x-5 md:bottom-5 md:p-6">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-bold leading-snug text-[#006400] md:text-xl">
             {project.title}
           </h3>
 
-          <span className="arrow-badge flex h-9 w-9 shrink-0 items-center justify-center bg-[#87cefa]/40 text-[#006400] transition-transform duration-500 ease-out group-hover:rotate-[135deg] group-hover:bg-[#fffacd] md:h-10 md:w-10">
+          <span className="arrow-badge flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#87cefa]/40 text-[#006400] transition-transform duration-500 ease-out group-hover:rotate-[135deg] group-hover:bg-[#fffacd] md:h-10 md:w-10">
             <ArrowUpRight
               className="h-5 w-5"
               strokeWidth={2.5}

@@ -67,6 +67,24 @@ export default function SanPhamHero() {
           <source src="/videos/7.mp4" type="video/mp4" />
         </video>
 
+        {/* Vignette rất nhẹ để chữ luôn rõ trên video */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,20,10,0.5) 0%, rgba(0,20,10,0.18) 40%, rgba(0,20,10,0.05) 65%, transparent 85%)",
+          }}
+        />
+
+        {/* Lớp phủ xanh lá — cùng tông với DichvuBanner */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(0,60,10,0.82) 0%, rgba(0,60,10,0.54) 32%, rgba(0,60,10,0.24) 58%, rgba(0,60,10,0.50) 82%, rgba(0,60,10,0.85) 100%)",
+          }}
+        />
+
         {/* ================= HERO TEXT (auto-cycling) ================= */}
         <div className="relative flex h-[640px] flex-col items-center justify-center px-6 text-center sm:h-[760px] md:h-[860px]">
           <span

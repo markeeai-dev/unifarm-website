@@ -40,10 +40,11 @@ export default function GioiThieuPage() {
       <StatsSectionPreview />
       <SmartFarmingShowcase />
       <EcosystemModel />
+      <TimelineJourney />
       {/* <TeamMembers /> */}
       <AgriTechPillars />
       {/* <CompanyJourney /> */}
-      <TimelineJourney />
+      
 
       <Footer />
     </>

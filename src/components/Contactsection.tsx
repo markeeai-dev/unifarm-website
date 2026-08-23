@@ -107,14 +107,14 @@ export default function ContactSection() {
             {/* Tiêu đề */}
             <h2 className="font-display mt-4 flex items-center justify-center gap-2 text-center text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
               Liên hệ
-              <Image
+              {/* <Image
                 src="/images/mascot/banana-mascot.png"
                 alt=""
                 aria-hidden="true"
                 width={200}
                 height={200}
                 className="h-9 w-9 rotate-[-8deg] sm:h-11 sm:w-11"
-              />
+              /> */}
             </h2>
             <p className="mx-auto mt-2 max-w-xs text-center text-sm text-neutral-500 sm:text-[15px]">
               Đội ngũ tư vấn của chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất!
@@ -203,14 +203,14 @@ export default function ContactSection() {
                   className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] sm:w-auto sm:mx-auto sm:px-10"
                 >
                   Gửi liên hệ
-                  <Image
+                  {/* <Image
                     src="/images/mascot/banana-mascot.png"
                     alt=""
                     aria-hidden="true"
                     width={200}
                     height={200}
                     className="h-6 w-6 transition-transform group-hover:translate-x-0.5"
-                  />
+                  /> */}
                 </button>
               </form>
             )}

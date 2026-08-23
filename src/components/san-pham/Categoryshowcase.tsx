@@ -92,7 +92,7 @@ export default function CategoryShowcase() {
   const { containerRef, visible } = useRevealOnScroll(CATEGORIES.length);
 
   return (
-    <section ref={containerRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-10 sm:py-14">
+    <section ref={containerRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-10 sm:py-1">
       <style>{`
         @keyframes sanpham-card-breathe {
           0%,

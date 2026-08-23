@@ -133,14 +133,15 @@ function InfoCard({
    CHỮ NỀN TRANG TRÍ (watermark trôi ngang liên tục)
    ============================================================ */
 function Watermark() {
-  const text = "LÀM NÔNG NGHIỆP · YÊU ĐẤT – NƯỚC · ";
+  const text = "LÀM NÔNG NGHIỆP YÊU ĐẤT YÊU NƯỚC";
+  const separator = "   •   ";
   return (
     <div className="pointer-events-none absolute inset-0 flex select-none items-center justify-center overflow-hidden">
       <div
         className="watermark-track whitespace-nowrap text-6xl font-black uppercase tracking-widest text-white opacity-20 sm:text-8xl"
         style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}
       >
-        {text.repeat(4)}
+        {(text + separator).repeat(4)}
       </div>
     </div>
   );
@@ -174,7 +175,7 @@ export default function EarthWaterBannerPreview() {
         <div
           className="relative overflow-hidden shadow-2xl"
           style={{
-            height: "950px",
+            height: "640px",
             opacity: inView ? 1 : 0,
             transform: inView ? "scale(1)" : "scale(0.98)",
             transition: "opacity 0.9s ease-out, transform 0.9s ease-out",

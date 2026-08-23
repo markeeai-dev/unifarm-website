@@ -66,7 +66,7 @@ const BENEFITS: Benefit[] = [
 
 export default function ApplyBenefits() {
   return (
-    <section className="bg-white py-16 md:py-20">
+    <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <div className="flex items-center justify-center gap-1.5">

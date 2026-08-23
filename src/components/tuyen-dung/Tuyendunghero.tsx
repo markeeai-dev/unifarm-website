@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
+import { useEffect, useState } from "react";
 import { ArrowRight, PlayCircle } from "lucide-react";
 
 /**
@@ -18,6 +20,12 @@ const STATS = [
 ];
 
 export default function TuyenDungHero() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="w-full">
       {/* ================= HERO ================= */}
@@ -32,22 +40,38 @@ export default function TuyenDungHero() {
             backgroundPosition: "center",
           }}
         >
-          <span className="mb-9 inline-flex items-center gap-2 rounded-full border border-[#FFFACD]/40 bg-[#FFFACD]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#FFFACD]">
+          <span
+            className={`mb-9 inline-flex items-center gap-2 rounded-full border border-[#FFFACD]/40 bg-[#FFFACD]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#FFFACD] transition-all duration-700 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             <span className="hero-badge-dot h-1.5 w-1.5 rounded-full bg-[#FFFACD]" />
             🌱 Gia nhập Unifarm
           </span>
 
-          <h1 className="max-w-3xl font-display text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-white sm:text-5xl">
+          <h1
+            className={`max-w-3xl font-display text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-white transition-all delay-100 duration-700 sm:text-5xl ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             Cùng nhau tạo giá trị -{" "}
             <span className="text-[#FFFACD]">cùng nhau phát triển</span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-sm font-light text-white/60 sm:text-lg">
+          <p
+            className={`mx-auto mt-5 max-w-2xl text-sm font-light text-white/60 transition-all delay-150 duration-700 sm:text-lg ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             Unifarm là nơi bạn không chỉ tìm một công việc, mà tìm một môi trường để phát
             triển năng lực, tạo ra giá trị và xây dựng hành trình sự nghiệp của riêng mình.
           </p>
 
-          <div className="mt-9 w-full max-w-full overflow-x-auto">
+          <div
+            className={`mt-9 w-full max-w-full overflow-x-auto transition-all delay-200 duration-700 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             <div className="mx-auto flex w-fit items-center gap-1 rounded-[20px] p-3 shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
               {PATH_STEPS.map((label, i) => (
                 <span
@@ -74,12 +98,20 @@ export default function TuyenDungHero() {
             </div>
           </div>
 
-          <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-white/60 sm:text-base">
+          <p
+            className={`mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-white/60 transition-all delay-[250ms] duration-700 sm:text-base ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             Từ sản xuất, kỹ thuật, kinh doanh đến các bộ phận hỗ trợ – mỗi vị trí đều góp
             phần tạo nên một Unifarm phát triển bền vững.
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-3">
+          <div
+            className={`mt-8 flex flex-col items-center gap-3 transition-all delay-300 duration-700 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             <a
               href="mailto:tuyendung@unifarm.com?subject=%E1%BB%A8ng%20tuy%E1%BB%83n%20t%E1%BA%A1i%20Unifarm"
               className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-[#006400] to-[#FFFACD] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,100,0,0.45)] transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
@@ -100,7 +132,11 @@ export default function TuyenDungHero() {
             </a>
           </div>
 
-          <div className="mt-10 grid w-full max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-4">
+          <div
+            className={`mt-10 grid w-full max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 transition-all delay-[350ms] duration-700 sm:grid-cols-4 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+            }`}
+          >
             {STATS.map((s) => (
               <div
                 key={s.label}

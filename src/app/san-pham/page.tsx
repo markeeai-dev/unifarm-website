@@ -26,7 +26,7 @@ export default function SanPhamPage() {
       
       <RiceTabsShowcase />
       
-      <LeadershipCommitmentPreview />
+      {/* <LeadershipCommitmentPreview /> */}
 
       <Footer />
     </>

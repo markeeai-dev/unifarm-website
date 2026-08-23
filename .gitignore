@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# content review exports (not part of the app)
+/noi-dung-trang-pdf/

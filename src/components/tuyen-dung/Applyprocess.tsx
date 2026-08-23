@@ -100,7 +100,7 @@ export default function ApplyProcess() {
       {/* Background photo — tinted green via multiply overlay so it reads as on-brand */}
       <div className="absolute inset-0" aria-hidden="true">
         <Image
-          src="/images/agrihero/farmer-tending-vegetables.jpg"
+          src="/images/UNIFARM/bgr.jpg"
           alt=""
           fill
           className="scale-105 object-cover"
