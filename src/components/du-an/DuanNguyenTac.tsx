@@ -87,7 +87,7 @@ export default function DuanNguyenTac() {
           className="relative mt-8 aspect-[21/7] w-full overflow-hidden rounded-2xl shadow-[0_20px_50px_-25px_rgba(6,59,36,0.45)] sm:mt-10 sm:aspect-[21/6]"
         >
           <Image
-            src="/images/UNIFARM/UNIFARM/hình chỉnh/1787655032414_1582751505492234802_4935324150679931320_249aad34d99469334ad5bdce1de117ce.jpg"
+            src="/images/UNIFARM/UNIFARM/hinh-chinh/1787655032414_1582751505492234802_4935324150679931320_249aad34d99469334ad5bdce1de117ce.jpg"
             alt="Nông trường Unifarm, minh hoạ hành trình phát triển bền vững"
             fill
             sizes="100vw"
