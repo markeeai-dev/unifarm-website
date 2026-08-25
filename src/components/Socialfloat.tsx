@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Mail, Phone, Camera, Music2, Play, MessageCircle } from "lucide-react";
+import { Mail, Phone, MessageCircle } from "lucide-react";
 import type { SVGProps } from "react";
 
 function FacebookGlyph(props: SVGProps<SVGSVGElement>) {
@@ -31,50 +31,94 @@ function ZaloGlyph(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+function LinkedinGlyph(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="3.2" fill="none" stroke="currentColor" strokeWidth={1.6} />
+      <rect x="6.7" y="10.2" width="2.1" height="7.3" rx="0.4" />
+      <circle cx="7.75" cy="7.1" r="1.35" />
+      <path d="M11.4 17.5v-7.3h2.1v1.05c.55-.78 1.4-1.25 2.5-1.25 1.85 0 3 1.15 3 3.2v4.3h-2.1v-3.9c0-1.05-.55-1.65-1.5-1.65-.95 0-1.6.65-1.6 1.7v3.85h-2.1Z" />
+    </svg>
+  );
+}
+
+function InstagramGlyph(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth={1.7} />
+      <circle cx="12" cy="12" r="4.1" stroke="currentColor" strokeWidth={1.7} />
+      <circle cx="17.1" cy="6.9" r="1.15" fill="currentColor" />
+    </svg>
+  );
+}
+
+function TiktokGlyph(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M15.6 3.2c.4 1.9 1.7 3.2 3.7 3.4v2.7c-1.35-.02-2.55-.4-3.65-1.15v5.5c0 3.05-2.15 5.15-5.05 5.15-2.75 0-5-2.05-5-4.95 0-2.85 2.2-4.95 5-4.95.33 0 .65.03.95.09v2.75a2.2 2.2 0 0 0-.95-.21c-1.3 0-2.35 1.02-2.35 2.32 0 1.3 1.05 2.3 2.35 2.3 1.35 0 2.4-1.02 2.4-2.5V3.2h2.63Z" />
+    </svg>
+  );
+}
+
+function YoutubeGlyph(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <rect x="2.5" y="5.5" width="19" height="13" rx="3.5" stroke="currentColor" strokeWidth={1.7} />
+      <path d="M10.2 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 const CHANNELS = [
   {
     label: "Facebook",
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/Unifarm.SafeFoodForLife",
     icon: FacebookGlyph,
     bg: "var(--color-forest, #1f5c34)",
   },
   {
-    label: "Zalo",
-    href: "https://zalo.me",
-    icon: ZaloGlyph,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/unifarmvn/",
+    icon: LinkedinGlyph,
     bg: "var(--color-green, #2f7a45)",
   },
   {
     label: "Instagram",
-    href: "https://instagram.com",
-    icon: Camera,
+    href: "https://www.instagram.com/unifarm_official1/",
+    icon: InstagramGlyph,
     bg: "var(--color-gold, #f2c230)",
     dark: true,
   },
   {
     label: "TikTok",
-    href: "https://tiktok.com",
-    icon: Music2,
+    href: "https://www.tiktok.com/@unifarm.vn",
+    icon: TiktokGlyph,
     bg: "var(--color-forest, #1f5c34)",
   },
   {
     label: "YouTube",
-    href: "https://youtube.com",
-    icon: Play,
+    href: "https://www.youtube.com/@unifarm.safefoodforlifeui2999",
+    icon: YoutubeGlyph,
     bg: "var(--color-green, #2f7a45)",
+  },
+  {
+    label: "Zalo",
+    href: "https://zalo.me",
+    icon: ZaloGlyph,
+    bg: "var(--color-gold, #f2c230)",
+    dark: true,
   },
   {
     label: "Email",
     href: "mailto:hi@unifarm.com",
     icon: Mail,
-    bg: "var(--color-gold, #f2c230)",
-    dark: true,
+    bg: "var(--color-forest, #1f5c34)",
   },
   {
     label: "Gọi ngay",
     href: "tel:+840988001002",
     icon: Phone,
-    bg: "var(--color-forest, #1f5c34)",
+    bg: "var(--color-green, #2f7a45)",
   },
 ];
 

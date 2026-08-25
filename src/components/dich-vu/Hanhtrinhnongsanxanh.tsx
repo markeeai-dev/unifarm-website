@@ -206,7 +206,7 @@ function HeaderBlock() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={VIEWPORT}
         transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-        className="font-display mt-4 max-w-4xl text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+        className="uppercase mt-4 max-w-4xl text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] sm:text-5xl lg:text-6xl"
         style={{ color: C.forest }}
       >
         Tư vấn <span style={{ color: C.soft }}>→</span> Cung ứng{" "}
@@ -335,7 +335,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         whileInView="show"
         viewport={VIEWPORT}
         variants={variants}
-        className="font-display block text-5xl font-black leading-none sm:text-6xl"
+        className="block text-5xl font-black leading-none sm:text-6xl"
         style={{ color: C.soft }}
       >
         {service.number}
@@ -347,7 +347,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         whileInView="show"
         viewport={VIEWPORT}
         variants={variants}
-        className="font-display mt-3 text-2xl font-extrabold uppercase leading-[1.15] tracking-tight sm:text-3xl lg:text-[2rem]"
+        className="mt-3 text-2xl font-extrabold uppercase leading-[1.15] tracking-tight sm:text-3xl lg:text-[2rem]"
         style={{ color: C.forest }}
       >
         {service.title}
@@ -393,7 +393,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         >
           {service.steps.map((s) => (
             <div key={s.number} className="flex items-baseline gap-3">
-              <span className="font-display text-lg font-black" style={{ color: C.green }}>
+              <span className="text-lg font-black" style={{ color: C.green }}>
                 {s.number}
               </span>
               <span className="text-sm font-medium text-neutral-600">{s.label}</span>

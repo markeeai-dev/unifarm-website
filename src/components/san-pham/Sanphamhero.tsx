@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * SanPhamHero — banner đầu trang Sản phẩm.
@@ -31,6 +32,7 @@ const SLIDE_MS = 4500;
 export default function SanPhamHero() {
   const [mounted, setMounted] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
+  const introReady = useIntroReady();
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -40,9 +42,10 @@ export default function SanPhamHero() {
   }, []);
 
   useEffect(() => {
+    if (!introReady) return;
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
-  }, []);
+  }, [introReady]);
 
   const slide = SLIDES[slideIndex];
 
@@ -96,7 +99,7 @@ export default function SanPhamHero() {
           </span>
 
           <div key={slideIndex} style={{ animation: "sanpham-hero-fade 700ms ease-out" }}>
-            <h1 className="font-display max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
+            <h1 className="uppercase max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
               {slide.title}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-sm text-white/85 sm:text-base">

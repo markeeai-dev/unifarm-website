@@ -198,7 +198,7 @@ export default function FarmQuotesBanner() {
                   return (
                     <div key={i} className="w-full shrink-0 pr-2 sm:pr-8">
                       <h2
-                        className={`min-h-[112px] text-[26px] font-semibold leading-[1.35] tracking-[-0.01em] text-[#FFFACD] transition-all duration-700 ease-out [font-family:'Poppins',sans-serif] sm:min-h-[96px] sm:text-[32px] ${
+                        className={`uppercase min-h-[112px] text-[26px] font-semibold leading-[1.35] tracking-[-0.01em] text-[#FFFACD] transition-all duration-700 ease-out [font-family:'Poppins',sans-serif] sm:min-h-[96px] sm:text-[32px] ${
                           isActive
                             ? "translate-x-0 opacity-100 delay-300"
                             : "-translate-x-10 opacity-0"

@@ -13,31 +13,31 @@ type FaqItem = {
 
 const ITEMS: FaqItem[] = [
   {
-    question: 'Unifarm hoạt động như thế nào với nông dân mới bắt đầu?',
+    question: 'Unifarm tiếp cận một dự án nông nghiệp mới như thế nào?',
     thumb:
       'https://images.unsplash.com/photo-1745239853358-5ab62bc08af2?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Điều gì khiến dữ liệu cây trồng của Unifarm khác biệt?',
+    question: 'Unifarm và đối tác phân chia vai trò đóng góp ra sao trong chuỗi liên kết?',
     thumb:
       'https://images.unsplash.com/photo-1692369584496-3216a88f94c1?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Tôi có thể tích hợp thiết bị nông trại hiện có của mình không?',
+    question: 'Unifarm đảm bảo hiệu quả kinh tế và lợi nhuận cho nông hộ liên kết như thế nào?',
     thumb:
       'https://images.unsplash.com/photo-1720071702672-d18c69cb475c?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Dữ liệu và thông tin thanh toán của tôi được bảo mật ra sao?',
+    question: 'Làm thế nào để khách hàng có thể mua sản phẩm và sử dụng các dịch vụ của Unifarm?',
     thumb:
       'https://images.unsplash.com/photo-1758927837398-248358bfda13?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Unifarm cung cấp những hình thức hỗ trợ nào cho khách hàng?',
+    question: 'Unifarm tạo ra giá trị khác biệt gì cho khách hàng so với các sản phẩm nông sản khác trên thị trường?',
     thumb:
       'https://images.unsplash.com/photo-1745239853358-5ab62bc08af2?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
@@ -128,12 +128,12 @@ export default function FaqVideoList() {
           }}
         >
           <span className="h-[6px] w-[6px] rounded-full bg-[#006400]" />
-          Câu Hỏi Thường Gặp
+          Hợp Tác Phát Triển
         </div>
 
         {/* Heading — rises from below on scroll-in */}
         <h2
-          className="font-display max-w-[720px] text-3xl font-extrabold leading-[1.18] tracking-tight text-neutral-900 transition-all duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:text-4xl lg:text-[42px]"
+          className="uppercase max-w-[720px] text-3xl font-extrabold leading-[1.18] tracking-tight text-neutral-900 transition-all duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:text-4xl lg:text-[42px]"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible
@@ -142,7 +142,7 @@ export default function FaqVideoList() {
             transitionDelay: visible ? '250ms' : '0ms',
           }}
         >
-          Bạn Có Thắc Mắc? Chúng Tôi Có <em className="font-normal italic text-[#006400]">Câu Trả Lời Thực Tế</em> Cho Bạn
+          Bạn Có Thắc Mắc? Chúng Tôi Có <em className="font-normal italic text-[#006400]">Câu Trả Lời</em>.
         </h2>
 
         {/* Rows */}

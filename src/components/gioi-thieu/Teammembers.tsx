@@ -524,7 +524,7 @@ export default function TeamMembers() {
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#87CEFA]">
             Đồng hành cùng bạn
           </span>
-          <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[42px]">
+          <h2 className="uppercase mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[42px]">
             Các Thành Viên Chuyên Gia
           </h2>
         </div>

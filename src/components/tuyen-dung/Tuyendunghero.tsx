@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, PlayCircle } from "lucide-react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * TuyenDungHero — banner đầu trang Tuyển dụng.
@@ -21,10 +22,11 @@ const STATS = [
 
 export default function TuyenDungHero() {
   const [mounted, setMounted] = useState(false);
+  const introReady = useIntroReady();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (introReady) setMounted(true);
+  }, [introReady]);
 
   return (
     <div className="w-full">
@@ -50,7 +52,7 @@ export default function TuyenDungHero() {
           </span>
 
           <h1
-            className={`max-w-3xl font-display text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-white transition-all delay-100 duration-700 sm:text-5xl ${
+            className={`max-w-3xl text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-white transition-all delay-100 duration-700 sm:text-5xl ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >

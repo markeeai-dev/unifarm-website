@@ -19,8 +19,10 @@ import {
 import type { BlogPost } from "@/lib/db";
 import { TAG_OPTIONS, TAG_COLOR, DEFAULT_TAG_COLOR } from "@/lib/blog-tags";
 import { BorderTrace, Particles, CornerBrackets, BLOG_DECOR_KEYFRAMES } from "./Decor";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
-function readingTime(text: string) {
+function readingTime(html: string) {
+  const text = html.replace(/<[^>]*>/g, " ");
   return Math.max(1, Math.ceil(text.trim().split(/\s+/).filter(Boolean).length / 200));
 }
 
@@ -31,18 +33,19 @@ function StatCard({
   value,
   delay,
   pos,
+  introReady,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   delay: number;
   pos: string;
+  introReady: boolean;
 }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.7 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
+      animate={introReady ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.7 }}
       transition={{ delay, type: "spring", stiffness: 220, damping: 18 }}
       whileHover={{ scale: 1.06, y: -3 }}
       className={`absolute ${pos} z-10 flex items-center gap-3 rounded-2xl px-4 py-3`}
@@ -76,6 +79,7 @@ const ALL_TAG = "__all__";
 const FILTER_TABS = [ALL_TAG, ...TAG_OPTIONS];
 
 export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
+  const introReady = useIntroReady();
   const [lang, setLang] = useState<"vi" | "en">("vi");
   const [activeTab, setActiveTab] = useState(ALL_TAG);
   const [visibleCount, setVisibleCount] = useState(9);
@@ -223,8 +227,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
           {/* LEFT — mascot with floating stats */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            animate={introReady ? { opacity: 1, x: 0 } : { opacity: 0, x: -60 }}
             transition={{ duration: 0.85, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="order-2 flex justify-center lg:order-1 lg:justify-end"
           >
@@ -275,6 +278,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 value={`${posts.length}+`}
                 delay={0.5}
                 icon={<FileText className="h-4 w-4 text-white" />}
+                introReady={introReady}
               />
               <StatCard
                 pos="right-0 top-[42%] sm:right-[-5%] sm:top-[35%]"
@@ -282,6 +286,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 value="12,400+"
                 delay={0.7}
                 icon={<Users className="h-4 w-4 text-white" />}
+                introReady={introReady}
               />
               <StatCard
                 pos="left-[5%] bottom-[15%]"
@@ -289,6 +294,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 value="+250%"
                 delay={0.9}
                 icon={<BarChart3 className="h-4 w-4 text-white" />}
+                introReady={introReady}
               />
             </div>
           </motion.div>
@@ -296,15 +302,13 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
           {/* RIGHT — text content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.75 }}
             className="order-1 text-center lg:order-2 lg:text-left"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              animate={introReady ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", stiffness: 280, damping: 18 }}
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold uppercase tracking-widest"
               style={{
@@ -317,35 +321,35 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               <motion.span animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
                 🌱
               </motion.span>
-              BLOG
+              Tri thức Unifarm
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="mt-6 max-w-[600px] text-3xl font-bold leading-[1.2] tracking-tight sm:text-4xl lg:text-[3.4rem]"
+              className="uppercase mt-6 max-w-[600px] text-3xl font-bold leading-[1.2] tracking-tight sm:text-4xl lg:text-[3.4rem]"
               style={{
                 background: "linear-gradient(135deg, #06301B 20%, #006400 60%, #1E6FA8 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Góc chia sẻ Unifarm
+              Tri Thức Chỉ Thực Sự Lớn Lên Khi Được Chia Sẻ
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mx-auto mt-5 max-w-lg text-[17px] leading-relaxed text-gray-500 lg:mx-0"
             >
-              Câu chuyện nông nghiệp công nghệ cao, kiến thức canh tác và cập nhật mới nhất từ Unifarm.
+              Mỗi ngày ngoài cánh đồng đều đặt ra những bài toán mới. Unifarm không giữ tri thức cho riêng mình. Đây là nơi chúng tôi đóng góp cho nền nông nghiệp bằng việc chia sẻ minh bạch những gì đúc kết được từ thử nghiệm thực địa và dữ liệu sản xuất.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-6 flex flex-wrap justify-center gap-4 lg:justify-start"
             >
@@ -362,7 +366,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={introReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.7, delay: 0.35 }}
               className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start"
             >
@@ -421,7 +425,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               </div>
               <div className="h-px flex-1 bg-gradient-to-r from-[#006400]/25 to-transparent" />
             </div>
-            <h2 className="mb-4 text-3xl font-black text-gray-900 sm:text-4xl">Bài viết mới nhất</h2>
+            <h2 className="uppercase mb-4 text-3xl font-black text-gray-900 sm:text-4xl">Bài viết mới nhất</h2>
             <p className="mb-12 max-w-md text-sm text-gray-400">
               Cập nhật mới nhất về nông nghiệp công nghệ cao từ Unifarm.
             </p>
@@ -486,7 +490,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               </div>
               <div className="h-px flex-1 bg-gradient-to-r from-white/25 to-transparent" />
             </div>
-            <h2 className="mb-4 text-3xl font-black text-white sm:text-4xl">Bài viết nổi bật</h2>
+            <h2 className="uppercase mb-4 text-3xl font-black text-white sm:text-4xl">Bài viết nổi bật</h2>
             <p className="mb-12 max-w-md text-sm text-white/45">Những bài viết được bạn đọc quan tâm nhất.</p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {popularPosts.map((post, i) => (
@@ -534,7 +538,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 </div>
                 <div className="h-px flex-1 bg-gradient-to-r from-[#006400]/25 to-transparent" />
               </div>
-              <h2 className="text-3xl font-black text-gray-900 sm:text-4xl">Tất cả bài viết</h2>
+              <h2 className="uppercase text-3xl font-black text-gray-900 sm:text-4xl">Tất cả bài viết</h2>
             </div>
 
             <div className="inline-flex items-center rounded-full border border-[#006400]/20 bg-white p-1 shadow-sm">
@@ -652,7 +656,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
             <div className="relative z-10 grid items-center gap-10 lg:grid-cols-2">
               <div className="text-center lg:text-left">
                 <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.35em] text-[#FFFACD]">Unifarm</p>
-                <h3 className="mb-5 text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl">
+                <h3 className="uppercase mb-5 text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl">
                   Cùng Unifarm xây dựng nông nghiệp bền vững
                 </h3>
                 <p className="mb-8 max-w-md text-sm font-light leading-relaxed text-white/55 sm:text-base">
@@ -797,7 +801,7 @@ function PostCard({
 
         <div className="p-5">
           <h3
-            className={`mb-2 line-clamp-2 text-[15px] font-bold leading-snug transition-colors duration-300 ${
+            className={`uppercase mb-2 line-clamp-2 text-[15px] font-bold leading-snug transition-colors duration-300 ${
               variant === "dark" ? "text-white group-hover:text-[#FFFACD]" : "text-gray-900 group-hover:text-[#006400]"
             }`}
           >

@@ -136,7 +136,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-x-10 gap-y-2 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
           {/* Contact / brand */}
           <div className="pb-6 sm:pb-0">
-            <h3 className="font-display mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
               Thông tin liên hệ
             </h3>
 
@@ -194,7 +194,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="py-4 sm:py-0">
-            <h3 className="font-display mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
               Đăng ký bản tin
             </h3>
             <p className="mb-4 text-sm italic text-[#87cefa]/90">

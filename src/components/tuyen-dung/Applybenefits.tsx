@@ -83,7 +83,7 @@ export default function ApplyBenefits() {
               className="h-16 w-16 shrink-0 object-contain sm:h-20 sm:w-20"
             />
           </div>
-          <h2 className="mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
+          <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
             Quyền lợi khi bạn gia nhập đội ngũ
           </h2>
         </Reveal>
@@ -107,7 +107,7 @@ export default function ApplyBenefits() {
                       <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-[#FFFACD] ring-1 ring-white/15">
                         <b.icon size={22} strokeWidth={1.8} />
                       </span>
-                      <h3 className="mt-5 text-lg font-bold text-white sm:text-xl">
+                      <h3 className="uppercase mt-5 text-lg font-bold text-white sm:text-xl">
                         {b.title}
                       </h3>
                       <p className="mt-2.5 text-sm leading-relaxed text-white/65">
@@ -150,7 +150,7 @@ export default function ApplyBenefits() {
                     <b.icon size={20} strokeWidth={1.8} />
                   </span>
 
-                  <h3 className="relative mt-5 text-[15px] font-bold text-[#06301B]">{b.title}</h3>
+                  <h3 className="uppercase relative mt-5 text-[15px] font-bold text-[#06301B]">{b.title}</h3>
                   <p className="relative mt-2 text-sm leading-relaxed text-[#06301B]/60">{b.desc}</p>
                 </div>
               </Reveal>

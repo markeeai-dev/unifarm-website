@@ -106,7 +106,7 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[number] }) {
           strokeWidth={1.5}
         />
       </div>
-      <h3 className="mb-1 text-sm font-bold text-[#006400] sm:mb-2 sm:text-lg">{service.title}</h3>
+      <h3 className="uppercase mb-1 text-sm font-bold text-[#006400] sm:mb-2 sm:text-lg">{service.title}</h3>
       <p className="mb-3 max-w-[160px] text-xs leading-relaxed text-gray-500 sm:mb-4 sm:max-w-[230px] sm:text-sm">
         {service.desc}
       </p>
@@ -138,7 +138,7 @@ export default function ServicesSection() {
             height={100}
             className="h-12 w-12 shrink-0 object-contain sm:h-28 sm:w-28"
           /> */}
-          <h2 className="text-3xl font-extrabold leading-tight text-[#006400] [text-wrap:balance] sm:[text-wrap:auto] sm:text-4xl lg:text-[42px] font-display">
+          <h2 className="uppercase text-3xl font-extrabold leading-tight text-[#006400] [text-wrap:balance] sm:[text-wrap:auto] sm:text-4xl lg:text-[42px]">
             Chúng tôi cung cấp dịch vụ
             <span className="hidden sm:inline"><br /></span>
             {" "}nhà máy &amp; công nghiệp tốt nhất

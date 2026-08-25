@@ -186,43 +186,50 @@ function AnimatedNumber({
 const STATS = [
   {
     icon: ClockSpinIcon,
-    label: "Nhân sự",
-    target: 2400,
+    label: "Nguồn giống & R&D",
+    target: 0,
+    decimals: 0,
     prefix: "",
-    suffix: "+",
-    unit: "người",
-    detail: "400 nhân viên chuyên môn / kỹ sư & 2.000 công nhân lành nghề",
+    suffix: "",
+    unit: "",
+    textValue: "Giống ưu tú",
+    detail: "Tuyển chọn giống thích nghi cao, năng suất và kháng sâu bệnh.",
     accent: C.blue,
   },
   {
     icon: GearsSpinIcon,
-    label: "Độ phủ công nghệ",
-    target: 400,
-    prefix: "> ",
+    label: "Hiệu quả tài nguyên",
+    target: 0,
+    decimals: 0,
+    prefix: "",
     suffix: "",
-    unit: "ha",
-    detail: "Diện tích phủ bởi cáp tải & hệ thống tự động hóa tưới tiêu",
+    unit: "",
+    textValue: "Tối ưu chi phí",
+    detail: "Tối ưu hóa chi phí và giảm thiểu lãng phí trên từng mét vuông đất.",
     accent: C.green,
   },
   {
     icon: GrowthStepsIcon,
-    label: "Vốn chủ sở hữu",
-    target: 300,
+    label: "Con người có nghề",
+    target: 2000,
+    decimals: 0,
     prefix: "",
-    suffix: "",
-    unit: "tỷ VNĐ",
-    detail: "Tài chính vững mạnh — hoàn toàn từ vốn tự có",
+    suffix: "+",
+    unit: "nhân viên",
+    textValue: "",
+    detail: "Đào tạo công nhân, kỹ sư lành nghề và hiểu sâu sắc về cây trồng.",
     accent: C.greenSoft,
   },
   {
     icon: RisingArrowsIcon,
-    label: "Tăng trưởng CAGR",
-    target: 28.3,
-    decimals: 1,
+    label: "Dữ liệu & Quản trị",
+    target: 0,
+    decimals: 0,
     prefix: "",
-    suffix: "%",
-    unit: "/ năm",
-    detail: "Tốc độ tăng trưởng bình quân 5 năm gần nhất",
+    suffix: "",
+    unit: "",
+    textValue: "Quản trị số",
+    detail: "Vận hành nông trại và ra quyết định dựa trên dữ liệu thực tế.",
     accent: C.ink,
   },
 ];
@@ -434,17 +441,23 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
           className="text-4xl font-extrabold tabular-nums tracking-tight sm:text-[2.75rem]"
           style={{ color: C.ink }}
         >
-          <AnimatedNumber
-            target={stat.target}
-            inView={inView}
-            decimals={stat.decimals || 0}
-            prefix={stat.prefix}
-            suffix={stat.suffix}
-          />
+          {stat.textValue ? (
+            stat.textValue
+          ) : (
+            <AnimatedNumber
+              target={stat.target}
+              inView={inView}
+              decimals={stat.decimals || 0}
+              prefix={stat.prefix}
+              suffix={stat.suffix}
+            />
+          )}
         </span>
-        <span className="text-base font-semibold" style={{ color: stat.accent }}>
-          {stat.unit}
-        </span>
+        {stat.unit ? (
+          <span className="text-base font-semibold" style={{ color: stat.accent }}>
+            {stat.unit}
+          </span>
+        ) : null}
       </div>
 
       <p className="mt-3 text-sm italic leading-relaxed text-gray-500">
@@ -599,7 +612,7 @@ function ExportCard() {
                 <AnimatedNumber target={66} inView={inView} suffix="%" />
               </span>
             </div>
-            <p className="mt-1 text-sm text-gray-500">doanh thu đến từ xuất khẩu — phân bố toàn cầu</p>
+            <p className="mt-1 text-sm text-gray-500">Cung ứng chuyên nghiệp đi các thị trường Nhật Bản, Hàn Quốc, Trung Quốc, Trung Đông...</p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 sm:justify-end">
@@ -697,9 +710,7 @@ function DomesticCard() {
           </div>
 
           <p className="max-w-sm text-center text-sm leading-relaxed text-gray-500 sm:text-right">
-            Thương hiệu <span className="font-semibold" style={{ color: C.green }}>Unifarm</span> &{" "}
-            <span className="font-semibold" style={{ color: C.green }}>Dole</span> đang dẫn đầu thị trường
-            trong nước.
+            Cung ứng sản phẩm chuối, dứa, cây nông nghiệp chất lượng đồng đều cho các hệ thống bán lẻ và đối tác lớn.
           </p>
         </div>
       </div>
@@ -739,13 +750,13 @@ export default function StatsSectionPreview() {
             className="inline-block rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider"
             style={{ background: C.yellow, color: C.green }}
           >
-            Số liệu nổi bật
+            Nền tảng cạnh tranh
           </span>
           <h2
-            className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl"
+            className="uppercase mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl"
             style={{ color: C.ink }}
           >
-            NHỮNG CON SỐ ẤN TƯỢNG
+            KHẢ NĂNG CẠNH TRANH ĐẾN TỪ ĐÂU?
           </h2>
         </div>
 
@@ -758,12 +769,12 @@ export default function StatsSectionPreview() {
 
         {/* tiêu đề khối 2 */}
         <div className="mb-8 mt-20">
-          <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl" style={{ color: C.ink }}>
-            KHÔNG GIAN THỊ TRƯỜNG &{" "}
-            <span style={{ color: C.green }}>THỊ PHẦN ĐỘC ĐÁO</span>
+          <h2 className="uppercase text-2xl font-extrabold tracking-tight sm:text-3xl" style={{ color: C.ink }}>
+            KẾT NỐI THỊ TRƯỜNG NỘI ĐỊA &{" "}
+            <span style={{ color: C.green }}>XUẤT KHẨU</span>
           </h2>
           <p className="mt-2 text-sm text-gray-500 sm:text-base">
-            Vị thế thị trường và độ phủ thương hiệu của Unifarm
+            Cung ứng ổn định cho các đối tác toàn cầu
           </p>
         </div>
 

@@ -120,7 +120,7 @@ export default function WhyUnifarm() {
               className="group relative py-2 lg:px-8 lg:py-4 lg:first:pl-0"
             >
               <Icon size={26} className="text-[#006400]" />
-              <h3 className="mt-4 text-lg font-bold text-[#06301B]">{title}</h3>
+              <h3 className="uppercase mt-4 text-lg font-bold text-[#06301B]">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{desc}</p>
               <span
                 aria-hidden="true"

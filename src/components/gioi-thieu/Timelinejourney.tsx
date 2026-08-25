@@ -11,147 +11,23 @@ import {
   Leaf,
   Rocket,
   PlayCircle,
+  type LucideIcon,
 } from "lucide-react";
+import type { TimelineMilestone } from "@/lib/db";
 
 /* ------------------------------------------------------------------ */
-/*  Dữ liệu các cột mốc                                                */
+/*  Map tên icon (string, lưu trong DB) -> component lucide-react      */
 /* ------------------------------------------------------------------ */
 
-const MILESTONES = [
-  {
-    year: "2009–2010",
-    caption: "Khởi đầu",
-    icon: Sprout,
-    stat: [
-      { label: "Thành lập Unifarm", value: "06/2009" },
-      { label: "Mô hình tiên phong", value: "Dưa lưới nhà kính" },
-    ],
-    partner: {
-      title: "Khởi đầu",
-      bullets: ["Thành lập Unifarm (06/2009)", "Thành lập Unifarm Phú Giáo", "Tiên phong trồng dưa lưới trong nhà kính"],
-    },
-    image: "/images/agrihero/seedling-sprout.jpg",
-    media: [
-      { label: "Thành lập Unifarm Phú Giáo", video: "/videos/banana-leaves-closeup.mp4" },
-      { label: "Dưa lưới trong nhà kính", video: "/videos/unripe-green-bananas-on-tree.mp4" },
-    ],
-    bottom: ["Thành lập Unifarm (06/2009)", "Thành lập Unifarm Phú Giáo", "Tiên phong trồng dưa lưới trong nhà kính"],
-  },
-  {
-    year: "2013–2015",
-    caption: "Phát triển vùng trồng chuối",
-    icon: Ship,
-    stat: [
-      { label: "Thị trường nội địa", value: "Chuối vàng" },
-      { label: "Xuất khẩu", value: "Nhật · Hàn · Trung" },
-    ],
-    partner: {
-      title: "Phát triển vùng trồng chuối",
-      bullets: ["Kinh doanh chuối vàng nội địa", "Xuất khẩu chuối đi Nhật, Hàn, Trung"],
-    },
-    image: "/images/banana/banana-plantation-aerial.jpg",
-    media: [
-      { label: "Chuối vàng nội địa", video: "/videos/7.mp4" },
-      { label: "Xuất khẩu Nhật – Hàn – Trung", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
-    ],
-    bottom: ["Kinh doanh chuối vàng nội địa", "Xuất khẩu chuối đi Nhật, Hàn, Trung"],
-  },
-  {
-    year: "2016–2018",
-    caption: "Hợp tác chiến lược",
-    icon: Handshake,
-    stat: [
-      { label: "Đối tác độc quyền", value: "Dole" },
-      { label: "Xuất khẩu dưa lưới", value: "Singapore" },
-    ],
-    partner: {
-      title: "Hợp tác chiến lược",
-      bullets: ["Xuất khẩu dưa lưới đi Singapore", "Hợp tác độc quyền với Dole", "Thành lập Unifarm Dầu Tiếng"],
-    },
-    image: "/images/UNIFARM/16.JPG",
-    media: [
-      { label: "Hợp tác độc quyền với Dole", video: "/videos/unripe-green-bananas-on-tree.mp4" },
-      { label: "Unifarm Dầu Tiếng", video: "/videos/banana-leaves-closeup.mp4" },
-    ],
-    bottom: ["Xuất khẩu dưa lưới đi Singapore", "Hợp tác độc quyền với Dole", "Thành lập Unifarm Dầu Tiếng"],
-  },
-  {
-    year: "2021–2022",
-    caption: "Mở rộng hệ sinh thái",
-    icon: Network,
-    stat: [
-      { label: "Đầu tư", value: "Vietplants" },
-      { label: "Chi nhánh mới", value: "Unifarm Miền Bắc" },
-    ],
-    partner: {
-      title: "Mở rộng hệ sinh thái",
-      bullets: ["Đầu tư vào Vietplants", "Lập Chi nhánh Unifarm Miền Bắc"],
-    },
-    image: "/images/agritech/vertical-farm-hydroponic-greenhouse.jpg",
-    media: [
-      { label: "Đầu tư vào Vietplants", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
-      { label: "Chi nhánh Unifarm Miền Bắc", video: "/videos/7.mp4" },
-    ],
-    bottom: ["Đầu tư vào Vietplants", "Lập Chi nhánh Unifarm Miền Bắc"],
-  },
-  {
-    year: "2025",
-    caption: "Bứt phá KHCN",
-    icon: Cpu,
-    stat: [
-      { label: "Chứng nhận", value: "Doanh nghiệp KHCN" },
-      { label: "Đầu tư mới", value: "Ventures · Foodtech · Highland" },
-    ],
-    partner: {
-      title: "Bứt phá KHCN",
-      bullets: ["Đầu tư Unifarm Ventures", "Đầu tư Unifarm Foodtech", "Đầu tư Unifarm Highland"],
-    },
-    image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
-    media: [
-      { label: "Đầu tư Unifarm Ventures", video: "/videos/banana-leaves-closeup.mp4" },
-      { label: "Chứng nhận Doanh nghiệp KHCN", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
-    ],
-    bottom: ["Đầu tư Unifarm Ventures", "Đầu tư Unifarm Foodtech", "Đầu tư Unifarm Highland", "Đạt chứng nhận Doanh nghiệp KHCN"],
-  },
-  {
-    year: "2026",
-    caption: "Mở rộng vùng trồng",
-    icon: Leaf,
-    stat: [
-      { label: "Quy mô vùng trồng", value: "600+ ha" },
-      { label: "Đầu tư", value: "Green Agritech" },
-    ],
-    partner: {
-      title: "Mở rộng vùng trồng",
-      bullets: ["Vùng chuối & dứa: Dầu Tiếng, Phước Hòa, Đồng Phú, Bình Thuận", "Quy mô hơn 600 ha", "Đầu tư vào Green Agritech"],
-    },
-    image: "/images/UNIFARM/bgr.jpg",
-    media: [
-      { label: "Vùng chuối & dứa", video: "/videos/7.mp4" },
-      { label: "Đầu tư Green Agritech", video: "/videos/unripe-green-bananas-on-tree.mp4" },
-    ],
-    bottom: ["Vùng chuối & dứa: Dầu Tiếng, Phước Hòa, Đồng Phú, Bình Thuận", "Quy mô hơn 600 ha", "Đầu tư vào Green Agritech"],
-  },
-  {
-    year: "Hiện nay",
-    caption: "Tiên phong",
-    icon: Rocket,
-    stat: [
-      { label: "Định hướng", value: "Chuyển đổi số & xanh" },
-      { label: "Mục tiêu", value: "Nông nghiệp bền vững" },
-    ],
-    partner: {
-      title: "Tiên phong",
-      bullets: ["Chuyển đổi số", "Chuyển đổi xanh", "Nghiên cứu khoa học"],
-    },
-    image: "/images/banana/banana-shrub-3289749.jpg",
-    media: [
-      { label: "Chuyển đổi số", video: "/videos/banana-leaves-blooming-arboretum.mp4" },
-      { label: "Chuyển đổi xanh", video: "/videos/banana-leaves-closeup.mp4" },
-    ],
-    bottom: ["Chuyển đổi số", "Chuyển đổi xanh", "Nghiên cứu khoa học", "Liên kết hợp tác", "Phát triển nông nghiệp bền vững"],
-  },
-];
+const ICON_MAP: Record<string, LucideIcon> = {
+  Sprout,
+  Ship,
+  Handshake,
+  Network,
+  Cpu,
+  Leaf,
+  Rocket,
+};
 
 /* ------------------------------------------------------------------ */
 /*  Thẻ media minh hoạ (không phụ thuộc ảnh ngoài)                     */
@@ -209,17 +85,18 @@ function useScrollIntoView(active: number, count: number): React.RefObject<HTMLD
 /*  Component chính                                                    */
 /* ------------------------------------------------------------------ */
 
-export default function TimelineJourney() {
+export default function TimelineJourney({ milestones }: { milestones: TimelineMilestone[] }) {
   const [active, setActive] = useState(4);
   const [inView, setInView] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  const trackRef = useScrollIntoView(active, MILESTONES.length);
+  const trackRef = useScrollIntoView(active, milestones.length);
 
-  const n = MILESTONES.length;
+  const n = milestones.length;
   const progressPct = ((active + 0.5) / n) * 100;
-  const current = MILESTONES[active];
+  const current = milestones[active];
+  const CurrentIcon = ICON_MAP[current.icon] ?? Sprout;
 
   /* -------------------------------------------------------------- */
   /* Intersection Observer                                          */
@@ -461,7 +338,7 @@ export default function TimelineJourney() {
           </span>
 
           <h2
-            className="atx-display mt-4 text-3xl font-extrabold leading-tight text-[#0a3d0a] sm:text-4xl"
+            className="uppercase atx-display mt-4 text-3xl font-extrabold leading-tight text-[#0a3d0a] sm:text-4xl"
             style={{
               opacity: inView ? 1 : 0,
               transform: inView
@@ -524,7 +401,7 @@ export default function TimelineJourney() {
               }}
             />
 
-            {MILESTONES.map((m, i) => {
+            {milestones.map((m, i) => {
 
               const isActive = i === active;
               const isPast = i < active;
@@ -677,7 +554,7 @@ export default function TimelineJourney() {
             />
 
             <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#006400] shadow-[0_12px_26px_-10px_rgba(0,100,0,0.55)]">
-              <current.icon className="h-7 w-7 text-[#fffacd]" />
+              <CurrentIcon className="h-7 w-7 text-[#fffacd]" />
             </div>
 
             <div className="relative z-10">
@@ -754,17 +631,17 @@ export default function TimelineJourney() {
             <div className="mb-3 flex items-center gap-2">
 
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fffacd]">
-                <current.icon className="h-4 w-4 text-[#006400]" />
+                <CurrentIcon className="h-4 w-4 text-[#006400]" />
               </span>
 
               <p className="atx-body text-sm font-semibold text-[#0a3d0a]">
-                {current.partner.title}
+                {current.partner_title}
               </p>
 
             </div>
 
             <ul className="space-y-2">
-              {current.partner.bullets.map((b) => (
+              {current.partner_bullets.map((b) => (
                 <li
                   key={b}
                   className="atx-body flex items-start gap-2 text-sm leading-snug text-[#3a4a33]"

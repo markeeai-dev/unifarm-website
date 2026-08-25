@@ -144,7 +144,7 @@ export default function LeadershipCommitment() {
                   />
                 </div>
 
-                <h3 className="text-lg sm:text-xl font-medium text-neutral-800">
+                <h3 className="uppercase text-lg sm:text-xl font-medium text-neutral-800">
                   {slide.name}
                 </h3>
                 <p className="mt-1 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#8CA86E]">

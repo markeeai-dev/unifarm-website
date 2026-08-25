@@ -38,31 +38,31 @@ type Feature = {
 
 const FEATURES: Feature[] = [
   {
-    title: 'Nông sản chất lượng cao',
-    desc: 'Chuối, dưa lưới, dứa, cây có múi và các sản phẩm nông nghiệp được canh tác theo quy trình kiểm soát chặt chẽ.',
+    title: 'Kiểm soát xuyên suốt',
+    desc: 'Từ nguồn giống, kỹ thuật chăm sóc buồng, bao buồng đến thu hoạch và chuỗi lạnh.',
     icon: 'sprout',
   },
   {
-    title: 'Nguồn gốc rõ ràng',
-    desc: 'Kiểm soát sản phẩm từ vùng trồng, quy trình canh tác đến thu hoạch và đóng gói.',
+    title: 'Truy xuất nguồn gốc 2 chiều',
+    desc: 'Một thùng hàng phải kể được câu chuyện từ lô vườn, ngày cắt đến nhà đóng gói.',
     icon: 'search',
   },
   {
-    title: 'Đạt tiêu chuẩn an toàn',
-    desc: 'Sản phẩm được sản xuất theo các tiêu chuẩn nông nghiệp như VietGAP và GlobalG.A.P.',
+    title: 'Quản lý dư lượng MRL nghiêm ngặt',
+    desc: 'Tuân thủ chính xác yêu cầu dư lượng tối đa cho phép của từng quốc gia nhập khẩu.',
     icon: 'basket',
   },
   {
-    title: 'Tươi ngon từ vùng trồng',
-    desc: 'Thu hoạch theo quy trình phù hợp, giữ trọn chất lượng và giá trị tự nhiên của nông sản.',
+    title: 'Độ đồng đều & Kỷ luật giao hàng',
+    desc: 'Đảm bảo đúng quy cách kích thước, độ ngọt, trọng lượng thùng và lịch giao hàng.',
     icon: 'wheat',
   },
 ];
 
 // Real photo cutout (transparent PNG) — banana, cam, chanh, kiwi, táo tươi
-const IMAGE_SRC = '/images/san-pham/fresh-fruits-mix.png';
-const IMAGE_W = 1259;
-const IMAGE_H = 602;
+const IMAGE_SRC = '/images/Gio-trai-cay.png';
+const IMAGE_W = 1200;
+const IMAGE_H = 550;
 
 // Title fades in immediately; the image reveals right after (700ms); items
 // then cascade in one after another right as the image finishes.
@@ -129,11 +129,11 @@ function SectionTitle({ visible }: { visible: boolean }) {
       <div className="mb-2 flex justify-center">
         <LeafFlourish />
       </div>
-      <p className="font-display text-base italic text-[#006400] sm:text-lg">
-        Unifarm
+      <p className="text-base italic text-[#006400] sm:text-lg">
+        Tiêu chuẩn Unifarm
       </p>
       <h2 className="mt-1 text-2xl font-extrabold uppercase tracking-wide text-neutral-900 sm:text-3xl lg:text-[38px]">
-        Nông Nghiệp Công Nghệ Cao
+        Chất Lượng Được Xây Dựng Từ Hệ Thống
       </h2>
     </div>
   );

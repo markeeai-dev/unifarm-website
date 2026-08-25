@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * HomeBanner — banner chính của trang chủ.
@@ -17,34 +18,34 @@ import { ArrowRight } from "lucide-react";
 const SLIDES = [
    {
     image: "/images/banana/banana-shrub-3289749.jpg",
-    badge: "Vùng trồng đạt chuẩn quốc tế",
-    titleLine1: "Nông Sản Việt",
-    titleLine2: "Vươn Tầm Thế Giới",
-    desc: "Chuối và trái cây Unifarm đạt chuẩn VietGAP, GlobalG.A.P — sẵn sàng cho các thị trường xuất khẩu khắt khe nhất.",
+    badge: "Hệ sinh thái nông nghiệp công nghệ cao",
+    titleLine1: "CÙNG XÂY DỰNG MỘT NỀN",
+    titleLine2: "NÔNG NGHIỆP TỐT HƠN",
+    desc: "Thành lập từ năm 2009, Unifarm là một trong những hệ sinh thái tiên phong trong lĩnh vực nông nghiệp công nghệ cao tại Việt Nam, phát triển từ nghiên cứu giống, canh tác bền vững, chế biến quy mô lớn đến thị trường.",
   },
   {
     image: "/images/UNIFARM/1787207482427_1582751505492234802_4935324150679931320_939749211a6e5c72f28397e7e138b486.jpg",
-    badge: "Khởi đầu từ nông nghiệp sạch",
-    titleLine1: "An Toàn Từ Nông Trại",
-    titleLine2: "Đến Tận Bàn Ăn",
-    desc: "Unifarm đồng hành cùng người nông dân Việt, ứng dụng công nghệ cao vào từng công đoạn canh tác để mang đến nông sản sạch, an toàn cho mọi gia đình.",
+    badge: "Giá trị từ tài nguyên",
+    titleLine1: "GIÁ TRỊ",
+    titleLine2: "BỀN VỮNG",
+    desc: "Mục tiêu của chúng tôi là tạo ra nhiều giá trị hơn từ mỗi đơn vị, đồng thời mang lại giá trị bền vững cho khách hàng, người sản xuất, cộng đồng và môi trường.",
   },
- 
+
   {
     image: "/images/UNIFARM/1787218973789_1582751505492234802_4935324150679931320_ae20e008b6b700cead007d04eae29597.jpg",
-    badge: "Công nghệ đồng hành cùng nhà nông",
-    titleLine1: "Canh Tác Thông Minh",
-    titleLine2: "Cho Mùa Vụ Bền Vững",
-    desc: "Ứng dụng công nghệ cao và tự động hóa giúp Unifarm nâng cao năng suất, chất lượng và giá trị nông sản Việt Nam.",
+    badge: "Hợp tác & Đồng hành",
+    titleLine1: "CÙNG XÂY DỰNG NHIỀU",
+    titleLine2: "CÁNH ĐỒNG TỐT HƠN",
+    desc: "Unifarm đồng hành cùng nông dân, hợp tác xã, doanh nghiệp và nhà đầu tư để xây dựng chuỗi giá trị nông nghiệp hiện đại, minh bạch và hiệu quả.",
   },
 ];
-const ROTATE_MS = 5000;
+const ROTATE_MS = 12000;
 const CHAR_STAGGER_MS = 22;
 
 // 3 kiểu hiệu ứng chữ tiêu đề — mỗi slide 1 kiểu riêng
 const TEXT_STYLES = ["spin", "runin", "swirl"] as const;
 
-const MARQUEE_TEXT = "SAFE FOOD FOR LIFE";
+const MARQUEE_TEXT = "GROWING A BETTER AGRICULTURE  UNIFARM  VIETNAM  SINCE 2009";
 
 /** Tách chuỗi thành từng ký tự, mỗi ký tự tự chạy animation riêng theo độ trễ so le. */
 function AnimatedChars({
@@ -73,6 +74,7 @@ function AnimatedChars({
 
 export default function HomeBanner() {
   const [index, setIndex] = useState(0);
+  const introReady = useIntroReady();
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), ROTATE_MS);
@@ -86,7 +88,11 @@ export default function HomeBanner() {
   const line2Delay = Array.from(slide.titleLine1).length * CHAR_STAGGER_MS + 100;
 
   return (
-    <section className="relative flex min-h-[85vh] w-full items-center overflow-hidden">
+    <section
+      className={`relative flex min-h-[85vh] w-full items-center overflow-hidden ${
+        introReady ? "" : "banner-anim-paused"
+      }`}
+    >
       {/* Ảnh nền — tự chuyển đổi mỗi 5s, tự zoom trong đúng khoảng đó */}
       <div className="absolute inset-0">
         {SLIDES.map((s, i) => (
@@ -131,7 +137,7 @@ export default function HomeBanner() {
               {slide.badge}
             </span>
 
-            <h1 className="mt-5 font-['Montserrat'] text-2xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-3xl lg:text-[2.5rem]">
+            <h1 className="mt-5 text-2xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-3xl lg:text-[2.5rem]">
               <AnimatedChars
                 text={slide.titleLine1}
                 variant={textStyle}
@@ -170,7 +176,7 @@ export default function HomeBanner() {
     <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
 
     <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-      Khám phá ngay
+      Khám phá Unifarm
     </span>
 
     <ArrowRight
@@ -192,7 +198,7 @@ export default function HomeBanner() {
     <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
 
     <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-      Liên hệ
+      Hợp tác cùng Unifarm
     </span>
 
     <ArrowRight
@@ -266,7 +272,7 @@ export default function HomeBanner() {
           100% { transform: scale(1.1); }
         }
         .home-banner-marquee-track {
-          animation: home-banner-marquee-scroll 12s linear infinite;
+          animation: home-banner-marquee-scroll 28s linear infinite;
         }
         @keyframes home-banner-marquee-scroll {
           from { transform: translateX(0); }
@@ -339,6 +345,14 @@ export default function HomeBanner() {
         @media (prefers-reduced-motion: reduce) {
           .home-banner-marquee-track { animation: none; }
           .banner-entrance-item, .banner-char { animation: none; opacity: 1; }
+        }
+
+        /* Giữ hiệu ứng chữ/nút "đóng băng" ở khung hình đầu cho tới khi intro
+           loading mở màn xong, để không bị chạy ngầm và kết thúc âm thầm phía
+           sau lớp intro. */
+        .banner-anim-paused .banner-entrance-item,
+        .banner-anim-paused .banner-char {
+          animation-play-state: paused;
         }
 
         /* ================= BUTTON SHINE ================= */

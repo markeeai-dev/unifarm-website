@@ -241,7 +241,7 @@ export default function CompanyJourney() {
       </div>
 
       <div className="mx-auto w-full max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
-        <h2 className="mb-10 text-center text-2xl font-extrabold text-white sm:mb-14 sm:text-3xl lg:text-4xl">
+        <h2 className="uppercase mb-10 text-center text-2xl font-extrabold text-white sm:mb-14 sm:text-3xl lg:text-4xl">
           Hành trình kiến tạo <span className="text-[#fffacd]">F1genz-Farm</span>
         </h2>
 
@@ -314,7 +314,7 @@ export default function CompanyJourney() {
                   {m.year}
                 </p>
                 <h3
-                  className={`mb-3 font-extrabold transition-colors duration-500 ${
+                  className={`uppercase mb-3 font-extrabold transition-colors duration-500 ${
                     isActive ? 'text-xl text-[#006400]' : 'text-base text-white/70'
                   }`}
                 >

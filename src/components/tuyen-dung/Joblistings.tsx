@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import type { Job } from "@/lib/db";
 import {
   ArrowRight,
   BadgeCheck,
@@ -95,136 +96,6 @@ const LEVEL_STYLES: Record<Level, { bg: string; text: string }> = {
   Senior: { bg: "#FFFACD", text: "#06301B" },
 };
 
-type Position = {
-  title: string;
-  level: Level;
-  dept: string;
-  color: string;
-  income: string;
-  incomeBucket: "Dưới 8 triệu" | "8 - 12 triệu" | "Trên 12 triệu";
-  location: string;
-  experience: "Không yêu cầu" | "Có kinh nghiệm";
-  headcount: number;
-  benefit: string;
-  daysLeft: number;
-  tags: string[];
-};
-
-const POSITIONS: Position[] = [
-  {
-    title: "Kỹ sư Nông nghiệp Công nghệ cao",
-    level: "Middle",
-    dept: "Kỹ thuật",
-    color: "#006400",
-    income: "12 - 18 triệu",
-    incomeBucket: "Trên 12 triệu",
-    location: "Lâm Đồng",
-    experience: "Có kinh nghiệm",
-    headcount: 2,
-    benefit: "Trực tiếp vận hành nhà kính công nghệ cao, tối ưu quy trình canh tác.",
-    daysLeft: 20,
-    tags: [],
-  },
-  {
-    title: "Nhân viên Vận hành Sản xuất",
-    level: "Fresher",
-    dept: "Sản xuất",
-    color: "#1f5c34",
-    income: "8 - 12 triệu",
-    incomeBucket: "8 - 12 triệu",
-    location: "Đồng Nai",
-    experience: "Không yêu cầu",
-    headcount: 5,
-    benefit: "Đào tạo vận hành dây chuyền chế biến từ đầu, phụ cấp ca đêm.",
-    daysLeft: 18,
-    tags: ["Không cần kinh nghiệm"],
-  },
-  {
-    title: "Chuyên viên Kinh doanh Xuất khẩu",
-    level: "Junior",
-    dept: "Kinh doanh",
-    color: "#006400",
-    income: "12 - 18 triệu",
-    incomeBucket: "Trên 12 triệu",
-    location: "TP. Hồ Chí Minh",
-    experience: "Có kinh nghiệm",
-    headcount: 2,
-    benefit: "Phát triển thị trường xuất khẩu nông sản sang Nhật, Hàn, Trung Đông.",
-    daysLeft: 12,
-    tags: ["HOT"],
-  },
-  {
-    title: "Nhân viên QA/QC Nhà máy",
-    level: "Fresher",
-    dept: "Chất lượng",
-    color: "#1f5c34",
-    income: "8 - 12 triệu",
-    incomeBucket: "8 - 12 triệu",
-    location: "Cần Thơ",
-    experience: "Không yêu cầu",
-    headcount: 2,
-    benefit: "Được đào tạo quy trình ISO/HACCP, phụ cấp ca đêm.",
-    daysLeft: 5,
-    tags: ["Không cần kinh nghiệm", "HOT"],
-  },
-  {
-    title: "Chuyên viên Marketing Nông sản",
-    level: "Junior",
-    dept: "Marketing",
-    color: "#006400",
-    income: "8 - 12 triệu",
-    incomeBucket: "8 - 12 triệu",
-    location: "TP. Hồ Chí Minh",
-    experience: "Có kinh nghiệm",
-    headcount: 1,
-    benefit: "Chủ động xây dựng nội dung thương hiệu nông sản sạch đa nền tảng.",
-    daysLeft: 22,
-    tags: [],
-  },
-  {
-    title: "Trưởng nhóm Quản lý Vùng trồng",
-    level: "Senior",
-    dept: "Sản xuất",
-    color: "#FFFACD",
-    income: "Trên 12 triệu",
-    incomeBucket: "Trên 12 triệu",
-    location: "Vĩnh Long",
-    experience: "Có kinh nghiệm",
-    headcount: 1,
-    benefit: "Quản lý vận hành vùng nguyên liệu, làm việc trực tiếp với nông dân liên kết.",
-    daysLeft: 25,
-    tags: [],
-  },
-  {
-    title: "Thực tập sinh Phân tích Dữ liệu Nông nghiệp",
-    level: "Intern",
-    dept: "Data",
-    color: "#0B7A0B",
-    income: "4 - 6 triệu",
-    incomeBucket: "Dưới 8 triệu",
-    location: "Hà Nội",
-    experience: "Không yêu cầu",
-    headcount: 3,
-    benefit: "Có mentor 1-1, cơ hội ký chính thức sau kỳ thực tập.",
-    daysLeft: 9,
-    tags: ["Không cần kinh nghiệm"],
-  },
-  {
-    title: "Nhân viên R&D Sản phẩm Chế biến",
-    level: "Middle",
-    dept: "Kỹ thuật",
-    color: "#F5E98A",
-    income: "12 - 18 triệu",
-    incomeBucket: "Trên 12 triệu",
-    location: "An Giang",
-    experience: "Có kinh nghiệm",
-    headcount: 1,
-    benefit: "Nghiên cứu phát triển sản phẩm chế biến mới (sấy, IQF, tinh bột kháng).",
-    daysLeft: 15,
-    tags: [],
-  },
-];
-
 const PAGE_SIZE = 6;
 
 /* ------------------------------------------------------------------ */
@@ -307,11 +178,22 @@ function JobCard({
   isSaved,
   onToggleSave,
 }: {
-  job: Position;
+  job: Job;
   isSaved: boolean;
   onToggleSave: () => void;
 }) {
   const level = LEVEL_STYLES[job.level];
+  const [daysLeft, setDaysLeft] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!job.deadline_date) {
+      setDaysLeft(null);
+      return;
+    }
+    setDaysLeft(
+      Math.max(0, Math.ceil((new Date(job.deadline_date).getTime() - Date.now()) / 86400000))
+    );
+  }, [job.deadline_date]);
 
   return (
     <article className="group relative flex h-full flex-col gap-3 border border-gray-100 bg-white p-4 shadow-[0_4px_18px_rgba(15,40,20,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,40,20,0.14)] sm:p-5">
@@ -325,7 +207,7 @@ function JobCard({
       <div className="flex items-start gap-3 pr-14 sm:pr-20">
         <CompanyLogo />
         <div className="min-w-0 flex-1">
-          <h3 className="min-h-[3rem] text-base font-bold leading-snug text-[#06301B] line-clamp-2">
+          <h3 className="uppercase min-h-[3rem] text-base font-bold leading-snug text-[#06301B] line-clamp-2">
             {job.title}
           </h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#06301B]/55">
@@ -379,7 +261,7 @@ function JobCard({
       <div className="mt-auto flex items-center justify-between gap-2 border-t border-gray-100 pt-3">
         <span className="flex items-center gap-1.5 text-sm text-[#06301B]/45">
           <Clock size={14} />
-          Còn {job.daysLeft} ngày
+          {daysLeft !== null ? `Còn ${daysLeft} ngày` : "Đang mở"}
         </span>
         <div className="flex items-center gap-1.5">
           <button
@@ -413,7 +295,7 @@ function JobCard({
 /*  Section                                                             */
 /* ------------------------------------------------------------------ */
 
-export default function JobListings() {
+export default function JobListings({ jobs }: { jobs: Job[] }) {
   const [dimension, setDimension] = useState<Dimension>("Địa điểm");
   const [dimensionOpen, setDimensionOpen] = useState(false);
   const [activeValue, setActiveValue] = useState("Tất cả");
@@ -428,13 +310,13 @@ export default function JobListings() {
     setPage(1);
   }, [dimension]);
 
-  const filtered = POSITIONS.filter((p) => {
+  const filtered = jobs.filter((p) => {
     if (activeValue === "Tất cả") return true;
     switch (dimension) {
       case "Địa điểm":
         return p.location === activeValue;
       case "Mức thu nhập":
-        return p.incomeBucket === activeValue;
+        return p.income_bucket === activeValue;
       case "Kinh nghiệm":
         return p.experience === activeValue;
       case "Phòng ban":
@@ -460,9 +342,9 @@ export default function JobListings() {
     pillTrackRef.current?.scrollBy({ left: dir * 220, behavior: "smooth" });
   };
 
-  const toggleSaved = (title: string) => {
+  const toggleSaved = (id: string) => {
     setSaved((prev) =>
-      prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
     );
   };
 
@@ -476,7 +358,7 @@ export default function JobListings() {
             </span>
 
             <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-extrabold text-[#06301B] sm:text-4xl">
+              <h2 className="uppercase text-2xl font-extrabold text-[#06301B] sm:text-4xl">
                 Vị trí đang tuyển gấp
               </h2>
               <Image
@@ -595,11 +477,11 @@ export default function JobListings() {
 
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {pageItems.map((job, i) => (
-            <Reveal key={job.title} delayMs={i * 90}>
+            <Reveal key={job.id} delayMs={i * 90}>
               <JobCard
                 job={job}
-                isSaved={saved.includes(job.title)}
-                onToggleSave={() => toggleSaved(job.title)}
+                isSaved={saved.includes(job.id)}
+                onToggleSave={() => toggleSaved(job.id)}
               />
             </Reveal>
           ))}

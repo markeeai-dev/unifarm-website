@@ -35,27 +35,30 @@ const ARTICLES = [
     image: "/images/banana/banana-shrub-3289749.jpg",
     day: "27",
     monthYear: "02, 2026",
-    title: "5 Lợi ích của chuối xanh có thể bạn chưa biết",
+    title: "Doanh Nhân Phạm Quốc Liêm: Ước Mơ Thuở Thiếu Thời Đến Trăn Trở Nông Nghiệp, Nông Dân",
     excerpt:
-      "Chuối xanh không chỉ là một thực phẩm dân dã quen thuộc mà còn mang lại...",
+      "Hành trình từ ước mơ thuở thiếu thời đến khát vọng xây dựng nền nông nghiệp công nghệ cao vì lợi ích thiết thực của người nông dân Việt Nam...",
+    link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/doanh-nhan-pham-quoc-liem-uoc-mo-thuo-thieu-thoi-den-tran-tro-nong-nghiep-nong-dan-d375269.html",
   },
   {
     image:
       "https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?auto=format&fit=crop&w=800&q=80",
     day: "27",
     monthYear: "02, 2026",
-    title: "Lợi ích sức khoẻ của việc sử dụng nông sản sạch mỗi ngày",
+    title: "Doanh Nhân Phạm Quốc Liêm, Chủ Tịch Unifarm: Chọn Sự Hài Lòng Của Nông Dân, Người Tiêu Dùng",
     excerpt:
-      "Khám phá những lợi ích nông sản sạch đối với sức khỏe như tăng đề kháng,...",
+      "16 năm hành trình Unifarm, từ dưa lưới công nghệ Israel đến vùng chuyên canh chuối xuất khẩu — luôn đặt chất lượng lên hàng đầu...",
+    link: "https://baodautu.vn/doanh-nhan-pham-quoc-liem-chu-tich-unifarm-chon-su-hai-long-cua-nong-dan-nguoi-tieu-dung-d242739.html",
   },
   {
     image:
       "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=800&q=80",
     day: "27",
     monthYear: "02, 2026",
-    title: "Xu hướng trái cây nhiệt đới giàu dinh dưỡng đang lên ngôi",
+    title: "Hợp Tác Chiến Lược Giữa Trường Đại Học Thủ Dầu Một Và Unifarm Hướng Tới Nông Nghiệp Công Nghệ Cao",
     excerpt:
-      "Vì sao trái cây nhiệt đới như chuối xanh, xoài, đu đủ đang trở thành...",
+      "Hai bên ký kết hợp tác chiến lược về đào tạo nhân lực, nghiên cứu phát triển sản phẩm và bảo quản sau thu hoạch đạt chuẩn an toàn thực phẩm...",
+    link: "https://tdmu.edu.vn/tin-tuc/hop-tac-doi-ngoai-1/hop-tac-chien-luoc-giua-truong-dai-hoc-thu-dau-mot-va-unifarm-huong-toi-nong-nghiep-cong-nghe-cao",
   },
 ];
 
@@ -92,8 +95,7 @@ useEffect(() => {
 
       {/* ================= HEADING ================= */}
       <h2
-        className="
-          font-display
+        className="uppercase 
           text-3xl
           font-extrabold
           leading-[1.15]
@@ -111,7 +113,7 @@ useEffect(() => {
           opacity: inView ? 1 : 0,
         }}
       >
-        Tin tức &amp; Cập nhật
+        Unifarm – Tri Thức Từ Đồng Ruộng
       </h2>
 
       {/* ================= CARDS ================= */}
@@ -150,8 +152,11 @@ useEffect(() => {
             >
 
               {/* ================= ẢNH ================= */}
-              <div
-                className="overflow-hidden shadow-lg"
+              <a
+                href={a.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block overflow-hidden shadow-lg"
                 style={{
                   opacity: inView ? 1 : 0,
                   transform: inView
@@ -173,7 +178,7 @@ useEffect(() => {
                   alt={a.title}
                   className="kb-zoom-alt h-[240px] w-full object-cover sm:h-[300px]"
                 />
-              </div>
+              </a>
 
               {/* =====================================================
                   TOÀN BỘ PHẦN DATE + TITLE + EXCERPT + BUTTON
@@ -195,7 +200,7 @@ useEffect(() => {
 
                 {/* ================= DATE ================= */}
                 <div className="w-[20%] shrink-0 translate-x-7">
-                  <p className="font-display text-5xl font-extrabold leading-none text-gray-900">
+                  <p className="text-5xl font-extrabold leading-none text-gray-900">
                     {a.day}
                   </p>
 
@@ -212,7 +217,7 @@ useEffect(() => {
 
                   {/* TITLE */}
                   <h3
-                    className="
+                    className="uppercase
                       min-h-[50px]
                       line-clamp-2
                       text-[17px]
@@ -223,7 +228,14 @@ useEffect(() => {
                       sm:text-[18px]
                     "
                   >
-                    {a.title}
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors duration-300 hover:text-[#006400]"
+                    >
+                      {a.title}
+                    </a>
                   </h3>
 
                   {/* EXCERPT */}
@@ -242,7 +254,12 @@ useEffect(() => {
                   </p>
 
                   {/* BUTTON */}
-                  <button className="group mt-4 inline-flex items-center gap-3">
+                  <a
+                    href={a.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-4 inline-flex items-center gap-3"
+                  >
                     <span
                       className="
                         flex
@@ -286,7 +303,7 @@ useEffect(() => {
                     >
                       Xem thêm
                     </span>
-                  </button>
+                  </a>
 
                 </div>
               </div>

@@ -125,7 +125,7 @@ export default function AboutFarmHero() {
             NÔNG NGHIỆP CÔNG NGHỆ CAO
           </p>
 
-          <h2 className="font-display text-3xl font-extrabold leading-tight text-[#006400] sm:text-4xl lg:text-[42px]">
+          <h2 className="uppercase text-3xl font-extrabold leading-tight text-[#006400] sm:text-4xl lg:text-[42px]">
             Tiên phong phát triển{" "}
             <span className="relative inline-block">
               nông nghiệp công nghệ cao

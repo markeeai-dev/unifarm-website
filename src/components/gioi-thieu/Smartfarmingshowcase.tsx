@@ -43,14 +43,14 @@ const FONT_IMPORT = `
 
 const ACCENT = "#87cefa";
 
-const TAGS_ROW_1 = ["GPS", "PHÂN TÍCH DỮ LIỆU", "CẢM BIẾN", "IOT", "CÔNG NGHỆ"];
-const TAGS_ROW_2 = ["THU HOẠCH", "ĐỘ ẨM ĐẤT", "ROBOT & TỰ ĐỘNG HÓA", "GIÁM SÁT MÙA VỤ"];
+const TAGS_ROW_1 = ["DỮ LIỆU CẢM BIẾN", "TƯỚI NHỎ GIỌT", "GIS", "SỨC KHỎE ĐẤT", "SINH HỌC"];
+const TAGS_ROW_2 = ["TRUY XUẤT NGUỒN GỐC", "MRL", "CÁP TREO THU HOẠCH", "CHUỖI LẠNH", "SOP CHUẨN"];
 
 const CHECKLIST = [
-  ["Giải pháp canh tác thông minh", "Công cụ dự báo thời tiết"],
-  ["Nông nghiệp chính xác", "Tăng lợi nhuận canh tác"],
-  ["Hướng đến bền vững", "Giảm phát thải carbon"],
-  ["Giám sát sức khỏe cây trồng", "Tư vấn chuyên gia 1:1"],
+  ["Canh tác dựa trên dữ liệu", "Quản lý dinh dưỡng theo giai đoạn"],
+  ["Tưới tự động hóa tiết kiệm nước", "Kiểm soát sâu bệnh sinh học (IPM)"],
+  ["Giám sát dư lượng nghiêm ngặt", "Thu hoạch giảm tổn thương quả"],
+  ["Chuỗi bảo quản lạnh khép kín", "Đào tạo kỹ năng thực chiến"],
 ];
 
 export default function SmartFarmingShowcase() {
@@ -141,20 +141,19 @@ export default function SmartFarmingShowcase() {
           }}
         >
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#87CEFA]">
-            Vì sao chọn chúng tôi
+            Công nghệ phục vụ con người
           </span>
 
-          <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 font-display sm:text-4xl lg:text-[42px]">
-            Giải Pháp Thông Minh
-            <br />
-            Cho <span className="text-[#006400]">Nông Nghiệp Hiện Đại</span>
+          <h2 className="uppercase mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-4xl lg:text-[42px]">
+            Kết Hợp Công Nghệ Và Con Người,
+            
+            Tạo Nên <span className="text-[#006400]">Năng Suất Vượt Trội</span>
           </h2>
 
           <p className="mt-5 text-justify text-[15px] leading-relaxed text-gray-500">
-            Chúng tôi kết hợp công nghệ tiên tiến với kinh nghiệm nông nghiệp
-            chuyên sâu để giúp nông dân tối ưu năng suất và giảm chi phí. Các
-            công cụ thân thiện, dễ dùng mang lại dữ liệu chính xác, hỗ trợ ra
-            quyết định thông minh cho một tương lai bền vững.
+            Chúng tôi không dùng công nghệ để thay thế người nông dân, mà dùng
+            để giúp họ hiểu cây trồng sâu hơn, kiểm soát rủi ro tốt hơn và tạo
+            ra nhiều giá trị hơn trên mỗi cánh đồng.
           </p>
 
           <ul className="mt-7 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
@@ -208,8 +207,8 @@ export default function SmartFarmingShowcase() {
                   <path d="M12 5v14M5 12h14" />
                 </svg>
               </span>
-              <span className="text-sm font-semibold tracking-wide text-gray-800 font-display transition-colors duration-300 group-hover:text-[#006400]">
-                Khám Phá Sứ Mệnh
+              <span className="text-sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
+                Khám Phá Giải Pháp
               </span>
             </button>
           </div>

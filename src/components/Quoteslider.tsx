@@ -33,33 +33,33 @@ const SLIDES: Slide[] = [
   {
     image: "/images/UNIFARM/2.jpg",
     quote:
-      "Công nghệ không thay thế người nông dân, mà trao cho họ đôi mắt nhìn xa hơn và đôi tay chính xác hơn trên từng luống đất.",
+      "Nông nghiệp không thể cạnh tranh chỉ bằng diện tích lớn hơn, mà phải đến từ giống tốt hơn, dữ liệu chuẩn xác và sử dụng tài nguyên hiệu quả hơn.",
     name: "xxxx xxxx",
-    role: "Kỹ sư nông nghiệp công nghệ cao",
+    role: "Lãnh đạo Unifarm",
     avatar: "https://i.pravatar.cc/160?img=12",
   },
   {
     image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
     quote:
-      "Một nhà kính có cảm biến học được điều mà một đời người trồng trọt phải đúc kết qua hàng chục vụ mùa.",
+      "Một chuỗi giá trị không thể bền vững nếu khách hàng có sản phẩm, doanh nghiệp có nguyên liệu nhưng người nông dân thua lỗ.",
     name: "xxxx xxxx",
-    role: "Chuyên gia canh tác thông minh",
+    role: "Giám đốc Phát triển Chuỗi liên kết",
     avatar: "https://i.pravatar.cc/160?img=32",
   },
   {
     image: "/images/banana-leaf-drops.jpg",
     quote:
-      "Trồng cây công nghệ cao không phải là bỏ đất mà lên máy, mà là để đất được chăm sóc đúng lúc, đúng lượng, đúng cách.",
+      "QC không tạo ra chất lượng. QC chỉ xác nhận hệ thống có tạo ra chất lượng hay không. Chất lượng thuộc về mọi người.",
     name: "xxxx xxxx",
-    role: "Giám đốc nông trại số",
+    role: "Trưởng bộ phận Đảm bảo chất lượng",
     avatar: "https://i.pravatar.cc/160?img=51",
   },
   {
     image: "/images/banana/banana-plantation-aerial.jpg",
     quote:
-      "Dữ liệu là hạt giống mới của nền nông nghiệp hiện đại — gieo đúng, thu hoạch được cả mùa vụ lẫn tri thức.",
+      "Tri thức lớn lên khi được chia sẻ. Những gì học được từ đồng ruộng, thử nghiệm và cả thất bại đều là tài sản quý cho ngành.",
     name: "xxxx xxxx",
-    role: "Nhà sáng lập AgriTech",
+    role: "Chuyên gia R&D Unifarm",
     avatar: "https://i.pravatar.cc/160?img=68",
   },
 ];
@@ -128,7 +128,7 @@ export default function QuoteSlider() {
       {/* Content */}
       <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-20">
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#87cefa] sm:text-sm">
-          Câu nói nổi tiếng về trồng cây công nghệ cao
+          Góc nhìn về nông nghiệp hiện đại
         </p>
 
         {/* Quote mark */}
@@ -147,7 +147,7 @@ export default function QuoteSlider() {
         </svg>
 
         <div key={index} style={{ animation: "qs-fadeup 700ms ease-out both" }}>
-          <blockquote className="font-display max-w-3xl text-3xl font-extrabold leading-snug text-white sm:text-2xl sm:leading-tight lg:text-[32px] lg:leading-tight">
+          <blockquote className="max-w-3xl text-3xl font-extrabold leading-snug text-white sm:text-2xl sm:leading-tight lg:text-[32px] lg:leading-tight">
             {SLIDES[index].quote}
           </blockquote>
 

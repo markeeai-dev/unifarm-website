@@ -197,10 +197,10 @@ export default function TestimonialsSlider() {
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
               Cảm nhận khách hàng
             </span>
-            <h2 className="font-display text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
+            <h2 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
               Câu Chuyện Thật
               <br />
-              <span className="font-display italic font-normal text-lime-dark">
+              <span className="italic font-normal text-lime-dark">
                 Từ Nông Dân Của Chúng Tôi
               </span>
             </h2>

@@ -110,6 +110,15 @@
   }
 }
 
+@keyframes adminDrawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 @keyframes modalIn {
   from {
     opacity: 0;
@@ -142,4 +151,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   overflow-x: clip;
+}
+
+/* Ẩn tức thì overlay intro nếu đã xem trong tab này rồi (đánh dấu bởi
+   script chặn trong layout.tsx) — tránh chớp hình 1 nhịp khi F5 lại trang,
+   vì HTML từ server luôn render sẵn overlay ở trạng thái "show". */
+html[data-intro-seen="1"] #site-intro-overlay {
+  display: none !important;
 }

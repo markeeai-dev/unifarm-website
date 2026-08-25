@@ -177,7 +177,7 @@ export default function FeedbackBox() {
                     <CheckCircle2 size={30} />
                   </motion.span>
 
-                  <h3 className="mt-5 text-lg font-bold text-[#06301B]">
+                  <h3 className="uppercase mt-5 text-lg font-bold text-[#06301B]">
                     Cảm ơn bạn đã chia sẻ!
                   </h3>
                   <p className="mt-2 max-w-xs text-sm leading-relaxed text-[#06301B]/60">

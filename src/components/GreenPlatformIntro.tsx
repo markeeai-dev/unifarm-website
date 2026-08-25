@@ -133,7 +133,7 @@ export default function GreenPlatformIntro() {
         </div>
 
         {/* Word-by-word, row-by-row reveal heading */}
-        <h2 className="font-display max-w-[1500px] text-[22px] font-medium leading-[1.4] tracking-tight text-ink sm:text-[28px] sm:leading-[1.35] md:text-[34px] md:leading-[1.3] lg:text-[38px] lg:leading-[1.28]">
+        <h2 className="uppercase max-w-[1500px] text-[22px] font-medium leading-[1.4] tracking-tight text-ink sm:text-[28px] sm:leading-[1.35] md:text-[34px] md:leading-[1.3] lg:text-[38px] lg:leading-[1.28]">
           {ROWS.map((row, rowIndex) => (
             <span key={rowIndex} className="flex flex-wrap items-center gap-x-[0.32em] gap-y-[4px]">
               {row.map((token, tokenIndex) => {

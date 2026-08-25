@@ -24,11 +24,13 @@ import SocialFloat from "@/components/Socialfloat";
 import TopSellingProducts from "@/components/san-pham/Topsellingproducts";
 import AgricultureProjects from "@/components/Agricultureprojects";
 import AgriTechHero from "@/components/Agritechhero";
+import SmartFarmingShowcase from "@/components/gioi-thieu/Smartfarmingshowcase";
+import Aboutbanner from "@/components/gioi-thieu/Aboutbanner";
 
 export default function Home() {
   return (
     <>
-    <SocialFloat />
+      <SocialFloat />
       <ScrollToTopButton />
       {/* 1. Hero — first impression, full nav + CTA */}
       <HomeBanner />
@@ -39,6 +41,8 @@ export default function Home() {
       {/* <AboutFarmHero />       */}
       <ClientsMarquee />
       <AgriTechHero />
+      <Aboutbanner />
+      <SmartFarmingShowcase />
       
       <AgroviaHero />
       
@@ -47,7 +51,7 @@ export default function Home() {
       <AgricultureProjects />
       
       {/* <TopSellingProducts /> */}
-      <Agrihero />
+      
       <FaqVideoList />
       {/* 7-8. Products — detailed showcase, then bestsellers */}
       <QuoteSlider />

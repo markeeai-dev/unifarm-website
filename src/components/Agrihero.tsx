@@ -29,9 +29,9 @@ const INITIAL_SLOTS: SlotImage[] = [
 ];
 
 const CHECKLIST_ITEMS = [
-  'Nông sản chất lượng cao từ vùng trồng công nghệ',
-  'Kiểm soát chất lượng xuyên suốt quá trình canh tác',
-  'Đáp ứng tiêu chuẩn thị trường trong nước và quốc tế',
+  'Tạo ra nhiều giá trị hơn từ cùng một diện tích đất',
+  'Tiết kiệm nước, giảm phân thuốc hóa học, tận dụng phụ phẩm',
+  'Nâng cao tay nghề, năng suất và thu nhập cho người lao động',
 ];
 
 
@@ -214,14 +214,14 @@ export default function AgricultureHero() {
 
         {/* CỘT PHẢI — nội dung */}
         <div ref={contentRef} className="agrihero-content-col" data-inview={contentInView}>
-          <span className="agrihero-eyebrow">Unifarm</span>
+          <span className="agrihero-eyebrow">Triết lý Unifarm</span>
 
-          <h2 className="agrihero-heading">Nâng Tầm Giá Trị Nông Sản</h2>
+          <h2 className="agrihero-heading uppercase">Đất - Nước – Con Người - Giá Trị.</h2>
 
           <p className="agrihero-paragraph">
-            Chúng tôi đồng hành cùng những người Nông dân ứng dụng công nghệ vào canh tác
-            và phát triển vùng trồng, mang đến những nông sản chất lượng cao, an toàn và
-            đáp ứng tiêu chuẩn thị trường.
+            Làm nông nghiệp là yêu Đất – Nước. Chúng tôi hướng tới tạo ra nhiều giá trị
+            hơn trong khi sử dụng tài nguyên hiệu quả hơn, giảm tổn thất và giúp người
+            làm nông nghiệp có cuộc sống tốt hơn.
           </p>
 
           {/* Danh sách check-mark và 2 vòng thống kê nằm cùng một hàng */}
@@ -238,14 +238,14 @@ export default function AgricultureHero() {
             <div className="agrihero-stats">
               <StatRing
                 percent={80}
-                label={'Giải pháp\nhữu cơ'}
+                label={'Giảm Lãng Phí –\nTăng Giá Trị'}
                 delay={3000}
                 inView={contentInView}
                 tone="green"
               />
               <StatRing
                 percent={100}
-                label={'Đạt chuẩn VietGAP\n& GlobalG.A.P'}
+                label={'Tuân thủ tiêu chuẩn\nan toàn & MRL'}
                 delay={3300}
                 inView={contentInView}
                 tone="blue"
@@ -547,7 +547,6 @@ export default function AgricultureHero() {
         }
 
         .agrihero-heading {
-          font-family: var(--font-display), serif;
           font-weight: 600;
           font-size: 42px;
           line-height: 1.18;

@@ -75,7 +75,7 @@ function QrCodeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
 const TABS = [
   {
     id: "tieu-chuan-nong-trai",
-    tabLabel: "Tiêu Chuẩn Nông Trại",
+    tabLabel: "Hệ Thống Tiêu Chuẩn Nông Trại",
     title: "Vùng Canh Tác Công Nghệ Cao Chuẩn GlobalGAP",
     image: "/images/UNIFARM/1787207482450_1582751505492234802_4935324150679931320_0794621ead9929dd3c30a18993f1671e.jpg",
     icon: ShieldCheckIcon,
@@ -97,7 +97,7 @@ const TABS = [
   },
   {
     id: "kiem-dinh-du-luong",
-    tabLabel: "Kiểm Định Dư Lượng",
+    tabLabel: "Quản Lý Dư Lượng (MRL)",
     title: "Kiểm Soát 100% An Toàn & Không Dư Lượng",
     image: "/images/UNIFARM/2.jpg",
     icon: FlaskIcon,
@@ -119,14 +119,14 @@ const TABS = [
   },
   {
     id: "quy-trinh-so-che",
-    tabLabel: "Quy Trình Sơ Chế",
+    tabLabel: "Quy Trình Sơ Chế & Đóng Gói",
     title: "Quy Trình Sơ Chế 4 Giờ Chuẩn Xuất Khẩu",
     image: "/images/UNIFARM/DJI_20260805085036_0330_D.JPG",
     icon: PackageIcon,
     items: [
       {
         lead: "Thu hoạch bằng hệ thống cáp treo ròng rọc",
-        text: "Buồng chuối sau khi cắt được treo trên dàn ròng rọc tự động đưa thẳng vào xưởng, loại bỏ 100% rủi ro va đập, dập thâm quả.",
+        text: "Buồng chuối sau khi cắt được treo trên dàn ròng rọc tự động đưa thẳng vào xưởng, loại bỏ 100% rủi ro va đập.",
       },
       {
         lead: "Bể rửa khử khuẩn & xử lý mủ",
@@ -141,7 +141,7 @@ const TABS = [
   },
   {
     id: "he-thong-kho-lanh",
-    tabLabel: "Hệ Thống Kho Lạnh",
+    tabLabel: "Bảo Quản Chuỗi Lạnh",
     title: "Bảo Quản Chuỗi Lạnh Khép Kín Từ Nông Trại",
     image: "/images/UNIFARM/16.JPG",
     icon: SnowflakeIcon,
@@ -163,7 +163,7 @@ const TABS = [
   },
   {
     id: "truy-xuat-nguon-goc",
-    tabLabel: "Truy Xuất Nguồn Gốc Bằng QR",
+    tabLabel: "Truy Xuất Nguồn Gốc 2 Chiều",
     title: "Minh Bạch Xuất Xứ & Mã Số Vùng Trồng (PUC)",
     image: "/images/UNIFARM/20260805_083315.jpg",
     icon: QrCodeIcon,
@@ -329,7 +329,7 @@ export default function RiceTabsShowcase() {
                 Hồ sơ {String(activeIndex + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
               </div>
 
-              <h3 className="font-display mt-3 text-balance text-3xl font-extrabold leading-[1.2] tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[38px]">
+              <h3 className="uppercase mt-3 text-balance text-3xl font-extrabold leading-[1.2] tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[38px]">
                 {active.title}
               </h3>
               <span
@@ -361,7 +361,7 @@ export default function RiceTabsShowcase() {
                 >
                   <PhoneIcon />
                 </span>
-                <span className="text-sm font-semibold tracking-wide text-gray-800 font-display transition-colors duration-300 group-hover:text-[#006400]">
+                <span className="text-sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
                   {active.cta}
                 </span>
               </Link>

@@ -198,10 +198,10 @@ export default function SmartSolutionsSlider() {
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
               Canh tác thông minh
             </span>
-            <h2 className="font-display text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
+            <h2 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
               Giải Pháp Thông Minh Cho
               <br />
-              <span className="font-display italic font-normal text-lime-dark">
+              <span className="italic font-normal text-lime-dark">
                 Nông Nghiệp Hiện Đại
               </span>
             </h2>
@@ -276,7 +276,7 @@ export default function SmartSolutionsSlider() {
                         className="h-full w-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-110"
                       />
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-ink">
+                    <h3 className="uppercase mt-4 text-lg font-semibold text-ink">
                       {slide.title}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-ink/45">

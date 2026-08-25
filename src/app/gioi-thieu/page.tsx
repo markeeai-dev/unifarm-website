@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { sql, type TimelineMilestone } from "@/lib/db";
 import SmartFarmingShowcase from "@/components/gioi-thieu/Smartfarmingshowcase";
 import Footer from "@/components/Footer";
 import ScrollToTopButton from "@/components/Scrolltotopbutton";
@@ -9,12 +10,14 @@ import EarthWaterLove from "@/components/gioi-thieu/Earthwaterlove";
 import CompanyJourney from "@/components/gioi-thieu/Companyjourney";
 import HeroBanner from "@/components/gioi-thieu/Herobanner";
 import AboutBanner from "@/components/gioi-thieu/Aboutbanner";
+import CoreValues from "@/components/gioi-thieu/Corevalues";
 import PhilosophySection from "@/components/gioi-thieu/Philosophysection";
 import StatsSectionPreview from "@/components/gioi-thieu/Statssectionpreview";
 import EarthWaterBannerPreview from "@/components/gioi-thieu/Earthwaterbannerpreview";
 import EcosystemModel from "@/components/gioi-thieu/Ecosystemmodel";
 import AgriTechPillars from "@/components/gioi-thieu/Agritechpillars";
 import TimelineJourney from "@/components/gioi-thieu/Timelinejourney";
+import Agrihero from "@/components/Agrihero";
 
 const NAV_LINKS = [
   { label: "Trang chủ", href: "/" },
@@ -25,7 +28,11 @@ const NAV_LINKS = [
   { label: "Tuyển dụng", href: "/" },
 ];
 
-export default function GioiThieuPage() {
+export default async function GioiThieuPage() {
+  const milestones = (await sql`
+    SELECT * FROM timeline_milestones ORDER BY sort_order ASC, created_at ASC
+  `) as TimelineMilestone[];
+
   return (
     <>
       <SocialFloat />
@@ -33,14 +40,17 @@ export default function GioiThieuPage() {
       <HeroBanner />
       
       {/* <EarthWaterLove /> */}
-      <AboutBanner />
+      {/* <AboutBanner /> */}
+      <CoreValues />
+      <Agrihero />
       {/* <PhilosophySection /> */}
+      <TimelineJourney milestones={milestones} />
       
       <EarthWaterBannerPreview />
       <StatsSectionPreview />
-      <SmartFarmingShowcase />
+      
       <EcosystemModel />
-      <TimelineJourney />
+      
       {/* <TeamMembers /> */}
       <AgriTechPillars />
       {/* <CompanyJourney /> */}

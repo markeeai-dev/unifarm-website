@@ -84,7 +84,7 @@ export default function PhilosophySection() {
         <div className="absolute inset-x-0 bottom-8 px-8 sm:bottom-10 sm:px-10">
           <span
             key={active}
-            className="philosophy-caption inline-block font-display text-3xl font-extrabold text-white sm:text-4xl"
+            className="philosophy-caption inline-block text-3xl font-extrabold text-white sm:text-4xl"
             style={{ textShadow: "0 8px 22px rgba(0,0,0,0.55)" }}
           >
             {SLIDES[active].caption}
@@ -101,7 +101,7 @@ export default function PhilosophySection() {
             transform: inView ? "translateY(0)" : "translateY(24px)",
           }}
         >
-          <h3 className="font-display text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
+          <h3 className="uppercase text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
             “Làm nông nghiệp là yêu Đất – Nước”
             <span className="ml-3 inline-flex translate-y-1 align-middle">
               <IconLotus />
@@ -110,7 +110,7 @@ export default function PhilosophySection() {
 
           <div className="mt-8 divide-y divide-[#00640022]">
             <div className="py-5 first:pt-0">
-              <p className="font-display text-lg font-bold text-[#006400] sm:text-3xl">
+              <p className="text-lg font-bold text-[#006400] sm:text-3xl">
                 Yêu Đất
               </p>
               <p className="mt-1.5 text-[20px] leading-relaxed text-slate-600">
@@ -120,7 +120,7 @@ export default function PhilosophySection() {
             </div>
 
             <div className="py-5 last:pb-0">
-              <p className="font-display text-lg font-bold text-[#1E6FA8] sm:text-3xl">
+              <p className="text-lg font-bold text-[#1E6FA8] sm:text-3xl">
                 Yêu Nước
               </p>
               <p className="mt-1.5 text-[20px] leading-relaxed text-slate-600">

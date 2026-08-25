@@ -4,16 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Dna,
-  Satellite,
+  Bug,
   Cpu,
   Recycle,
   ShieldCheck,
   Sprout,
   Handshake,
-  Droplets,
-  Radar,
-  Cable,
-  Database,
   Leaf,
   ArrowRight,
 } from "lucide-react";
@@ -26,46 +22,46 @@ const PILLARS = [
   {
     id: "01",
     key: "biotech",
-    title: "Công nghệ Sinh học",
+    title: "Khoa học Giống & Nuôi cấy mô",
     tagline: "Gốc rễ của sức đề kháng",
-    desc: "Làm chủ giống chuối nuôi cấy mô kháng bệnh Panama (Uni126), vận hành nhà kính chuối sinh học và tự sản xuất chế phẩm sinh học chuyên biệt cho từng giai đoạn sinh trưởng.",
-    points: ["Giống Uni126 nuôi cấy mô", "Nhà kính chuối sinh học", "Chế phẩm sinh học chuyên biệt"],
+    desc: "Chọn lọc các cá thể ưu tú, khảo nghiệm thực địa nghiêm ngặt về sức đề kháng và năng suất thương phẩm.",
+    points: ["Giống ưu tú", "Sinh học", "Năng suất"],
     icon: Dna,
     accent: "green",
-    image: "/images/agritech/vertical-farm-hydroponic-greenhouse.jpg",
+    image: "/images/UNIFARM/UNIFARM/hình chỉnh/DSC_0016.JPG",
   },
   {
     id: "02",
     key: "automation",
-    title: "Công nghệ Tự động hóa",
+    title: "Quản lý Dịch hại Sinh học (IPM)",
     tagline: "Bàn tay chăm sóc chính xác",
-    desc: "Hệ thống tưới nhỏ giọt công nghệ Israel, trạm quan trắc thời tiết thông minh, drone giám sát sinh trưởng và cáp tải thu hoạch giúp giảm tổn thất sau thu hoạch.",
-    points: ["Tưới nhỏ giọt công nghệ Israel", "Trạm quan trắc thời tiết thông minh", "Drone giám sát & cáp tải thu hoạch"],
-    icon: Satellite,
+    desc: "Tận dụng vi sinh vật bản địa, bẫy sinh học và nuôi dưỡng hệ sinh thái tự nhiên trên cánh đồng.",
+    points: ["Sinh học", "IPM", "Hệ sinh thái"],
+    icon: Bug,
     accent: "sky",
-    image: "/images/agritech/precision-agriculture-drone-field.jpg",
+    image: "/images/UNIFARM/UNIFARM/hình chỉnh/DSC_9897.JPG",
   },
   {
     id: "03",
     key: "digital",
-    title: "Công nghệ Số hóa",
+    title: "Tự động hóa & Giảm tổn thương",
     tagline: "Bộ não dữ liệu của nông trại",
-    desc: "Farm ERP và ứng dụng chuyển đổi số giúp quản trị toàn bộ quy trình canh tác, ra quyết định dựa trên dữ liệu cảm biến thời gian thực thu về từ đồng ruộng.",
-    points: ["Farm ERP quản trị canh tác", "Ứng dụng chuyển đổi số", "Ra quyết định bằng dữ liệu cảm biến"],
+    desc: "Ứng dụng hệ thống tưới chính xác và cáp treo đưa buồng chuối về nhà đóng gói an toàn.",
+    points: ["Tưới chính xác", "Tự động hóa", "Giảm hao hụt"],
     icon: Cpu,
     accent: "green",
-    image: "/images/agritech/smart-farming-drone-technology.jpg",
+    image: "/images/UNIFARM/UNIFARM/hình chỉnh/IMG_2455.JPG",
   },
   {
     id: "04",
     key: "circular",
     title: "Nông nghiệp Tuần hoàn",
     tagline: "Khép kín, không lãng phí",
-    desc: "Hệ thống tuần hoàn nước tưới (WWCRS) và tái chế phụ phẩm thân lá chuối thành phân bón hữu cơ, khép kín vòng dinh dưỡng cho vụ mùa kế tiếp.",
-    points: ["Tuần hoàn nước tưới WWCRS", "Tái chế thân lá thành phân hữu cơ", "Khép kín vòng dinh dưỡng"],
+    desc: "Tái chế thân lá cây trồng thành nguồn hữu cơ dinh dưỡng nuôi dưỡng lại thổ nhưỡng.",
+    points: ["Tái chế", "Hữu cơ", "Tái tạo đất"],
     icon: Recycle,
     accent: "sky",
-    image: "/images/hero/rice-paddy-water.jpg",
+    image: "/images/UNIFARM/UNIFARM/hình chỉnh/Uom cay giong 1.jpg",
   },
 ];
 
@@ -257,7 +253,7 @@ function LoopDiagram({
       </svg>
 
       {/* Ô giữa — ảnh cố định riêng biệt, khác với 4 ảnh xung quanh */}
-      <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-[#fffacd] shadow-[0_10px_30px_-12px_rgba(0,100,0,0.35)]">
+      <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-[#fffacd] shadow-[0_10px_30px_-12px_rgba(0,100,0,0.35)] lg:h-44 lg:w-44 xl:h-52 xl:w-52">
         <Image
           src="/images/banana/banana-shrub-3289749.jpg"
           alt="Giống chuối Uni126"
@@ -293,7 +289,7 @@ function LoopDiagram({
             key={p.id}
             onMouseEnter={() => setActive(i)}
             onFocus={() => setActive(i)}
-            className={`group absolute h-[108px] w-[108px] overflow-hidden rounded-full ${pos.translate} bg-white text-center shadow-sm transition-all duration-500 ${
+            className={`group absolute h-[108px] w-[108px] overflow-hidden rounded-full lg:h-32 lg:w-32 xl:h-36 xl:w-36 ${pos.translate} bg-white text-center shadow-sm transition-all duration-500 ${
               isActive
                 ? "scale-110 ring-4 ring-[#006400] shadow-[0_14px_28px_-12px_rgba(0,100,0,0.45)]"
                 : "ring-2 ring-[#e6e0c9] hover:ring-[#87cefa]"
@@ -419,16 +415,16 @@ export default function AgriTechPillars() {
           >
             <Leaf className="h-3.5 w-3.5 text-[#006400]" />
             <span className="atx-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#0a3d0a]">
-              Hệ sinh thái công nghệ nông nghiệp xanh
+              Nền tảng công nghệ xanh
             </span>
           </div>
           <h2
-            className={`atx-display mt-5 text-3xl font-extrabold leading-tight text-[#0a3d0a] sm:text-4xl md:text-5xl ${
+            className={`uppercase atx-display mt-5 whitespace-nowrap font-extrabold leading-tight text-[#0a3d0a] ${
               headerInView ? "atx-rise" : "opacity-0"
             }`}
-            style={{ animationDelay: "0.1s" }}
+            style={{ animationDelay: "0.1s", fontSize: "clamp(0.95rem, 4.4vw, 3rem)" }}
           >
-            4 Trụ cột công nghệ lõi
+            Giảm Hóa Chất – Tăng Giá Trị
           </h2>
           <p
             className={`atx-body mt-4 text-base leading-relaxed text-[#3a4a33] sm:text-lg ${
@@ -436,8 +432,8 @@ export default function AgriTechPillars() {
             }`}
             style={{ animationDelay: "0.2s" }}
           >
-            Từ gốc rễ giống cây đến khi khép lại vòng dinh dưỡng — bốn nền tảng công nghệ
-            vận hành như một vòng tuần hoàn liên tục trên mỗi cánh đồng chuối.
+            Giảm phụ thuộc không cần thiết vào hóa chất thông qua giống tốt,
+            sức khỏe đất, chế phẩm sinh học và dữ liệu đồng ruộng.
           </p>
         </div>
 
@@ -509,7 +505,7 @@ export default function AgriTechPillars() {
                           {p.tagline}
                         </span>
                       </div>
-                      <h3 className="atx-display mt-1.5 text-xl font-bold text-[#006400] sm:text-2xl">
+                      <h3 className="uppercase atx-display mt-1.5 text-xl font-bold text-[#006400] sm:text-2xl">
                         {p.title}
                       </h3>
                       <p className="atx-body mt-2.5 text-sm leading-relaxed text-[#006400] sm:text-base">
@@ -570,7 +566,7 @@ export default function AgriTechPillars() {
               Vì sao khác biệt
             </span>
             <h3
-              className={`atx-display mt-2 text-2xl font-extrabold text-[#0a3d0a] sm:text-3xl ${
+              className={`uppercase atx-display mt-2 text-2xl font-extrabold text-[#0a3d0a] sm:text-3xl ${
                 statsInView ? "atx-rise" : "opacity-0"
               }`}
               style={{ animationDelay: "0.1s" }}
@@ -634,7 +630,7 @@ export default function AgriTechPillars() {
             </p>
           </div>
           <button className="atx-body inline-flex shrink-0 items-center gap-2 rounded-full bg-[#fffacd] px-6 py-3 text-sm font-semibold text-[#0a3d0a] transition-transform hover:scale-[1.03] active:scale-95">
-            Kết nối hợp tác
+            Hợp tác cùng Unifarm
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

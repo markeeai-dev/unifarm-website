@@ -10,6 +10,7 @@ import ApplyBenefits from "@/components/tuyen-dung/Applybenefits";
 import FeedbackBox from "@/components/tuyen-dung/Feedbackbox";
 import ApplyFAQ from "@/components/tuyen-dung/Applyfaq";
 import ApplyFinalCTA from "@/components/tuyen-dung/Applyfinalcta";
+import { sql, type Job } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Tuyển dụng | Unifarm",
@@ -17,7 +18,9 @@ export const metadata: Metadata = {
     "Gia nhập Unifarm — hệ sinh thái nông nghiệp công nghệ cao. Xem các vị trí đang tuyển, lộ trình phát triển từ Intern đến Senior và quyền lợi khi trở thành một phần của đội ngũ.",
 };
 
-export default function TuyenDungPage() {
+export default async function TuyenDungPage() {
+  const jobs = (await sql`SELECT * FROM jobs WHERE status = 'active' ORDER BY sort_order ASC, created_at ASC`) as Job[];
+
   return (
     <div className="flex flex-1 flex-col">
       <SocialFloat />
@@ -25,7 +28,7 @@ export default function TuyenDungPage() {
       <TuyenDungHero />
       <main className="flex-1">
         <WhyUnifarm />
-        <JobListings />
+        <JobListings jobs={jobs} />
         <ApplyProcess />
         <ApplyBenefits />
         <FeedbackBox />

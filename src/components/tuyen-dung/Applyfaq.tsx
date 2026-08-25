@@ -37,7 +37,7 @@ export default function ApplyFAQ() {
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
             Giải đáp nhanh
           </p>
-          <h2 className="mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
+          <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
             Câu hỏi thường gặp
           </h2>
         </Reveal>

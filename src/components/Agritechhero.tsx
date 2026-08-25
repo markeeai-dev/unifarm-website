@@ -64,17 +64,17 @@ const focusReveal = (delay = 0): Variants => ({
 const FEATURES = [
   {
     icon: Leaf,
-    title: "Canh tác an toàn",
-    desc: "Quy trình khép kín từ giống đến thu hoạch, chuẩn an toàn thực phẩm.",
+    title: "Mục đích cốt lõi",
+    desc: "Unifarm bắt đầu với một câu hỏi đơn giản: Làm thế nào để nông nghiệp Việt Nam có thể cạnh tranh tốt hơn?",
   },
   {
     icon: Recycle,
-    title: "Phát triển bền vững",
-    desc: "Đồng hành cùng nông dân, hướng đến nông nghiệp tuần hoàn.",
+    title: "Nền tảng vận hành",
+    desc: "Kết nối toàn diện với Con người • Dữ liệu • Tiêu chuẩn • Công nghệ làm nền tảng vững chắc.",
   },
 ];
 
-const CHECKLIST = ["Từ nông trại đến bàn ăn", "Đồng hành cùng nông dân Việt"];
+const CHECKLIST = ["Tối ưu hóa từng đơn vị tài nguyên", "Đồng hành cùng nông dân Việt"];
 
 export default function AgriTechHero() {
   return (
@@ -163,7 +163,7 @@ export default function AgriTechHero() {
             className="absolute bottom-[-12px] left-4 z-30 hidden items-center gap-2 bg-white/95 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-[#006400] shadow-lg backdrop-blur sm:flex"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#006400]" />
-            Canh tác bền vững
+            Hệ sinh thái liên kết
           </motion.div>
         </div>
 
@@ -178,7 +178,7 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="inline-flex items-center rounded-full border border-[#006400]/25 bg-[#f2f9ee] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#006400]"
           >
-            Về nông nghiệp Unifarm
+            nông nghiệp công nghệ cao Unifarm
           </motion.span>
 
           {/* Tiêu đề 2 dòng — mờ dần trồi lên */}
@@ -188,11 +188,11 @@ export default function AgriTechHero() {
             whileInView="show"
             viewport={VIEWPORT}
             variants={fadeUp}
-            className="mt-5 text-3xl font-extrabold leading-[1.15] text-[#053d05] sm:text-4xl lg:text-[2.75rem]"
+            className="uppercase mt-5 text-3xl font-extrabold leading-[1.15] text-[#053d05] sm:text-4xl lg:text-[2.75rem]"
           >
-            Tiên phong công nghệ cao
+            Từ một trang trại 
             <br />
-            Kiến tạo giá trị nông sản Việt
+            Đến một hệ sinh thái
           </motion.h2>
 
           {/* Thẻ số liệu + 2 mục nổi bật */}
@@ -205,11 +205,11 @@ export default function AgriTechHero() {
             className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-stretch"
           >
             <div className="flex min-w-[180px] flex-col items-center justify-center rounded-2xl bg-white px-6 py-6 text-center shadow-[0_18px_40px_-16px_rgba(0,100,0,0.25)]">
-              <span className="text-4xl font-extrabold text-[#006400] sm:text-[2.75rem]">
-                15+
+              <span className="text-sm font-semibold text-neutral-500">
+                Since
               </span>
-              <span className="mt-1 text-sm font-semibold text-neutral-500">
-                Năm kinh nghiệm
+              <span className="mt-1 text-4xl font-extrabold text-[#006400] sm:text-[2.75rem]">
+                2009
               </span>
             </div>
 
@@ -239,9 +239,9 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="mt-6 text-base leading-relaxed text-neutral-600 sm:text-lg"
           >
-            Unifarm phát triển hệ sinh thái nông nghiệp khép kín — từ nghiên cứu
-            giống, canh tác bền vững đến chế biến và ứng dụng công nghệ số,
-            nâng tầm giá trị nông sản Việt Nam.
+            Câu trả lời không nằm ở riêng một cánh đồng hay một công nghệ, mà
+            nằm trong khả năng kết nối khép kín: Nghiên cứu → Giống → Sản xuất
+            → Liên kết → Sau thu hoạch &amp; Chế biến → Thị trường.
           </motion.p>
 
           {/* Checklist + Nút CTA */}
@@ -272,7 +272,7 @@ export default function AgriTechHero() {
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border-2 border-[#006400] px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-[#006400] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:text-white hover:shadow-[0_14px_30px_-10px_rgba(0,100,0,0.5)]"
             >
               <span className="absolute inset-0 -z-10 scale-x-0 bg-gradient-to-r from-[#006400] to-[#2E7DC2] transition-transform duration-500 ease-out group-hover:scale-x-100" />
-              Tìm hiểu thêm
+              Câu chuyện Unifarm
               <svg
                 className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"

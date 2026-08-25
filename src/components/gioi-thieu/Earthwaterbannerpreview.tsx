@@ -96,7 +96,7 @@ function InfoCard({
   return (
     <div
       className={`group relative shadow-xl rounded-3xl transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-2xl ${
-        compact ? "p-4 pt-14" : "p-6 pt-16 sm:p-7 sm:pt-24"
+        compact ? "p-4 pt-12" : "p-6 pt-14 sm:p-7 sm:pt-20"
       } ${className}`}
       style={{
         background: C.yellow,
@@ -116,12 +116,12 @@ function InfoCard({
       </div>
 
       <h3
-        className={`font-extrabold leading-snug ${compact ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl"}`}
+        className={`uppercase font-extrabold leading-snug ${compact ? "text-xl sm:text-2xl" : "text-3xl sm:text-4xl"}`}
         style={{ color: C.ink }}
       >
         {title}
       </h3>
-      <p className={`mt-1.5 leading-relaxed text-gray-600 ${compact ? "text-sm" : "text-base sm:text-lg"}`}>
+      <p className={`mt-1.5 leading-relaxed text-gray-600 ${compact ? "text-base" : "text-lg sm:text-xl"}`}>
         {desc}
       </p>
       <MoreLink />
@@ -133,10 +133,10 @@ function InfoCard({
    CHỮ NỀN TRANG TRÍ (watermark trôi ngang liên tục)
    ============================================================ */
 function Watermark() {
-  const text = "LÀM NÔNG NGHIỆP YÊU ĐẤT YÊU NƯỚC";
+  const text = "LÀM NÔNG NGHIỆP LÀ YÊU ĐẤT – NƯỚC";
   const separator = "   •   ";
   return (
-    <div className="pointer-events-none absolute inset-0 flex select-none items-center justify-center overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 flex -translate-y-8 select-none items-center justify-center overflow-hidden sm:-translate-y-14">
       <div
         className="watermark-track whitespace-nowrap text-6xl font-black uppercase tracking-widest text-white opacity-20 sm:text-8xl"
         style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}
@@ -155,12 +155,12 @@ export default function EarthWaterBannerPreview() {
 
   const cardLeft = {
     title: "Yêu Đất",
-    desc: "Chúng tôi canh tác bền vững, nuôi dưỡng thổ nhưỡng, giảm thiểu phân bón hóa học.",
+    desc: "Đất là hệ sinh thái sống. Chúng tôi nuôi dưỡng độ phì, tăng hữu cơ và phát triển bộ rễ khỏe mạnh để duy trì năng suất dài hạn.",
     image: IMG_LEFT,
   };
   const cardRight = {
     title: "Yêu Nước",
-    desc: "Chúng tôi tiết kiệm nguồn nước, xử lý sạch và tuần hoàn.",
+    desc: "Đo lường lượng nước tạo ra 1 đơn vị sản phẩm; ứng dụng tưới nhỏ giọt chính xác và tuần hoàn nước xử lý.",
     image: IMG_RIGHT,
   };
 
@@ -223,7 +223,7 @@ export default function EarthWaterBannerPreview() {
           }}
         >
           <h2
-            className="text-4xl font-extrabold leading-tight xl:text-[2.75rem]"
+            className="uppercase text-4xl font-extrabold leading-tight xl:text-[2.75rem]"
             style={{ color: C.green, textShadow: "0 2px 18px rgba(0,0,0,0.08)" }}
           >
             Làm nông nghiệp là

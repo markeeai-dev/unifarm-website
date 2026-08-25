@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Microscope,
   Sprout,
@@ -24,24 +25,24 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: "Nghiên Cứu & Cung Ứng Giống",
+    title: "Nghiên Cứu Và Cung Ứng Giống",
     description:
-      "Tuyển chọn và cung cấp các bộ giống năng suất, chất lượng cao ngay từ nguồn mầm.",
-    image: "https://media.istockphoto.com/id/882216094/photo/banana-leaves-background.jpg?b=1&s=612x612&w=0&k=20&c=-iU60rJwO714qsIsP9gHQQWpE1z_C84-REXlZdDgXDk=",
+      "Từ nghiên cứu, tuyển chọn và nhân giống nuôi cấy mô đến sản xuất quy mô lớn đến đóng gói xuất khẩu và phân phối thị trường quốc tế.",
+    image: "/images/UNIFARM/ptn.jpg",
     icon: Microscope,
   },
   {
-    title: "Phát Triển Vùng Trồng",
+    title: "Phát triển Vùng Trồng",
     description:
-      "Quy hoạch hệ thống trang trại hiện đại trên toàn quốc theo chuẩn canh tác quốc tế.",
-    image: "/images/UNIFARM/16.JPG",
+      "Phát triển theo định hướng sản xuất chuyên nghiệp, chất lượng đồng đều và phù hợp yêu cầu khắt khe của thị trường.",
+    image: "/images/UNIFARM/ptvt-update.jpg",
     icon: Sprout,
   },
   {
     title: "Hợp Tác Cùng Nhà Nông",
     description:
-      "Chuyển giao công nghệ tiên tiến và bao tiêu chuỗi giá trị nông nghiệp quy mô lớn.",
-    image: "/images/UNIFARM/1787218973789_1582751505492234802_4935324150679931320_ae20e008b6b700cead007d04eae29597.jpg",
+      "Kết nối, hỗ trợ kỹ thuật và chuẩn hóa những vùng sản xuất tốt của Việt Nam ra thị trường.",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/DSC_9897.jpg",
     icon: Users2,
   },
   {
@@ -52,10 +53,10 @@ const projects: Project[] = [
     icon: Factory,
   },
   {
-    title: "Giải Pháp Công Nghệ Nông Nghiệp",
+    title: "Giải Pháp Công Nghệ Trong Nông Nghiệp",
     description:
-      "Ứng dụng tự động hóa và giải pháp xanh thúc đẩy mô hình nông nghiệp tuần hoàn, bền vững.",
-    image: "/images/UNIFARM/1787207482450_1582751505492234802_4935324150679931320_0794621ead9929dd3c30a18993f1671e.jpg",
+      "Ứng dụng tự động hóa và giải pháp sinh học thúc đẩy mô hình nông nghiệp tuần hoàn, bền vững.",
+    image: "/images/UNIFARM/nha-kinh.jpg",
     icon: Settings2,
   },
 ];
@@ -162,16 +163,20 @@ function ProjectCard({
       {/* Nội dung */}
       <div className="absolute inset-x-4 bottom-4 z-10 rounded-xl bg-white/95 p-5 shadow-lg backdrop-blur-sm md:inset-x-5 md:bottom-5 md:p-6">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-bold leading-snug text-[#006400] md:text-xl">
+          <h3 className="uppercase text-lg font-bold leading-snug text-[#006400] md:text-xl">
             {project.title}
           </h3>
 
-          <span className="arrow-badge flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#87cefa]/40 text-[#006400] transition-transform duration-500 ease-out group-hover:rotate-[135deg] group-hover:bg-[#fffacd] md:h-10 md:w-10">
+          <Link
+            href="/du-an-hop-tac#hop-tac"
+            aria-label="Liên hệ hợp tác cùng Unifarm"
+            className="arrow-badge relative z-20 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#87cefa]/40 text-[#006400] transition-transform duration-500 ease-out group-hover:rotate-[135deg] group-hover:bg-[#fffacd] md:h-10 md:w-10"
+          >
             <ArrowUpRight
               className="h-5 w-5"
               strokeWidth={2.5}
             />
-          </span>
+          </Link>
         </div>
 
         <div className="reveal grid overflow-hidden transition-all duration-500 ease-out">
@@ -179,16 +184,16 @@ function ProjectCard({
             {project.description}
           </p>
 
-          <button
-            type="button"
-            className="mt-3 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[#006400] opacity-0 transition-opacity duration-500 [transition-delay:150ms] group-hover:opacity-100"
+          <Link
+            href="/du-an-hop-tac#hop-tac"
+            className="relative z-20 mt-3 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[#006400] opacity-0 transition-opacity duration-500 [transition-delay:150ms] group-hover:opacity-100"
           >
             Khám phá
             <ArrowUpRight
               className="h-4 w-4"
               strokeWidth={2.5}
             />
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -321,7 +326,7 @@ const { ref: bottomRef, inView: bottomInView } =
                 </span>
             <h2
                 className={[
-                    "max-w-xl text-3xl font-extrabold leading-[1.15] text-[#006400] sm:text-4xl md:text-4xl",
+                    "uppercase max-w-xl text-3xl font-extrabold leading-[1.15] text-[#006400] sm:text-4xl md:text-4xl",
                     "transition-all duration-[1100ms] delay-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
                     headerInView
                     ? "translate-y-0 opacity-100 scale-100"

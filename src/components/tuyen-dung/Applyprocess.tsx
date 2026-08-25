@@ -130,7 +130,7 @@ export default function ApplyProcess() {
               className="h-12 w-12 shrink-0 object-contain sm:h-16 sm:w-16"
             />
 
-            <h2 className="text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
+            <h2 className="uppercase text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
               Quy trình tuyển dụng
             </h2>
           </div>
@@ -160,7 +160,7 @@ export default function ApplyProcess() {
                   </span>
                 </span>
                 <div className="pt-0.5">
-                  <h3 className="text-[15px] font-bold text-[#06301B]">{step.title}</h3>
+                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{step.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-[#06301B]/60">{step.desc}</p>
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function ApplyProcess() {
                       {i + 1}
                     </span>
                   </span>
-                  <h3 className="mt-4 text-[15px] font-bold leading-snug text-[#06301B]">
+                  <h3 className="uppercase mt-4 text-[15px] font-bold leading-snug text-[#06301B]">
                     {step.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{step.desc}</p>

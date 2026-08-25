@@ -78,7 +78,7 @@ export default function EarthWaterLove() {
           <p className="mb-2 flex items-center justify-center gap-1 text-xs font-bold uppercase tracking-[0.2em] text-[#006400] sm:text-sm">
             <span aria-hidden="true">»»</span> GIỚI THIỆU
           </p>
-          <h2 className="mx-auto max-w-3xl text-3xl font-extrabold leading-tight text-neutral-900 sm:text-4xl lg:text-[2.75rem]">          
+          <h2 className="uppercase mx-auto max-w-3xl text-3xl font-extrabold leading-tight text-neutral-900 sm:text-4xl lg:text-[2.75rem]">
           Định hướng {' '}
             <span className="text-[#006400]">phát triển</span>
           </h2>
@@ -113,7 +113,7 @@ export default function EarthWaterLove() {
 
                 {/* Overlapping text card */}
                 <div className="group absolute bottom-0 right-0 w-[70%] max-w-[380px] translate-y-10  border-b-4 border-[#87cefa] bg-white p-5 shadow-[0_16px_34px_rgba(0,60,0,0.15)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_22px_44px_rgba(0,60,0,0.22)] sm:translate-y-2 sm:p-6">
-                  <h3 className="mb-2 text-lg font-bold text-[#006400] transition-transform duration-300 ease-out group-hover:-translate-y-0.5 sm:text-xl">
+                  <h3 className="uppercase mb-2 text-lg font-bold text-[#006400] transition-transform duration-300 ease-out group-hover:-translate-y-0.5 sm:text-xl">
                     {f.title}
                   </h3>
                   <p className="text-sm leading-relaxed text-neutral-600 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 sm:text-[15px]">

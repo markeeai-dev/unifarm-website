@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * HeroBanner — trang giới thiệu Unifarm
@@ -18,9 +19,9 @@ import { ArrowRight, Leaf } from "lucide-react";
 const BG_VIDEO = "/videos/banana-leaves-blooming-arboretum.mp4";
 
 const STATS = [
-  { value: "15+", label: "Năm kinh nghiệm" },
-  { value: "600+", label: "Ha vùng trồng liên kết" },
-  { value: "100%", label: "Đạt chuẩn VietGAP" },
+  { value: "Since 2009", label: "" },
+  { value: "Chuỗi giá trị khép kín", label: "" },
+  { value: "Hệ thống Trang trại đa vùng", label: "" },
 ];
 
 const COLORS = {
@@ -33,15 +34,16 @@ const TEXT_SHADOW = "0 2px 16px rgba(0,20,10,0.55)";
 
 export default function HeroBanner() {
   const [mounted, setMounted] = useState(false);
+  const introReady = useIntroReady();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (introReady) setMounted(true);
+  }, [introReady]);
 
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "800px" }}
+      style={{ minHeight: "820px" }}
       aria-label="Giới thiệu Unifarm"
     >
       {/* VIDEO NỀN — hoa chuối và buồng chuối non giữa vườn xanh, lật ngang để chủ thể lệch sang phải */}
@@ -100,12 +102,12 @@ export default function HeroBanner() {
             >
               <Leaf className="h-3 w-3" strokeWidth={2.5} />
             </span>
-            Safe Food for Life
+            Unifarm • Vietnam • Since 2009
           </div>
 
           {/* Tên thương hiệu */}
           <h1
-            className={`text-5xl font-extrabold tracking-tight text-white transition-all delay-100 duration-700 sm:text-6xl ${
+            className={`uppercase text-5xl font-extrabold tracking-tight text-white transition-all delay-100 duration-700 sm:text-6xl ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}
@@ -128,10 +130,10 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            Hệ sinh thái tiên phong
+            FROM A FARM TO AN ECOSYSTEM
             <br />
             <span style={{ color: COLORS.accent }}>
-              nông nghiệp công nghệ cao tại Việt Nam
+              HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG
             </span>
           </p>
 
@@ -142,8 +144,9 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            Chuỗi giá trị khép kín: nghiên cứu giống, canh tác thông minh, thu
-            hoạch, chế biến và xuất khẩu.
+            Kết nối xuyên suốt từ nghiên cứu – giống – sản xuất quy mô lớn –
+            chuyển giao công nghệ – liên kết vùng nguyên liệu – sau thu hoạch
+            – chế biến – thị trường.
           </p>
 
           {/* Dải số liệu nhanh */}
@@ -152,8 +155,8 @@ export default function HeroBanner() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            {STATS.map((s) => (
-              <div key={s.label} className="flex items-baseline gap-1.5">
+            {STATS.map((s, i) => (
+              <div key={i} className="flex items-baseline gap-1.5">
                 <span
                   className="text-lg font-extrabold"
                   style={{ color: "#FFFACD", textShadow: TEXT_SHADOW }}
@@ -182,7 +185,7 @@ export default function HeroBanner() {
               {/* Màu hover kéo từ trái sang phải */}
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                Tìm hiểu ngay
+                Hệ sinh thái Unifarm
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
@@ -199,7 +202,7 @@ export default function HeroBanner() {
               {/* Vệt sáng tự chạy */}
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-                Liên hệ
+                Liên hệ hợp tác
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"

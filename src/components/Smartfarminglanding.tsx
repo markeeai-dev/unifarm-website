@@ -126,10 +126,10 @@ export default function SmartFarmingLanding() {
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
               Cách hoạt động
             </span>
-            <h1 className="font-display text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
+            <h1 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
               Canh Tác Thông Minh
               <br />
-              <span className="font-display italic font-normal text-lime-dark">
+              <span className="italic font-normal text-lime-dark">
                 Đơn Giản và Hiệu Quả
               </span>
             </h1>
@@ -166,7 +166,7 @@ export default function SmartFarmingLanding() {
               <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-lime/15 text-ink/70 transition-colors group-hover:bg-lime-dark group-hover:text-ink">
                 <Icon size={18} strokeWidth={2} />
               </div>
-              <h3 className="text-sm font-semibold text-ink">{title}</h3>
+              <h3 className="uppercase text-sm font-semibold text-ink">{title}</h3>
               <p className="text-xs text-ink/45">{subtitle}</p>
             </div>
           ))}

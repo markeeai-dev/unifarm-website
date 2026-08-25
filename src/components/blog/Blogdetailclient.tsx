@@ -10,7 +10,12 @@ import type { BlogPost } from "@/lib/db";
 import { TAG_COLOR, DEFAULT_TAG_COLOR } from "@/lib/blog-tags";
 import { Particles, BLOG_DECOR_KEYFRAMES } from "./Decor";
 
-function readingTime(text: string) {
+function stripHtml(html: string) {
+  return html.replace(/<[^>]*>/g, " ");
+}
+
+function readingTime(html: string) {
+  const text = stripHtml(html);
   return Math.max(1, Math.ceil(text.trim().split(/\s+/).filter(Boolean).length / 200));
 }
 
@@ -57,10 +62,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
 
   const isTranslated = lang !== "vi" && translated !== null;
   const mins = readingTime(post.content);
-  const paragraphs = (isTranslated ? translated.content : post.content)
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+  const displayContent = isTranslated ? translated.content : post.content;
 
   return (
     <main className="min-h-screen text-gray-900">
@@ -73,9 +75,32 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
           transform: translateX(-120%); pointer-events: none;
         }
         .detail-cta-btn:hover::after { animation: blog-shine 0.65s ease forwards; }
-        .blog-content p {
-          margin: 0.9rem 0; line-height: 1.85; color: #4b5563; font-size: 17px; white-space: pre-line;
+        .blog-content { line-height: 1.85; color: #4b5563; font-size: 17px; }
+        .blog-content p { margin: 0.9rem 0; }
+        .blog-content h1 { font-size: 32px; font-weight: 900; color: #06301B; margin: 2rem 0 1rem; line-height: 1.3; }
+        .blog-content h2 { font-size: 26px; font-weight: 800; color: #06301B; margin: 1.75rem 0 0.9rem; line-height: 1.35; }
+        .blog-content h3 { font-size: 21px; font-weight: 700; color: #06301B; margin: 1.5rem 0 0.75rem; }
+        .blog-content h4 { font-size: 18px; font-weight: 700; color: #06301B; margin: 1.25rem 0 0.6rem; }
+        .blog-content ul { padding-left: 1.4rem; margin: 1rem 0; list-style: disc; }
+        .blog-content ol { padding-left: 1.4rem; margin: 1rem 0; list-style: decimal; }
+        .blog-content li { margin: 0.35rem 0; }
+        .blog-content a { color: #006400; text-decoration: underline; text-underline-offset: 2px; }
+        .blog-content strong { color: #06301B; font-weight: 700; }
+        .blog-content blockquote {
+          border-left: 4px solid #006400; margin: 1.5rem 0; padding: 0.75rem 1.25rem;
+          background: linear-gradient(90deg, rgba(0,100,0,0.05), transparent);
+          border-radius: 0 10px 10px 0; color: #475569; font-style: italic;
         }
+        .blog-content code { background: #f1f5f9; color: #006400; padding: 2px 7px; border-radius: 6px; font-family: monospace; font-size: 0.85em; }
+        .blog-content pre { background: #06301B; color: #e2e8f0; padding: 1.1rem 1.3rem; border-radius: 12px; overflow: auto; margin: 1.25rem 0; }
+        .blog-content pre code { background: none; color: inherit; padding: 0; }
+        .blog-content img { max-width: 100%; height: auto; border-radius: 14px; margin: 1.5rem auto; display: block; }
+        .blog-content iframe, .blog-content video { max-width: 100%; border-radius: 14px; margin: 1.5rem auto; display: block; }
+        .blog-content div[data-youtube-video] { display: flex; justify-content: center; margin: 1.5rem 0; }
+        .blog-content hr { border: none; border-top: 2px solid rgba(0,100,0,0.12); margin: 2rem 0; }
+        .blog-content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; border: 1px solid rgba(0,100,0,0.12); }
+        .blog-content td, .blog-content th { border: 1px solid rgba(0,100,0,0.12); padding: 10px 14px; font-size: 0.92em; }
+        .blog-content th { background: #f2f9ee; font-weight: 700; color: #06301B; }
       `}</style>
 
       {/* ═══════ HERO — cover image as background ═══════ */}
@@ -153,7 +178,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="mb-5 text-3xl font-black leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl"
+            className="uppercase mb-5 text-3xl font-black leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl"
             style={{ textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}
           >
             {isTranslated ? translated.title : post.title}
@@ -226,11 +251,8 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="blog-content"
-          >
-            {paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </motion.article>
+            dangerouslySetInnerHTML={{ __html: displayContent }}
+          />
 
           <div className="mt-14 flex flex-wrap items-center justify-between gap-4 pt-8" style={{ borderTop: "2px solid rgba(0,100,0,0.08)" }}>
             <div className="flex items-center gap-3">
@@ -281,7 +303,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
             />
             <div className="relative z-10">
               <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.35em] text-[#FFFACD]">Unifarm</p>
-              <h3 className="mb-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
+              <h3 className="uppercase mb-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
                 Khám phá thêm về Unifarm
               </h3>
               <p className="mx-auto mb-6 max-w-2xl text-sm font-light leading-relaxed text-white/55">
@@ -324,7 +346,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
               </div>
               <div className="h-px flex-1 bg-gradient-to-r from-[#006400]/25 to-transparent" />
             </div>
-            <h3 className="mb-10 text-2xl font-black text-gray-900">Bài viết liên quan</h3>
+            <h3 className="uppercase mb-10 text-2xl font-black text-gray-900">Bài viết liên quan</h3>
             <div className="grid gap-7 sm:grid-cols-3">
               {related.map((r) => {
                 const rtc = TAG_COLOR[r.tag] ?? DEFAULT_TAG_COLOR;

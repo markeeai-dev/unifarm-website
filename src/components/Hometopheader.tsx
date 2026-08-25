@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, Clock } from "lucide-react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * HomeTopHeader — thanh tiện ích mỏng phía trên + thanh điều hướng chính.
@@ -25,37 +27,36 @@ type NavItem = { label: string; href: string; children?: NavChild[] };
 const NAV_LINKS: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Về chúng tôi", href: "/gioi-thieu" },
-  {
-    label: "Dự Án",
-    href: "#",
-    children: [
-      { label: "Khu Nông nghiệp Công nghệ cao An Thái", href: "/dich-vu#hanh-trinh" },
-      { label: "Khu Nông nghiệp Công nghệ cao Dầu Tiếng", href: "/#contact" },
-      { label: "Khu Nông nghiệp Công nghệ cao Lâm Hà", href: "/#contact" },
-    ],
-  },
-  {
-    label: "Dịch Vụ",
-    href: "/dich-vu",
-    children: [
-      { label: "Tư vấn mô hình nông nghiệp công nghệ cao", href: "/dich-vu#hanh-trinh" },
-      { label: "Cung ứng đầu vào nông nghiệp", href: "/#contact" },
-      { label: "Chuyển giao công nghệ trồng trọt", href: "/dich-vu#hanh-trinh" },
-      { label: "Du lịch trải nghiệm nông nghiệp", href: "/#contact" },
-    ],
-  },
+  { label: "Dự Án & Hợp Tác", href: "/du-an-hop-tac" },
+  // {
+  //   label: "Dịch Vụ",
+  //   href: "/dich-vu",
+  //   children: [
+  //     { label: "Tư vấn mô hình nông nghiệp công nghệ cao", href: "/dich-vu#hanh-trinh" },
+  //     { label: "Cung ứng đầu vào nông nghiệp", href: "/#contact" },
+  //     { label: "Chuyển giao công nghệ trồng trọt", href: "/dich-vu#hanh-trinh" },
+  //     { label: "Du lịch trải nghiệm nông nghiệp", href: "/#contact" },
+  //   ],
+  // },
   { label: "Sản phẩm", href: "/san-pham" },
+  // {
+  //   label: "Khác",
+  //   href: "#",
+  //   children: [
+  //     { label: "Chế biến Tinh bột kháng", href: "/san-pham" },
+  //     { label: "Công nghệ cấp đông IQF", href: "/san-pham" },
+  //     { label: "Dự án phát triển & Chuyển giao", href: "/dich-vu#hanh-trinh" },
+  //   ],
+  // },
+  { label: "Góc cộng đồng", href: "/blog" },
   {
-    label: "Khác",
-    href: "#",
+    label: "Tuyển dụng",
+    href: "/tuyen-dung",
     children: [
-      { label: "Chế biến Tinh bột kháng", href: "/san-pham" },
-      { label: "Công nghệ cấp đông IQF", href: "/san-pham" },
-      { label: "Dự án phát triển & Chuyển giao", href: "/dich-vu#hanh-trinh" },
+      { label: "Vị trí đang tuyển", href: "/tuyen-dung" },
+      { label: "Văn hoá & Con đường nghề nghiệp", href: "/tuyen-dung/nghe-nghiep" },
     ],
   },
-  { label: "Góc chia sẻ", href: "/blog" },
-  { label: "Tuyển dụng", href: "/tuyen-dung" },
 ];
 
 const NAV_ENTRANCE_BASE_MS = 200;
@@ -63,16 +64,19 @@ const NAV_ENTRANCE_STAGGER_MS = 320;
 const NAV_ENTRANCE_DURATION_MS = 450;
 
 export default function HomeTopHeader() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const introReady = useIntroReady();
 
   useEffect(() => {
+    if (!introReady) return;
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
-  }, []);
+  }, [introReady]);
 
   // Khoá cuộn trang nền khi drawer mobile đang mở.
   useEffect(() => {
@@ -109,6 +113,8 @@ export default function HomeTopHeader() {
       window.clearTimeout(idleTimer);
     };
   }, []);
+
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <div className="sticky top-0 z-50 w-full">

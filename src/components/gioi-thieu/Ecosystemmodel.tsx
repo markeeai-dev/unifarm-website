@@ -58,37 +58,40 @@ const PILLARS: {
 }[] = [
   {
     key: "giong",
-    title: "Nghiên cứu & Sản xuất giống cây trồng",
+    title: "Nghiên cứu & Giống",
+    subtitle: "Tuyển chọn giống tối ưu cho điều kiện sản xuất thực tế.",
     icon: Dna,
     tone: TONES.green,
     bloomDelay: 0.18,
   },
   {
     key: "san-xuat",
-    title: "Sản xuất nông nghiệp bền vững quy mô lớn",
+    title: "Sản xuất nông nghiệp",
+    subtitle: "Vận hành nông trường chuẩn mực, thu thập dữ liệu và kiểm chứng giải pháp.",
     icon: TrendingUp,
     tone: TONES.blue,
     bloomDelay: 0.24,
   },
   {
     key: "chuyen-giao",
-    title: "Chuyển giao công nghệ & Phát triển chuỗi liên kết",
+    title: "Liên kết chuỗi giá trị",
+    subtitle: "Chuyển giao công nghệ và bao tiêu đầu ra theo tiêu chuẩn thị trường.",
     icon: Cog,
     tone: TONES.gold,
     bloomDelay: 0,
   },
   {
     key: "che-bien",
-    title: "Chế biến & Phát triển thị trường",
-    subtitle: "Chuối sấy, cấp đông IQF, Tinh bột kháng chuối xanh (Green Banana Resistant Starch)",
+    title: "Sau thu hoạch & Chế biến",
+    subtitle: "Xử lý đóng gói, kho lạnh và chế biến gia tăng giá trị.",
     icon: Factory,
     tone: TONES.blue,
     bloomDelay: 0.36,
   },
   {
     key: "giai-phap",
-    title: "Phát triển giải pháp nông nghiệp",
-    subtitle: "Bio-solutions, tưới tiêu, Farm ERP",
+    title: "Thị trường & Khách hàng",
+    subtitle: "Xây dựng chương trình cung ứng bền vững, ổn định và kỷ luật.",
     icon: Tablet,
     tone: TONES.green,
     bloomDelay: 0.42,
@@ -183,7 +186,7 @@ function HexPillar({
         >
           <Icon className="h-7 w-7" strokeWidth={2} />
         </span>
-        <h4 className="font-display text-[15px] font-extrabold leading-snug text-[#06301B] sm:text-base">
+        <h4 className="uppercase text-[15px] font-extrabold leading-snug text-[#06301B] sm:text-base">
           {title}
         </h4>
         {subtitle ? (
@@ -231,12 +234,12 @@ function MemberNetworkPanel({
       >
         Mô hình vận hành
       </span>
-      <h2 className="relative z-10 mt-4 font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-        Hệ sinh thái khép kín
+      <h2 className="uppercase relative z-10 mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+        Vòng Tuần Hoàn Hệ Sinh Thái
       </h2>
       <p className="relative z-10 mt-3 max-w-xs text-sm leading-relaxed text-white/75 sm:text-base">
-        5 trụ cột hoạt động cùng mạng lưới công ty thành viên, vận hành xuyên
-        suốt từ nghiên cứu giống đến tay người tiêu dùng.
+        Vận hành đồng bộ từ nghiên cứu đến khách hàng và lấy phản hồi thị
+        trường quay lại cải tiến nghiên cứu.
       </p>
 
       <div className="relative z-10 my-7 h-px w-16 bg-white/20" />
@@ -248,7 +251,7 @@ function MemberNetworkPanel({
         <Network className="h-7 w-7" strokeWidth={2} />
       </span>
 
-      <h3 className="relative z-10 mt-5 font-display text-xl font-extrabold text-white sm:text-2xl">
+      <h3 className="uppercase relative z-10 mt-5 text-xl font-extrabold text-white sm:text-2xl">
         Mạng lưới thành viên &amp; liên kết
       </h3>
       <p className="relative z-10 mt-2 max-w-xs text-sm leading-relaxed text-white/70">
@@ -309,7 +312,7 @@ export default function EcosystemModel() {
             style={{ background: "rgba(0,100,0,0.12)" }}
           />
 
-          <h3 className="relative z-10 text-center font-display text-xl font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
+          <h3 className="uppercase relative z-10 text-center text-xl font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
             5 Trụ cột hoạt động
           </h3>
 
@@ -371,7 +374,7 @@ export default function EcosystemModel() {
             style={{ background: "rgba(0,100,0,0.12)" }}
           />
 
-          <h3 className="relative z-10 text-center font-display text-lg font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
+          <h3 className="uppercase relative z-10 text-center text-lg font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
             5 Trụ cột hoạt động
           </h3>
           <div className="relative z-10 mt-5 grid grid-cols-2 gap-3 sm:grid-cols-2">
@@ -392,7 +395,7 @@ export default function EcosystemModel() {
                 >
                   <p.icon className="h-6 w-6" strokeWidth={2} />
                 </span>
-                <h4 className="text-sm font-extrabold leading-snug text-[#06301B]">
+                <h4 className="uppercase text-sm font-extrabold leading-snug text-[#06301B]">
                   {p.title}
                 </h4>
                 {p.subtitle ? (

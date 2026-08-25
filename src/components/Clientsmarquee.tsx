@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -23,7 +24,7 @@ const CLIENTS = [
   { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
   { name: "AEON", logo: "/images/clients/aeon.png" },
   { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
-  { name: "MM Mega Market", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK6VwqALI2emL9_x9j-HOobc8fFXPNwleebk8B9xWb8g&s=10" },
+  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
 ];
 
 // Nhân đôi mảng để tạo vòng lặp liền mạch (seamless loop)
@@ -77,8 +78,8 @@ export default function ClientsMarquee() {
         {/* Tiêu đề */}
         <div className="mb-9 flex flex-col items-center gap-2 text-center sm:mb-12">
           <span className="h-1 w-10 rounded-full bg-[#87cefa]" aria-hidden="true" />
-          <h2 className="font-display text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
-            Khách hàng của chúng tôi
+          <h2 className="uppercase text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
+            Khách hàng & Đối tác đồng hành
           </h2>
         </div>
 
@@ -96,7 +97,7 @@ export default function ClientsMarquee() {
             {LOOP_CLIENTS.map((client, i) => (
               <div
                 key={`${client.name}-${i}`}
-                className="flex h-16 w-32 shrink-0 items-center justify-center rounded-xl border border-black/5 bg-white px-4 shadow-sm transition-transform duration-300 hover:-translate-y-0.5 sm:h-20 sm:w-44"
+                className="flex h-16 w-32 shrink-0 items-center justify-center px-4 transition-transform duration-300 hover:-translate-y-0.5 sm:h-20 sm:w-44"
               >
                 <img
                   src={client.logo}

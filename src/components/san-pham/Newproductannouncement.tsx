@@ -124,13 +124,13 @@ export default function NewProductAnnouncement() {
           <p className="font-serif text-base italic text-[#006400] sm:text-lg">
             Sản phẩm mới
           </p>
-          <h2 className="font-display mt-2 text-3xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-4xl lg:text-[42px]">
+          <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-4xl lg:text-[42px]">
             Thông Báo Sản Phẩm Mới
           </h2>
 
           <div className="mt-5">
             <p className="text-base font-semibold text-neutral-800 sm:text-lg">
-              Chuối Già Nam Mỹ Unifarm
+              Dứa MD2 Unifarm
             </p>
             <p className="mt-1 inline-flex items-center gap-2 text-sm font-bold text-[#006400] sm:text-base">
               <span className="h-2 w-2 rounded-full bg-[#87cefa]" />

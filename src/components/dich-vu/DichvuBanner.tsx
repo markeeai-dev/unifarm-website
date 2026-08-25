@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
+import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
  * HeroBanner — trang giới thiệu Unifarm
@@ -33,10 +34,11 @@ const TEXT_SHADOW = "0 2px 16px rgba(0,20,10,0.55)";
 
 export default function HeroBanner() {
   const [mounted, setMounted] = useState(false);
+  const introReady = useIntroReady();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (introReady) setMounted(true);
+  }, [introReady]);
 
   return (
     <section
@@ -105,7 +107,7 @@ export default function HeroBanner() {
 
           {/* Tên thương hiệu */}
           <h1
-            className={`text-5xl font-extrabold tracking-tight text-white transition-all delay-100 duration-700 sm:text-6xl ${
+            className={`uppercase text-5xl font-extrabold tracking-tight text-white transition-all delay-100 duration-700 sm:text-6xl ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}

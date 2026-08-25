@@ -33,7 +33,7 @@ const CATEGORIES: Category[] = [
     title: 'Trái cây tươi',
     count: '24 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1200&q=85',
+      'https://mms.img.susercontent.com/vn-11134513-7r98o-lsv5ridqeobd3f@resize_ss1242x600!@crop_w1242_h600_cT',
     Icon: Cherry,
   },
   {
@@ -41,7 +41,7 @@ const CATEGORIES: Category[] = [
     title: 'Cây giống nuôi cấy mô',
     count: '8 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=85',
+      '/images/UNIFARM/UNIFARM/hinh-chinh/1787241249329_1582751505492234802_4935324150679931320_62f2c8803c756fe60b908dbd6cb38397.jpg',
     Icon: Salad,
   },
   {
@@ -49,7 +49,7 @@ const CATEGORIES: Category[] = [
     title: 'Sản phẩm chế biến',
     count: '16 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=85',
+      'https://cafefcdn.com/203337114487263232/2024/10/18/pngtree-sun-dried-banana-on-plate-image15646154-1729234991808-17292349920091723175706-1729263869949-17292638700291874724631.jpg',
     Icon: GlassWater,
   },
   {
@@ -57,7 +57,7 @@ const CATEGORIES: Category[] = [
     title: 'Khác',
     count: '10 sản phẩm',
     image:
-      'https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1200&q=85',
+      'https://i.ex-cdn.com/danviet.vn/files/content/2026/04/08/dua-212209.jpg',
     Icon: Wheat,
   },
 ];
@@ -191,7 +191,7 @@ function CategoryCard({
           <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={1.5} />
         </span>
 
-        <h3 className="text-base sm:text-lg md:text-xl font-bold tracking-wide">
+        <h3 className="uppercase text-base sm:text-lg md:text-xl font-bold tracking-wide">
           {title}
         </h3>
 

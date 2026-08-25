@@ -37,7 +37,7 @@ export default function ApplyFinalCTA() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#FFFACD]">
             Sẵn sàng chưa?
           </p>
-          <h2 className="mt-4 text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
+          <h2 className="uppercase mt-4 text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
             Bắt đầu hành trình từ Intern đến Senior của bạn ngay hôm nay
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/65">

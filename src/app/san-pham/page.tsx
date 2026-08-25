@@ -9,8 +9,13 @@ import NewProductAnnouncement from "@/components/san-pham/Newproductannouncement
 import LeadershipCommitmentPreview from "@/components/san-pham/Leadershipcommitmentpreview";
 import SanPhamHero from "@/components/san-pham/Sanphamhero";
 import RiceTabsShowcase from "@/components/Ricetabsshowcase";
+import { sql, type Product } from "@/lib/db";
 
-export default function SanPhamPage() {
+export default async function SanPhamPage() {
+  const products = (await sql`
+    SELECT * FROM products ORDER BY sort_order ASC, created_at ASC
+  `) as Product[];
+
   return (
     <>
       <SocialFloat />
@@ -20,7 +25,7 @@ export default function SanPhamPage() {
 
       <FreshProduceShowcase />
       <CategoryShowcase />
-      <ProductsShowcase />
+      <ProductsShowcase products={products} />
       {/* <TopSellingProducts /> */}
       <NewProductAnnouncement />
       

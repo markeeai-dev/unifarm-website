@@ -212,8 +212,8 @@ export default function SmartFarmingSolutions() {
             </div>
 
             {/* Word-by-word, row-by-row heading */}
-            <h2 className="max-w-[480px]">
-              <span className="font-display block text-[28px] font-semibold leading-[1.15] tracking-tight text-ink sm:text-[34px] md:text-[40px]">
+            <h2 className="uppercase max-w-[480px]">
+              <span className="block text-[28px] font-semibold leading-[1.15] tracking-tight text-ink sm:text-[34px] md:text-[40px]">
                 {HEADING_ROW_1.map((word, i) => (
                   <RevealWord
                     key={i}
@@ -226,7 +226,7 @@ export default function SmartFarmingSolutions() {
                   </RevealWord>
                 ))}
               </span>
-              <span className="font-display block text-[28px] italic leading-[1.15] tracking-tight text-ink-deep/80 sm:text-[34px] md:text-[40px]">
+              <span className="block text-[28px] italic leading-[1.15] tracking-tight text-ink-deep/80 sm:text-[34px] md:text-[40px]">
                 {HEADING_ROW_2.map((word, i) => (
                   <RevealWord
                     key={i}

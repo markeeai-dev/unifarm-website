@@ -11,47 +11,47 @@ const SLIDES = [
   {
     title: (
       <>
-        Khởi tạo từ mầm giống, <em>kiến tạo giá trị tương lai</em>
+        Nghiên cứu &amp; Giống cây trồng
       </>
     ),
     subhead:
-      'Nghiên cứu, lai tạo và tuyển chọn các giống cây trồng đạt năng suất cao, sức chống chịu tốt và chuẩn hóa chất lượng ngay từ nguồn.',
+      'Tìm kiếm, tuyển chọn, thử nghiệm và phát triển những bộ giống có khả năng thích nghi và tạo giá trị cao trong điều kiện sản xuất thực tế.',
   },
   {
     title: (
       <>
-        Mở rộng vùng trồng hiện đại, <em>chuẩn hóa quy trình quốc tế</em>
+        Sản xuất quy mô lớn
       </>
     ),
     subhead:
-      'Quy hoạch các trang trại nông nghiệp công nghệ cao trên toàn quốc, áp dụng tiêu chuẩn canh tác sạch để đảm bảo sản lượng và chất lượng đồng đều.',
+      'Trang trại là nơi thử nghiệm công nghệ, chuẩn hóa quy trình, đào tạo con người, thu thập dữ liệu và kiểm chứng ý tưởng trước khi nhân rộng.',
   },
   {
     title: (
       <>
-        Đồng hành cùng nhà nông, <em>phát triển chuỗi giá trị liên kết</em>
+        Liên kết sản xuất
       </>
     ),
     subhead:
-      'Chuyển giao kỹ thuật canh tác tiên tiến, bao tiêu và kết nối người nông dân vào mạng lưới sản xuất nông nghiệp quy mô lớn.',
+      'Chuẩn hóa và chuyển giao những quy trình đã kiểm chứng thành công cho các hợp tác xã, doanh nghiệp và nông dân liên kết.',
   },
   {
     title: (
       <>
-        Chế biến sâu nông sản, <em>đưa thương hiệu Việt ra thế giới</em>
+        Sau thu hoạch &amp; Chế biến
       </>
     ),
     subhead:
-      'Đầu tư công nghệ sau thu hoạch và chế biến chuyên sâu nhằm gia tăng giá trị nông sản, đáp ứng các tiêu chuẩn khắt khe của thị trường nội địa lẫn xuất khẩu.',
+      'Xử lý, đóng gói, kiểm soát chuỗi lạnh và chế biến chuyên sâu nhằm giữ trọn giá trị nông sản và đáp ứng tiêu chuẩn khắt khe của thị trường.',
   },
   {
     title: (
       <>
-        Tiên phong giải pháp công nghệ, <em>thúc đẩy nông nghiệp tuần hoàn</em>
+        Tiếp nhận ý kiến thị trường
       </>
     ),
     subhead:
-      'Ứng dụng tự động hóa, chuyển đổi số nông nghiệp và đầu tư vào các sáng kiến xanh nhằm tối ưu nguồn lực và bảo vệ môi trường sinh thái.',
+      'Lấy phản hồi và tiêu chuẩn kỹ thuật từ thị trường quay trở lại định hướng quy trình thu hoạch, canh tác, chọn giống và nghiên cứu.',
   },
 ];
 
@@ -88,23 +88,27 @@ export default function AgroviaHero() {
   };
 
   return (
-    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden">
-      {/* ---------------- BACKGROUND VIDEO ---------------- */}
+    <section className="relative isolate flex min-h-[86vh] w-full flex-col overflow-hidden sm:min-h-[92vh]">
+      {/* ---------------- BACKGROUND VIDEO ----------------
+          Nguồn chỉ có 854x480 (không có bản độ phân giải cao hơn), nên khi
+          phủ kín màn hình sẽ hơi mềm — bỏ scale thừa (từng làm mờ thêm) và
+          tăng contrast/saturation nhẹ để bù lại độ nét cảm nhận, đồng thời
+          giảm lớp phủ tối để chi tiết thật của video hiện rõ hơn. */}
       <video
-  className="absolute inset-0 -z-30 h-full w-full scale-[1.02] object-cover [filter:saturate(1.05)_contrast(1.02)]"
+  className="absolute inset-0 -z-30 h-full w-full object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
   autoPlay
   muted
   loop
   playsInline
 >
-  <source src="/videos/unripe-green-bananas-on-tree.mp4" type="video/mp4" />
+  <source src="/images/UNIFARM/UNIFARM/hinh-chinh/2021-2.mp4" type="video/mp4" />
 </video>
 
       <div
         className="absolute inset-0 -z-20"
         style={{
           background:
-            'linear-gradient(180deg, rgba(10,26,16,0.55) 0%, rgba(10,26,16,0.08) 22%, rgba(10,26,16,0.05) 45%, rgba(9,20,13,0.55) 78%, rgba(6,14,9,0.86) 100%), linear-gradient(90deg, rgba(6,14,9,0.35) 0%, transparent 35%)',
+            'linear-gradient(180deg, rgba(10,26,16,0.4) 0%, rgba(10,26,16,0.04) 22%, rgba(10,26,16,0.02) 45%, rgba(9,20,13,0.42) 78%, rgba(6,14,9,0.74) 100%), linear-gradient(90deg, rgba(6,14,9,0.28) 0%, transparent 35%)',
         }}
       />
       <div
@@ -142,7 +146,7 @@ export default function AgroviaHero() {
       {/* ---------------- HERO TEXT ---------------- */}
       <div className="relative z-10 flex flex-1 items-end px-7 pb-12 sm:px-14 sm:pb-50 lg:pl-80 lg:pr-20">
         <div className="max-w-[640px]">
-          <div className="relative min-h-[220px] animate-rise-in font-display opacity-0 sm:min-h-[190px] [animation-delay:.25s]">
+          <div className="relative min-h-[220px] animate-rise-in opacity-0 sm:min-h-[190px] [animation-delay:.25s]">
             {SLIDES.map((s, i) => (
               <div
                 key={i}
@@ -152,7 +156,7 @@ export default function AgroviaHero() {
                     : 'pointer-events-none absolute inset-0 translate-y-3.5 opacity-0'
                 }`}
               >
-                <h1 className="font-display text-[2.1rem] font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-[2.8rem] lg:text-[3.6rem] [&_em]:font-medium [&_em]:not-italic [&_em]:italic [&_em]:text-[#87cefa]">
+                <h1 className="uppercase text-[2.1rem] font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-[2.8rem] lg:text-[2.6rem] [&_em]:font-medium [&_em]:not-italic [&_em]:italic [&_em]:text-[#87cefa]">
                   {s.title}
                 </h1>
                 <p className="mt-4 max-w-[420px] font-sans text-[0.98rem] font-medium leading-[1.55] text-cream/[0.82]">
@@ -179,7 +183,7 @@ export default function AgroviaHero() {
           {/* CTAs */}
           <div className="mt-7 flex animate-rise-in flex-wrap gap-3.5 font-sans opacity-0 [animation-delay:.55s]">
             <button className="group inline-flex items-center gap-2.5 rounded-full border border-[#87cefa] bg-[#87cefa] px-6 py-3.5 text-[0.92rem] font-bold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0_12px_26px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[.97]">
-              Bắt Đầu Đầu Tư
+              Hợp Tác Cùng Unifarm
               <svg
                 width="15"
                 height="15"
@@ -196,8 +200,8 @@ export default function AgroviaHero() {
                 />
               </svg>
             </button>
-            <button className="rounded-full border border-white/55 bg-transparent px-6 py-3.5 text-[0.92rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink active:translate-y-0 active:scale-[.97]">
-              Gặp Gỡ Nông Dân
+            <button className="rounded-full border border-white/55 bg-transparent px-6 py-3.5 text-[0.92rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:text-ink active:translate-y-0 active:scale-[.97]">
+              Đánh Giá Nông Trại
             </button>
           </div>
         </div>

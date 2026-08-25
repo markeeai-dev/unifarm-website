@@ -3,108 +3,22 @@
 /**
  * AboutBanner
  * ------------------------------------------------------------------
- * Banner cho trang giới thiệu: Tầm nhìn – Sứ mệnh – 4 Giá trị cốt lõi – Triết lý.
+ * Banner cho trang giới thiệu: Tiêu đề "GROWING A BETTER AGRICULTURE" +
+ * Tầm nhìn – Sứ mệnh. Phần "4 Giá trị cốt lõi" đã tách riêng sang
+ * `Corevalues.tsx` để dễ quản lý/tái sử dụng độc lập.
  *
  * Cài đặt phụ thuộc (nếu chưa có):
  *   npm install framer-motion
- *
- * Font chữ (thêm vào layout.tsx bằng next/font, hoặc <link> Google Fonts):
- *   - Be Vietnam Pro  (700/800/900) -> font-display, hỗ trợ tiếng Việt đầy đủ, cảm giác chắc khỏe
- *   - Inter           (400/500/600) -> font-body, dễ đọc ở cỡ nhỏ
- *   - JetBrains Mono  (500)         -> font-mono, dùng cho nhãn/eyebrow nhỏ, gợi cảm giác "công nghệ"
- *
- * Ví dụ next/font (app/layout.tsx):
- *   import { Be_Vietnam_Pro, Inter, JetBrains_Mono } from "next/font/google";
- *   const beVietnamPro = Be_Vietnam_Pro({ subsets: ["vietnamese"], weight: ["700","800","900"], variable: "--font-display" });
- *   const inter = Inter({ subsets: ["vietnamese","latin"], variable: "--font-body" });
- *   const jbMono = JetBrains_Mono({ subsets: ["latin"], weight: ["500"], variable: "--font-mono" });
- *   -> <body className={`${beVietnamPro.variable} ${inter.variable} ${jbMono.variable}`}>
- *
- * Sau đó trong tailwind.config: fontFamily: { display: ["var(--font-display)"], body: ["var(--font-body)"], mono: ["var(--font-mono)"] }
- * (Nếu không cấu hình tailwind, component vẫn chạy tốt với font hệ thống mặc định.)
- * ------------------------------------------------------------------
  */
 
 import { useRef } from "react";
-import {
-  motion,
-  useInView,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
-
-/* ------------------------------------------------------------------ */
-/* Nội dung                                                            */
-/* ------------------------------------------------------------------ */
-
-const CORE_VALUES = [
-  {
-    key: "tien-phong",
-    title: "Tiên phong",
-    desc: "Dẫn dắt, truyền cảm hứng và kiến tạo đội ngũ.",
-    from: "#5FB6EE",
-    to: "#2E7DC2",
-    icon: IconCompass,
-  },
-  {
-    key: "sang-tao",
-    title: "Sáng tạo",
-    desc: "Là nền tảng phát triển và dẫn đầu.",
-    from: "#6FD17A",
-    to: "#2E9B4C",
-    icon: IconSpark,
-  },
-  {
-    key: "hop-tac",
-    title: "Hợp tác",
-    desc: "Để đi nhanh và đi xa bền vững.",
-    from: "#39BFB0",
-    to: "#137A72",
-    icon: IconHands,
-  },
-  {
-    key: "nhan-van",
-    title: "Nhân văn",
-    desc: "Từ con người và vì con người.",
-    from: "#FF9376",
-    to: "#E15B3D",
-    icon: IconHeartPeople,
-  },
-] as const;
-
-/** Độ lệch dọc + góc nghiêng của từng ô lục giác trên desktop, tạo cảm giác
- * "xếp theo vòng cung" — 2 ô giữa nhô cao, 2 ô hai đầu nghiêng ra và thấp hơn. */
-const HEX_ARC = [
-  { y: 52, rotate: -16 },
-  { y: 8, rotate: -5 },
-  { y: 8, rotate: 5 },
-  { y: 52, rotate: 16 },
-] as const;
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 /* ------------------------------------------------------------------ */
 /* Animation helpers                                                   */
 /* ------------------------------------------------------------------ */
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
-
-function useRevealVariants(baseDelay = 0) {
-  const reduce = useReducedMotion();
-  const hidden: Variants["hidden"] = reduce
-    ? { opacity: 1, y: 0 }
-    : { opacity: 0, y: 36 };
-  return (i: number, extra = 0): Variants => ({
-    hidden,
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: reduce ? 0 : 1.8,
-        delay: reduce ? 0 : baseDelay + i * 0.75 + extra,
-        ease: easeOut,
-      },
-    },
-  });
-}
 
 /* ------------------------------------------------------------------ */
 /* Component chính                                                     */
@@ -117,9 +31,9 @@ export interface AboutBannerProps {
 }
 
 export default function AboutBanner({
-  eyebrow = "GIỚI THIỆU",
-  title = "CHIẾN LƯỢC NHẬN DIỆN THƯƠNG HIỆU",
-  subtitle = "Nông nghiệp công nghệ cao theo hướng sinh học — nơi khoa học gặp gỡ đất và nước.",
+  eyebrow = "MỤC ĐÍCH & NGUYÊN TẮC",
+  title = "GROWING A BETTER AGRICULTURE",
+  subtitle = "Một nền nông nghiệp tạo ra sản phẩm tốt hơn, sử dụng tài nguyên hiệu quả hơn và mang lại cuộc sống tốt hơn cho những người tham gia.",
 }: AboutBannerProps) {
   return (
     <section className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat font-body">
@@ -134,11 +48,12 @@ export default function AboutBanner({
         }}
       />
 
-      <div className="relative mx-auto max-w-[1500px] px-5 pb-24 pt-16 sm:px-8 sm:pt-20 lg:pt-24">
+      {/* <div className="relative mx-auto max-w-[1500px] px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:pt-24">
         <Header eyebrow={eyebrow} title={title} subtitle={subtitle} />
-        <VisionMission />
-        <CoreValues />
-      </div>
+      </div> */}
+
+      {/* Dải Tầm nhìn / Sứ mệnh — full-bleed, 2 ảnh 50/50 */}
+      <VisionMission />
     </section>
   );
 }
@@ -177,7 +92,7 @@ function Header({
       </span>
 
       <h2
-        className="mt-5 font-extrabold text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-4xl"
+        className="uppercase mt-5 font-extrabold text-[2.1rem] font-extrabold leading-[1.12] tracking-tight sm:text-4xl"
         style={{ color: "#06301B" }}
       >
         {title}
@@ -191,381 +106,221 @@ function Header({
 }
 
 /* ------------------------------------------------------------------ */
-/* Tầm nhìn / Sứ mệnh — hai thẻ "hướng vào nhau"                       */
+/* Tầm nhìn / Sứ mệnh — 2 ảnh full-bleed 50/50, tiêu đề phủ lên ảnh,   */
+/* ảnh tròn ở giữa chèn đè lên trên, nằm giữa hai ảnh                  */
 /* ------------------------------------------------------------------ */
 
-/** Ảnh dọc – chữ – ảnh tròn to (trung tâm) – chữ – ảnh dọc. Mỗi khối bay vào
- * theo hướng riêng (ảnh trái từ trái, ảnh phải từ phải, ảnh tròn giữa phóng to
- * xoay vào có nảy nhẹ), so le nhau để cả dải hoàn tất trong khoảng 4.5–5s. */
 function VisionMission() {
   const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const inView = useInView(ref, { once: true, amount: 0.2 });
   const reduce = useReducedMotion();
   const backOut = [0.34, 1.56, 0.64, 1] as const;
 
-  const timing = (i: number, duration = 1.8) => ({
-    duration: reduce ? 0 : duration,
-    delay: reduce ? 0 : 0.15 + i * 0.75,
+  const sideTiming = (dir: "left" | "right") => ({
+    duration: reduce ? 0 : 1.5,
+    delay: reduce ? 0 : dir === "left" ? 0.1 : 0.3,
+    ease: easeOut,
+  });
+
+  const badgeTiming = (i: number) => ({
+    duration: reduce ? 0 : 0.9,
+    delay: reduce ? 0 : 0.9 + i * 0.15,
     ease: easeOut,
   });
 
   return (
-    <div ref={ref} className="relative mt-14 sm:mt-20">
-      <div className="flex flex-col items-center gap-7 sm:flex-row sm:items-center sm:justify-center sm:gap-5 lg:gap-10">
-        {/* 0 — ảnh dọc Tầm nhìn, bay vào từ trái */}
+    <div ref={ref} className="relative w-full">
+      {/* Ảnh full-bleed 50/50 */}
+      <div className="grid w-full grid-cols-1 sm:grid-cols-2">
+        {/* Ảnh trái — Tầm nhìn */}
         <motion.div
-          initial={{ opacity: 0, x: -60, rotate: -4 }}
-          animate={inView ? { opacity: 1, x: 0, rotate: 0 } : { opacity: 0, x: -60, rotate: -4 }}
-          transition={timing(0)}
-          className="relative h-56 w-40 shrink-0 overflow-hidden rounded-[1rem] shadow-[0_20px_45px_-20px_rgba(0,60,20,0.45)] sm:h-72 sm:w-48 lg:h-80 lg:w-52"
+          initial={{ opacity: 0, x: -50 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+          transition={sideTiming("left")}
+          className="group relative h-[62vw] max-h-[520px] min-h-[320px] w-full overflow-hidden sm:h-[42vw] sm:max-h-[560px]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/UNIFARM/UNIFARM/peggy_marco-banana-2058196_1920.jpg"
+          <motion.img
+            src="/images/UNIFARM/UNIFARM/hinh-chinh/IMG_4854.JPG"
             alt="Tầm nhìn Unifarm"
             className="h-full w-full object-cover"
+            initial={{ scale: 1.05 }}
+            animate={
+              inView
+                ? { scale: [1.05, 1.14, 1.05] }
+                : { scale: 1.05 }
+            }
+            transition={
+              reduce
+                ? { duration: 0 }
+                : {
+                    duration: 7,
+                    delay: 1.6,
+                    repeat: Infinity,
+                    repeatType: "mirror",
+                    ease: "easeInOut",
+                  }
+            }
           />
-          <div className="absolute inset-0 rounded-[1rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)]" />
+          {/* lớp phủ tối để chữ nổi bật */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#06301B]/85 via-[#06301B]/25 to-[#06301B]/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
+
+          {/* Nội dung chữ phủ lên ảnh */}
+          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-9 lg:p-12">
+            <motion.span
+              initial={{ opacity: 0, y: 14 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={badgeTiming(0)}
+              className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.25em] text-[#F4FFE8] backdrop-blur-sm"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#B7FF6B]" />
+              Đến 2030
+            </motion.span>
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={badgeTiming(1)}
+              className="uppercase text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-4xl lg:text-5xl"
+            >
+              Tầm nhìn
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={badgeTiming(2)}
+              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-[15px]"
+            >
+              Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu Việt Nam, vươn
+              tầm thế giới.
+            </motion.p>
+            <motion.span
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={inView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+              transition={{ ...badgeTiming(3), ease: "easeOut" }}
+              style={{ transformOrigin: "left" }}
+              className="mt-5 block h-[2px] w-14 bg-[#B7FF6B]"
+            />
+          </div>
         </motion.div>
 
-        {/* 1 — chữ Tầm nhìn */}
+        {/* Ảnh phải — Sứ mệnh */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={timing(1)}
-          className="max-w-[15rem] text-center sm:text-left"
+          initial={{ opacity: 0, x: 50 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+          transition={sideTiming("right")}
+          className="group relative h-[62vw] max-h-[520px] min-h-[320px] w-full overflow-hidden sm:h-[42vw] sm:max-h-[560px]"
         >
-          <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
-            Tầm nhìn{" "}
-            <span className="font-mono text-xs font-medium text-slate-400">
-              (đến 2030)
-            </span>
-          </h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
-            Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu VN, Việt Nam trở
-            ngõ và vươn tầm thế giới.
-          </p>
-        </motion.div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <motion.img
+            src="/images/UNIFARM/UNIFARM/thaithu007-banana-4671645_1920.jpg"
+            alt="Sứ mệnh Unifarm"
+            className="h-full w-full object-cover"
+            initial={{ scale: 1.05 }}
+            animate={
+              inView
+                ? { scale: [1.05, 1.14, 1.05] }
+                : { scale: 1.05 }
+            }
+            transition={
+              reduce
+                ? { duration: 0 }
+                : {
+                    duration: 7,
+                    delay: 1.9,
+                    repeat: Infinity,
+                    repeatType: "mirror",
+                    ease: "easeInOut",
+                  }
+            }
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#06301B]/85 via-[#06301B]/25 to-[#06301B]/10" />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-transparent" />
 
-        {/* 2 — ảnh tròn to ở giữa, phóng to + xoay vào có nảy nhẹ */}
+          <div className="absolute inset-0 flex flex-col items-start justify-end p-6 sm:items-end sm:p-9 lg:p-12">
+            <motion.span
+              initial={{ opacity: 0, y: 14 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={badgeTiming(0)}
+              className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.25em] text-[#F4FFE8] backdrop-blur-sm"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#B7FF6B]" />
+              Cam kết
+            </motion.span>
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={badgeTiming(1)}
+              className="uppercase text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-right sm:text-4xl lg:text-5xl"
+            >
+              Sứ mệnh
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={badgeTiming(2)}
+              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-right sm:text-[15px]"
+            >
+              Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
+              và một hành tinh xanh.
+            </motion.p>
+            <motion.span
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={inView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+              transition={{ ...badgeTiming(3), ease: "easeOut" }}
+              style={{ transformOrigin: "right" }}
+              className="mt-5 block h-[2px] w-14 bg-[#B7FF6B] sm:ml-auto"
+            />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Ảnh tròn ở giữa, chèn đè lên đường nối giữa 2 ảnh */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.4, rotate: -30 }}
+        animate={
+          inView
+            ? { opacity: 1, scale: 1, rotate: 0 }
+            : { opacity: 0, scale: 0.4, rotate: -30 }
+        }
+        transition={{
+          duration: reduce ? 0 : 1.3,
+          delay: reduce ? 0 : 0.55,
+          ease: backOut,
+        }}
+        className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-28 w-28 -translate-x-1/2 -translate-y-1/2 sm:h-40 sm:w-40 lg:h-52 lg:w-52"
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.4, rotate: -30 }}
-          animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.4, rotate: -30 }}
-          transition={{ ...timing(2, 1.6), ease: backOut }}
-          className="relative z-10 h-32 w-32 shrink-0 overflow-hidden rounded-full shadow-[0_25px_60px_-15px_rgba(0,60,20,0.5)] ring-[6px] ring-white sm:h-40 sm:w-40 lg:h-48 lg:w-48"
+          className="pointer-events-auto relative h-full w-full cursor-pointer overflow-hidden rounded-full shadow-[0_25px_60px_-12px_rgba(0,60,20,0.55)] ring-[6px] ring-white sm:ring-[8px]"
+          whileHover={reduce ? undefined : { rotate: 360 }}
+          transition={{ duration: 1.1, ease: easeOut }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/UNIFARM/UNIFARM/photoshoot4you-banana-7471060_1920.jpg"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRztd8dEt6y61-RxCHWiqdEOISvYACyKY2F8Mvu8JYAw&s=10"
             alt="Hạt giống Unifarm"
             className="h-full w-full object-cover"
           />
           <span className="absolute inset-0 rounded-full shadow-[inset_0_0_0_2px_rgba(0,100,0,0.25)]" />
         </motion.div>
-
-        {/* 3 — chữ Sứ mệnh */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-          transition={timing(3)}
-          className="max-w-[15rem] text-center sm:text-right"
-        >
-          <h3 className="font-display text-lg font-bold text-[#06301B] sm:text-xl">
-            Sứ mệnh
-          </h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
-            Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
-            & một hành tinh xanh.
-          </p>
-        </motion.div>
-
-        {/* 4 — ảnh dọc Sứ mệnh, bay vào từ phải */}
-        <motion.div
-          initial={{ opacity: 0, x: 60, rotate: 4 }}
-          animate={inView ? { opacity: 1, x: 0, rotate: 0 } : { opacity: 0, x: 60, rotate: 4 }}
-          transition={timing(4)}
-          className="relative h-56 w-40 shrink-0 overflow-hidden rounded-[1rem] shadow-[0_20px_45px_-20px_rgba(0,60,20,0.45)] sm:h-72 sm:w-48 lg:h-80 lg:w-52"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/UNIFARM/UNIFARM/thaithu007-banana-4671645_1920.jpg"
-            alt="Sứ mệnh Unifarm"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 rounded-[1rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)]" />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 4 Giá trị cốt lõi — tổ ong                                          */
-/* ------------------------------------------------------------------ */
-
-function CoreValues() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
-  const v = useRevealVariants(0.05);
-
-  return (
-    <div ref={ref} className="mt-20 sm:mt-28">
-      <motion.div
-        variants={v(0)}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        className="text-center"
-      >
-        {/* Trên desktop, cả tiêu đề và phụ đề chạy cong theo 2 đường chỉ xanh phía trên tổ ong
-            (xem SVG bên dưới); trên mobile (không có tổ ong/đường cong) hiện chữ thường. */}
-        <h3 className="font-display text-2xl font-extrabold tracking-tight text-[#06301B] sm:hidden">
-          4 Giá trị cốt lõi
-        </h3>
-        <p className="mx-auto mt-2 max-w-md text-sm text-slate-500 sm:hidden">
-          Bốn mảnh ghép gắn liền với nhau — nền tảng cho mọi quyết định.
-        </p>
+        {/* vòng nhẫn khẽ động đậy quanh ảnh tròn, gợi mạch kết nối 2 vế */}
+        <motion.span
+          aria-hidden
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={
+            inView
+              ? { opacity: [0, 0.5, 0], scale: [0.9, 1.35, 1.6] }
+              : { opacity: 0, scale: 0.9 }
+          }
+          transition={{
+            duration: reduce ? 0 : 2.2,
+            delay: reduce ? 0 : 1.3,
+            ease: "easeOut",
+          }}
+          className="absolute inset-0 rounded-full border-2"
+          style={{ borderColor: "#B7FF6B" }}
+        />
       </motion.div>
-
-      {/* Desktop / tablet: tổ ong xếp theo vòng cung — mỗi ô nghiêng nhẹ theo
-          đúng góc tiếp tuyến của cung, 2 ô giữa nhô cao hơn 2 ô hai đầu.
-          SVG tiêu đề nằm trong luồng bố cục bình thường (không absolute/translate
-          âm) để không bao giờ chồng lên khối Tầm nhìn/Sứ mệnh phía trên. */}
-      <div className="mt-24 hidden justify-center sm:flex">
-        <div className="flex flex-col items-center">
-          <svg
-            aria-hidden
-            className="pointer-events-none block h-28 w-[44rem] max-w-full"
-            viewBox="0 -20 880 140"
-            preserveAspectRatio="none"
-          >
-            {/* Đường chỉ xanh thứ nhất — tiêu đề "4 Giá trị cốt lõi" chạy trên đó */}
-            <path
-              id="core-values-arc-title"
-              d="M20,58 Q 440,-28 860,58"
-              fill="none"
-              stroke="#006400"
-              strokeOpacity="0.45"
-              strokeWidth="2.5"
-              strokeDasharray="2 11"
-              strokeLinecap="round"
-            />
-            {/* Đường chỉ xanh thứ hai — phụ đề chạy song song, thấp hơn và mờ hơn */}
-            <path
-              id="core-values-arc-subtitle"
-              d="M20,100 Q 440,16 860,100"
-              fill="none"
-              stroke="#006400"
-              strokeOpacity="0.25"
-              strokeWidth="2"
-              strokeDasharray="2 10"
-              strokeLinecap="round"
-            />
-            <text
-              className="font-display"
-              fill="#06301B"
-              fontSize="30"
-              fontWeight="800"
-              letterSpacing="1.5"
-            >
-              <textPath href="#core-values-arc-title" startOffset="50%" textAnchor="middle">
-                4 GIÁ TRỊ CỐT LÕI
-              </textPath>
-            </text>
-            <text className="font-body" fill="#64748b" fontSize="20" fontWeight="500">
-              <textPath href="#core-values-arc-subtitle" startOffset="50%" textAnchor="middle">
-                Bốn mảnh ghép gắn liền với nhau — nền tảng cho mọi quyết định.
-              </textPath>
-            </text>
-          </svg>
-
-          <div className="relative mt-1 flex items-end gap-3">
-            {/* điểm nhấn: quầng sáng mềm phía sau, chỉ nằm quanh khối tổ ong */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-64 w-[48rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full opacity-80 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(closest-side, #87cefa4d, #FFFACD33 55%, transparent 75%)",
-              }}
-            />
-            {CORE_VALUES.map((val, i) => (
-              <div
-                key={val.key}
-                className="hex-cell relative"
-                style={{
-                  transform: `translateY(${HEX_ARC[i].y}px) rotate(${HEX_ARC[i].rotate}deg)`,
-                }}
-              >
-                <motion.div
-                  variants={v(i, 0.35)}
-                  initial="hidden"
-                  animate={inView ? "visible" : "hidden"}
-                  className="h-full w-full"
-                >
-                  <HexCard {...val} />
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile: xếp dọc dạng thẻ bo góc, vẫn giữ ngôn ngữ màu/icon */}
-      <div className="mt-10 grid gap-4 sm:hidden">
-        {CORE_VALUES.map((val, i) => (
-          <motion.div
-            key={val.key}
-            variants={v(i, 0.35)}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="flex items-start gap-4 rounded-2xl border border-black/5 p-4 shadow-sm"
-            style={{
-              background: `linear-gradient(135deg, ${val.from}22, ${val.to}14)`,
-            }}
-          >
-            <span
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white"
-              style={{
-                background: `linear-gradient(160deg, ${val.from}, ${val.to})`,
-              }}
-            >
-              <val.icon />
-            </span>
-            <div>
-              <h4 className="font-display text-base font-bold text-[#06301B]">
-                {val.title}
-              </h4>
-              <p className="mt-0.5 text-sm leading-relaxed text-slate-600">
-                {val.desc}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <style>{`
-        .hex-cell {
-          width: 16.5rem;
-          height: 17.5rem;
-        }
-        .hex-cell:hover {
-          z-index: 30 !important;
-        }
-        .hex-shape {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-          box-shadow:
-            0 40px 70px -18px rgba(0,0,0,0.5),
-            0 20px 34px -14px rgba(0,0,0,0.4),
-            0 6px 12px -4px rgba(0,0,0,0.28);
-          filter: drop-shadow(0 0 0 transparent);
-          transition: transform 400ms cubic-bezier(.22,1,.36,1), box-shadow 400ms ease, filter 400ms ease;
-        }
-        .hex-cell:hover .hex-shape {
-          transform: translateY(-10px) scale(1.05);
-          filter: brightness(1.08) saturate(1.15) drop-shadow(0 0 28px var(--hex-glow));
-          box-shadow:
-            0 46px 76px -16px rgba(0,0,0,0.48),
-            0 24px 38px -12px rgba(0,0,0,0.4),
-            0 8px 14px -4px rgba(0,0,0,0.3);
-        }
-        .hex-sheen {
-          position: absolute;
-          inset: 0;
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-          background: linear-gradient(135deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 68%, rgba(0,0,0,0.1) 100%);
-          pointer-events: none;
-          mix-blend-mode: soft-light;
-        }
-        .hex-icon svg {
-          width: 2.1rem;
-          height: 2.1rem;
-          transition: transform 400ms cubic-bezier(.22,1,.36,1);
-        }
-        .hex-cell:hover .hex-icon svg {
-          transform: scale(1.12) rotate(-4deg);
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .hex-shape, .hex-icon svg { transition: none; }
-          .hex-cell:hover .hex-shape { transform: none; }
-        }
-      `}</style>
     </div>
-  );
-}
-
-function HexCard({
-  title,
-  desc,
-  from,
-  to,
-  icon: Icon,
-}: (typeof CORE_VALUES)[number]) {
-  return (
-    <div
-      className="relative h-full w-full"
-      style={{ "--hex-glow": to } as React.CSSProperties}
-    >
-      <div
-        className="hex-shape flex h-full w-full flex-col items-center justify-center gap-3 px-10 text-center text-white"
-        style={{ background: `linear-gradient(160deg, ${from} 0%, ${to} 100%)` }}
-      >
-        <span className="hex-icon text-white">
-          <Icon />
-        </span>
-        <h4 className="font-display text-lg font-bold leading-tight sm:text-xl">
-          {title}
-        </h4>
-        <p className="max-w-[10.5rem] text-[13px] leading-snug text-white/90">
-          {desc}
-        </p>
-        <div className="hex-sheen" />
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Icon (inline SVG, không phụ thuộc thư viện ngoài)                    */
-/* ------------------------------------------------------------------ */
-
-function IconCompass() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M15 9l-2.2 5.2L9 16l2.2-5.2L15 9z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-function IconSpark() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2 2-7z" fill="currentColor" />
-    </svg>
-  );
-}
-function IconHands() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 12l4-3 4 2 4-2 6 3-4 6-6-1-4-2-4-3z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-function IconHeartPeople() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 20s-7-4.4-9.3-8.8C1.4 8.2 3 5 6.2 5c1.8 0 3.1 1 3.8 2.2C10.7 6 12 5 13.8 5 17 5 18.6 8.2 17.3 11.2 15 15.6 12 20 12 20z"
-        fill="currentColor"
-      />
-    </svg>
   );
 }

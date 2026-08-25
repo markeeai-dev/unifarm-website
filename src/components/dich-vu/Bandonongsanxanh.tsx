@@ -257,7 +257,7 @@ export default function BanDoNongSanXanh() {
             initial={reduce ? false : { opacity: 0, y: 26 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.4, ease: EASE }}
-            className="font-display mx-auto mt-4 max-w-2xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-5xl"
+            className="mx-auto mt-4 max-w-2xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-5xl"
             style={{ color: C.forest }}
           >
             Bản đồ nông sản xanh Việt Nam
@@ -688,7 +688,7 @@ function DetailPanel({
             <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
             {region.name}
           </p>
-          <p className="font-display mt-1 text-3xl font-extrabold leading-none sm:text-4xl" style={{ color: C.forest }}>
+          <p className="mt-1 text-3xl font-extrabold leading-none sm:text-4xl" style={{ color: C.forest }}>
             {region.totalHa} <span className="text-base font-bold">HA</span>
           </p>
         </div>
@@ -826,7 +826,7 @@ function StatFloating({
       style={{ borderColor: `${C.green}55` }}
     >
       <div
-        className="font-display text-3xl font-extrabold leading-none tracking-tight tabular-nums sm:text-4xl"
+        className="text-3xl font-extrabold leading-none tracking-tight tabular-nums sm:text-4xl"
         style={{ color: C.forest }}
       >
         {stat.format(value)}
