@@ -18,9 +18,9 @@ const C = {
 /* Thay các URL ảnh dưới đây bằng ảnh thật của bạn (đặt trong /public) */
 const BG_IMAGE = "/images/UNIFARM/bgr.jpg";
 const IMG_LEFT =
-  "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=400&auto=format&fit=crop";
+  "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032353_1582751505492234802_4935324150679931320_fbb36e9d36585f9179e1ef9e35a27935.jpg";
 const IMG_RIGHT =
-  "https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?q=80&w=400&auto=format&fit=crop";
+  "/images/UNIFARM/ptvt.png";
 
 /* ============================================================
    HOOK: phát hiện phần tử lọt vào khung nhìn (1 lần)

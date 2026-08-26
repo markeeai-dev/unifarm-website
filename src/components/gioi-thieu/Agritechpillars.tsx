@@ -40,7 +40,7 @@ const PILLARS = [
     points: ["Sinh học", "IPM", "Hệ sinh thái"],
     icon: Bug,
     accent: "sky",
-    image: "/images/UNIFARM/UNIFARM/hinh-chinh/DSC_9897.JPG",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032337_1582751505492234802_4935324150679931320_0fef0d12a7c5339437138d6a7a68b9dd.jpg",
   },
   {
     id: "03",
@@ -265,7 +265,7 @@ function LoopDiagram({
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-3 text-center">
           <Leaf className="h-5 w-5 text-white" />
-          <span className="mt-1 font-mono text-xs font-semibold uppercase tracking-wide text-white">
+          <span className="mt-1 font-mono text-xs font-semibold uppercase tracking-wide text-white sm:text-[22px]">
             Uni126
           </span>
         </div>
@@ -311,7 +311,7 @@ function LoopDiagram({
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
-            <span className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1 font-mono text-[10px] font-bold tracking-widest text-white">
+            <span className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1 font-mono text-[10px] font-bold tracking-widest text-white sm:text-[15px]">
               <Icon className="h-3.5 w-3.5" />
               {p.id}
             </span>
@@ -509,7 +509,10 @@ export default function AgriTechPillars() {
                       <h3 className="uppercase atx-display mt-1.5 text-xl font-bold text-[#006400] sm:text-2xl">
                         {p.title}
                       </h3>
-                      <p className="atx-body mt-2.5 text-sm leading-relaxed text-[#006400] sm:text-base">
+                      <p
+                        className="atx-body mt-2.5 text-base font-medium leading-relaxed text-white sm:text-[20px]"
+                        style={{ textShadow: "0 1px 4px rgba(0,0,0,0.65), 0 1px 2px rgba(0,0,0,0.7)" }}
+                      >
                         {p.desc}
                       </p>
                       <ul className="mt-4 flex flex-wrap gap-2">
