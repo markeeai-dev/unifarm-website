@@ -13,7 +13,7 @@ type SlotImage = {
 const INITIAL_SLOTS: SlotImage[] = [
   {
     id: 'main',
-    src: '/images/UNIFARM/DJI_20260805085036_0330_D.JPG',
+    src: '/images/UNIFARM/UNIFARM/hinh-chinh/nong-dan.jpg',
     alt: 'Nhà kính công nghệ cao trồng rau thủy canh',
   },
   {
@@ -23,7 +23,7 @@ const INITIAL_SLOTS: SlotImage[] = [
   },
   {
     id: 'harvest',
-    src: '/images/UNIFARM/UNIFARM/moritz320-banana-2060720_1920.jpg',
+    src: '/images/UNIFARM/UNIFARM/hinh-chinh/vuon3.jpg',
     alt: 'Vùng trồng nông nghiệp công nghệ cao nhìn từ trên cao',
   },
 ];
@@ -508,6 +508,7 @@ export default function AgricultureHero() {
         .agrihero-content-col {
           width: 100%;
           max-width: 560px;
+          container-type: inline-size;
           opacity: 0;
           transform: translateX(60px);
           transition:
@@ -547,8 +548,9 @@ export default function AgricultureHero() {
         }
 
         .agrihero-heading {
-          font-weight: 600;
-          font-size: 42px;
+          font-weight: 800;
+          font-size: clamp(0.95rem, 5.3cqw, 44px);
+          white-space: nowrap;
           line-height: 1.18;
           margin: 0 0 20px;
           color: var(--agrihero-green-ink);
@@ -565,7 +567,7 @@ export default function AgricultureHero() {
         }
 
         .agrihero-paragraph {
-          font-size: 16px;
+          font-size: 18px;
           line-height: 1.75;
           color: #3c4a3d;
           max-width: 48ch;
@@ -606,7 +608,7 @@ export default function AgricultureHero() {
           align-items: center;
           gap: 10px;
           font-weight: 600;
-          font-size: 15px;
+          font-size: 17px;
           color: var(--agrihero-green-ink);
           opacity: 0;
           transform: translateX(-18px);
@@ -675,12 +677,12 @@ export default function AgricultureHero() {
           justify-content: center;
           font-family: var(--font-display), serif;
           font-weight: 600;
-          font-size: 16px;
+          font-size: 18px;
           color: var(--agrihero-green-ink);
         }
         .agrihero-stat-label {
           text-align: center;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 600;
           line-height: 1.35;
           color: #4a5a4b;
@@ -707,9 +709,6 @@ export default function AgricultureHero() {
           .agrihero-section {
             padding: 64px 20px;
           }
-          .agrihero-heading {
-            font-size: 30px;
-          }
           .agrihero-bottom-row {
             flex-direction: column;
             align-items: flex-start;
@@ -721,9 +720,6 @@ export default function AgricultureHero() {
         }
 
         @media (max-width: 400px) {
-          .agrihero-heading {
-            font-size: 26px;
-          }
           .agrihero-stats {
             gap: 20px;
           }

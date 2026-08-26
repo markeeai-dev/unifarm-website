@@ -15,6 +15,8 @@ import {
   UserPlus,
   History,
   CalendarPlus,
+  Store,
+  MapPinPlus,
   ExternalLink,
   Menu,
   X,
@@ -66,6 +68,13 @@ const NAV: NavGroup[] = [
       { href: "/admin/timeline/new", label: "Thêm mốc", icon: CalendarPlus },
     ],
   },
+  {
+    group: "Nhà phân phối",
+    items: [
+      { href: "/admin/distributors", label: "Danh sách cửa hàng", icon: Store },
+      { href: "/admin/distributors/new", label: "Thêm cửa hàng", icon: MapPinPlus },
+    ],
+  },
 ];
 
 function checkActive(href: string, pathname: string) {
@@ -80,6 +89,9 @@ function checkActive(href: string, pathname: string) {
   if (href === "/admin/timeline/new") return pathname === href;
   if (href === "/admin/timeline")
     return pathname.startsWith("/admin/timeline") && pathname !== "/admin/timeline/new";
+  if (href === "/admin/distributors/new") return pathname === href;
+  if (href === "/admin/distributors")
+    return pathname.startsWith("/admin/distributors") && pathname !== "/admin/distributors/new";
   return pathname === href;
 }
 

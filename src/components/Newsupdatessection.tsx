@@ -32,33 +32,33 @@ const FONT_IMPORT = `
 
 const ARTICLES = [
   {
-    image: "/images/banana/banana-shrub-3289749.jpg",
-    day: "27",
-    monthYear: "02, 2026",
-    title: "Doanh Nhân Phạm Quốc Liêm: Ước Mơ Thuở Thiếu Thời Đến Trăn Trở Nông Nghiệp, Nông Dân",
+    image: "/images/UNIFARM/1787197933802_1582751505492234802_4935324150679931320_5e69f078e10587e5c3411b75ace4006b.jpg",
+    day: "21",
+    monthYear: "05, 2026",
+    title: "Góc Nhìn của Tổng giám đốc Unifarm: Ngành Chuối Việt Nam Và Giấc Mơ Chuỗi Giá Trị Tỷ Đô",
     excerpt:
-      "Hành trình từ ước mơ thuở thiếu thời đến khát vọng xây dựng nền nông nghiệp công nghệ cao vì lợi ích thiết thực của người nông dân Việt Nam...",
+      "Cạnh tranh nông nghiệp hiện đại không chỉ nằm ở diện tích lớn hơn, mà phải đến từ năng lực quản trị dữ liệu, giống tốt hơn và một tiêu chuẩn chất lượng cao nhất cho mọi thị trường.",
     link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/doanh-nhan-pham-quoc-liem-uoc-mo-thuo-thieu-thoi-den-tran-tro-nong-nghiep-nong-dan-d375269.html",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?auto=format&fit=crop&w=800&q=80",
-    day: "27",
-    monthYear: "02, 2026",
-    title: "Doanh Nhân Phạm Quốc Liêm, Chủ Tịch Unifarm: Chọn Sự Hài Lòng Của Nông Dân, Người Tiêu Dùng",
+      "/images/UNIFARM/UNIFARM/hinh-chinh/736A9959.jpg",
+    day: "02",
+    monthYear: "06, 2026",
+    title: "Kiểm Soát Sức Khỏe Bộ Rễ Và Giải Pháp Giảm Phụ Thuộc Hóa Chất",
     excerpt:
-      "16 năm hành trình Unifarm, từ dưa lưới công nghệ Israel đến vùng chuyên canh chuối xuất khẩu — luôn đặt chất lượng lên hàng đầu...",
+      "Quan sát và thử nghiệm đối chứng quy trình sinh học IPM tại nông trường: Nuôi dưỡng thổ nhưỡng, phục hồi hệ vi sinh bản địa để phòng ngừa dịch hại từ gốc rễ.",
     link: "https://baodautu.vn/doanh-nhan-pham-quoc-liem-chu-tich-unifarm-chon-su-hai-long-cua-nong-dan-nguoi-tieu-dung-d242739.html",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=800&q=80",
-    day: "27",
-    monthYear: "02, 2026",
-    title: "Hợp Tác Chiến Lược Giữa Trường Đại Học Thủ Dầu Một Và Unifarm Hướng Tới Nông Nghiệp Công Nghệ Cao",
+      "/images/UNIFARM/UNIFARM/hinh-chinh/images3.jpg",
+    day: "17",
+    monthYear: "08, 2026",
+    title: "Người Hạnh Phúc Và Cây Hạnh Phúc: Triết Lý Vun Bồi Từ Gốc Rễ Con Người",
     excerpt:
-      "Hai bên ký kết hợp tác chiến lược về đào tạo nhân lực, nghiên cứu phát triển sản phẩm và bảo quản sau thu hoạch đạt chuẩn an toàn thực phẩm...",
-    link: "https://tdmu.edu.vn/tin-tuc/hop-tac-doi-ngoai-1/hop-tac-chien-luoc-giua-truong-dai-hoc-thu-dau-mot-va-unifarm-huong-toi-nong-nghiep-cong-nghe-cao",
+      "Cây chỉ thực sự khỏe mạnh và cho trái ngọt khi người làm nông hiểu đất, yêu nghề và tìm thấy niềm hạnh phúc từ việc chăm sóc từng mầm sống; muốn nâng tầm nông nghiệp, trước hết phải vun bồi hạnh phúc và tri thức cho người gieo trồng.",
+    link: "https://nongnghiepmoitruong.vn/thay-toi-voi-cau-chuyen-nguoi-hanh-phuc-va-cay-hanh-phuc-d342254.html",
   },
 ];
 
@@ -95,14 +95,14 @@ useEffect(() => {
 
       {/* ================= HEADING ================= */}
       <h2
-        className="uppercase 
-          text-3xl
+        className="uppercase
+          text-4xl
           font-extrabold
           leading-[1.15]
           tracking-[-0.03em]
           text-[#006400]
-          sm:text-4xl
-          lg:text-[42px]
+          sm:text-5xl
+          lg:text-[48px]
         "
         style={{
           transition:
@@ -204,7 +204,7 @@ useEffect(() => {
                     {a.day}
                   </p>
 
-                  <p className="mt-1 text-xs font-medium text-gray-500">
+                  <p className="mt-1 text-xs font-medium text-gray-500 sm:text-sm">
                     {a.monthYear}
                   </p>
                 </div>
@@ -220,12 +220,12 @@ useEffect(() => {
                     className="uppercase
                       min-h-[50px]
                       line-clamp-2
-                      text-[17px]
+                      text-[19px]
                       font-semibold
                       leading-[1.45]
                       tracking-normal
                       text-gray-900
-                      sm:text-[18px]
+                      sm:text-[21px]
                     "
                   >
                     <a
@@ -247,7 +247,7 @@ useEffect(() => {
                       font-normal
                       leading-[1.6]
                       text-gray-500
-                      sm:text-[16px]
+                      sm:text-[18px]
                     "
                   >
                     {a.excerpt}

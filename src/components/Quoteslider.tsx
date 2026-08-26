@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -24,43 +23,33 @@ import { useEffect, useRef, useState } from "react";
 type Slide = {
   image: string;
   quote: string;
-  name: string;
-  role: string;
-  avatar: string;
+  topic: string;
 };
 
 const SLIDES: Slide[] = [
   {
     image: "/images/UNIFARM/2.jpg",
     quote:
-      "Nông nghiệp không thể cạnh tranh chỉ bằng diện tích lớn hơn, mà phải đến từ giống tốt hơn, dữ liệu chuẩn xác và sử dụng tài nguyên hiệu quả hơn.",
-    name: "xxxx xxxx",
-    role: "Lãnh đạo Unifarm",
-    avatar: "https://i.pravatar.cc/160?img=12",
+      "Unifarm không cần sở hữu mọi cánh đồng. Một chuỗi giá trị chỉ thực sự bền vững khi người trực tiếp làm ra nông sản có hiệu quả kinh tế và sống tốt hơn.",
+    topic: "Về Chuỗi liên kết",
   },
   {
     image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
     quote:
-      "Một chuỗi giá trị không thể bền vững nếu khách hàng có sản phẩm, doanh nghiệp có nguyên liệu nhưng người nông dân thua lỗ.",
-    name: "xxxx xxxx",
-    role: "Giám đốc Phát triển Chuỗi liên kết",
-    avatar: "https://i.pravatar.cc/160?img=32",
+      "Làm nông nghiệp là yêu Đất – Nước. Đất không chỉ để giữ cây mà là một hệ sinh thái sống; bớt lãng phí tài nguyên chính là tạo ra nhiều giá trị hơn trên cùng một mảnh đất.",
+    topic: "Về Triết lý Đất – Nước",
   },
   {
     image: "/images/banana-leaf-drops.jpg",
     quote:
-      "QC không tạo ra chất lượng. QC chỉ xác nhận hệ thống có tạo ra chất lượng hay không. Chất lượng thuộc về mọi người.",
-    name: "xxxx xxxx",
-    role: "Trưởng bộ phận Đảm bảo chất lượng",
-    avatar: "https://i.pravatar.cc/160?img=51",
+      "Khách hàng không chỉ mua một trái cây, họ mua sự an tâm về quy cách, sản lượng và tính ổn định dài hạn. Ở Unifarm, sự ổn định cũng chính là một sản phẩm.",
+    topic: "Về Sự ổn định & Kỷ luật cung ứng",
   },
   {
     image: "/images/banana/banana-plantation-aerial.jpg",
     quote:
-      "Tri thức lớn lên khi được chia sẻ. Những gì học được từ đồng ruộng, thử nghiệm và cả thất bại đều là tài sản quý cho ngành.",
-    name: "xxxx xxxx",
-    role: "Chuyên gia R&D Unifarm",
-    avatar: "https://i.pravatar.cc/160?img=68",
+      "Mỗi thùng nông sản rời khỏi trang trại phải có khả năng tự kể lại trọn vẹn hành trình của mình — từ lô đất, ngày thu hoạch cho đến bàn tay người đóng gói.",
+    topic: "Về Khả năng truy xuất nguồn gốc",
   },
 ];
 
@@ -128,7 +117,7 @@ export default function QuoteSlider() {
       {/* Content */}
       <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-20">
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#87cefa] sm:text-sm">
-          Góc nhìn về nông nghiệp hiện đại
+          Góc nhìn về nông nghiệp của lãnh đạo Unifarm
         </p>
 
         {/* Quote mark */}
@@ -152,19 +141,10 @@ export default function QuoteSlider() {
           </blockquote>
 
           <div className="mt-8 flex items-center gap-3">
-            <img
-              src={SLIDES[index].avatar}
-              alt={SLIDES[index].name}
-              className="h-11 w-11 rounded-full object-cover ring-2 ring-[#87cefa]/60 sm:h-12 sm:w-12"
-            />
-            <div className="leading-tight">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-[#fffacd]/80">
-                {SLIDES[index].role}
-              </p>
-              <p className="text-base font-bold text-white sm:text-lg">
-                {SLIDES[index].name}
-              </p>
-            </div>
+            <span className="h-8 w-1 shrink-0 rounded-full bg-[#87cefa]" />
+            <p className="text-sm font-bold uppercase tracking-wider text-[#fffacd] sm:text-base">
+              {SLIDES[index].topic}
+            </p>
           </div>
         </div>
 

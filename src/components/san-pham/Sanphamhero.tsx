@@ -102,7 +102,7 @@ export default function SanPhamHero() {
             <h1 className="uppercase max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
               {slide.title}
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-sm text-white/85 sm:text-base">
+            <p className="mx-auto mt-4 max-w-xl text-sm text-white/85 sm:text-[20px] md:text-[22px] lg:text-[28px]">
               {slide.subtitle}
             </p>
           </div>

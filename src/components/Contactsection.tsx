@@ -65,7 +65,7 @@ export default function ContactSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate min-h-screen w-full overflow-hidden"
+      className="relative isolate min-h-[78vh] w-full overflow-hidden"
     >
       {/* Ảnh nền cố định — không cuộn theo trang */}
       <div
@@ -80,7 +80,7 @@ export default function ContactSection() {
       />
 
       {/* Nội dung */}
-      <div className="relative flex min-h-screen w-full items-center justify-center px-4 py-16 sm:py-24">
+      <div className="relative flex min-h-[78vh] w-full items-center justify-center px-4 py-10 sm:py-16">
         <div
           className="w-full max-w-md sm:max-w-lg motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100"
           style={{
@@ -106,7 +106,7 @@ export default function ContactSection() {
 
             {/* Tiêu đề */}
             <h2 className="uppercase mt-4 flex items-center justify-center gap-2 text-center text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
-              Kết Nối &amp; Đánh Giá Nông Trại
+              Trao Đổi Thông Tin Cùng Unifarm
               {/* <Image
                 src="/images/mascot/banana-mascot.png"
                 alt=""

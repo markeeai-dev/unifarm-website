@@ -93,7 +93,7 @@ export default function WhyUnifarm() {
   return (
     <section
       id="gioi-thieu-unifarm"
-      className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 lg:py-20"
+      className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 lg:py-5"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">

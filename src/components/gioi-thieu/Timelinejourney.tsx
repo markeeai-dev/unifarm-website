@@ -426,7 +426,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
 
                   {/* năm */}
                   <span
-                    className={`atx-mono text-[12px] font-bold transition-colors sm:text-[13px] ${
+                    className={`atx-mono text-[15px] font-bold transition-colors sm:text-[16px] ${
                       isActive
                         ? "text-[#006400]"
                         : isPast
@@ -454,7 +454,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
 
                   {/* caption */}
                   <span
-                    className={`atx-body max-w-[92px] text-center text-[11px] leading-snug transition-colors ${
+                    className={`atx-body max-w-[104px] text-center text-[14px] leading-snug transition-colors ${
                       isActive
                         ? "font-semibold text-[#0a3d0a]"
                         : "text-[#5c6a55]"

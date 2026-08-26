@@ -240,6 +240,12 @@ const EXPORT_MARKETS = [
   "Trung Quốc",
   "Đông Nam Á",
   "Trung Đông",
+  "Đức",
+  "Hà Lan",
+  "Pháp",
+  "Bắc Mỹ",
+  "Châu Phi",
+  "Châu Đại Dương",
 ];
 
 /* ============================================================
@@ -284,7 +290,7 @@ const MAP_CLUSTERS = [
   { cx: 165, cy: 74, rx: 9, ry: 7, count: 8, seed: 6 }, // Úc
 ];
 
-// 5 điểm thị trường xuất khẩu chính, khớp với EXPORT_MARKETS — sáng & nhấp nháy
+// 11 điểm thị trường xuất khẩu chính, khớp với EXPORT_MARKETS — sáng & nhấp nháy
 // mỗi điểm có anchor + offset riêng để đặt tên nước không đè lên nhau
 const MARKET_DOTS = [
   { x: 172, y: 24, label: "Nhật Bản", flagId: "jp", dx: -4, dy: 6, anchor: "end" as const },
@@ -292,6 +298,12 @@ const MARKET_DOTS = [
   { x: 138, y: 21, label: "Trung Quốc", flagId: "cn", dx: -3, dy: 6, anchor: "end" as const },
   { x: 153, y: 53, label: "Đông Nam Á", flagId: "sg", dx: 4, dy: 1, anchor: "start" as const },
   { x: 111, y: 40, label: "Trung Đông", flagId: "ae", dx: -4, dy: 1, anchor: "end" as const },
+  { x: 95, y: 9, label: "Hà Lan", flagId: "nl", dx: 0, dy: -3, anchor: "middle" as const },
+  { x: 92, y: 15, label: "Đức", flagId: "de", dx: 4, dy: 1, anchor: "start" as const },
+  { x: 88, y: 22, label: "Pháp", flagId: "fr", dx: -4, dy: 6, anchor: "end" as const },
+  { x: 28, y: 24, label: "Bắc Mỹ", flagId: "us", dx: 4, dy: 1, anchor: "start" as const },
+  { x: 96, y: 54, label: "Châu Phi", flagId: "africa", dx: 4, dy: 6, anchor: "start" as const },
+  { x: 166, y: 76, label: "Châu Đại Dương", flagId: "au", dx: -4, dy: 6, anchor: "end" as const },
 ];
 
 // Điểm gốc — Việt Nam, nơi xuất phát các "đường bay" xuất khẩu trên bản đồ
@@ -368,6 +380,65 @@ function FlagPin({ x, y, id }: { x: number; y: number; id: string }) {
           <rect y={h / 3} width={w} height={h / 3} fill="#fff" />
           <rect y={(2 * h) / 3} width={w} height={h / 3} fill="#000" />
           <rect width={w * 0.28} height={h} fill="#FF0000" />
+        </>
+      );
+      break;
+    case "de":
+      body = (
+        <>
+          <rect width={w} height={h / 3} fill="#000" />
+          <rect y={h / 3} width={w} height={h / 3} fill="#DD0000" />
+          <rect y={(2 * h) / 3} width={w} height={h / 3} fill="#FFCE00" />
+        </>
+      );
+      break;
+    case "fr":
+      body = (
+        <>
+          <rect width={w / 3} height={h} fill="#0055A4" />
+          <rect x={w / 3} width={w / 3} height={h} fill="#fff" />
+          <rect x={(2 * w) / 3} width={w / 3} height={h} fill="#EF4135" />
+        </>
+      );
+      break;
+    case "nl":
+      body = (
+        <>
+          <rect width={w} height={h / 3} fill="#AE1C28" />
+          <rect y={h / 3} width={w} height={h / 3} fill="#fff" />
+          <rect y={(2 * h) / 3} width={w} height={h / 3} fill="#21468B" />
+        </>
+      );
+      break;
+    case "us":
+      body = (
+        <>
+          <rect width={w} height={h} fill="#fff" />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <rect key={i} y={(i * h) / 4} width={w} height={h / 8} fill="#B22234" />
+          ))}
+          <rect width={w * 0.4} height={h * 0.6} fill="#3C3B6E" />
+        </>
+      );
+      break;
+    case "africa":
+      body = (
+        <>
+          <rect width={w} height={h / 3} fill="#009A44" />
+          <rect y={h / 3} width={w} height={h / 3} fill="#FFCE00" />
+          <rect y={(2 * h) / 3} width={w} height={h / 3} fill="#DE2110" />
+        </>
+      );
+      break;
+    case "au":
+      body = (
+        <>
+          <rect width={w} height={h} fill="#00247D" />
+          <rect y={h * 0.35} width={w * 0.4} height={h * 0.3} fill="#fff" />
+          <rect x={w * 0.15} width={w * 0.1} height={h} fill="#fff" />
+          <circle cx={w * 0.72} cy={h * 0.32} r={h * 0.09} fill="#fff" />
+          <circle cx={w * 0.88} cy={h * 0.5} r={h * 0.09} fill="#fff" />
+          <circle cx={w * 0.68} cy={h * 0.7} r={h * 0.09} fill="#fff" />
         </>
       );
       break;
@@ -705,12 +776,12 @@ function DomesticCard() {
               Thị phần nội địa
             </h3>
             <p className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl" style={{ color: C.ink }}>
-              Dưa lưới, chuối, dứa MD2
+              Dưa lưới, Chuối, Dứa MD2, …
             </p>
           </div>
 
           <p className="max-w-sm text-center text-sm leading-relaxed text-gray-500 sm:text-right">
-            Cung ứng sản phẩm chuối, dứa, cây nông nghiệp chất lượng đồng đều cho các hệ thống bán lẻ và đối tác lớn.
+            Cung ứng ổn định các dòng nông sản cao cấp, đáp ứng trọn vẹn tiêu chuẩn khắt khe của các đại siêu thị và doanh nghiệp thực phẩm lớn tại Việt Nam.
           </p>
         </div>
       </div>

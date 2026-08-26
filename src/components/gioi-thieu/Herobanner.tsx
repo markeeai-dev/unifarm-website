@@ -130,7 +130,7 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            FROM A FARM TO AN ECOSYSTEM
+            TỪ MỘT TRANG TRẠI ĐẾN MỘT HỆ SINH THÁI
             <br />
             <span style={{ color: COLORS.accent }}>
               HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG

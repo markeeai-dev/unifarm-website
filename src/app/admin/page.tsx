@@ -6,10 +6,12 @@ import {
   ShoppingBasket,
   Briefcase,
   History,
+  Store,
   FilePlus,
   PackagePlus,
   UserPlus,
   CalendarPlus,
+  MapPinPlus,
   ExternalLink,
 } from "lucide-react";
 import AdminShell from "./AdminShell";
@@ -45,6 +47,7 @@ export default async function AdminRootPage() {
     [{ n: jobTotal }],
     [{ n: jobActive }],
     [{ n: timelineCount }],
+    [{ n: distributorCount }],
     recentProducts,
     recentPosts,
   ] = await Promise.all([
@@ -54,10 +57,12 @@ export default async function AdminRootPage() {
     sql`SELECT COUNT(*)::int AS n FROM jobs`,
     sql`SELECT COUNT(*)::int AS n FROM jobs WHERE status = 'active'`,
     sql`SELECT COUNT(*)::int AS n FROM timeline_milestones`,
+    sql`SELECT COUNT(*)::int AS n FROM distributors`,
     sql`SELECT id, name, category, created_at FROM products ORDER BY created_at DESC LIMIT 5`,
     sql`SELECT id, title, status, created_at FROM blog_posts ORDER BY created_at DESC LIMIT 5`,
   ]) as unknown as [
     { category: string; n: number }[],
+    { n: number }[],
     { n: number }[],
     { n: number }[],
     { n: number }[],
@@ -96,6 +101,7 @@ export default async function AdminRootPage() {
         <StatCard label="Bài viết" value={blogTotal} sub={`${blogPublished} đã đăng · ${blogTotal - blogPublished} nháp`} color="#2563eb" href="/admin/blog" icon={<Newspaper size={20} strokeWidth={1.8} />} />
         <StatCard label="Vị trí tuyển dụng" value={jobTotal} sub={`${jobActive} đang mở · ${jobTotal - jobActive} đã đóng`} color="#d97706" href="/admin/jobs" icon={<Briefcase size={20} strokeWidth={1.8} />} />
         <StatCard label="Mốc lịch sử" value={timelineCount} sub="Trên trang Giới thiệu" color="#7c3aed" href="/admin/timeline" icon={<History size={20} strokeWidth={1.8} />} />
+        <StatCard label="Cửa hàng phân phối" value={distributorCount} sub="Trên trang Hệ thống phân phối" color="#0891b2" href="/admin/distributors" icon={<Store size={20} strokeWidth={1.8} />} />
       </div>
 
       {/* Charts */}
@@ -180,6 +186,7 @@ export default async function AdminRootPage() {
           <QuickAction href="/admin/blog/new" label="Viết bài viết mới" desc="Soạn bài với rich text editor" color="#2563eb" icon={<FilePlus size={19} strokeWidth={1.8} />} />
           <QuickAction href="/admin/jobs/new" label="Thêm vị trí tuyển dụng" desc={`${jobActive} vị trí đang mở`} color="#d97706" icon={<UserPlus size={19} strokeWidth={1.8} />} />
           <QuickAction href="/admin/timeline/new" label="Thêm mốc lịch sử" desc={`${timelineCount} mốc hiện có`} color="#7c3aed" icon={<CalendarPlus size={19} strokeWidth={1.8} />} />
+          <QuickAction href="/admin/distributors/new" label="Thêm cửa hàng phân phối" desc={`${distributorCount} cửa hàng hiện có`} color="#0891b2" icon={<MapPinPlus size={19} strokeWidth={1.8} />} />
           <QuickAction href="/admin/products" label="Quản lý sản phẩm" desc={`${productTotal} sản phẩm · 3 danh mục`} color="#0891b2" icon={<ShoppingBasket size={19} strokeWidth={1.8} />} />
           <QuickAction href="/" label="Xem website" desc="Mở trang chủ Unifarm" color="#16a34a" icon={<ExternalLink size={19} strokeWidth={1.8} />} />
         </div>

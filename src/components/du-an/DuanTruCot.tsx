@@ -306,7 +306,7 @@ export default function DuanTruCot() {
 
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
-              <motion.div
+              {/* <motion.div
                 key={`${image.tag}-caption`}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -322,7 +322,7 @@ export default function DuanTruCot() {
                 <p className="text-lg font-extrabold leading-snug text-white sm:text-xl">
                   {image.tag}
                 </p>
-              </motion.div>
+              </motion.div> */}
             </div>
           </div>
 

@@ -88,7 +88,7 @@ export default function AgroviaHero() {
   };
 
   return (
-    <section className="relative isolate flex min-h-[86vh] w-full flex-col overflow-hidden sm:min-h-[92vh]">
+    <section className="relative isolate flex min-h-[74vh] w-full flex-col overflow-hidden sm:min-h-[80vh]">
       {/* ---------------- BACKGROUND VIDEO ----------------
           Nguồn chỉ có 854x480 (không có bản độ phân giải cao hơn), nên khi
           phủ kín màn hình sẽ hơi mềm — bỏ scale thừa (từng làm mờ thêm) và
@@ -101,7 +101,7 @@ export default function AgroviaHero() {
   loop
   playsInline
 >
-  <source src="/images/UNIFARM/UNIFARM/hinh-chinh/2021-2.mp4" type="video/mp4" />
+  <source src="/video/2021-2.mp4" type="video/mp4" />
 </video>
 
       <div
@@ -144,9 +144,9 @@ export default function AgroviaHero() {
       </div>
 
       {/* ---------------- HERO TEXT ---------------- */}
-      <div className="relative z-10 flex flex-1 items-end px-7 pb-12 sm:px-14 sm:pb-50 lg:pl-80 lg:pr-20">
-        <div className="max-w-[640px]">
-          <div className="relative min-h-[220px] animate-rise-in opacity-0 sm:min-h-[190px] [animation-delay:.25s]">
+      <div className="relative z-10 flex flex-1 items-end px-7 pb-10 sm:px-14 sm:pb-36 lg:pl-80 lg:pr-20">
+        <div className="max-w-[680px] lg:max-w-[780px]">
+          <div className="relative min-h-[250px] animate-rise-in opacity-0 sm:min-h-[220px] lg:min-h-[280px] [animation-delay:.25s]">
             {SLIDES.map((s, i) => (
               <div
                 key={i}
@@ -156,10 +156,10 @@ export default function AgroviaHero() {
                     : 'pointer-events-none absolute inset-0 translate-y-3.5 opacity-0'
                 }`}
               >
-                <h1 className="uppercase text-[2.1rem] font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-[2.8rem] lg:text-[2.6rem] [&_em]:font-medium [&_em]:not-italic [&_em]:italic [&_em]:text-[#87cefa]">
+                <h1 className="uppercase text-[2.3rem] font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-[3rem] lg:text-[3.6rem] [&_em]:font-medium [&_em]:not-italic [&_em]:italic [&_em]:text-[#87cefa]">
                   {s.title}
                 </h1>
-                <p className="mt-4 max-w-[420px] font-sans text-[0.98rem] font-medium leading-[1.55] text-cream/[0.82]">
+                <p className="mt-4 max-w-[420px] font-sans text-[1.25rem] font-medium leading-[1.55] text-cream/[0.82] lg:max-w-[540px] lg:text-[1.4rem]">
                   {s.subhead}
                 </p>
               </div>

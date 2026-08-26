@@ -27,10 +27,11 @@ export default async function TuyenDungPage() {
       <ScrollToTopButton />
       <TuyenDungHero />
       <main className="flex-1">
-        <WhyUnifarm />
+        {/* <WhyUnifarm /> */}
+        <ApplyBenefits />
         <JobListings jobs={jobs} />
         <ApplyProcess />
-        <ApplyBenefits />
+        
         <FeedbackBox />
         <ApplyFAQ />
         <ApplyFinalCTA />

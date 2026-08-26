@@ -63,6 +63,19 @@ export type Job = {
   updated_at: string;
 };
 
+export type Distributor = {
+  id: string;
+  name: string;
+  province: string;
+  district: string;
+  address: string;
+  hours: string;
+  phone: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type TimelineMilestone = {
   id: string;
   year: string;

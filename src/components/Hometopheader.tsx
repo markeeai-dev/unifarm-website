@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mail, Clock } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
 
 /**
- * HomeTopHeader — thanh tiện ích mỏng phía trên + thanh điều hướng chính.
- * Bố cục gồm 2 tầng: (1) thanh xanh đậm mỏng phía trên chứa thông tin liên hệ,
- * (2) thanh điều hướng chính nền trắng — logo, menu, nút liên hệ.
+ * HomeTopHeader — thanh điều hướng chính, dính trên cùng khi cuộn.
+ * Chỉ còn 1 tầng (đã bỏ thanh tiện ích mỏng phía trên — animate max-height
+ * của nó gây reflow mỗi khung hình khi cuộn, là nguyên nhân chính gây giật).
+ * Hiệu ứng "gọn lại khi cuộn" dùng transform: scale thay vì đổi padding/
+ * height thật — chỉ chạy trên compositor (GPU), không gây reflow nên mượt.
  *
+
  * Hiệu ứng khi tải trang:
  *  - Logo + nút "Liên hệ ngay" mờ/trượt vào trước.
  *  - Từng mục điều hướng trượt từ dưới lên, xuất hiện nối tiếp nhau
@@ -27,7 +29,7 @@ type NavItem = { label: string; href: string; children?: NavChild[] };
 const NAV_LINKS: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Về chúng tôi", href: "/gioi-thieu" },
-  { label: "Dự Án & Hợp Tác", href: "/du-an-hop-tac" },
+  
   // {
   //   label: "Dịch Vụ",
   //   href: "/dich-vu",
@@ -39,6 +41,8 @@ const NAV_LINKS: NavItem[] = [
   //   ],
   // },
   { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Hệ thống phân phối", href: "/he-thong-phan-phoi" },
+  { label: "Dự Án & Hợp Tác", href: "/du-an-hop-tac" },
   // {
   //   label: "Khác",
   //   href: "#",
@@ -118,38 +122,13 @@ export default function HomeTopHeader() {
 
   return (
     <div className="sticky top-0 z-50 w-full">
-      {/* ===== Thanh tiện ích mỏng — thu gọn dần khi cuộn xuống ===== */}
-      <div
-        className="w-full overflow-hidden bg-[#06301B] text-[12px] text-white/85 transition-[max-height,opacity] duration-300 ease-out"
-        style={{
-          maxHeight: scrolled ? "0px" : "44px",
-          opacity: scrolled ? 0 : 1,
-        }}
-      >
-        <div className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-6 lg:px-8">
-          <p>
-            Nông sản sạch, an toàn mỗi ngày —{" "}
-            <Link href="/gioi-thieu" className="font-semibold text-[#FFFACD] underline underline-offset-2">
-              Tìm hiểu thêm
-            </Link>
-          </p>
-          <div className="hidden items-center gap-4 sm:flex">
-            <span className="inline-flex items-center gap-1.5">
-              <Mail className="h-3.5 w-3.5 text-[#87CEFA]" /> lienhe@unifarm.vn
-            </span>
-            <span className="h-3 w-px bg-white/20" aria-hidden="true" />
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5 text-[#87CEFA]" /> T2 – T7: 8:00 – 17:00
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ===== Thanh điều hướng chính — thấp gọn lại + vẫn nổi bật khi cuộn xuống =====
+      {/* ===== Thanh điều hướng chính — nổi bật hơn khi cuộn xuống =====
           Không dùng backdrop-blur khi cuộn: filter chạy cùng lúc với scroll trên
           phần tử sticky buộc trình duyệt vẽ lại lớp mờ mỗi khung hình, chính là
           nguyên nhân giật — thay bằng nền trắng đặc, vẫn giữ bóng đổ cho cảm
-          giác nổi khối. */}
+          giác nổi khối. Padding giữ cố định (không animate) để tránh reflow;
+          logo tự "gọn lại" bằng transform: scale — chỉ chạy trên compositor,
+          không đụng tới layout nên mượt hơn hẳn so với animate height/padding. */}
       <div
         className={`relative w-full border-b bg-white transition-[background-color,box-shadow,border-color] duration-300 ease-out ${
           scrolled
@@ -166,14 +145,18 @@ export default function HomeTopHeader() {
 
         <div
           className={`mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-4 transition-[padding] duration-300 ease-out sm:px-6 lg:px-8 ${
-            scrolled ? "py-2" : "py-5"
+            scrolled ? "py-1.5" : "py-4 sm:py-5"
           }`}
         >
           <Link
             href="/"
-            className={`flex items-center transition-all duration-700 ease-out ${
-              mounted ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+            className={`flex origin-left items-center transition-[transform,opacity] duration-300 ease-out ${
+              mounted ? "opacity-100" : "opacity-0"
             }`}
+            style={{
+              transform: `translateY(${mounted ? 0 : -12}px) scale(${scrolled ? 0.62 : 1})`,
+              transitionDuration: mounted ? "300ms" : "700ms",
+            }}
           >
             <Image
               src="/images/logo-unifarm.png"
@@ -181,9 +164,7 @@ export default function HomeTopHeader() {
               width={829}
               height={400}
               priority
-              className={`logo-wiggle w-auto transition-[height] duration-300 ease-out ${
-                scrolled ? "h-8 sm:h-9" : "h-12 sm:h-14"
-              }`}
+              className="logo-wiggle h-12 w-auto sm:h-14"
               style={{ animationPlayState: isScrolling ? "paused" : "running" }}
             />
           </Link>
@@ -250,10 +231,14 @@ export default function HomeTopHeader() {
           <div className="flex items-center gap-3">
             <Link
               href="/#contact"
-              className={`hidden rounded-full bg-[#006400] text-sm font-bold text-white shadow-sm transition-[padding,box-shadow,transform,opacity] duration-300 ease-out hover:bg-[#004d00] hover:shadow-md sm:inline-flex ${
-                scrolled ? "px-5 py-1.5 shadow-[0_10px_24px_-6px_rgba(0,100,0,0.5)]" : "px-6 py-2.5"
-              } ${mounted ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"}`}
-              style={{ transitionDelay: mounted ? "150ms" : "0ms" }}
+              className={`hidden origin-right rounded-full bg-[#006400] px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-[box-shadow,transform,opacity] duration-300 ease-out hover:bg-[#004d00] hover:shadow-md sm:inline-flex ${
+                scrolled ? "shadow-[0_10px_24px_-6px_rgba(0,100,0,0.5)]" : ""
+              } ${mounted ? "opacity-100" : "opacity-0"}`}
+              style={{
+                transform: `translateY(${mounted ? 0 : -12}px) scale(${scrolled ? 0.8 : 1})`,
+                transitionDelay: mounted ? "150ms" : "0ms",
+                transitionDuration: mounted ? "300ms" : "700ms",
+              }}
             >
               Liên hệ ngay
             </Link>

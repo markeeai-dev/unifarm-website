@@ -47,7 +47,7 @@ const CORE_VALUES = [
     desc: "Không ngừng quan sát, thử nghiệm có đối chứng, đo lường và cải tiến liên tục vì con người.",
     color: "#C9642F",
     icon: HeartHandshake,
-    image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/nhan-van.jpg",
   },
 ] as const;
 
@@ -81,7 +81,7 @@ function ValueCard({
         show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
       }}
       className={[
-        "group relative flex min-h-[220px] flex-col justify-start overflow-hidden p-6 text-left transition-all duration-500 sm:min-h-[260px] sm:p-8 lg:min-h-[280px]",
+        "group relative flex min-h-[190px] flex-col justify-start overflow-hidden p-6 text-left transition-all duration-500 sm:min-h-[220px] sm:p-8 lg:min-h-0",
         variant === "vang"
           ? "bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat"
           : "bg-white bg-[url('/images/nen_trang.png')] bg-repeat",
@@ -138,7 +138,7 @@ function ValueCard({
         <h3 className="mt-1.5 text-lg font-extrabold uppercase leading-tight tracking-tight text-[#06301B] sm:text-xl lg:text-2xl">
           {val.title}
         </h3>
-        <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-slate-600 sm:text-sm">
+        <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-slate-600 sm:text-[18px]">
           {val.desc}
         </p>
       </div>
@@ -217,7 +217,7 @@ export default function CoreValues() {
       </motion.div> */}
 
       {/* Split full-width: trái ảnh đúng 50% / phải grid 2x2 dính sát, không bo góc */}
-      <div ref={ref} className="relative flex w-full flex-col lg:min-h-[82vh] lg:flex-row lg:items-stretch">
+      <div ref={ref} className="relative flex w-full flex-col lg:min-h-[70vh] lg:flex-row lg:items-stretch">
         {/* ẢNH BÊN TRÁI — full-bleed 50% */}
         <motion.div
           initial={reduce ? false : { opacity: 0, x: -40 }}
@@ -225,7 +225,7 @@ export default function CoreValues() {
           transition={{ duration: 0.9, ease: EASE }}
           className="relative w-full overflow-hidden lg:w-1/2"
         >
-          <div className="relative aspect-[4/3] w-full lg:sticky lg:top-0 lg:aspect-auto lg:h-[82vh]">
+          <div className="relative aspect-[4/3] w-full lg:sticky lg:top-0 lg:aspect-auto lg:h-[70vh]">
             {CORE_VALUES.map((val, i) => (
               <motion.div
                 key={val.key}
@@ -291,7 +291,7 @@ export default function CoreValues() {
             hidden: {},
             show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
           }}
-          className="grid w-full grid-cols-1 sm:grid-cols-2 lg:h-[82vh] lg:w-1/2 lg:grid-rows-2"
+          className="grid w-full grid-cols-1 sm:grid-cols-2 lg:h-[70vh] lg:w-1/2 lg:grid-rows-2"
         >
           {CORE_VALUES.map((val, i) => (
             <ValueCard

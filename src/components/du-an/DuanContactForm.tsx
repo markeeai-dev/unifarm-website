@@ -89,7 +89,7 @@ export default function DuanContactForm() {
   return (
     <section
       id="hop-tac"
-      className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-28"
+      className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-10"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">

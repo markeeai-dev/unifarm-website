@@ -190,7 +190,7 @@ function HexPillar({
           {title}
         </h4>
         {subtitle ? (
-          <p className="text-[11px] leading-snug text-slate-500">{subtitle}</p>
+          <p className="text-[11px] leading-snug text-slate-500 sm:text-[14px] sm:text-[#06301B]">{subtitle}</p>
         ) : null}
         <span
           className="h-[3px] w-8 rounded-full"

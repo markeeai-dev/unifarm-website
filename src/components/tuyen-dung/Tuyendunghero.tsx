@@ -134,7 +134,7 @@ export default function TuyenDungHero() {
             </a>
           </div>
 
-          <div
+          {/* <div
             className={`mt-10 grid w-full max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 transition-all delay-[350ms] duration-700 sm:grid-cols-4 ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
@@ -152,7 +152,7 @@ export default function TuyenDungHero() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 

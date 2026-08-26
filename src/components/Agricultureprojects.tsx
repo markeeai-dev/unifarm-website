@@ -35,7 +35,7 @@ const projects: Project[] = [
     title: "Phát triển Vùng Trồng",
     description:
       "Phát triển theo định hướng sản xuất chuyên nghiệp, chất lượng đồng đều và phù hợp yêu cầu khắt khe của thị trường.",
-    image: "/images/UNIFARM/ptvt-update.jpg",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon1.jpg",
     icon: Sprout,
   },
   {
@@ -49,7 +49,7 @@ const projects: Project[] = [
     title: "Chế Biến Sâu & Xuất Khẩu",
     description:
       "Tối ưu giá trị nông sản bằng công nghệ chế biến sâu, đưa sản phẩm Việt vươn ra quốc tế.",
-    image: "https://media.vov.vn/sites/default/files/styles/large/public/2023-07/cong_dung_tuyet_voi_cua_chuoi_xanh_doi_voi_suc_khoe5.jpg",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/chuoi-tuoi.jpg",
     icon: Factory,
   },
   {
@@ -339,7 +339,7 @@ const { ref: bottomRef, inView: bottomInView } =
           </div>
           <p
             className={[
-                "max-w-sm text-sm leading-relaxed text-[#006400]/70 md:text-right md:text-base",
+                "max-w-sm text-sm leading-relaxed text-[#006400]/70 md:text-right md:text-[18px]",
                 "transition-all duration-[1200ms] delay-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                 headerInView
                 ? "translate-x-0 opacity-100"

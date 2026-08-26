@@ -3,19 +3,22 @@
 /**
  * BanDoNongSanXanh — "Bản đồ nông sản xanh Việt Nam"
  * ------------------------------------------------------------------
- * Bố cục 2 cột rõ ràng: TRÁI là bản đồ Việt Nam THẬT (từng tỉnh là 1
- * path riêng, lấy từ bộ dữ liệu `@svg-maps/vietnam`), PHẢI là bảng chi
- * tiết — bấm vào tỉnh có dữ liệu trên bản đồ thì toàn bộ nội dung chi
- * tiết của vùng đó (3 nhóm: Vùng trồng & trang trại / Chế biến & giá
- * trị / Dự án phát triển & chuyển giao) hiện ra bên phải, có hiệu ứng
- * chuyển mượt. Mọi tỉnh đều hover được (sáng lên + phóng nhẹ); tỉnh có
- * dữ liệu thật được tô đậm hơn hẳn để phân biệt.
+ * Bố cục 2 cột: TRÁI là hình dạng Việt Nam liền khối (không vẽ ranh
+ * giới từng tỉnh — địa giới tỉnh cũ đã lỗi thời sau đợt sáp nhập tỉnh
+ * 2025), chỉ đánh dấu 3 khu vực lớn Bắc – Trung – Nam bằng marker cố
+ * định toạ độ, không gắn tên tỉnh cụ thể nào. PHẢI là bảng chi tiết —
+ * bấm vào 1 khu vực thì nội dung dự án của khu vực đó (3 nhóm: Vùng
+ * trồng & trang trại / Chế biến & giá trị / Dự án phát triển & chuyển
+ * giao) hiện ra bên phải, có hiệu ứng chuyển mượt. Khu vực chưa có dữ
+ * liệu dự án cụ thể để công bố (Bắc, Trung) hiển thị trạng thái "đang
+ * mở rộng" trung thực, không bịa số liệu/tên dự án.
  *
- * `REGIONS` là nguồn dữ liệu duy nhất — thêm tỉnh mới chỉ cần thêm 1
- * phần tử { id, name, totalHa, sections } với `id` đúng mã tỉnh trong
- * `@svg-maps/vietnam` (vd "hanoi", "dongnai", "lamdong"...) — vị trí
- * marker được tự tính từ hình dạng thật của tỉnh đó, không cần đoán toạ
- * độ tay. Bản đồ dùng dữ liệu của svg-maps.com (CC BY 4.0).
+ * `REGIONS` là nguồn dữ liệu duy nhất — mỗi khu vực có `pos` là % toạ
+ * độ cố định của marker trên bản đồ (đã tính sẵn theo trung tâm địa lý
+ * khu vực, không phụ thuộc dữ liệu ranh giới tỉnh nào). Bản đồ nền
+ * dùng dữ liệu hình dạng quốc gia từ `@svg-maps/vietnam` (CC BY 4.0)
+ * chỉ để lấy đúng đường viền lãnh thổ thật — mọi tỉnh được tô cùng 1
+ * màu, không viền, không hover/click riêng từng tỉnh.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -50,21 +53,31 @@ type Field = { label: string; value: string };
 type RegionItem = { name: string; fields: Field[] };
 type RegionSection = { title: string; short: string; subtitle?: string; items: RegionItem[] };
 type Region = {
-  /** Đúng mã tỉnh trong bộ dữ liệu @svg-maps/vietnam (vd "binhduong"). */
-  id: string;
+  id: "bac" | "trung" | "nam";
   name: string;
   totalHa: string;
   /** Ảnh nhỏ hiện ở đầu đường chỉ nối ra từ marker. */
   image: string;
+  /** % toạ độ cố định của marker trên bản đồ (hệ PADDED_VIEWBOX), ứng
+   * với trung tâm địa lý của khu vực — không phụ thuộc ranh giới tỉnh. */
+  pos: { x: number; y: number };
+  /** % toạ độ cố định của thẻ ảnh callout, luôn nằm gọn trong phần đệm
+   * bên trái bản đồ — canh riêng cho từng khu vực để không bao giờ tràn
+   * ra ngoài khung nhìn dù ở marker nào. */
+  calloutPos: { x: number; y: number };
   sections: RegionSection[];
+  /** true = khu vực đang mở rộng, chưa có dự án cụ thể để công bố. */
+  comingSoon?: boolean;
 };
 
 const REGIONS: Region[] = [
   {
-    id: "binhduong",
-    name: "Bình Dương",
+    id: "nam",
+    name: "Miền Nam",
     totalHa: "1.694,47",
     image: "/images/UNIFARM/2.jpg",
+    pos: { x: 34.5, y: 69.3 },
+    calloutPos: { x: 20, y: 74 },
     sections: [
       {
         title: "Vùng trồng & trang trại",
@@ -178,6 +191,26 @@ const REGIONS: Region[] = [
         ],
       },
     ],
+  },
+  {
+    id: "trung",
+    name: "Miền Trung",
+    totalHa: "—",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon2.jpg",
+    pos: { x: 41.2, y: 47.1 },
+    calloutPos: { x: 80, y: 47 },
+    comingSoon: true,
+    sections: [],
+  },
+  {
+    id: "bac",
+    name: "Miền Bắc",
+    totalHa: "—",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032394_1582751505492234802_4935324150679931320_6e7befd02ac62654f5522a88f1772c1d.jpg",
+    pos: { x: 29.9, y: 24.3 },
+    calloutPos: { x: 21, y: 11 },
+    comingSoon: true,
+    sections: [],
   },
 ];
 
@@ -325,40 +358,31 @@ export default function BanDoNongSanXanh() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Bản đồ Việt Nam thật — mỗi tỉnh 1 path (dữ liệu @svg-maps/vietnam)   */
+/* Bản đồ Việt Nam — hình quốc gia liền khối (không vẽ ranh giới tỉnh), */
+/* chỉ đánh dấu 3 khu vực Bắc – Trung – Nam bằng marker cố định toạ độ  */
 /* ------------------------------------------------------------------ */
 
-const REGION_IDS = new Set(REGIONS.map((r) => r.id));
-
 /** Đệm thêm quanh viewBox thật để khi phóng to (zoom) khu vực đang chọn,
- * phần bản đồ không bao giờ tràn ra ngoài khung nhìn của SVG. */
-const VIEWBOX_PAD = 150;
+ * phần bản đồ không bao giờ tràn ra ngoài khung nhìn của SVG, đồng thời
+ * chừa đủ chỗ bên trái cho thẻ ảnh callout của từng khu vực. */
+const VIEWBOX_PAD = 190;
 const PADDED_VIEWBOX = `${-VIEWBOX_PAD} ${-VIEWBOX_PAD} ${VIETNAM_VW + VIEWBOX_PAD * 2} ${VIETNAM_VH + VIEWBOX_PAD * 2}`;
 
-/** Quy đổi qua lại giữa toạ độ thật trong SVG (hệ viewBox đã đệm) và %
- * (dùng để định vị marker/ảnh bằng HTML tuyệt đối lên trên khung SVG). */
-function userToPct(user: number, size: number) {
-  return ((user + VIEWBOX_PAD) / (size + VIEWBOX_PAD * 2)) * 100;
-}
+/** Quy đổi % (hệ PADDED_VIEWBOX) sang toạ độ thật trong SVG — dùng để vẽ
+ * đường chỉ nối từ marker tới thẻ ảnh callout cố định bên trái. */
 function pctToUser(pct: number, size: number) {
   return (pct / 100) * (size + VIEWBOX_PAD * 2) - VIEWBOX_PAD;
 }
 
-/** Điểm neo đường chỉ chạy chéo lên từ marker + vị trí % để đặt ảnh nhỏ
- * ở đầu đường chỉ đó (giới hạn trong phần đệm để không tràn ra ngoài). */
-function lineEndFor(pos: { x: number; y: number }) {
-  const x1 = pctToUser(pos.x, VIETNAM_VW);
-  const y1 = pctToUser(pos.y, VIETNAM_VH);
-  // Đẩy hẳn sang trái, ra ngoài rìa đất liền (phía Tây), dùng phần đệm
-  // quanh viewBox làm chỗ chứa thẻ ảnh callout.
-  const x2 = Math.max(x1 - 320, -VIEWBOX_PAD + 25);
-  const y2 = Math.max(y1 - 205, -VIEWBOX_PAD + 30);
+/** Điểm đầu/cuối đường chỉ nối marker (toạ độ thật %) tới vị trí callout
+ * cố định (đã canh sẵn cho từng khu vực trong REGIONS, luôn nằm gọn
+ * trong phần đệm bên trái nên không bao giờ tràn ra ngoài khung nhìn). */
+function lineEndFor(pos: { x: number; y: number }, calloutPos: { x: number; y: number }) {
   return {
-    x1,
-    y1,
-    x2,
-    y2,
-    pct: { x: userToPct(x2, VIETNAM_VW), y: userToPct(y2, VIETNAM_VH) },
+    x1: pctToUser(pos.x, VIETNAM_VW),
+    y1: pctToUser(pos.y, VIETNAM_VH),
+    x2: pctToUser(calloutPos.x, VIETNAM_VW),
+    y2: pctToUser(calloutPos.y, VIETNAM_VH),
   };
 }
 
@@ -377,48 +401,7 @@ function VietnamMap({
   onHover: (id: string | null) => void;
   onSelect: (id: string | null) => void;
 }) {
-  const pathRefs = useRef<Record<string, SVGPathElement | null>>({});
-  const [markerPct, setMarkerPct] = useState<Record<string, { x: number; y: number }>>({});
-  const [hoverInfo, setHoverInfo] = useState<{ name: string; x: number; y: number } | null>(null);
-
-  const handlePathEnter = (loc: { id: string; name: string }) => {
-    onHover(loc.id);
-    if (REGION_IDS.has(loc.id)) {
-      // Tỉnh có dữ liệu đã có tooltip riêng đầy đủ hơn ở Marker.
-      setHoverInfo(null);
-      return;
-    }
-    const el = pathRefs.current[loc.id];
-    if (!el) return;
-    const bbox = el.getBBox();
-    setHoverInfo({
-      name: loc.name,
-      x: ((bbox.x + bbox.width / 2 + VIEWBOX_PAD) / (VIETNAM_VW + VIEWBOX_PAD * 2)) * 100,
-      y: ((bbox.y + bbox.height / 2 + VIEWBOX_PAD) / (VIETNAM_VH + VIEWBOX_PAD * 2)) * 100,
-    });
-  };
-  const handlePathLeave = () => {
-    onHover(null);
-    setHoverInfo(null);
-  };
-
-  useEffect(() => {
-    const positions: Record<string, { x: number; y: number }> = {};
-    REGIONS.forEach((r) => {
-      const el = pathRefs.current[r.id];
-      if (!el) return;
-      const bbox = el.getBBox();
-      // % tính theo viewBox đã đệm (PADDED_VIEWBOX) — khớp đúng với khung
-      // hình thực tế được render và với transform-origin của <g> khi zoom.
-      positions[r.id] = {
-        x: ((bbox.x + bbox.width / 2 + VIEWBOX_PAD) / (VIETNAM_VW + VIEWBOX_PAD * 2)) * 100,
-        y: ((bbox.y + bbox.height / 2 + VIEWBOX_PAD) / (VIETNAM_VH + VIEWBOX_PAD * 2)) * 100,
-      };
-    });
-    setMarkerPct(positions);
-  }, []);
-
-  const zoomOrigin = zoomEnabled && selectedId ? markerPct[selectedId] : null;
+  const zoomOrigin = zoomEnabled ? REGIONS.find((r) => r.id === selectedId)?.pos ?? null : null;
 
   return (
     <div className="relative">
@@ -439,49 +422,18 @@ function VietnamMap({
             transformOrigin: zoomOrigin ? `${zoomOrigin.x}% ${zoomOrigin.y}%` : "50% 50%",
           }}
         >
-          {vietnamMap.locations.map((loc) => {
-            const hasData = REGION_IDS.has(loc.id);
-            const isHovered = hoveredId === loc.id;
-            const isSelected = selectedId === loc.id;
-            return (
-              <path
-                key={loc.id}
-                ref={(el) => {
-                  pathRefs.current[loc.id] = el;
-                }}
-                d={loc.path}
-                onMouseEnter={() => handlePathEnter(loc)}
-                onMouseLeave={handlePathLeave}
-                onClick={() => hasData && onSelect(loc.id)}
-                style={{
-                  cursor: hasData ? "pointer" : "default",
-                  transformBox: "fill-box",
-                  transformOrigin: "center",
-                  transition:
-                    "fill 300ms ease-out, stroke 300ms ease-out, opacity 300ms ease-out, transform 300ms ease-out",
-                  fill: hasData
-                    ? isSelected
-                      ? `${C.green}8c`
-                      : `${C.green}66`
-                    : isHovered
-                      ? `${C.fresh}75`
-                      : `${C.soft}40`,
-                  stroke: hasData ? C.green : C.fresh,
-                  strokeWidth: hasData ? 1.8 : 1,
-                  strokeOpacity: hasData ? 1 : 0.75,
-                  opacity: isHovered || isSelected ? 1 : hasData ? 1 : 0.85,
-                  transform: isHovered ? "scale(1.025)" : "scale(1)",
-                }}
-              >
-                <title>{loc.name}</title>
-              </path>
-            );
-          })}
+          {/* Hình quốc gia liền khối: mọi tỉnh tô cùng 1 màu, không viền —
+              chỉ lấy đúng đường viền lãnh thổ thật, không hiển thị ranh
+              giới hành chính bên trong (đã lỗi thời sau sáp nhập tỉnh). */}
+          <g aria-hidden style={{ pointerEvents: "none" }}>
+            {vietnamMap.locations.map((loc) => (
+              <path key={loc.id} d={loc.path} fill={`${C.soft}45`} stroke="none" />
+            ))}
+          </g>
 
           {REGIONS.map((r) => {
-            const pos = markerPct[r.id];
-            if (!pos) return null;
-            const end = lineEndFor(pos);
+            const end = lineEndFor(r.pos, r.calloutPos);
+            const isFocused = hoveredId === r.id || selectedId === r.id;
             return (
               <line
                 key={`line-${r.id}`}
@@ -493,7 +445,7 @@ function VietnamMap({
                 strokeWidth={1.5}
                 strokeDasharray="4 5"
                 style={{
-                  opacity: hoveredId === r.id || selectedId === r.id ? 0.6 : 0,
+                  opacity: isFocused ? 0.75 : 0.4,
                   transition: "opacity 400ms ease-out",
                 }}
               />
@@ -504,15 +456,12 @@ function VietnamMap({
 
       <div className="pointer-events-none absolute inset-0">
         {REGIONS.map((r, i) => {
-          const pos = markerPct[r.id];
-          if (!pos) return null;
           const isFocused = hoveredId === r.id || selectedId === r.id;
-          const end = lineEndFor(pos);
           return (
             <div key={r.id}>
               <Marker
                 region={r}
-                pos={pos}
+                pos={r.pos}
                 index={i}
                 active={selectedId === r.id}
                 hovered={hoveredId === r.id}
@@ -521,14 +470,15 @@ function VietnamMap({
                 onHover={onHover}
                 onSelect={onSelect}
               />
-              {/* Thẻ ảnh callout ở đầu đường chỉ — nằm hẳn ngoài bản đồ */}
+              {/* Thẻ ảnh callout ở đầu đường chỉ — nằm hẳn ngoài bản đồ, không
+                  chú thích tên tỉnh, chỉ ghi tên khu vực (Bắc/Trung/Nam). */}
               <div
                 className="absolute -translate-x-1/2 -translate-y-1/2 text-center"
                 style={{
-                  left: `${end.pct.x}%`,
-                  top: `${end.pct.y}%`,
-                  opacity: isFocused ? 1 : 0,
-                  transform: `translate(-50%, -50%) scale(${isFocused ? 1 : 0.85})`,
+                  left: `${r.calloutPos.x}%`,
+                  top: `${r.calloutPos.y}%`,
+                  opacity: 1,
+                  transform: `translate(-50%, -50%) scale(${isFocused ? 1.06 : 1})`,
                   transition: "opacity 350ms ease-out, transform 350ms cubic-bezier(0.22,1,0.36,1)",
                 }}
               >
@@ -549,21 +499,6 @@ function VietnamMap({
             </div>
           );
         })}
-
-        {/* Tooltip tên tỉnh khi rê chuột vào bất kỳ tỉnh nào trên bản đồ */}
-        {hoverInfo && (
-          <div
-            className="absolute -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md px-3 py-1.5 text-[11px] font-bold shadow-lg"
-            style={{
-              left: `${hoverInfo.x}%`,
-              top: `${hoverInfo.y - 3}%`,
-              background: C.forest,
-              color: C.yellow,
-            }}
-          >
-            {hoverInfo.name}
-          </div>
-        )}
       </div>
 
       <p
@@ -637,7 +572,7 @@ function Marker({
       </span>
 
       {/* tooltip nhanh khi hover — click mới cập nhật panel bên phải */}
-      <span
+      {/* <span
         className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md px-3 py-1.5 text-[11px] font-bold shadow-lg transition-all duration-200"
         style={{
           background: C.forest,
@@ -646,8 +581,8 @@ function Marker({
           transform: hovered && !active ? "translate(-50%, 0)" : "translate(-50%, 4px)",
         }}
       >
-        {region.name} · {totalProjects(region).toString().padStart(2, "0")} dự án
-      </span>
+        {region.name} · {region.comingSoon ? "Đang mở rộng" : `${totalProjects(region).toString().padStart(2, "0")} dự án`}
+      </span> */}
     </motion.button>
   );
 }
@@ -674,6 +609,31 @@ function DetailPanel({
         <p className="max-w-xs text-sm text-neutral-400">
           Bấm vào điểm đánh dấu trên bản đồ để xem chi tiết vùng dự án.
         </p>
+      </div>
+    );
+  }
+
+  if (region.comingSoon) {
+    return (
+      <div className="border p-6 sm:p-8" style={{ borderColor: `${C.forest}18`, background: C.warm }}>
+        <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.green }}>
+          <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
+          {region.name}
+        </p>
+        <p className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: C.forest }}>
+          Đang khảo sát & mở rộng vùng dự án
+        </p>
+        <p className="mt-3 max-w-sm text-sm leading-relaxed text-neutral-500">
+          Unifarm đang khảo sát và mở rộng vùng nguyên liệu tại khu vực này. Thông tin dự án cụ thể sẽ được cập nhật khi triển khai chính thức.
+        </p>
+        <button
+          type="button"
+          className="group mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] transition-all hover:gap-3"
+          style={{ color: C.green }}
+        >
+          Liên hệ tìm hiểu thêm
+          <ArrowRight className="h-3.5 w-3.5" />
+        </button>
       </div>
     );
   }

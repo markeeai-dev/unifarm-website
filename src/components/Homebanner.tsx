@@ -137,7 +137,7 @@ export default function HomeBanner() {
               {slide.badge}
             </span>
 
-            <h1 className="mt-5 text-2xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-3xl lg:text-[2.5rem]">
+            <h1 className="mt-5 text-3xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-4xl lg:text-[3rem]">
               <AnimatedChars
                 text={slide.titleLine1}
                 variant={textStyle}
@@ -154,7 +154,7 @@ export default function HomeBanner() {
             </h1>
 
             <p
-              className="banner-entrance-item mt-5 max-w-[620px] text-[15px] leading-relaxed text-white/80 sm:text-base"
+              className="banner-entrance-item mt-5 max-w-[620px] text-base leading-relaxed text-white/80 sm:text-[20px]"
               style={{ animationDelay: "550ms" }}
             >
               {slide.desc}

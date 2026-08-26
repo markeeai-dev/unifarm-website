@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Dna,
   Bug,
@@ -28,7 +29,7 @@ const PILLARS = [
     points: ["Giống ưu tú", "Sinh học", "Năng suất"],
     icon: Dna,
     accent: "green",
-    image: "/images/UNIFARM/UNIFARM/hình chỉnh/DSC_0016.JPG",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/DSC_0016.JPG",
   },
   {
     id: "02",
@@ -39,7 +40,7 @@ const PILLARS = [
     points: ["Sinh học", "IPM", "Hệ sinh thái"],
     icon: Bug,
     accent: "sky",
-    image: "/images/UNIFARM/UNIFARM/hình chỉnh/DSC_9897.JPG",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/DSC_9897.JPG",
   },
   {
     id: "03",
@@ -50,7 +51,7 @@ const PILLARS = [
     points: ["Tưới chính xác", "Tự động hóa", "Giảm hao hụt"],
     icon: Cpu,
     accent: "green",
-    image: "/images/UNIFARM/UNIFARM/hình chỉnh/IMG_2455.JPG",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/IMG_2455.JPG",
   },
   {
     id: "04",
@@ -61,7 +62,7 @@ const PILLARS = [
     points: ["Tái chế", "Hữu cơ", "Tái tạo đất"],
     icon: Recycle,
     accent: "sky",
-    image: "/images/UNIFARM/UNIFARM/hình chỉnh/Uom cay giong 1.jpg",
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/Uom cay giong 1.jpg",
   },
 ];
 
@@ -629,10 +630,13 @@ export default function AgriTechPillars() {
               Chúng tôi không cạnh tranh với nông dân, mà cùng nông dân đi xa hơn.
             </p>
           </div>
-          <button className="atx-body inline-flex shrink-0 items-center gap-2 rounded-full bg-[#fffacd] px-6 py-3 text-sm font-semibold text-[#0a3d0a] transition-transform hover:scale-[1.03] active:scale-95">
+          <Link
+            href="/du-an-hop-tac#hop-tac"
+            className="atx-body inline-flex shrink-0 items-center gap-2 rounded-full bg-[#fffacd] px-6 py-3 text-sm font-semibold text-[#0a3d0a] transition-transform hover:scale-[1.03] active:scale-95"
+          >
             Hợp tác cùng Unifarm
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -189,7 +189,7 @@ function VisionMission() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={badgeTiming(2)}
-              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-[15px]"
+              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-[22px]"
             >
               Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu Việt Nam, vươn
               tầm thế giới.
@@ -213,7 +213,7 @@ function VisionMission() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
-            src="/images/UNIFARM/UNIFARM/thaithu007-banana-4671645_1920.jpg"
+            src="/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg"
             alt="Sứ mệnh Unifarm"
             className="h-full w-full object-cover"
             initial={{ scale: 1.05 }}
@@ -259,7 +259,7 @@ function VisionMission() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={badgeTiming(2)}
-              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-right sm:text-[15px]"
+              className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-right sm:text-[22px]"
             >
               Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
               và một hành tinh xanh.

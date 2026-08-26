@@ -144,13 +144,13 @@ export default function SmartFarmingShowcase() {
             Công nghệ phục vụ con người
           </span>
 
-          <h2 className="uppercase mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-4xl lg:text-[42px]">
+          <h2 className="uppercase mt-3 text-4xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-5xl lg:text-[42px]">
             Kết Hợp Công Nghệ Và Con Người,
-            
+
             Tạo Nên <span className="text-[#006400]">Năng Suất Vượt Trội</span>
           </h2>
 
-          <p className="mt-5 text-justify text-[15px] leading-relaxed text-gray-500">
+          <p className="mt-5 text-justify text-[20px] leading-relaxed text-gray-500">
             Chúng tôi không dùng công nghệ để thay thế người nông dân, mà dùng
             để giúp họ hiểu cây trồng sâu hơn, kiểm soát rủi ro tốt hơn và tạo
             ra nhiều giá trị hơn trên mỗi cánh đồng.
@@ -173,7 +173,7 @@ export default function SmartFarmingShowcase() {
                       <path d="M20 6 9 17l-5-5" />
                     </svg>
                   </span>
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-2sm font-medium text-gray-700">
                     {item}
                   </span>
                 </li>
@@ -207,7 +207,7 @@ export default function SmartFarmingShowcase() {
                   <path d="M12 5v14M5 12h14" />
                 </svg>
               </span>
-              <span className="text-sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
+              <span className="text-2sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
                 Khám Phá Giải Pháp
               </span>
             </button>

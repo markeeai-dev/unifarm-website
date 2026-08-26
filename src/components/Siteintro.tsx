@@ -19,9 +19,9 @@ import { markIntroReady } from "@/lib/use-intro-ready";
  * khi trình duyệt vẽ khung hình) để người dùng quay lại không bị chớp hình
  * intro dù chỉ 1 khung hình.
  */
-const COUNT_MS = 1400;
-const HOLD_MS = 150;
-const PEEL_MS = 450;
+const COUNT_MS = 1050;
+const HOLD_MS = 100;
+const PEEL_MS = 350;
 const SEEN_KEY = "unifarm_intro_seen";
 
 type Phase = "show" | "peel" | "hidden";
