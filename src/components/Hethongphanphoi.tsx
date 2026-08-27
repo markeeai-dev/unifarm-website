@@ -83,9 +83,9 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
           transition={{ duration: 0.8, delay: 0.05, ease: EASE }}
           className="mx-auto mt-10 max-w-xl text-center sm:mt-12"
         >
-          <h1 className="uppercase text-4xl font-extrabold leading-tight tracking-tight text-[#06301B] sm:text-5xl">
+          <h2 className="uppercase text-4xl font-extrabold leading-tight tracking-tight text-[#06301B] sm:text-5xl">
             Hệ thống phân phối
-          </h1>
+          </h2>
           <div className="mt-4 flex items-center justify-center gap-3">
             <span className="h-px w-14 bg-[#006400]/30" />
             <Leaf size={18} style={{ color: C.green }} strokeWidth={1.8} />

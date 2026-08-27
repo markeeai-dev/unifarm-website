@@ -783,7 +783,7 @@ function PostCard({
 
           <span
             className="absolute left-3 top-3 rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em]"
-            style={{ background: tc.bg, color: tc.text, backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+            style={{ background: tc.bg, color: tc.text, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           >
             {post.tag}
           </span>

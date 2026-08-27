@@ -49,7 +49,7 @@ const CATEGORIES: Category[] = [
     title: 'Sản phẩm chế biến',
     count: '16 sản phẩm',
     image:
-      'https://cafefcdn.com/203337114487263232/2024/10/18/pngtree-sun-dried-banana-on-plate-image15646154-1729234991808-17292349920091723175706-1729263869949-17292638700291874724631.jpg',
+      '/images/products/chuoi-dl.webp',
     Icon: GlassWater,
   },
   {
@@ -105,7 +105,7 @@ export default function CategoryShowcase() {
         }
       `}</style>
 
-      <div className="grid w-full grid-cols-2 md:grid-cols-4">
+      <div className="grid w-full grid-cols-2 px-5 sm:px-0 md:grid-cols-4">
         {CATEGORIES.map((cat, i) => (
           <CategoryCard key={cat.id} category={cat} index={i} visible={visible} />
         ))}

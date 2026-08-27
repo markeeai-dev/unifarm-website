@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
@@ -17,6 +18,7 @@ import { useIntroReady } from "@/lib/use-intro-ready";
  */
 
 const BG_VIDEO = "/videos/banana-leaves-closeup.mp4";
+const POSTER = "/video-posters/banana-leaves-closeup.jpg";
 
 const STATS = [
   { value: "04", label: "Dịch vụ chuyên biệt" },
@@ -46,16 +48,20 @@ export default function HeroBanner() {
       style={{ minHeight: "800px" }}
       aria-label="Dịch vụ Unifarm"
     >
-      {/* VIDEO NỀN — cận cảnh lá chuối xanh mướt đung đưa */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover"
-      >
-        <source src={BG_VIDEO} type="video/mp4" />
-      </video>
+      {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
+      <Image src={POSTER} alt="" fill priority sizes="100vw" className="absolute inset-0 object-cover" />
+      {(
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={POSTER}
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src={BG_VIDEO} type="video/mp4" />
+        </video>
+      )}
 
       {/* Vignette rất nhẹ để chữ luôn rõ trên video */}
       <div

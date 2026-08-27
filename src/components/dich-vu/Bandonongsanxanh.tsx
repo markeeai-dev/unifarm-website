@@ -32,6 +32,7 @@ import {
 } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 import vietnamMap from "@svg-maps/vietnam";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -65,6 +66,9 @@ type Region = {
    * bên trái bản đồ — canh riêng cho từng khu vực để không bao giờ tràn
    * ra ngoài khung nhìn dù ở marker nào. */
   calloutPos: { x: number; y: number };
+  /** Vị trí callout riêng cho mobile — container hẹp hơn hẳn desktop nên
+   * cần % khác để không bị tràn ra ngoài; nếu bỏ trống dùng calloutPos. */
+  calloutPosMobile?: { x: number; y: number };
   sections: RegionSection[];
   /** true = khu vực đang mở rộng, chưa có dự án cụ thể để công bố. */
   comingSoon?: boolean;
@@ -78,6 +82,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/2.jpg",
     pos: { x: 34.5, y: 69.3 },
     calloutPos: { x: 20, y: 74 },
+    calloutPosMobile: { x: 98, y: 74 },
     sections: [
       {
         title: "Vùng trồng & trang trại",
@@ -199,6 +204,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon2.jpg",
     pos: { x: 41.2, y: 47.1 },
     calloutPos: { x: 80, y: 47 },
+    calloutPosMobile: { x: 38, y: 47 },
     comingSoon: true,
     sections: [],
   },
@@ -209,6 +215,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032394_1582751505492234802_4935324150679931320_6e7befd02ac62654f5522a88f1772c1d.jpg",
     pos: { x: 29.9, y: 24.3 },
     calloutPos: { x: 21, y: 11 },
+    calloutPosMobile: { x: 98, y: 11 },
     comingSoon: true,
     sections: [],
   },
@@ -402,6 +409,8 @@ function VietnamMap({
   onSelect: (id: string | null) => void;
 }) {
   const zoomOrigin = zoomEnabled ? REGIONS.find((r) => r.id === selectedId)?.pos ?? null : null;
+  const isMobile = useIsMobile();
+  const calloutFor = (r: Region) => (isMobile && r.calloutPosMobile ? r.calloutPosMobile : r.calloutPos);
 
   return (
     <div className="relative">
@@ -432,7 +441,7 @@ function VietnamMap({
           </g>
 
           {REGIONS.map((r) => {
-            const end = lineEndFor(r.pos, r.calloutPos);
+            const end = lineEndFor(r.pos, calloutFor(r));
             const isFocused = hoveredId === r.id || selectedId === r.id;
             return (
               <line
@@ -475,8 +484,8 @@ function VietnamMap({
               <div
                 className="absolute -translate-x-1/2 -translate-y-1/2 text-center"
                 style={{
-                  left: `${r.calloutPos.x}%`,
-                  top: `${r.calloutPos.y}%`,
+                  left: `${calloutFor(r).x}%`,
+                  top: `${calloutFor(r).y}%`,
                   opacity: 1,
                   transform: `translate(-50%, -50%) scale(${isFocused ? 1.06 : 1})`,
                   transition: "opacity 350ms ease-out, transform 350ms cubic-bezier(0.22,1,0.36,1)",

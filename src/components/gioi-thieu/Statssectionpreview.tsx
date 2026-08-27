@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { Settings, ShoppingBasket } from "lucide-react";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 /* ============================================================
    BẢNG MÀU CHỦ ĐẠO
@@ -243,9 +244,6 @@ const EXPORT_MARKETS = [
   "Đức",
   "Hà Lan",
   "Pháp",
-  "Bắc Mỹ",
-  "Châu Phi",
-  "Châu Đại Dương",
 ];
 
 /* ============================================================
@@ -301,9 +299,9 @@ const MARKET_DOTS = [
   { x: 95, y: 9, label: "Hà Lan", flagId: "nl", dx: 0, dy: -3, anchor: "middle" as const },
   { x: 92, y: 15, label: "Đức", flagId: "de", dx: 4, dy: 1, anchor: "start" as const },
   { x: 88, y: 22, label: "Pháp", flagId: "fr", dx: -4, dy: 6, anchor: "end" as const },
-  { x: 28, y: 24, label: "Bắc Mỹ", flagId: "us", dx: 4, dy: 1, anchor: "start" as const },
-  { x: 96, y: 54, label: "Châu Phi", flagId: "africa", dx: 4, dy: 6, anchor: "start" as const },
-  { x: 166, y: 76, label: "Châu Đại Dương", flagId: "au", dx: -4, dy: 6, anchor: "end" as const },
+  // { x: 28, y: 24, label: "Bắc Mỹ", flagId: "us", dx: 4, dy: 1, anchor: "start" as const },
+  // { x: 96, y: 54, label: "Châu Phi", flagId: "africa", dx: 4, dy: 6, anchor: "start" as const },
+  // { x: 166, y: 76, label: "Châu Đại Dương", flagId: "au", dx: -4, dy: 6, anchor: "end" as const },
 ];
 
 // Điểm gốc — Việt Nam, nơi xuất phát các "đường bay" xuất khẩu trên bản đồ
@@ -323,10 +321,10 @@ function starPath(cx: number, cy: number, r: number) {
 /* ============================================================
    LÁ CỜ NHỎ CẮM TẠI TỪNG QUỐC GIA TRÊN BẢN ĐỒ
    ============================================================ */
-function FlagPin({ x, y, id }: { x: number; y: number; id: string }) {
-  const w = 5.6;
-  const h = 3.6;
-  const poleTop = y - 6.4;
+function FlagPin({ x, y, id, scale = 1 }: { x: number; y: number; id: string; scale?: number }) {
+  const w = 5.6 * scale;
+  const h = 3.6 * scale;
+  const poleTop = y - 6.4 * scale;
 
   let body: ReactNode;
   switch (id) {
@@ -549,6 +547,11 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
    ============================================================ */
 function ExportCard() {
   const [ref, inView] = useInView(0.3);
+  const isMobile = useIsMobile();
+  // Nhãn/lá cờ trong SVG dùng đơn vị viewBox nên co theo bề rộng khung chứa —
+  // ở mobile khung hẹp hơn nhiều lần so với desktop khiến chữ chỉ còn ~5-6px,
+  // không đọc được. Phóng to các phần tử nhãn (không đổi vị trí điểm) để bù lại.
+  const S = isMobile ? 2.3 : 1;
 
   return (
     <div
@@ -616,22 +619,22 @@ function ExportCard() {
             ))}
 
             {/* điểm gốc Việt Nam */}
-            <circle cx={VN_ORIGIN.x} cy={VN_ORIGIN.y} r={2.4} fill={C.blue} />
+            <circle cx={VN_ORIGIN.x} cy={VN_ORIGIN.y} r={2.4 * S} fill={C.blue} />
             <circle
               className="market-dot-pulse"
               cx={VN_ORIGIN.x}
               cy={VN_ORIGIN.y}
-              r={2.4}
+              r={2.4 * S}
               fill="none"
               stroke={C.blue}
-              strokeWidth={0.6}
+              strokeWidth={0.6 * S}
             />
-            <FlagPin x={VN_ORIGIN.x} y={VN_ORIGIN.y} id={VN_ORIGIN.flagId} />
+            <FlagPin x={VN_ORIGIN.x} y={VN_ORIGIN.y} id={VN_ORIGIN.flagId} scale={S} />
             <text
-              x={VN_ORIGIN.x + VN_ORIGIN.dx}
-              y={VN_ORIGIN.y + VN_ORIGIN.dy}
+              x={VN_ORIGIN.x + VN_ORIGIN.dx * S}
+              y={VN_ORIGIN.y + VN_ORIGIN.dy * S}
               textAnchor={VN_ORIGIN.anchor}
-              fontSize={4.6}
+              fontSize={4.6 * S}
               fontWeight={800}
               fill={C.blue}
               className="map-label"
@@ -646,18 +649,18 @@ function ExportCard() {
                   className="market-dot-pulse"
                   cx={m.x}
                   cy={m.y}
-                  r={1.6}
+                  r={1.6 * S}
                   fill="none"
                   stroke={C.yellow}
-                  strokeWidth={0.6}
+                  strokeWidth={0.6 * S}
                 />
-                <circle cx={m.x} cy={m.y} r={1.8} fill={C.yellow} />
-                <FlagPin x={m.x} y={m.y} id={m.flagId} />
+                <circle cx={m.x} cy={m.y} r={1.8 * S} fill={C.yellow} />
+                <FlagPin x={m.x} y={m.y} id={m.flagId} scale={S} />
                 <text
-                  x={m.x + m.dx}
-                  y={m.y + m.dy}
+                  x={m.x + m.dx * S}
+                  y={m.y + m.dy * S}
                   textAnchor={m.anchor}
-                  fontSize={4.2}
+                  fontSize={4.2 * S}
                   fontWeight={700}
                   fill="#fff"
                   className="map-label"

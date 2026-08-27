@@ -15,6 +15,15 @@ import {
 } from "lucide-react";
 import type { TimelineMilestone } from "@/lib/db";
 
+/** Ảnh tĩnh trích từ khung hình đầu của từng video mẫu — dùng thay video
+ * nặng trên mobile (tránh tải hàng chục MB cho video chỉ để minh hoạ). */
+const VIDEO_POSTER_MAP: Record<string, string> = {
+  "/videos/7.mp4": "/video-posters/7.jpg",
+  "/videos/banana-leaves-closeup.mp4": "/video-posters/banana-leaves-closeup.jpg",
+  "/videos/unripe-green-bananas-on-tree.mp4": "/video-posters/unripe-green-bananas-on-tree.jpg",
+  "/videos/banana-leaves-blooming-arboretum.mp4": "/video-posters/banana-leaves-blooming-arboretum.jpg",
+};
+
 /* ------------------------------------------------------------------ */
 /*  Map tên icon (string, lưu trong DB) -> component lucide-react      */
 /* ------------------------------------------------------------------ */
@@ -34,17 +43,31 @@ const ICON_MAP: Record<string, LucideIcon> = {
 /* ------------------------------------------------------------------ */
 
 function MediaCard({ label, video }: { label: string; video: string }) {
+  const poster = VIDEO_POSTER_MAP[video];
+
   return (
-    <div className="group relative flex h-full min-h-[130px] w-full items-end overflow-hidden rounded-2xl p-3 sm:min-h-[150px]">
-      {/* video nền */}
-      <video
-        src={video}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
+    <div className="group relative flex h-full min-h-[130px] w-full items-end overflow-hidden rounded-2xl bg-[#0a3d0a] p-3 sm:min-h-[150px]">
+      {/* ảnh tĩnh nền — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
+      {poster && (
+        <Image
+          src={poster}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 50vw, 300px"
+          className="absolute inset-0 object-cover"
+        />
+      )}
+      {(
+        <video
+          src={video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={poster}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+      )}
       <div
         className="absolute inset-0"
         style={{
@@ -75,7 +98,12 @@ function useScrollIntoView(active: number, count: number): React.RefObject<HTMLD
     const trackRect = track.getBoundingClientRect();
     const itemRect = item.getBoundingClientRect();
     if (itemRect.left < trackRect.left || itemRect.right > trackRect.right) {
-      item.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      // Chỉ cuộn ngang bên trong track — không dùng scrollIntoView vì nó xét
+      // luôn cả trục dọc (block) và có thể cuộn cả TRANG khi mốc đang chọn
+      // (mặc định active=4) nằm ngoài khung nhìn lúc mới vào trang, gây cuộn
+      // trang xuống thẳng tới section này ngay khi vừa điều hướng tới.
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      track.scrollTo({ left: itemCenter - track.clientWidth / 2, behavior: "smooth" });
     }
   }, [active, count]);
   return trackRef;

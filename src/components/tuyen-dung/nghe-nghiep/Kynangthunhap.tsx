@@ -48,7 +48,7 @@ export default function KyNangThuNhap() {
             {FORMULA_STEPS.map((step, i) => {
               const Icon = STEP_ICONS[i];
               return (
-                <div key={step} className="flex items-center gap-3 sm:gap-0">
+                <div key={step} className="flex flex-col items-center gap-3 sm:flex-row sm:gap-0">
                   <Reveal delay={i * 0.12} duration={0.8}>
                     <div className="group relative flex w-full min-w-[9.5rem] flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-6 py-6 text-center backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:border-[#FFFACD]/40 hover:bg-white/[0.09] sm:px-7">
                       <span

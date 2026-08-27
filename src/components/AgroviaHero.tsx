@@ -1,6 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { useIsMobile } from '@/lib/use-is-mobile';
+
+const POSTER = '/video-posters/2021-2.jpg';
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -64,6 +68,7 @@ export default function AgroviaHero() {
   const [activeNav, setActiveNav] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [slide, setSlide] = useState(0);
+  const isMobile = useIsMobile();
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -94,15 +99,26 @@ export default function AgroviaHero() {
           phủ kín màn hình sẽ hơi mềm — bỏ scale thừa (từng làm mờ thêm) và
           tăng contrast/saturation nhẹ để bù lại độ nét cảm nhận, đồng thời
           giảm lớp phủ tối để chi tiết thật của video hiện rõ hơn. */}
-      <video
-  className="absolute inset-0 -z-30 h-full w-full object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
-  autoPlay
-  muted
-  loop
-  playsInline
->
-  <source src="/video/2021-2.mp4" type="video/mp4" />
-</video>
+      <Image
+        src={POSTER}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 -z-30 object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
+      />
+      {(
+        <video
+          className="absolute inset-0 -z-30 h-full w-full object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={POSTER}
+        >
+          <source src="/video/2021-2.mp4" type="video/mp4" />
+        </video>
+      )}
 
       <div
         className="absolute inset-0 -z-20"
@@ -150,7 +166,9 @@ export default function AgroviaHero() {
             {SLIDES.map((s, i) => (
               <div
                 key={i}
-                className={`transition-[opacity,transform] duration-500 ease-[cubic-bezier(.22,.9,.28,1)] ${
+                className={`transition-[opacity,transform] ease-[cubic-bezier(.22,.9,.28,1)] ${
+                  isMobile ? 'duration-150' : 'duration-500'
+                } ${
                   slide === i
                     ? 'relative translate-y-0 opacity-100'
                     : 'pointer-events-none absolute inset-0 translate-y-3.5 opacity-0'

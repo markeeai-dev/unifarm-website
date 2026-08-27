@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
@@ -17,6 +18,7 @@ import { useIntroReady } from "@/lib/use-intro-ready";
  */
 
 const BG_VIDEO = "/videos/banana-leaves-blooming-arboretum.mp4";
+const POSTER = "/video-posters/banana-leaves-blooming-arboretum.jpg";
 
 const STATS = [
   { value: "Since 2009", label: "" },
@@ -46,16 +48,28 @@ export default function HeroBanner() {
       style={{ minHeight: "820px" }}
       aria-label="Giới thiệu Unifarm"
     >
-      {/* VIDEO NỀN — hoa chuối và buồng chuối non giữa vườn xanh, lật ngang để chủ thể lệch sang phải */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full -scale-x-100 object-cover"
-      >
-        <source src={BG_VIDEO} type="video/mp4" />
-      </video>
+      {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop.
+          Cùng lật ngang -scale-x-100 như video để chủ thể lệch sang phải giống nhau. */}
+      <Image
+        src={POSTER}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 -scale-x-100 object-cover"
+      />
+      {(
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={POSTER}
+          className="absolute inset-0 h-full w-full -scale-x-100 object-cover"
+        >
+          <source src={BG_VIDEO} type="video/mp4" />
+        </video>
+      )}
 
       {/* Vignette rất nhẹ để chữ luôn rõ trên video */}
       <div
@@ -151,7 +165,7 @@ export default function HeroBanner() {
 
           {/* Dải số liệu nhanh */}
           <div
-            className={`mt-6 flex flex-wrap gap-x-6 gap-y-2 transition-all delay-[250ms] duration-700 ${
+            className={`mt-6 flex flex-col gap-x-6 gap-y-2 transition-all delay-[250ms] duration-700 sm:flex-row sm:flex-wrap ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >

@@ -116,7 +116,7 @@ export default function TuyenDungHero() {
           >
             <a
               href="mailto:tuyendung@unifarm.com?subject=%E1%BB%A8ng%20tuy%E1%BB%83n%20t%E1%BA%A1i%20Unifarm"
-              className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-[#006400] to-[#FFFACD] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,100,0,0.45)] transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
+              className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-[#006400] to-[#FFFACD] px-5 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,100,0,0.45)] transition-transform duration-300 hover:-translate-y-1 hover:scale-105 sm:px-7"
               style={{ textShadow: "0 1px 3px rgba(6,48,27,0.5)" }}
             >
               Khám phá cơ hội nghề nghiệp

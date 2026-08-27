@@ -69,7 +69,7 @@ export default function ContactSection() {
     >
       {/* Ảnh nền cố định — không cuộn theo trang */}
       <div
-        className="absolute inset-0 -z-10 bg-cover bg-center bg-fixed"
+        className="absolute inset-0 -z-10 bg-cover bg-center bg-scroll sm:bg-fixed"
         style={{ backgroundImage: `url(${BG_IMAGE_URL})` }}
         aria-hidden="true"
       />

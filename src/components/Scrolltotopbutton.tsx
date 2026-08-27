@@ -11,11 +11,20 @@ export default function ScrollToTopButton() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Gộp theo khung hình (rAF) thay vì tính lại ở mỗi sự kiện scroll thô —
+    // scroll có thể bắn nhiều lần hơn 1 frame, nhất là khi cuộn quán tính
+    // trên di động, gây giật nếu tính toán/setState mỗi lần.
+    let ticking = false;
     const onScroll = () => {
-      const scrollTop = window.scrollY;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setVisible(scrollTop > 400);
-      setProgress(max > 0 ? Math.min(scrollTop / max, 1) : 0);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        setVisible(scrollTop > 400);
+        setProgress(max > 0 ? Math.min(scrollTop / max, 1) : 0);
+        ticking = false;
+      });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -34,7 +43,7 @@ export default function ScrollToTopButton() {
       // Hidden below its resting position by default (translate-y-4) and
       // slides up into place (translate-y-0) once the user has scrolled
       // past the threshold — i.e. it rises up from below as you scroll down.
-      className={`fixed bottom-6 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-forest text-white shadow-lg ring-1 ring-black/5 transition-all duration-500 ease-out hover:bg-gold hover:text-ink sm:right-6 ${
+      className={`fixed bottom-4 right-3 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-forest text-white shadow-lg ring-1 ring-black/5 transition-all duration-500 ease-out hover:bg-gold hover:text-ink sm:bottom-6 sm:right-6 sm:h-12 sm:w-12 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >

@@ -362,7 +362,7 @@ export default function EcosystemModel() {
           variants={v(3)}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="relative overflow-hidden bg-fixed bg-cover bg-center px-5 py-8"
+          className="relative overflow-hidden bg-cover bg-center px-5 py-8"
           style={{
             backgroundImage:
               "url('/images/UNIFARM/1787207482427_1582751505492234802_4935324150679931320_939749211a6e5c72f28397e7e138b486.jpg')",
@@ -399,7 +399,7 @@ export default function EcosystemModel() {
                   {p.title}
                 </h4>
                 {p.subtitle ? (
-                  <p className="text-[11px] leading-snug text-slate-500">
+                  <p className="text-xs leading-snug text-slate-500">
                     {p.subtitle}
                   </p>
                 ) : null}

@@ -240,40 +240,49 @@ export default function DuanTruCot() {
           style={{ background: C.green }}
         />
 
-        {/* Tab bar */}
-        <div
-          className="mt-10 flex flex-wrap gap-1 border-b sm:gap-2"
-          style={{ borderColor: `${C.forest}18` }}
-          role="tablist"
-          aria-label="Ba trụ cột hạ tầng Unifarm"
-        >
-          {TABS.map((t, i) => {
-            const isActive = i === activeTab;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveTab(i)}
-                className="relative px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors sm:px-5 sm:text-sm"
-                style={{ color: isActive ? C.forest : "#9ca3af" }}
-              >
-                <span className="mr-1.5" style={{ color: C.soft }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {t.label}
-                {isActive && (
-                  <motion.span
-                    layoutId="truCotTabIndicator"
-                    className="absolute inset-x-2 -bottom-px h-[3px] rounded-full"
-                    style={{ background: C.green }}
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                )}
-              </button>
-            );
-          })}
+        {/* Tab bar — cuộn ngang trên mobile (3 nhãn dài không đủ chỗ nằm 1
+            hàng ở màn hẹp, tránh bị bể xuống 3 dòng riêng biệt); từ sm trở
+            lên giữ nguyên hàng ngang tự xuống dòng như cũ. */}
+        <div className="relative mt-10">
+          <div
+            className="flex flex-nowrap gap-1 overflow-x-auto border-b [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:gap-2"
+            style={{ borderColor: `${C.forest}18` }}
+            role="tablist"
+            aria-label="Ba trụ cột hạ tầng Unifarm"
+          >
+            {TABS.map((t, i) => {
+              const isActive = i === activeTab;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(i)}
+                  className="relative shrink-0 whitespace-nowrap px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors sm:px-5 sm:text-sm"
+                  style={{ color: isActive ? C.forest : "#9ca3af" }}
+                >
+                  <span className="mr-1.5" style={{ color: C.soft }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {t.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="truCotTabIndicator"
+                      className="absolute inset-x-2 -bottom-px h-[3px] rounded-full"
+                      style={{ background: C.green }}
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          {/* gợi ý còn tab bị cắt ở mép phải, chỉ trên mobile */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fffde7] to-transparent sm:hidden"
+          />
         </div>
 
         {/* Tab content: ảnh minh hoạ (trái) + nội dung (phải) */}
@@ -281,7 +290,7 @@ export default function DuanTruCot() {
           {/* Image panel */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div
-              className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-25px_rgba(6,59,36,0.45)] sm:aspect-[16/10] lg:aspect-[4/5]"
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-25px_rgba(6,59,36,0.45)] sm:aspect-[16/10] lg:aspect-[4/5]"
               style={{ background: C.forest }}
             >
               <AnimatePresence mode="popLayout">

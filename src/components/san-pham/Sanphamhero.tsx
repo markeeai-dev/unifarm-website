@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useIntroReady } from "@/lib/use-intro-ready";
+
+const BG_VIDEO = "/videos/7.mp4";
+const POSTER = "/video-posters/7.jpg";
 
 /**
  * SanPhamHero — banner đầu trang Sản phẩm.
@@ -60,15 +64,27 @@ export default function SanPhamHero() {
 
       {/* ================= HERO (video) ================= */}
       <section className="relative isolate w-full overflow-hidden bg-[#006400]">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        >
-          <source src="/videos/7.mp4" type="video/mp4" />
-        </video>
+        {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
+        <Image
+          src={POSTER}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 -z-20 object-cover"
+        />
+        {(
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={POSTER}
+            className="absolute inset-0 -z-20 h-full w-full object-cover"
+          >
+            <source src={BG_VIDEO} type="video/mp4" />
+          </video>
+        )}
 
         {/* Vignette rất nhẹ để chữ luôn rõ trên video */}
         <div

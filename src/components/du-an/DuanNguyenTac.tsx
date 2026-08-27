@@ -139,7 +139,7 @@ export default function DuanNguyenTac() {
                   >
                     {step.en}
                   </p> */}
-                  <p className="text-sm font-bold sm:text-[22px]" style={{ color: C.ink }}>
+                  <p className="text-lg font-bold sm:text-[22px]" style={{ color: C.ink }}>
                     {step.vi}
                   </p>
                 </div>

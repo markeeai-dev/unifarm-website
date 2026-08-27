@@ -248,44 +248,54 @@ export default function RiceTabsShowcase() {
         {/* TABS — kiểu "hồ sơ file": tab đang mở nổi lên và nối liền với
             khung nội dung màu trắng, các tab còn lại lùi thấp hơn/tối màu
             hơn như đang nằm phía sau trong một tập hồ sơ. */}
-        <div
-          className="overflow-x-auto sm:overflow-visible"
-          style={{
-            transition: inView
-              ? "transform 4000ms cubic-bezier(0.16,1,0.3,1), opacity 4000ms ease-out"
-              : "none",
-            transform: inView ? "translateX(0)" : "translateX(140px)",
-            opacity: inView ? 1 : 0,
-          }}
-        >
-          <div className="flex w-full min-w-max items-end gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5 sm:items-end sm:gap-2">
-            {TABS.map((tab, i) => {
-              const isActive = i === activeIndex;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabClick(i)}
-                  className={`group relative flex shrink-0 items-center gap-2 whitespace-nowrap rounded-t-xl border px-4 py-3.5 text-left text-[12px] font-bold transition-all duration-300 ease-out sm:w-full sm:justify-center sm:whitespace-normal sm:px-3 sm:text-center sm:text-[13px] lg:text-sm ${
-                    isActive
-                      ? "-mb-px z-10 border-neutral-200 border-b-[#fffde7] bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat text-[#006400] shadow-[0_-10px_24px_-12px_rgba(0,0,0,0.18)]"
-                      : "translate-y-2 border-transparent bg-[#f2e9c4]/80 text-neutral-500 hover:-translate-y-0.5 hover:bg-[#f8f0d4] hover:text-[#006400]"
-                  }`}
-                >
-                  {/* dải màu nhấn trên đỉnh tab đang mở, như nhãn màu của hồ sơ */}
-                  <span
-                    className="absolute inset-x-3 top-0 h-[3px] rounded-full transition-opacity duration-300"
-                    style={{ backgroundColor: ACCENT, opacity: isActive ? 1 : 0 }}
-                  />
-                  <FileTabIcon
-                    className={`h-4 w-4 shrink-0 transition-colors duration-300 ${
-                      isActive ? "text-[#87cefa]" : "text-neutral-400 group-hover:text-[#87cefa]"
+        <div className="relative">
+          <div
+            className="overflow-x-auto sm:overflow-visible"
+            style={{
+              transition: inView
+                ? "transform 4000ms cubic-bezier(0.16,1,0.3,1), opacity 4000ms ease-out"
+                : "none",
+              transform: inView ? "translateX(0)" : "translateX(140px)",
+              opacity: inView ? 1 : 0,
+            }}
+          >
+            <div className="flex w-full min-w-max items-end gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5 sm:items-end sm:gap-2">
+              {TABS.map((tab, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleTabClick(i)}
+                    className={`group relative flex shrink-0 items-center gap-2 whitespace-nowrap rounded-t-xl border px-4 py-3.5 text-left text-[12px] font-bold transition-all duration-300 ease-out sm:w-full sm:justify-center sm:whitespace-normal sm:px-3 sm:text-center sm:text-[13px] lg:text-sm ${
+                      isActive
+                        ? "-mb-px z-10 border-neutral-200 border-b-[#fffde7] bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat text-[#006400] shadow-[0_-10px_24px_-12px_rgba(0,0,0,0.18)]"
+                        : "translate-y-2 border-transparent bg-[#f2e9c4]/80 text-neutral-500 hover:-translate-y-0.5 hover:bg-[#f8f0d4] hover:text-[#006400]"
                     }`}
-                  />
-                  {tab.tabLabel}
-                </button>
-              );
-            })}
+                  >
+                    {/* dải màu nhấn trên đỉnh tab đang mở, như nhãn màu của hồ sơ */}
+                    <span
+                      className="absolute inset-x-3 top-0 h-[3px] rounded-full transition-opacity duration-300"
+                      style={{ backgroundColor: ACCENT, opacity: isActive ? 1 : 0 }}
+                    />
+                    <FileTabIcon
+                      className={`h-4 w-4 shrink-0 transition-colors duration-300 ${
+                        isActive ? "text-[#87cefa]" : "text-neutral-400 group-hover:text-[#87cefa]"
+                      }`}
+                    />
+                    {tab.tabLabel}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Mobile-only affordance hint: the tab strip scrolls horizontally on
+              phones (sm:overflow-visible turns it into a static grid at sm+),
+              so fade the right edge to signal there's another tab cut off. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#fffde7] to-transparent sm:hidden"
+          />
         </div>
 
         {/* KHUNG HỒ SƠ — nối liền phía dưới tab đang mở */}

@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 /**
  * NewsUpdatesSection
@@ -65,6 +66,11 @@ const ARTICLES = [
 export default function NewsUpdatesSection() {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
+  const isMobile = useIsMobile();
+  // 4500ms là hiệu ứng chậm rãi cho desktop; trên mobile người dùng lướt
+  // nhanh nên rút ngắn để nội dung hiện trọn vẹn sớm hơn, tránh cảm giác
+  // "mờ, chưa hiện hẳn" khi vừa cuộn tới.
+  const revealMs = isMobile ? 700 : 4500;
 
 useEffect(() => {
   const el = sectionRef.current;
@@ -72,7 +78,17 @@ useEffect(() => {
 
   const observer = new IntersectionObserver(
     ([entry]) => {
-      setInView(entry.isIntersecting);
+      if (entry.isIntersecting) {
+        setInView(true);
+        // Trên mobile, ngắt quan sát ngay khi vào khung hình lần đầu —
+        // tránh observer bắn lại "false" giữa lúc transition 4.5s đang
+        // chạy (do thay đổi chiều cao viewport khi thanh địa chỉ ẩn/hiện
+        // lúc cuộn), gây hiệu ứng kẹt ở opacity thấp không bao giờ hiện
+        // trọn vẹn. Desktop giữ nguyên hành vi lặp lại khi cuộn qua lại.
+        if (isMobile) observer.disconnect();
+      } else if (!isMobile) {
+        setInView(false);
+      }
     },
     {
       threshold: 0.15,
@@ -82,7 +98,7 @@ useEffect(() => {
   observer.observe(el);
 
   return () => observer.disconnect();
-}, []);
+}, [isMobile]);
 
   return (
   <section
@@ -105,8 +121,7 @@ useEffect(() => {
           lg:text-[48px]
         "
         style={{
-          transition:
-            "transform 4500ms cubic-bezier(0.16,1,0.3,1), opacity 4500ms ease-out",
+          transition: `transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1), opacity ${revealMs}ms ease-out`,
           transform: inView
             ? "translateY(0) scale(1)"
             : "translateY(40px) scale(0.96)",
@@ -137,8 +152,8 @@ useEffect(() => {
                   : `translateY(${initialY}px) scale(${initialScale})`,
                 transition: inView
                   ? `
-                    transform 4500ms cubic-bezier(0.16,1,0.3,1),
-                    opacity 4500ms ease-out
+                    transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
+                    opacity ${revealMs}ms ease-out
                   `
                   : `
                     transform 0ms,
@@ -164,8 +179,8 @@ useEffect(() => {
                     : `scale(${initialScale})`,
                   transition: inView
                     ? `
-                      transform 4500ms cubic-bezier(0.16,1,0.3,1),
-                      opacity 4500ms ease-out
+                      transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
+                      opacity ${revealMs}ms ease-out
                     `
                     : "none",
                   transitionDelay: inView
@@ -190,16 +205,15 @@ useEffect(() => {
                   transform: inView
                     ? "translateY(0)"
                     : "translateY(70px)",
-                  transition:
-                    "opacity 4500ms ease-out, transform 4500ms cubic-bezier(0.16,1,0.3,1)",
+                  transition: `opacity ${revealMs}ms ease-out, transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1)`,
                   transitionDelay: inView
-                    ? `${900 + i * 250}ms`
+                    ? `${isMobile ? 150 + i * 80 : 900 + i * 250}ms`
                     : "0ms",
                 }}
               >
 
                 {/* ================= DATE ================= */}
-                <div className="w-[20%] shrink-0 translate-x-7">
+                <div className="w-[20%] shrink-0 lg:translate-x-7">
                   <p className="text-5xl font-extrabold leading-none text-gray-900">
                     {a.day}
                   </p>

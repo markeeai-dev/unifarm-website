@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -57,19 +57,34 @@ function AnimatedChars({
   variant: (typeof TEXT_STYLES)[number];
   startDelay: number;
 }) {
-  return (
-    <>
-      {Array.from(text).map((ch, i) => (
+  const words = text.split(" ");
+  let charIndex = 0;
+  const wordEls: ReactNode[] = [];
+
+  words.forEach((word, wi) => {
+    const isLast = wi === words.length - 1;
+    const chars = Array.from(word).map((ch) => {
+      const i = charIndex++;
+      return (
         <span
           key={i}
           className={`banner-char banner-char--${variant}`}
           style={{ animationDelay: `${startDelay + i * CHAR_STAGGER_MS}ms` }}
         >
-          {ch === " " ? " " : ch}
+          {ch}
         </span>
-      ))}
-    </>
-  );
+      );
+    });
+    if (!isLast) charIndex++;
+    if (wi > 0) wordEls.push(" ");
+    wordEls.push(
+      <span key={`w-${wi}`} style={{ display: "inline-block" }}>
+        {chars}
+      </span>
+    );
+  });
+
+  return <>{wordEls}</>;
 }
 
 export default function HomeBanner() {

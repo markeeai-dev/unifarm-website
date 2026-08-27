@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 /* ─── Border Trace — glowing dash traveling around section perimeter ─── */
 export function BorderTrace({
@@ -100,7 +101,17 @@ export function Particles({
   light?: boolean;
   seed?: number;
 }) {
-  const particles = createParticles(count, seed);
+  // Mobile: this decorative layer is one of the biggest contributors to
+  // simultaneous inline (infinite-repeat) animations on /blog (~92 dots
+  // across the page's 5 Particles instances) and was implicated in the
+  // page's worst long scroll task. Cap the count on mobile only — purely
+  // decorative dots, so a lower density has no functional effect.
+  // `isMobile` is null until the client media query resolves, so it
+  // defaults to the original (desktop) count until then, matching the
+  // pattern used elsewhere (see ExportCard in Statssectionpreview.tsx).
+  const isMobile = useIsMobile();
+  const effectiveCount = isMobile ? Math.max(4, Math.round(count / 3)) : count;
+  const particles = createParticles(effectiveCount, seed);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">

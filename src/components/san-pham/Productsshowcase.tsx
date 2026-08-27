@@ -451,7 +451,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                     tabIndex={0}
                     onClick={() => setSelected(p)}
                     onKeyDown={(e) => e.key === 'Enter' && setSelected(p)}
-                    className="group cursor-pointer border border-neutral-200 bg-white p-5 text-center transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#006400] hover:shadow-[0_16px_30px_rgba(0,100,0,0.14)]"
+                    className="group h-full cursor-pointer border border-neutral-200 bg-white p-5 text-center transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#006400] hover:shadow-[0_16px_30px_rgba(0,100,0,0.14)] sm:h-auto"
                   >
                     {/* Ảnh PNG nền trong suốt — không còn khung màu phía sau */}
                     <div className="mx-auto flex h-32 items-center justify-center sm:h-40">

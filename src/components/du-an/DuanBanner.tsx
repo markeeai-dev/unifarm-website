@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
@@ -17,6 +18,7 @@ import { useIntroReady } from "@/lib/use-intro-ready";
  */
 
 const BG_VIDEO = "/videos/unripe-green-bananas-on-tree.mp4";
+const POSTER = "/video-posters/unripe-green-bananas-on-tree.jpg";
 
 const STATS = [
   { value: "1.694+ ha", label: "Tổng diện tích vùng trồng lõi" },
@@ -42,20 +44,23 @@ export default function DuanBanner() {
 
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{ minHeight: "860px" }}
+      className="relative w-full overflow-hidden min-h-[1120px] sm:min-h-[860px]"
       aria-label="Dự án & Hợp tác Unifarm"
     >
-      {/* VIDEO NỀN */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 h-full w-full object-cover"
-      >
-        <source src={BG_VIDEO} type="video/mp4" />
-      </video>
+      {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
+      <Image src={POSTER} alt="" fill priority sizes="100vw" className="absolute inset-0 object-cover" />
+      {(
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={POSTER}
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src={BG_VIDEO} type="video/mp4" />
+        </video>
+      )}
 
       {/* Vignette rất nhẹ để chữ luôn rõ trên video */}
       <div

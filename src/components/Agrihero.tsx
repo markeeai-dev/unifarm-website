@@ -44,9 +44,18 @@ function useInView<T extends HTMLElement>(threshold = 0.2) {
     const el = ref.current;
     if (!el) return;
 
+    // Ngắt quan sát ngay khi bắt được lần "đã vào khung hình" đầu tiên —
+    // trước đây observer vẫn tiếp tục sống và có thể bắn lại "false" giữa
+    // lúc chính hiệu ứng scale/opacity của phần tử đang chạy (kích thước
+    // đổi liên tục trong 1-3s), tạo vòng lặp phản hồi khiến nội dung vừa
+    // hiện ra lại bị ẩn đi trên một số màn hình hẹp. Chỉ nghe 1 lần đúng
+    // như tên hàm mô tả loại bỏ hẳn vòng lặp đó.
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
       },
       { threshold }
     );
@@ -711,11 +720,24 @@ export default function AgricultureHero() {
           }
           .agrihero-bottom-row {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: stretch;
             gap: 28px;
           }
+          .agrihero-checklist li {
+            align-items: flex-start;
+          }
+          .agrihero-checklist li svg {
+            margin-top: 3px;
+          }
           .agrihero-stats {
-            align-self: flex-start;
+            align-self: stretch;
+            width: 100%;
+            justify-content: space-between;
+            gap: 16px;
+          }
+          .agrihero-stat-ring {
+            flex: 1 1 0;
+            max-width: 170px;
           }
         }
 

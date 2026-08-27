@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/lib/use-is-mobile";
 
 /**
  * SmartFarmingShowcase — dùng riêng cho trang /gioi-thieu
@@ -56,6 +57,11 @@ const CHECKLIST = [
 export default function SmartFarmingShowcase() {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
+  const isMobile = useIsMobile();
+  // Trên mobile người dùng thường lướt qua nhanh — 5000ms để hiện trọn vẹn
+  // khiến nội dung trông "mờ, chưa hiện" suốt nhiều giây. Rút ngắn riêng cho
+  // mobile, giữ nguyên hiệu ứng chậm rãi 5000ms như cũ trên desktop.
+  const revealMs = isMobile ? 700 : 5000;
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -83,7 +89,7 @@ export default function SmartFarmingShowcase() {
           className="mx-auto w-full max-w-[650px]"
           style={{
             transition: inView
-              ? "transform 5000ms cubic-bezier(0.16,1,0.3,1), opacity 5000ms ease-out"
+              ? `transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1), opacity ${revealMs}ms ease-out`
               : "none",
             transform: inView ? "translateX(0)" : "translateX(-160px)",
             opacity: inView ? 1 : 0,
@@ -134,7 +140,7 @@ export default function SmartFarmingShowcase() {
           className="lg:max-w-[660px] lg:justify-self-center"
           style={{
             transition: inView
-              ? "transform 5000ms cubic-bezier(0.16,1,0.3,1), opacity 5000ms ease-out"
+              ? `transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1), opacity ${revealMs}ms ease-out`
               : "none",
             transform: inView ? "translateX(0)" : "translateX(160px)",
             opacity: inView ? 1 : 0,

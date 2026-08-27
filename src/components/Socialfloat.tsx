@@ -127,7 +127,17 @@ export default function SocialFloat() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 300);
+    // Gộp theo khung hình (rAF) — tránh gọi lại setState ở mỗi sự kiện
+    // scroll thô, có thể bắn nhiều lần hơn 1 frame khi cuộn nhanh/quán tính.
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setVisible(window.scrollY > 300);
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -148,12 +158,12 @@ export default function SocialFloat() {
   return (
     <div
       data-social-float
-      className={`fixed bottom-24 right-4 z-40 flex flex-col items-end gap-3 transition-all duration-500 ease-out sm:right-6 sm:bottom-28 ${
+      className={`fixed bottom-20 right-3 z-40 flex flex-col items-end gap-2 transition-all duration-500 ease-out sm:bottom-28 sm:right-6 sm:gap-3 ${
         visible ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0 pointer-events-none"
       }`}
     >
       {/* Socials */}
-      <div className="flex w-40 flex-col items-end">
+      <div className="flex w-36 flex-col items-end sm:w-40">
         {CHANNELS.map((c, i) => (
           <div
             key={c.label}
@@ -180,7 +190,7 @@ export default function SocialFloat() {
                       : "noopener noreferrer"
                   }
                   aria-label={c.label}
-                  className={`social-item group relative flex h-12 w-12 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 ${
+                  className={`social-item group relative flex h-10 w-10 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-12 sm:w-12 ${
                     open ? "social-wiggle" : ""
                   }`}
                   style={{
@@ -208,7 +218,7 @@ export default function SocialFloat() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Đóng liên hệ" : "Mở liên hệ"}
         aria-expanded={open}
-        className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--color-forest,#1f5c34)] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 ${
+        className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-forest,#1f5c34)] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-14 sm:w-14 ${
           open ? "" : "wiggle-btn"
         }`}
       >
