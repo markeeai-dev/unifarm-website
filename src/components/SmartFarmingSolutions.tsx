@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Data — one entry per accordion item                                */
@@ -132,27 +133,44 @@ function RevealWord({
 }
 
 /* Heading: 2 rows, different styles per row */
-const HEADING_ROW_1 = 'Giải Pháp Canh Tác Thông Minh'.split(' ');
-const HEADING_ROW_2 = 'Mang Lại Kết Quả Thực Tế'.split(' ');
+const HEADING_ROW_1_VI = 'Giải Pháp Canh Tác Thông Minh';
+const HEADING_ROW_2_VI = 'Mang Lại Kết Quả Thực Tế';
 const HEADING_WORD_STAGGER = 55;
 const HEADING_WORD_DURATION = 560;
 const HEADING_ROW_GAP = 120;
 
-/* Right-side small sub-heading: 7 short rows for a clean cascade — long enough to fill the space above the image */
-const SUBHEAD_ROWS = [
-  ['Các', 'giải', 'pháp', 'nông', 'nghiệp', 'thông', 'minh'],
-  ['của', 'chúng', 'tôi', 'giúp', 'nông', 'dân', 'canh', 'tác'],
-  ['hiệu', 'quả', 'hơn,', 'tiết', 'kiệm', 'chi', 'phí', 'vận', 'hành'],
-  ['và', 'nâng', 'cao', 'chất', 'lượng', 'nông', 'sản', 'mỗi', 'ngày.'],
-  ['Từ', 'theo', 'dõi', 'mùa', 'vụ', 'đến', 'quản', 'lý', 'tài', 'nguyên,'],
-  ['mọi', 'dữ', 'liệu', 'đều', 'được', 'kết', 'nối', 'liền', 'mạch'],
-  ['trên', 'một', 'nền', 'tảng', 'duy', 'nhất', 'và', 'dễ', 'sử', 'dụng.'],
-];
+/* Right-side small sub-heading — long enough to fill the space above the image.
+   Rendered as 7 short rows for a clean cascade; when translated, the sentence
+   is re-split evenly across the same number of rows so the reveal animation
+   below is unaffected. */
+const SUBHEAD_TEXT_VI =
+  'Các giải pháp nông nghiệp thông minh của chúng tôi giúp nông dân canh tác hiệu quả hơn, tiết kiệm chi phí vận hành và nâng cao chất lượng nông sản mỗi ngày. Từ theo dõi mùa vụ đến quản lý tài nguyên, mọi dữ liệu đều được kết nối liền mạch trên một nền tảng duy nhất và dễ sử dụng.';
+const SUBHEAD_ROW_COUNT = 7;
 const SUBHEAD_WORD_STAGGER = 22;
 const SUBHEAD_WORD_DURATION = 380;
 const SUBHEAD_ROW_GAP = 70;
 
+/** Splits `text` into `rows` word-groups of near-equal size (keeps the
+ * word-cascade reveal working the same way regardless of sentence length). */
+function splitIntoRows(text: string, rows: number): string[][] {
+  const words = text.split(' ').filter(Boolean);
+  const base = Math.floor(words.length / rows);
+  const extra = words.length % rows;
+  const result: string[][] = [];
+  let idx = 0;
+  for (let r = 0; r < rows; r++) {
+    const count = base + (r < extra ? 1 : 0);
+    result.push(words.slice(idx, idx + count));
+    idx += count;
+  }
+  return result;
+}
+
 export default function SmartFarmingSolutions() {
+  const { t } = useLanguage();
+  const HEADING_ROW_1 = t(HEADING_ROW_1_VI).split(' ');
+  const HEADING_ROW_2 = t(HEADING_ROW_2_VI).split(' ');
+  const SUBHEAD_ROWS = splitIntoRows(t(SUBHEAD_TEXT_VI), SUBHEAD_ROW_COUNT);
   const [visible, setVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(1); // item open by default
   const [displayIndex, setDisplayIndex] = useState(1); // last opened item — keeps the image showing while closed
@@ -208,7 +226,7 @@ export default function SmartFarmingSolutions() {
               }}
             >
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
-              Về Agrovia
+              {t('Về Agrovia')}
             </div>
 
             {/* Word-by-word, row-by-row heading */}
@@ -307,7 +325,7 @@ export default function SmartFarmingSolutions() {
                         isOpen ? 'text-ink' : 'text-ink/80'
                       }`}
                     >
-                      {item.title}
+                      {t(item.title)}
                     </span>
                     <span className="relative flex h-[22px] w-[22px] flex-shrink-0 items-center justify-center">
                       <span className="absolute h-[1.6px] w-[11px] rounded-full bg-ink/60" />
@@ -324,7 +342,7 @@ export default function SmartFarmingSolutions() {
                   >
                     <div className="overflow-hidden">
                       <p className="px-[16px] pb-[16px] pl-[62px] text-[13.5px] leading-relaxed text-ink/60">
-                        {item.description}
+                        {t(item.description)}
                       </p>
                     </div>
                   </div>
@@ -345,7 +363,7 @@ export default function SmartFarmingSolutions() {
               <img
                 key={item.title + (displayIndex === i ? '-in' : '-out')}
                 src={item.image}
-                alt={item.title}
+                alt={t(item.title)}
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{
                   zIndex: stackOrder[i],

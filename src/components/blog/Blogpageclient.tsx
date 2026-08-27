@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -20,6 +20,7 @@ import type { BlogPost } from "@/lib/db";
 import { TAG_OPTIONS, TAG_COLOR, DEFAULT_TAG_COLOR } from "@/lib/blog-tags";
 import { BorderTrace, Particles, CornerBrackets, BLOG_DECOR_KEYFRAMES } from "./Decor";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 function readingTime(html: string) {
   const text = html.replace(/<[^>]*>/g, " ");
@@ -80,63 +81,9 @@ const FILTER_TABS = [ALL_TAG, ...TAG_OPTIONS];
 
 export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
   const introReady = useIntroReady();
-  const [lang, setLang] = useState<"vi" | "en">("vi");
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState(ALL_TAG);
   const [visibleCount, setVisibleCount] = useState(9);
-
-  const [translatedMap, setTranslatedMap] = useState<Record<string, { title: string; excerpt: string }>>({});
-  const lastTranslatedLang = useRef<string>("");
-
-  const translatePosts = useCallback(
-    async (targetLang: string, signal?: AbortSignal) => {
-      if (posts.length === 0) return;
-      if (lastTranslatedLang.current === targetLang) return;
-      try {
-        const textsToTranslate: string[] = [];
-        const postIds: string[] = [];
-        posts.forEach((p) => {
-          textsToTranslate.push(p.title);
-          textsToTranslate.push(p.excerpt || "");
-          postIds.push(p.id);
-        });
-
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ texts: textsToTranslate, targetLang }),
-          signal,
-        });
-        if (!res.ok) return;
-        const data = await res.json();
-        const translations: string[] = data.translations;
-
-        const newMap: Record<string, { title: string; excerpt: string }> = {};
-        postIds.forEach((id, idx) => {
-          newMap[id] = {
-            title: translations[idx * 2] || "",
-            excerpt: translations[idx * 2 + 1] || "",
-          };
-        });
-        setTranslatedMap(newMap);
-        lastTranslatedLang.current = targetLang;
-      } catch {
-        // giữ nguyên tiếng Việt nếu dịch lỗi
-      }
-    },
-    [posts]
-  );
-
-  useEffect(() => {
-    const controller = new AbortController();
-    if (lang !== "vi" && posts.length > 0) translatePosts(lang, controller.signal);
-    if (lang === "vi") {
-      setTranslatedMap({});
-      lastTranslatedLang.current = "";
-    }
-    return () => controller.abort();
-  }, [lang, posts, translatePosts]);
-
-  const isTranslated = lang !== "vi" && Object.keys(translatedMap).length > 0;
 
   const latestPosts = posts.filter((p) => !p.is_featured).slice(0, 6);
   const popularPosts = posts
@@ -274,7 +221,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
 
               <StatCard
                 pos="left-0 top-[8%] sm:left-[-8%] sm:top-[20%]"
-                label="Bài viết"
+                label={t("Bài viết")}
                 value={`${posts.length}+`}
                 delay={0.5}
                 icon={<FileText className="h-4 w-4 text-white" />}
@@ -282,7 +229,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               />
               <StatCard
                 pos="right-0 top-[42%] sm:right-[-5%] sm:top-[35%]"
-                label="Lượt đọc"
+                label={t("Lượt đọc")}
                 value="12,400+"
                 delay={0.7}
                 icon={<Users className="h-4 w-4 text-white" />}
@@ -290,7 +237,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               />
               <StatCard
                 pos="left-[5%] bottom-[15%]"
-                label="Tăng trưởng"
+                label={t("Tăng trưởng")}
                 value="+250%"
                 delay={0.9}
                 icon={<BarChart3 className="h-4 w-4 text-white" />}
@@ -321,7 +268,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               <motion.span animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
                 🌱
               </motion.span>
-              Tri thức Unifarm
+              {t("Tri thức Unifarm")}
             </motion.div>
 
             <motion.h1
@@ -335,7 +282,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Tri Thức Chỉ Thực Sự Lớn Lên Khi Được Chia Sẻ
+              {t("Tri Thức Chỉ Thực Sự Lớn Lên Khi Được Chia Sẻ")}
             </motion.h1>
 
             <motion.p
@@ -344,7 +291,9 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mx-auto mt-5 max-w-lg text-[17px] leading-relaxed text-gray-500 lg:mx-0"
             >
-              Mỗi ngày ngoài cánh đồng đều đặt ra những bài toán mới. Unifarm không giữ tri thức cho riêng mình. Đây là nơi chúng tôi đóng góp cho nền nông nghiệp bằng việc chia sẻ minh bạch những gì đúc kết được từ thử nghiệm thực địa và dữ liệu sản xuất.
+              {t(
+                "Mỗi ngày ngoài cánh đồng đều đặt ra những bài toán mới. Unifarm không giữ tri thức cho riêng mình. Đây là nơi chúng tôi đóng góp cho nền nông nghiệp bằng việc chia sẻ minh bạch những gì đúc kết được từ thử nghiệm thực địa và dữ liệu sản xuất."
+              )}
             </motion.p>
 
             <motion.div
@@ -359,7 +308,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 { icon: <Sparkles className="h-3.5 w-3.5" />, label: "Tin tức" },
               ].map((item, i) => (
                 <span key={i} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#006400]/70">
-                  {item.icon} {item.label}
+                  {item.icon} {t(item.label)}
                 </span>
               ))}
             </motion.div>
@@ -381,7 +330,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                     "0 14px 44px rgba(0,100,0,0.42), 0 4px 12px rgba(0,100,0,0.18), inset 0 1px 0 rgba(255,255,255,0.15)",
                 }}
               >
-                <Sparkles className="h-4 w-4" /> Bài mới nhất
+                <Sparkles className="h-4 w-4" /> {t("Bài mới nhất")}
                 <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.4, repeat: Infinity }}>
                   →
                 </motion.span>
@@ -392,7 +341,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                 className="inline-flex items-center gap-2 rounded-2xl px-7 py-[15px] text-[15px] font-bold text-[#006400] transition"
                 style={{ background: "rgba(0,100,0,0.06)", border: "1px solid rgba(0,100,0,0.2)" }}
               >
-                <TrendingUp className="h-4 w-4" /> Nổi bật
+                <TrendingUp className="h-4 w-4" /> {t("Nổi bật")}
               </motion.a>
             </motion.div>
           </motion.div>
@@ -421,23 +370,17 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
             <div className="mb-3 flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-[#006400]" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#006400]">Mới nhất</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#006400]">{t("Mới nhất")}</span>
               </div>
               <div className="h-px flex-1 bg-gradient-to-r from-[#006400]/25 to-transparent" />
             </div>
-            <h2 className="uppercase mb-4 text-3xl font-black text-gray-900 sm:text-4xl">Bài viết mới nhất</h2>
+            <h2 className="uppercase mb-4 text-3xl font-black text-gray-900 sm:text-4xl">{t("Bài viết mới nhất")}</h2>
             <p className="mb-12 max-w-md text-sm text-gray-400">
-              Cập nhật mới nhất về nông nghiệp công nghệ cao từ Unifarm.
+              {t("Cập nhật mới nhất về nông nghiệp công nghệ cao từ Unifarm.")}
             </p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {latestPosts.map((post, i) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  delay={i * 0.08}
-                  translatedTitle={isTranslated ? translatedMap[post.id]?.title : undefined}
-                  translatedExcerpt={isTranslated ? translatedMap[post.id]?.excerpt : undefined}
-                />
+                <PostCard key={post.id} post={post} delay={i * 0.08} />
               ))}
             </div>
           </div>
@@ -485,23 +428,16 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-white" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/60">
-                  Bài đọc nhiều
+                  {t("Bài đọc nhiều")}
                 </span>
               </div>
               <div className="h-px flex-1 bg-gradient-to-r from-white/25 to-transparent" />
             </div>
-            <h2 className="uppercase mb-4 text-3xl font-black text-white sm:text-4xl">Bài viết nổi bật</h2>
-            <p className="mb-12 max-w-md text-sm text-white/45">Những bài viết được bạn đọc quan tâm nhất.</p>
+            <h2 className="uppercase mb-4 text-3xl font-black text-white sm:text-4xl">{t("Bài viết nổi bật")}</h2>
+            <p className="mb-12 max-w-md text-sm text-white/45">{t("Những bài viết được bạn đọc quan tâm nhất.")}</p>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {popularPosts.map((post, i) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  delay={i * 0.08}
-                  variant="dark"
-                  translatedTitle={isTranslated ? translatedMap[post.id]?.title : undefined}
-                  translatedExcerpt={isTranslated ? translatedMap[post.id]?.excerpt : undefined}
-                />
+                <PostCard key={post.id} post={post} delay={i * 0.08} variant="dark" />
               ))}
             </div>
           </div>
@@ -527,39 +463,17 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
         <Particles count={14} light seed={4} />
         <CornerBrackets color="rgba(0,100,0,0.15)" />
 
-        {/* Language toggle + header */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#006400]" />
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#006400]">Khám phá</span>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#006400]">{t("Khám phá")}</span>
                 </div>
                 <div className="h-px flex-1 bg-gradient-to-r from-[#006400]/25 to-transparent" />
               </div>
-              <h2 className="uppercase text-3xl font-black text-gray-900 sm:text-4xl">Tất cả bài viết</h2>
-            </div>
-
-            <div className="inline-flex items-center rounded-full border border-[#006400]/20 bg-white p-1 shadow-sm">
-              <button
-                type="button"
-                onClick={() => setLang("vi")}
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-                  lang === "vi" ? "bg-[#006400] text-white" : "text-[#06301B]/60 hover:text-[#006400]"
-                }`}
-              >
-                Tiếng Việt
-              </button>
-              <button
-                type="button"
-                onClick={() => setLang("en")}
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-                  lang === "en" ? "bg-[#006400] text-white" : "text-[#06301B]/60 hover:text-[#006400]"
-                }`}
-              >
-                English
-              </button>
+              <h2 className="uppercase text-3xl font-black text-gray-900 sm:text-4xl">{t("Tất cả bài viết")}</h2>
             </div>
           </div>
 
@@ -579,7 +493,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                     : { background: "rgba(0,100,0,0.05)", color: "#666", border: "1px solid rgba(0,100,0,0.12)" }
                 }
               >
-                {tab === ALL_TAG ? "Tất cả" : tab}
+                {tab === ALL_TAG ? t("Tất cả") : tab}
               </button>
             ))}
           </div>
@@ -587,19 +501,13 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
           {filteredAll.length === 0 ? (
             <div className="py-24 text-center text-gray-400">
               <Sparkles className="mx-auto mb-4 h-10 w-10 text-[#006400]/25" />
-              <p className="text-base">Chưa có bài viết trong chuyên mục này.</p>
+              <p className="text-base">{t("Chưa có bài viết trong chuyên mục này.")}</p>
             </div>
           ) : (
             <>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredAll.slice(0, visibleCount).map((post, i) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    delay={i * 0.05}
-                    translatedTitle={isTranslated ? translatedMap[post.id]?.title : undefined}
-                    translatedExcerpt={isTranslated ? translatedMap[post.id]?.excerpt : undefined}
-                  />
+                  <PostCard key={post.id} post={post} delay={i * 0.05} />
                 ))}
               </div>
               {visibleCount < filteredAll.length && (
@@ -614,7 +522,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                       boxShadow: "0 14px 44px rgba(0,100,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
                     }}
                   >
-                    Xem thêm <ArrowRight className="h-4 w-4" />
+                    {t("Xem thêm")} <ArrowRight className="h-4 w-4" />
                   </motion.button>
                 </div>
               )}
@@ -657,10 +565,10 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
               <div className="text-center lg:text-left">
                 <p className="mb-4 text-[9px] font-bold uppercase tracking-[0.35em] text-[#FFFACD]">Unifarm</p>
                 <h3 className="uppercase mb-5 text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl">
-                  Cùng Unifarm xây dựng nông nghiệp bền vững
+                  {t("Cùng Unifarm xây dựng nông nghiệp bền vững")}
                 </h3>
                 <p className="mb-8 max-w-md text-sm font-light leading-relaxed text-white/55 sm:text-base">
-                  Khám phá sản phẩm nông sản sạch và hành trình phát triển của Unifarm.
+                  {t("Khám phá sản phẩm nông sản sạch và hành trình phát triển của Unifarm.")}
                 </p>
                 <div className="flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
                   <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
@@ -672,7 +580,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                         boxShadow: "0 14px 44px rgba(0,100,0,0.42), inset 0 1px 0 rgba(255,255,255,0.15)",
                       }}
                     >
-                      Xem sản phẩm
+                      {t("Xem sản phẩm")}
                       <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.4, repeat: Infinity }}>
                         →
                       </motion.span>
@@ -683,7 +591,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
                     className="inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-4 text-sm font-bold transition"
                     style={{ border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}
                   >
-                    Tìm hiểu thêm
+                    {t("Tìm hiểu thêm")}
                   </Link>
                 </div>
               </div>
@@ -721,20 +629,18 @@ function PostCard({
   post,
   delay = 0,
   variant = "light",
-  translatedTitle,
-  translatedExcerpt,
 }: {
   post: BlogPost;
   delay?: number;
   variant?: "light" | "dark";
-  translatedTitle?: string;
-  translatedExcerpt?: string;
 }) {
+  const { t, tr } = useLanguage();
   const tc = TAG_COLOR[post.tag] ?? DEFAULT_TAG_COLOR;
   const mins = readingTime(post.content);
 
-  const displayTitle = translatedTitle || post.title;
-  const displayExcerpt = translatedExcerpt || post.excerpt;
+  const displayTitle = tr(post.translations, "title", post.title);
+  const displayExcerpt = tr(post.translations, "excerpt", post.excerpt);
+  const displayTag = tr(post.translations, "tag", post.tag);
 
   return (
     <motion.div
@@ -785,7 +691,7 @@ function PostCard({
             className="absolute left-3 top-3 rounded-lg px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em]"
             style={{ background: tc.bg, color: tc.text, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           >
-            {post.tag}
+            {displayTag}
           </span>
 
           {(post.view_count ?? 0) > 0 && (
@@ -795,7 +701,7 @@ function PostCard({
           )}
 
           <div className="absolute bottom-3 right-3 flex items-center gap-1 text-[10px] font-medium text-white/70">
-            <Clock className="h-3 w-3" /> {mins} phút đọc
+            <Clock className="h-3 w-3" /> {mins} {t("phút đọc")}
           </div>
         </div>
 

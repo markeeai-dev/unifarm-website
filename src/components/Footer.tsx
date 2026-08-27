@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * Footer — F1genz Farm
@@ -56,6 +57,7 @@ function AccordionColumn({
   title: string;
   links: LinkItem[];
 }) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
 
   return (
@@ -67,7 +69,7 @@ function AccordionColumn({
         aria-expanded={open}
       >
         <span className="text-sm font-bold uppercase tracking-wider text-[#fffacd]">
-          {title}
+          {t(title)}
         </span>
         <svg
           className={`h-4 w-4 text-[#87cefa] transition-transform duration-300 sm:hidden ${
@@ -96,7 +98,7 @@ function AccordionColumn({
               <span className="text-[#006400] transition-colors group-hover:text-[#87cefa]">
                 »
               </span>
-              {link.label}
+              {t(link.label)}
             </a>
           </li>
         ))}
@@ -106,6 +108,7 @@ function AccordionColumn({
 }
 
 export default function Footer() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -137,7 +140,7 @@ export default function Footer() {
           {/* Contact / brand */}
           <div className="pb-6 sm:pb-0">
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
-              Thông tin liên hệ
+              {t("Thông tin liên hệ")}
             </h3>
 
             <a href="/" className="mb-4 inline-flex items-center">
@@ -157,16 +160,16 @@ export default function Footer() {
                 </span>
               </li>
               <li>
-                <span className="font-semibold text-white/90">Trụ sở chính:</span>{" "}
+                <span className="font-semibold text-white/90">{t("Trụ sở chính:")}</span>{" "}
                 158, Đường Ngô Gia Tự, Phường Thủ Dầu Một, Tp. Hồ Chí Minh
               </li>
               <li>
-                <span className="font-semibold text-white/90">Chi nhánh:</span>{" "}
+                <span className="font-semibold text-white/90">{t("Chi nhánh:")}</span>{" "}
                 368, Đường Thuận Giao 09, Phường Thuận Giao, Tp. Hồ Chí Minh; 20
                 Bờ Sông Sét, P. Tân Mai, Quận Hoàng Mai, Tp Hà Nội
               </li>
               <li>
-                <span className="font-semibold text-white/90">Trang trại:</span>{" "}
+                <span className="font-semibold text-white/90">{t("Trang trại:")}</span>{" "}
                 Dự án nông nghiệp ứng dụng công nghệ cao An Thái, Phước Thành,
                 Tp. Hồ Chí Minh
               </li>
@@ -195,11 +198,10 @@ export default function Footer() {
           {/* Newsletter */}
           <div className="py-4 sm:py-0">
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
-              Đăng ký bản tin
+              {t("Đăng ký bản tin")}
             </h3>
             <p className="mb-4 text-sm italic text-[#87cefa]/90">
-              Bạn sẽ là người đầu tiên được biết về: Chương trình khuyến mãi,
-              giảm giá…
+              {t("Bạn sẽ là người đầu tiên được biết về: Chương trình khuyến mãi, giảm giá…")}
             </p>
 
             <form onSubmit={handleSubmit} className="flex overflow-hidden rounded-full bg-white/10 ring-1 ring-white/15 backdrop-blur-sm focus-within:ring-[#87cefa]">
@@ -208,14 +210,14 @@ export default function Footer() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Nhập email của bạn..."
+                placeholder={t("Nhập email của bạn...")}
                 className="w-full bg-transparent px-4 py-3 text-sm text-white placeholder-white/50 outline-none"
               />
               <button
                 type="submit"
                 className="flex shrink-0 items-center gap-1 whitespace-nowrap bg-[#006400] px-4 text-sm font-bold uppercase tracking-wide text-[#fffacd] transition-colors hover:bg-[#004d00]"
               >
-                Đăng ký
+                {t("Đăng ký")}
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3">
                   <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -227,7 +229,7 @@ export default function Footer() {
               }`}
               aria-live="polite"
             >
-              Cảm ơn bạn đã đăng ký!
+              {t("Cảm ơn bạn đã đăng ký!")}
             </p>
 
             <div className="mt-6 flex items-center gap-3">
@@ -235,7 +237,7 @@ export default function Footer() {
                 <a
                   key={s.name}
                   href={s.href}
-                  aria-label={s.name}
+                  aria-label={t(s.name)}
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 ring-1 ring-white/10 transition-all hover:-translate-y-0.5 hover:bg-[#006400] hover:text-[#fffacd] hover:ring-[#006400]"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
@@ -255,7 +257,7 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-white/50 sm:py-8">
           <p>
-            © Bản quyền thuộc về{" "}
+            © {t("Bản quyền thuộc về")}{" "}
             <span className="font-semibold text-[#fffacd]">Unifarm</span>.
           </p>
         </div>

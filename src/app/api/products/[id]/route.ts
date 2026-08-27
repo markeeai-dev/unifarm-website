@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
 
 const VALID_CATEGORIES = ["fresh", "seedling", "processed"];
+
+const PRODUCT_TRANSLATE_SPEC: EntitySpec = {
+  name: { kind: "string" },
+  subtitle: { kind: "string" },
+  standard: { kind: "string" },
+  description: { kind: "string" },
+  specs: { kind: "object[]", keys: ["label", "value"] },
+  commitments: { kind: "string[]" },
+};
 
 export async function GET(
   _req: NextRequest,
@@ -56,6 +66,11 @@ export async function PATCH(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
+  const translations = await translateEntity(
+    { name, subtitle, standard, description, specs, commitments },
+    PRODUCT_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     UPDATE products SET
       name = ${name},
@@ -69,6 +84,7 @@ export async function PATCH(
       description = ${description || ""},
       specs = ${JSON.stringify(specs || [])}::jsonb,
       commitments = ${JSON.stringify(commitments || [])}::jsonb,
+      translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${Number(sort_order) || 0},
       updated_at = now()
     WHERE id::text = ${id}

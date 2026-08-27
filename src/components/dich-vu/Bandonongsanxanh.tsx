@@ -33,6 +33,7 @@ import {
 import { ArrowRight, MapPin } from "lucide-react";
 import vietnamMap from "@svg-maps/vietnam";
 import { useIsMobile } from "@/lib/use-is-mobile";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -82,7 +83,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/2.jpg",
     pos: { x: 34.5, y: 69.3 },
     calloutPos: { x: 20, y: 74 },
-    calloutPosMobile: { x: 98, y: 74 },
+    calloutPosMobile: { x: 92, y: 74 },
     sections: [
       {
         title: "Vùng trồng & trang trại",
@@ -204,7 +205,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon2.jpg",
     pos: { x: 41.2, y: 47.1 },
     calloutPos: { x: 80, y: 47 },
-    calloutPosMobile: { x: 38, y: 47 },
+    calloutPosMobile: { x: 25, y: 47 },
     comingSoon: true,
     sections: [],
   },
@@ -215,7 +216,7 @@ const REGIONS: Region[] = [
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032394_1582751505492234802_4935324150679931320_6e7befd02ac62654f5522a88f1772c1d.jpg",
     pos: { x: 29.9, y: 24.3 },
     calloutPos: { x: 21, y: 11 },
-    calloutPosMobile: { x: 98, y: 11 },
+    calloutPosMobile: { x: 77, y: 11 },
     comingSoon: true,
     sections: [],
   },
@@ -239,6 +240,7 @@ export default function BanDoNongSanXanh() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.15 });
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -291,7 +293,7 @@ export default function BanDoNongSanXanh() {
             className="text-xs font-bold uppercase tracking-[0.32em]"
             style={{ color: C.green }}
           >
-            Mạng lưới nông nghiệp xanh
+            {t("Mạng lưới nông nghiệp xanh")}
           </motion.p>
           <motion.h2
             initial={reduce ? false : { opacity: 0, y: 26 }}
@@ -300,7 +302,7 @@ export default function BanDoNongSanXanh() {
             className="mx-auto mt-4 max-w-2xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-5xl"
             style={{ color: C.forest }}
           >
-            Bản đồ nông sản xanh Việt Nam
+            {t("Bản đồ nông sản xanh Việt Nam")}
           </motion.h2>
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 20 }}
@@ -309,7 +311,7 @@ export default function BanDoNongSanXanh() {
             className="mx-auto mt-3 max-w-lg text-sm sm:text-base"
             style={{ color: C.fresh }}
           >
-            Kết nối vùng trồng – công nghệ – chế biến – thị trường
+            {t("Kết nối vùng trồng – công nghệ – chế biến – thị trường")}
           </motion.p>
         </div>
 
@@ -410,7 +412,19 @@ function VietnamMap({
 }) {
   const zoomOrigin = zoomEnabled ? REGIONS.find((r) => r.id === selectedId)?.pos ?? null : null;
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
   const calloutFor = (r: Region) => (isMobile && r.calloutPosMobile ? r.calloutPosMobile : r.calloutPos);
+  /** Khối lãnh thổ Việt Nam trông lệch trái trong khung nhìn hẹp trên
+   * mobile — phần "thân" đất liền mà mắt người theo dõi (dải ven biển)
+   * nằm lệch trái trong hộp bao hình học của cả nước (điểm cực bắc/nam
+   * kéo hộp bao rộng thêm về bên phải). Dịch riêng phần HÌNH DẠNG bản đồ
+   * (không đụng vị trí marker/đường chỉ/ảnh callout) sang phải một chút
+   * trên mobile để mắt nhìn thấy cân đối hơn — desktop giữ nguyên 0%. */
+  const MOBILE_MAP_SHIFT_PCT = 16;
+  const mapShiftPct = isMobile ? MOBILE_MAP_SHIFT_PCT : 0;
+  const mapShiftUser = (mapShiftPct / 100) * (VIETNAM_VW + VIEWBOX_PAD * 2);
+  const posFor = (r: Region) =>
+    isMobile ? { x: r.pos.x + MOBILE_MAP_SHIFT_PCT, y: r.pos.y } : r.pos;
 
   return (
     <div className="relative">
@@ -434,14 +448,18 @@ function VietnamMap({
           {/* Hình quốc gia liền khối: mọi tỉnh tô cùng 1 màu, không viền —
               chỉ lấy đúng đường viền lãnh thổ thật, không hiển thị ranh
               giới hành chính bên trong (đã lỗi thời sau sáp nhập tỉnh). */}
-          <g aria-hidden style={{ pointerEvents: "none" }}>
+          <g
+            aria-hidden
+            style={{ pointerEvents: "none" }}
+            transform={mapShiftUser ? `translate(${mapShiftUser}, 0)` : undefined}
+          >
             {vietnamMap.locations.map((loc) => (
               <path key={loc.id} d={loc.path} fill={`${C.soft}45`} stroke="none" />
             ))}
           </g>
 
           {REGIONS.map((r) => {
-            const end = lineEndFor(r.pos, calloutFor(r));
+            const end = lineEndFor(posFor(r), calloutFor(r));
             const isFocused = hoveredId === r.id || selectedId === r.id;
             return (
               <line
@@ -470,7 +488,7 @@ function VietnamMap({
             <div key={r.id}>
               <Marker
                 region={r}
-                pos={r.pos}
+                pos={posFor(r)}
                 index={i}
                 active={selectedId === r.id}
                 hovered={hoveredId === r.id}
@@ -492,7 +510,7 @@ function VietnamMap({
                 }}
               >
                 <div
-                  className="h-20 w-32 overflow-hidden ring-2 ring-white sm:h-24 sm:w-40"
+                  className="h-14 w-20 overflow-hidden ring-2 ring-white sm:h-24 sm:w-40"
                   style={{ boxShadow: "0 14px 30px -10px rgba(6,59,36,0.55)" }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -502,7 +520,7 @@ function VietnamMap({
                   className="mt-1.5 whitespace-nowrap text-[11px] font-bold uppercase tracking-wide"
                   style={{ color: C.forest }}
                 >
-                  {String(i + 1).padStart(2, "0")} · {r.name}
+                  {String(i + 1).padStart(2, "0")} · {t(r.name)}
                 </p>
               </div>
             </div>
@@ -514,10 +532,10 @@ function VietnamMap({
         className="mt-3 text-center text-[11px] font-bold uppercase tracking-[0.3em]"
         style={{ color: `${C.forest}55` }}
       >
-        Việt Nam
+        {t("Việt Nam")}
       </p>
       <p className="mt-1 text-center text-[9px] text-neutral-400">
-        Bản đồ: svg-maps.com (CC BY 4.0)
+        {t("Bản đồ: svg-maps.com (CC BY 4.0)")}
       </p>
     </div>
   );
@@ -609,6 +627,8 @@ function DetailPanel({
   activeTab: number;
   onTabChange: (i: number) => void;
 }) {
+  const { t } = useLanguage();
+
   if (!region) {
     return (
       <div
@@ -616,7 +636,7 @@ function DetailPanel({
         style={{ borderColor: `${C.forest}18`, background: `${C.warm}` }}
       >
         <p className="max-w-xs text-sm text-neutral-400">
-          Bấm vào điểm đánh dấu trên bản đồ để xem chi tiết vùng dự án.
+          {t("Bấm vào điểm đánh dấu trên bản đồ để xem chi tiết vùng dự án.")}
         </p>
       </div>
     );
@@ -627,20 +647,22 @@ function DetailPanel({
       <div className="border p-6 sm:p-8" style={{ borderColor: `${C.forest}18`, background: C.warm }}>
         <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.green }}>
           <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
-          {region.name}
+          {t(region.name)}
         </p>
         <p className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: C.forest }}>
-          Đang khảo sát & mở rộng vùng dự án
+          {t("Đang khảo sát & mở rộng vùng dự án")}
         </p>
         <p className="mt-3 max-w-sm text-sm leading-relaxed text-neutral-500">
-          Unifarm đang khảo sát và mở rộng vùng nguyên liệu tại khu vực này. Thông tin dự án cụ thể sẽ được cập nhật khi triển khai chính thức.
+          {t(
+            "Unifarm đang khảo sát và mở rộng vùng nguyên liệu tại khu vực này. Thông tin dự án cụ thể sẽ được cập nhật khi triển khai chính thức."
+          )}
         </p>
         <button
           type="button"
           className="group mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] transition-all hover:gap-3"
           style={{ color: C.green }}
         >
-          Liên hệ tìm hiểu thêm
+          {t("Liên hệ tìm hiểu thêm")}
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
       </div>
@@ -655,14 +677,14 @@ function DetailPanel({
         <div>
           <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.green }}>
             <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
-            {region.name}
+            {t(region.name)}
           </p>
           <p className="mt-1 text-3xl font-extrabold leading-none sm:text-4xl" style={{ color: C.forest }}>
             {region.totalHa} <span className="text-base font-bold">HA</span>
           </p>
         </div>
         <p className="text-sm font-semibold text-neutral-400">
-          {totalProjects(region).toString().padStart(2, "0")} dự án đang triển khai
+          {totalProjects(region).toString().padStart(2, "0")} {t("dự án đang triển khai")}
         </p>
       </div>
 
@@ -681,7 +703,7 @@ function DetailPanel({
               <span className="mr-1" style={{ color: C.soft }}>
                 {i + 1}.
               </span>
-              {s.short}
+              {t(s.short)}
               <span
                 className="absolute inset-x-3 -bottom-px h-[2px] rounded-full transition-opacity duration-300"
                 style={{ background: C.green, opacity: isActive ? 1 : 0 }}
@@ -701,7 +723,7 @@ function DetailPanel({
           className="mt-6"
         >
           {section.subtitle && (
-            <p className="mb-3 text-xs font-semibold italic text-neutral-400">{section.subtitle}</p>
+            <p className="mb-3 text-xs font-semibold italic text-neutral-400">{t(section.subtitle)}</p>
           )}
 
           <div className="divide-y" style={{ borderColor: `${C.forest}0f` }}>
@@ -714,15 +736,15 @@ function DetailPanel({
                 className="py-4 first:pt-0"
               >
                 <p className="text-[15px] font-bold" style={{ color: C.ink }}>
-                  {item.name}
+                  {t(item.name)}
                 </p>
                 <dl className="mt-2 space-y-1.5">
                   {item.fields.map((f) => (
                     <div key={f.label} className="flex flex-wrap gap-x-1.5 text-sm leading-relaxed">
                       <dt className="shrink-0 font-bold" style={{ color: C.fresh }}>
-                        {f.label}:
+                        {t(f.label)}:
                       </dt>
-                      <dd className="text-neutral-600">{f.value}</dd>
+                      <dd className="text-neutral-600">{t(f.value)}</dd>
                     </div>
                   ))}
                 </dl>
@@ -737,7 +759,7 @@ function DetailPanel({
         className="group mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] transition-all hover:gap-3"
         style={{ color: C.green }}
       >
-        Liên hệ tìm hiểu thêm
+        {t("Liên hệ tìm hiểu thêm")}
         <ArrowRight className="h-3.5 w-3.5" />
       </button>
     </div>
@@ -760,6 +782,7 @@ function StatFloating({
   reduce: boolean;
   delay: number;
 }) {
+  const { t } = useLanguage();
   const [value, setValue] = useState(() => (reduce ? stat.target : 0));
   const started = useRef(false);
 
@@ -801,7 +824,7 @@ function StatFloating({
         {stat.format(value)}
       </div>
       <div className="mt-2 text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-400 sm:text-[11px]">
-        {stat.label}
+        {t(stat.label)}
       </div>
     </motion.div>
   );

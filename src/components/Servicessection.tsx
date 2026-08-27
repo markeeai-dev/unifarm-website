@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { User, Recycle, Factory, PackageOpen, ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -98,6 +99,7 @@ function RevealFromRight({
 
 function ServiceCard({ service }: { service: (typeof SERVICES)[number] }) {
   const Icon = service.icon;
+  const { t } = useLanguage();
   return (
     <div className="group flex h-full flex-col items-center px-3 py-5 text-center sm:px-6 sm:py-8 lg:px-8">
       <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#fdf9e0] transition-colors duration-300 group-hover:bg-[#fbf3c4] sm:mb-5 sm:h-24 sm:w-24">
@@ -106,15 +108,15 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[number] }) {
           strokeWidth={1.5}
         />
       </div>
-      <h3 className="uppercase mb-1 text-sm font-bold text-[#006400] sm:mb-2 sm:text-lg">{service.title}</h3>
+      <h3 className="uppercase mb-1 text-sm font-bold text-[#006400] sm:mb-2 sm:text-lg">{t(service.title)}</h3>
       <p className="mb-3 max-w-[160px] text-xs leading-relaxed text-gray-500 sm:mb-4 sm:max-w-[230px] sm:text-sm">
-        {service.desc}
+        {t(service.desc)}
       </p>
       <a
         href="#"
         className="mt-auto inline-flex items-center gap-1 text-xs font-semibold text-[#006400] transition-colors hover:text-[#004d00] sm:text-sm"
       >
-        Khám phá
+        {t("Khám phá")}
         <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
       </a>
     </div>
@@ -126,6 +128,7 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[number] }) {
 /* ------------------------------------------------------------------ */
 
 export default function ServicesSection() {
+  const { t } = useLanguage();
   return (
     <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat pb-20 pt-81 lg:pb-28 lg:pt-[60px]">
       <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
@@ -139,9 +142,9 @@ export default function ServicesSection() {
             className="h-12 w-12 shrink-0 object-contain sm:h-28 sm:w-28"
           /> */}
           <h2 className="uppercase text-3xl font-extrabold leading-tight text-[#006400] [text-wrap:balance] sm:[text-wrap:auto] sm:text-4xl lg:text-[42px]">
-            Chúng tôi cung cấp dịch vụ
+            {t("Chúng tôi cung cấp dịch vụ")}
             <span className="hidden sm:inline"><br /></span>
-            {" "}nhà máy &amp; công nghiệp tốt nhất
+            {" "}{t("nhà máy & công nghiệp tốt nhất")}
           </h2>
         </RevealFromRight>
 

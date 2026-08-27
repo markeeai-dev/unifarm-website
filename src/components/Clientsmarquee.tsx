@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * ClientsMarquee — "Our client's"
@@ -25,6 +26,7 @@ const CLIENTS = [
   { name: "AEON", logo: "/images/clients/aeon.png" },
   { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
   { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
+  { name: "DOLE", logo: "/images/clients/dole.png" },
 ];
 
 // Nhân đôi mảng để tạo vòng lặp liền mạch (seamless loop)
@@ -33,6 +35,7 @@ const LOOP_CLIENTS = [...CLIENTS, ...CLIENTS];
 export default function ClientsMarquee() {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -79,7 +82,7 @@ export default function ClientsMarquee() {
         <div className="mb-9 flex flex-col items-center gap-2 text-center sm:mb-12">
           <span className="h-1 w-10 rounded-full bg-[#87cefa]" aria-hidden="true" />
           <h2 className="uppercase text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
-            Khách hàng & Đối tác đồng hành
+            {t("Khách hàng & Đối tác đồng hành")}
           </h2>
         </div>
 

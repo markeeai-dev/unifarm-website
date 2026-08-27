@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Scroll-reveal hook (same pattern as the hero section)              */
@@ -76,6 +77,7 @@ const TRANSITION_MS = 700;
 /* ------------------------------------------------------------------ */
 
 export default function SmartSolutionsSlider() {
+  const { t } = useLanguage();
   const [titleRef, titleInView] = useInView<HTMLDivElement>(0.3);
   const [subRef, subInView] = useInView<HTMLDivElement>(0.3);
   const [sliderRef, sliderInView] = useInView<HTMLDivElement>(0.15);
@@ -196,13 +198,13 @@ export default function SmartSolutionsSlider() {
           >
             <span className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-ink/70">
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
-              Canh tác thông minh
+              {t('Canh tác thông minh')}
             </span>
             <h2 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
-              Giải Pháp Thông Minh Cho
+              {t('Giải Pháp Thông Minh Cho')}
               <br />
               <span className="italic font-normal text-lime-dark">
-                Nông Nghiệp Hiện Đại
+                {t('Nông Nghiệp Hiện Đại')}
               </span>
             </h2>
           </div>
@@ -214,9 +216,7 @@ export default function SmartSolutionsSlider() {
             }`}
           >
             <p className="max-w-md text-justify text-base leading-relaxed text-ink/55 md:ml-auto">
-              Chúng tôi trao quyền cho nông dân với các công cụ thông minh và
-              thông tin dựa trên dữ liệu để tăng năng suất, giảm chi phí và
-              xây dựng một tương lai nông nghiệp bền vững hơn.
+              {t('Chúng tôi trao quyền cho nông dân với các công cụ thông minh và thông tin dựa trên dữ liệu để tăng năng suất, giảm chi phí và xây dựng một tương lai nông nghiệp bền vững hơn.')}
             </p>
           </div>
         </div>
@@ -271,16 +271,16 @@ export default function SmartSolutionsSlider() {
                     <div className="aspect-[4/4.3] w-full overflow-hidden rounded-2xl bg-ink/5">
                       <img
                         src={slide.image}
-                        alt={slide.title}
+                        alt={t(slide.title)}
                         draggable={false}
                         className="h-full w-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-110"
                       />
                     </div>
                     <h3 className="uppercase mt-4 text-lg font-semibold text-ink">
-                      {slide.title}
+                      {t(slide.title)}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-ink/45">
-                      {slide.subtitle}
+                      {t(slide.subtitle)}
                     </p>
                   </div>
                   </div>
@@ -299,7 +299,7 @@ export default function SmartSolutionsSlider() {
           >
             <button
               type="button"
-              aria-label="Slide trước"
+              aria-label={t('Slide trước')}
               onClick={prev}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-ink-deep hover:text-white"
             >
@@ -307,7 +307,7 @@ export default function SmartSolutionsSlider() {
             </button>
             <button
               type="button"
-              aria-label="Slide tiếp theo"
+              aria-label={t('Slide tiếp theo')}
               onClick={next}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-ink-deep hover:text-white"
             >

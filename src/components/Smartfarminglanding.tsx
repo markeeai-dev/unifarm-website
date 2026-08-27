@@ -7,6 +7,7 @@ import {
   ClipboardList,
   Sprout,
 } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Hooks                                                              */
@@ -102,6 +103,7 @@ const STATS = [
 /* ------------------------------------------------------------------ */
 
 export default function SmartFarmingLanding() {
+  const { t } = useLanguage();
   const [titleRef, titleInView] = useInView<HTMLDivElement>(0.3);
   const [subRef, subInView] = useInView<HTMLDivElement>(0.3);
   const [cardsRef, cardsInView] = useInView<HTMLDivElement>(0.15);
@@ -124,13 +126,13 @@ export default function SmartFarmingLanding() {
           >
             <span className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-ink/70">
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
-              Cách hoạt động
+              {t('Cách hoạt động')}
             </span>
             <h1 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
-              Canh Tác Thông Minh
+              {t('Canh Tác Thông Minh')}
               <br />
               <span className="italic font-normal text-lime-dark">
-                Đơn Giản và Hiệu Quả
+                {t('Đơn Giản và Hiệu Quả')}
               </span>
             </h1>
           </div>
@@ -143,8 +145,7 @@ export default function SmartFarmingLanding() {
             }`}
           >
             <p className="max-w-md text-justify text-base leading-relaxed text-ink/55 md:ml-auto">
-              Một nền tảng canh tác thông minh kết nối đất, cây trồng và vận hành
-              để giúp nông dân canh tác hiệu quả và an toàn hơn.
+              {t('Một nền tảng canh tác thông minh kết nối đất, cây trồng và vận hành để giúp nông dân canh tác hiệu quả và an toàn hơn.')}
             </p>
           </div>
         </div>
@@ -166,8 +167,8 @@ export default function SmartFarmingLanding() {
               <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-lime/15 text-ink/70 transition-colors group-hover:bg-lime-dark group-hover:text-ink">
                 <Icon size={18} strokeWidth={2} />
               </div>
-              <h3 className="uppercase text-sm font-semibold text-ink">{title}</h3>
-              <p className="text-xs text-ink/45">{subtitle}</p>
+              <h3 className="uppercase text-sm font-semibold text-ink">{t(title)}</h3>
+              <p className="text-xs text-ink/45">{t(subtitle)}</p>
             </div>
           ))}
         </div>
@@ -207,26 +208,26 @@ export default function SmartFarmingLanding() {
             {/* Location tag, bottom-left */}
             <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-ink-deep backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-lime-dark" />
-              Đồng Nai, Việt Nam
+              {t('Đồng Nai, Việt Nam')}
             </div>
 
             {/* Weather card, top-right */}
             <div className="absolute right-5 top-5 w-40 rounded-2xl bg-white/95 p-4 text-center shadow-lg backdrop-blur-sm sm:w-44">
               <div className="text-2xl">⛅</div>
               <div className="mt-1 text-xl font-bold text-ink">24°C</div>
-              <div className="text-[10px] text-ink/40">Nhiệt độ TB hôm nay</div>
+              <div className="text-[10px] text-ink/40">{t('Nhiệt độ TB hôm nay')}</div>
               <div className="mt-3 grid grid-cols-3 gap-1 border-t border-ink/10 pt-2 text-[10px] text-ink/55">
                 <div>
                   <div className="font-semibold text-ink">68%</div>
-                  Độ ẩm
+                  {t('Độ ẩm')}
                 </div>
                 <div>
                   <div className="font-semibold text-ink">20%</div>
-                  Mưa
+                  {t('Mưa')}
                 </div>
                 <div>
                   <div className="font-semibold text-ink">12km/h</div>
-                  Gió
+                  {t('Gió')}
                 </div>
               </div>
             </div>
@@ -234,7 +235,7 @@ export default function SmartFarmingLanding() {
             {/* AI prediction card, below weather card */}
             <div className="absolute right-5 top-[9.5rem] w-40 rounded-2xl bg-white/95 p-3 shadow-lg backdrop-blur-sm sm:w-44 sm:top-40">
               <p className="mb-2 text-[10px] font-medium text-ink/55">
-                Mô hình AI dự đoán khu vực
+                {t('Mô hình AI dự đoán khu vực')}
               </p>
               <div className="h-2 w-full rounded-full bg-gradient-to-r from-red-400 via-gold to-emerald-500" />
               <div className="mt-2 flex items-center justify-between rounded-lg bg-lime/10 px-2 py-1.5">
@@ -242,7 +243,7 @@ export default function SmartFarmingLanding() {
                   <span className="grid h-4 w-4 place-items-center rounded bg-lime-dark text-[8px] text-ink">
                     AI
                   </span>
-                  Phù hợp gieo trồng
+                  {t('Phù hợp gieo trồng')}
                 </span>
                 <span className="text-ink-deep">→</span>
               </div>
@@ -284,6 +285,7 @@ function StatCard({
   index: number;
   start: boolean;
 }) {
+  const { t } = useLanguage();
   const value = useCountUp(target, start, 1500, decimals);
 
   return (
@@ -297,7 +299,7 @@ function StatCard({
         {value}
         <span className="text-gold-dark">{suffix}</span>
       </div>
-      <p className="mt-1 text-xs leading-snug text-ink/45 sm:text-sm">{label}</p>
+      <p className="mt-1 text-xs leading-snug text-ink/45 sm:text-sm">{t(label)}</p>
     </div>
   );
 }

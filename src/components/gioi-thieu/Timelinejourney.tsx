@@ -14,6 +14,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { TimelineMilestone } from "@/lib/db";
+import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /** Ảnh tĩnh trích từ khung hình đầu của từng video mẫu — dùng thay video
  * nặng trên mobile (tránh tải hàng chục MB cho video chỉ để minh hoạ). */
@@ -44,6 +46,8 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 function MediaCard({ label, video }: { label: string; video: string }) {
   const poster = VIDEO_POSTER_MAP[video];
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useForcePlayVideo(videoRef);
 
   return (
     <div className="group relative flex h-full min-h-[130px] w-full items-end overflow-hidden rounded-2xl bg-[#0a3d0a] p-3 sm:min-h-[150px]">
@@ -59,6 +63,7 @@ function MediaCard({ label, video }: { label: string; video: string }) {
       )}
       {(
         <video
+          ref={videoRef}
           src={video}
           autoPlay
           muted
@@ -114,6 +119,7 @@ function useScrollIntoView(active: number, count: number): React.RefObject<HTMLD
 /* ------------------------------------------------------------------ */
 
 export default function TimelineJourney({ milestones }: { milestones: TimelineMilestone[] }) {
+  const { t, tr } = useLanguage();
   const [active, setActive] = useState(4);
   const [inView, setInView] = useState(false);
 
@@ -125,6 +131,13 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
   const progressPct = ((active + 0.5) / n) * 100;
   const current = milestones[active];
   const CurrentIcon = ICON_MAP[current.icon] ?? Sprout;
+
+  const currentCaption = tr(current.translations, "caption", current.caption);
+  const currentPartnerTitle = tr(current.translations, "partner_title", current.partner_title);
+  const currentPartnerBullets = tr(current.translations, "partner_bullets", current.partner_bullets);
+  const currentStat = tr(current.translations, "stat", current.stat);
+  const currentBottom = tr(current.translations, "bottom", current.bottom);
+  const currentMedia = tr(current.translations, "media", current.media);
 
   /* -------------------------------------------------------------- */
   /* Intersection Observer                                          */
@@ -362,7 +375,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
                 "opacity 900ms ease-out, transform 900ms cubic-bezier(0.16,1,0.3,1)",
             }}
           >
-            Hành trình phát triển
+            {t("Hành trình phát triển")}
           </span>
 
           <h2
@@ -376,7 +389,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
                 "opacity 1000ms ease-out 120ms, transform 1000ms cubic-bezier(0.16,1,0.3,1) 120ms",
             }}
           >
-            Hành trình kiến tạo Unifarm
+            {t("Hành trình kiến tạo Unifarm")}
           </h2>
 
           <p
@@ -390,7 +403,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
                 "opacity 1000ms ease-out 220ms, transform 1000ms cubic-bezier(0.16,1,0.3,1) 220ms",
             }}
           >
-            Nhấn vào một cột mốc để xem những gì Unifarm đã và đang kiến tạo.
+            {t("Nhấn vào một cột mốc để xem những gì Unifarm đã và đang kiến tạo.")}
           </p>
         </div>
 
@@ -433,6 +446,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
 
               const isActive = i === active;
               const isPast = i < active;
+              const caption = tr(m.translations, "caption", m.caption);
 
               return (
                 <button
@@ -488,7 +502,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
                         : "text-[#5c6a55]"
                     }`}
                   >
-                    {m.caption}
+                    {caption}
                   </span>
 
                 </button>
@@ -531,7 +545,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
               opacity: inView ? undefined : 0,
             }}
           >
-            {current.stat.map((s, idx) => (
+            {currentStat.map((s, idx) => (
               <div key={s.label} className={idx > 0 ? "mt-4" : ""}>
                 <p className="atx-body text-xs font-medium uppercase tracking-wide text-[#4a90c4]">
                   {s.label}
@@ -591,7 +605,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
               </p>
 
               <p className="atx-body mt-1 text-sm font-medium text-[#fff]">
-                {current.caption}
+                {currentCaption}
               </p>
             </div>
           </div>
@@ -612,8 +626,8 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
             }}
           >
             <MediaCard
-              label={current.media[0].label}
-              video={current.media[0].video}
+              label={currentMedia[0].label}
+              video={currentMedia[0].video}
             />
           </div>
 
@@ -633,8 +647,8 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
             }}
           >
             <MediaCard
-              label={current.media[1].label}
-              video={current.media[1].video}
+              label={currentMedia[1].label}
+              video={currentMedia[1].video}
             />
           </div>
 
@@ -663,13 +677,13 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
               </span>
 
               <p className="atx-body text-sm font-semibold text-[#0a3d0a]">
-                {current.partner_title}
+                {currentPartnerTitle}
               </p>
 
             </div>
 
             <ul className="space-y-2">
-              {current.partner_bullets.map((b) => (
+              {currentPartnerBullets.map((b) => (
                 <li
                   key={b}
                   className="atx-body flex items-start gap-2 text-sm leading-snug text-[#3a4a33]"
@@ -699,7 +713,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
             }}
           >
             <ul className="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
-              {current.bottom.map((b) => (
+              {currentBottom.map((b) => (
                 <li
                   key={b}
                   className="atx-body flex items-start gap-2 text-sm leading-snug text-[#eaf7d8]"

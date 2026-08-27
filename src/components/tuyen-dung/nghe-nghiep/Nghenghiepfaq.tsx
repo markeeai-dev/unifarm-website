@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FAQS = [
   {
@@ -29,16 +30,17 @@ const FAQS = [
 
 export default function NgheNghiepFAQ() {
   const [open, setOpen] = useState(0);
+  const { t } = useLanguage();
 
   return (
     <section className="py-14 md:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Giải đáp
+            {t("Giải đáp")}
           </p>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            Câu Hỏi Thường Gặp Về Cơ Hội Nghề Nghiệp
+            {t("Câu Hỏi Thường Gặp Về Cơ Hội Nghề Nghiệp")}
           </h2>
         </Reveal>
 
@@ -72,7 +74,7 @@ export default function NgheNghiepFAQ() {
                         isOpen ? "text-[#006400]" : "text-[#06301B]"
                       }`}
                     >
-                      {item.q}
+                      {t(item.q)}
                     </span>
                     <span
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white shadow-md transition-all duration-400 ${
@@ -89,7 +91,7 @@ export default function NgheNghiepFAQ() {
                   >
                     <div className="overflow-hidden">
                       <p className="max-w-2xl px-5 pb-5 pl-[3.25rem] text-sm leading-relaxed text-[#06301B]/60 sm:px-6 sm:pl-[3.5rem]">
-                        {item.a}
+                        {t(item.a)}
                       </p>
                     </div>
                   </div>

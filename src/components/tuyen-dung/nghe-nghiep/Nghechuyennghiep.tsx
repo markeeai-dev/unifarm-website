@@ -3,6 +3,7 @@
 import { Sprout, Droplets, PackageCheck, LineChart } from "lucide-react";
 import Image from "next/image";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const DEFINITIONS = [
   {
@@ -24,6 +25,7 @@ const DEFINITIONS = [
 ];
 
 export default function NgheChuyenNghiep() {
+  const { t } = useLanguage();
   return (
     <section
       id="nghe-chuyen-nghiep"
@@ -32,14 +34,15 @@ export default function NgheChuyenNghiep() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Giá trị nghề nghiệp
+            {t("Giá trị nghề nghiệp")}
           </p>
           <h2 className="uppercase mt-2 text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
-            Người Làm Nông Nghiệp Giỏi Là Một Người Có Nghề
+            {t("Người Làm Nông Nghiệp Giỏi Là Một Người Có Nghề")}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-[#06301B]/65 sm:text-[15px]">
-            Nông nghiệp chuyên nghiệp là một tập hợp của rất nhiều nghề chuyên môn khác
-            nhau, mỗi vị trí đều đòi hỏi kiến thức và tay nghề riêng.
+            {t(
+              "Nông nghiệp chuyên nghiệp là một tập hợp của rất nhiều nghề chuyên môn khác nhau, mỗi vị trí đều đòi hỏi kiến thức và tay nghề riêng."
+            )}
           </p>
         </Reveal>
 
@@ -48,14 +51,14 @@ export default function NgheChuyenNghiep() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-25px_rgba(15,40,20,0.4)]">
               <Image
                 src="/images/UNIFARM/20260805_083315.jpg"
-                alt="Người lao động Unifarm với sản phẩm chuối vừa thu hoạch"
+                alt={t("Người lao động Unifarm với sản phẩm chuối vừa thu hoạch")}
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="object-cover"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06301B]/70 via-transparent to-transparent" />
               <p className="absolute inset-x-0 bottom-0 p-6 text-lg font-extrabold leading-snug text-white sm:text-xl">
-                Mỗi vị trí một chuyên môn — cùng tạo nên một nông trường vận hành trơn tru
+                {t("Mỗi vị trí một chuyên môn — cùng tạo nên một nông trường vận hành trơn tru")}
               </p>
             </div>
           </Reveal>
@@ -71,7 +74,7 @@ export default function NgheChuyenNghiep() {
                   <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#006400] text-white shadow-lg transition-transform duration-400 group-hover:-translate-y-1 group-hover:scale-105">
                     <Icon size={20} strokeWidth={1.8} />
                   </span>
-                  <p className="mt-5 text-sm leading-relaxed text-[#06301B]/75">{text}</p>
+                  <p className="mt-5 text-sm leading-relaxed text-[#06301B]/75">{t(text)}</p>
                 </div>
               </Reveal>
             ))}

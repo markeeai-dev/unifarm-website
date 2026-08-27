@@ -10,6 +10,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VIEWPORT = { once: true, amount: 0.35 } as const;
@@ -46,6 +47,7 @@ const STEPS = [
 
 export default function DuanNguyenTac() {
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
 
   return (
     <section className="relative w-full overflow-hidden bg-white bg-[url('/images/nen_trang.png')] bg-repeat py-16 sm:py-20">
@@ -68,13 +70,13 @@ export default function DuanNguyenTac() {
             className="uppercase mt-3 text-2xl font-extrabold leading-[1.15] tracking-tight sm:text-3xl lg:text-4xl"
             style={{ color: C.forest }}
           >
-            Nguyên Tắc Phát Triển
+            {t("Nguyên Tắc Phát Triển")}
           </h2>
           <p
             className="mt-3 text-sm leading-relaxed sm:text-base"
             style={{ color: C.fresh }}
           >
-            Mọi dự án mở rộng tuân thủ quy trình 4 bước:
+            {t("Mọi dự án mở rộng tuân thủ quy trình 4 bước:")}
           </p>
         </motion.div>
 
@@ -84,23 +86,23 @@ export default function DuanNguyenTac() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-          className="relative mt-8 aspect-[21/7] w-full overflow-hidden rounded-2xl shadow-[0_20px_50px_-25px_rgba(6,59,36,0.45)] sm:mt-10 sm:aspect-[21/6]"
+          className="relative mt-8 aspect-[3/2] w-full overflow-hidden rounded-2xl shadow-[0_20px_50px_-25px_rgba(6,59,36,0.45)] sm:mt-10 sm:aspect-[21/6]"
         >
           <Image
             src="/images/UNIFARM/UNIFARM/hinh-chinh/1787655032414_1582751505492234802_4935324150679931320_249aad34d99469334ad5bdce1de117ce.jpg"
-            alt="Nông trường Unifarm, minh hoạ hành trình phát triển bền vững"
+            alt={t("Nông trường Unifarm, minh hoạ hành trình phát triển bền vững")}
             fill
             sizes="100vw"
             className="object-cover"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#063B24]/80 via-[#063B24]/10 to-transparent" />
           <p className="absolute bottom-4 left-5 max-w-md text-sm font-bold leading-snug text-white sm:bottom-5 sm:left-6 sm:text-base">
-            Từ nông trường thí điểm đến chuỗi giá trị nhân rộng
+            {t("Từ nông trường thí điểm đến chuỗi giá trị nhân rộng")}
           </p>
         </motion.div>
 
         {/* Hàng 4 bước, đường nối tô dần khi cuộn tới */}
-        <div className="relative mt-12 sm:mt-14">
+        <div className="relative mt-8 sm:mt-14">
           {/* đường nối ngang — chỉ hiện từ sm trở lên */}
           <div
             className="absolute left-0 right-0 top-[22px] hidden h-[2px] sm:block"
@@ -115,7 +117,22 @@ export default function DuanNguyenTac() {
             transition={{ duration: 1.1, delay: 0.2, ease: EASE }}
           />
 
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+          {/* đường nối dọc — chỉ hiện trên mobile, nối các mốc thành 1 chuỗi
+              thay vì trông rời rạc như 1 danh sách phẳng */}
+          <div
+            className="absolute left-[22px] top-[22px] bottom-[22px] w-[2px] sm:hidden"
+            style={{ background: `${C.forest}18` }}
+          />
+          <motion.div
+            className="absolute left-[22px] top-[22px] w-[2px] origin-top sm:hidden"
+            style={{ background: C.green, bottom: 0 }}
+            initial={reduce ? false : { scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={VIEWPORT}
+            transition={{ duration: 1.1, delay: 0.2, ease: EASE }}
+          />
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {STEPS.map((step, i) => (
               <motion.div
                 key={step.number}
@@ -123,16 +140,16 @@ export default function DuanNguyenTac() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={VIEWPORT}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: EASE }}
-                className="relative"
+                className="relative pl-14 sm:pl-0"
               >
                 <span
-                  className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full text-sm font-black text-white shadow-md"
+                  className="absolute left-0 top-0 z-10 flex h-11 w-11 items-center justify-center rounded-full text-sm font-black text-white shadow-md sm:relative"
                   style={{ background: C.green }}
                 >
                   {step.number}
                 </span>
 
-                <div className="mt-4 flex items-baseline gap-2">
+                <div className="flex items-baseline gap-2 sm:mt-4">
                   {/* <p
                     className="text-base font-extrabold uppercase tracking-wide"
                     style={{ color: C.forest }}
@@ -140,11 +157,11 @@ export default function DuanNguyenTac() {
                     {step.en}
                   </p> */}
                   <p className="text-lg font-bold sm:text-[22px]" style={{ color: C.ink }}>
-                    {step.vi}
+                    {t(step.vi)}
                   </p>
                 </div>
                 <p className="mt-1.5 text-base leading-relaxed text-neutral-600">
-                  {step.desc}
+                  {t(step.desc)}
                 </p>
               </motion.div>
             ))}

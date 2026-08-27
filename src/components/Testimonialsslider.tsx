@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Scroll-reveal hook (same pattern as previous sections)             */
@@ -84,6 +85,7 @@ const TRANSITION_MS = 700;
 /* ------------------------------------------------------------------ */
 
 export default function TestimonialsSlider() {
+  const { t } = useLanguage();
   const [titleRef, titleInView] = useInView<HTMLDivElement>(0.3);
   const [subRef, subInView] = useInView<HTMLDivElement>(0.3);
   const [sectionRef, sectionInView] = useInView<HTMLDivElement>(0.15);
@@ -195,13 +197,13 @@ export default function TestimonialsSlider() {
           >
             <span className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-ink/70">
               <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
-              Cảm nhận khách hàng
+              {t('Cảm nhận khách hàng')}
             </span>
             <h2 className="uppercase text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">
-              Câu Chuyện Thật
+              {t('Câu Chuyện Thật')}
               <br />
               <span className="italic font-normal text-lime-dark">
-                Từ Nông Dân Của Chúng Tôi
+                {t('Từ Nông Dân Của Chúng Tôi')}
               </span>
             </h2>
           </div>
@@ -213,9 +215,7 @@ export default function TestimonialsSlider() {
             }`}
           >
             <p className="max-w-md text-base leading-relaxed text-justify text-ink/55 md:ml-auto">
-              Lắng nghe trực tiếp từ những nông dân sử dụng giải pháp của
-              chúng tôi mỗi ngày và chứng kiến tác động thực tế trên cánh
-              đồng, mùa vụ của họ.
+              {t('Lắng nghe trực tiếp từ những nông dân sử dụng giải pháp của chúng tôi mỗi ngày và chứng kiến tác động thực tế trên cánh đồng, mùa vụ của họ.')}
             </p>
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function TestimonialsSlider() {
                   : 'none',
               }}
             >
-              {slides.map((t, i) => (
+              {slides.map((item, i) => (
                 <div key={i} className="shrink-0 px-3" style={{ width: `${slidePercent}%` }}>
                   <div className="flex h-full min-h-[280px] overflow-hidden rounded-2xl border border-ink/10 bg-white sm:min-h-[300px]">
                     {/* Left: quote content */}
@@ -262,19 +262,19 @@ export default function TestimonialsSlider() {
                           strokeWidth={0}
                         />
                         <p className="text-sm leading-relaxed text-ink/80 sm:text-base">
-                          {t.quote}
+                          {t(item.quote)}
                         </p>
                       </div>
                       <div className="mt-6 flex items-end justify-between gap-3">
                         <div>
-                          <p className="text-sm font-semibold text-ink">{t.name}</p>
-                          <p className="text-xs text-ink/40">{t.company}</p>
+                          <p className="text-sm font-semibold text-ink">{item.name}</p>
+                          <p className="text-xs text-ink/40">{item.company}</p>
                         </div>
                         <button
                           type="button"
                           className="hidden shrink-0 items-center gap-1 text-xs font-medium text-ink/55 hover:text-ink sm:flex"
                         >
-                          Xem thêm
+                          {t('Xem thêm')}
                           <ArrowRight size={12} />
                         </button>
                       </div>
@@ -283,8 +283,8 @@ export default function TestimonialsSlider() {
                     {/* Right: portrait image */}
                     <div className="w-2/5 shrink-0">
                       <img
-                        src={t.image}
-                        alt={t.name}
+                        src={item.image}
+                        alt={item.name}
                         draggable={false}
                         className="h-full w-full object-cover"
                       />
@@ -313,7 +313,7 @@ export default function TestimonialsSlider() {
             <div className="flex gap-3">
               <button
                 type="button"
-                aria-label="Slide trước"
+                aria-label={t('Slide trước')}
                 onClick={prev}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition-colors hover:bg-ink-deep hover:text-white"
               >
@@ -321,7 +321,7 @@ export default function TestimonialsSlider() {
               </button>
               <button
                 type="button"
-                aria-label="Slide tiếp theo"
+                aria-label={t('Slide tiếp theo')}
                 onClick={next}
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-ink-deep text-white transition-colors hover:bg-ink"
               >

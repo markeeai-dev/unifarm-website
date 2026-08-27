@@ -14,6 +14,7 @@ import {
   Leaf,
   ArrowRight,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /* ------------------------------------------------------------------ */
 /*  Data — nội dung lấy trực tiếp từ brief                             */
@@ -225,6 +226,7 @@ function LoopDiagram({
   active: number;
   setActive: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const { t } = useLanguage();
   const CIRC = 2 * Math.PI * 168;
   const positions = [
     { top: "0%", left: "50%", translate: "-translate-x-1/2" },
@@ -257,7 +259,7 @@ function LoopDiagram({
       <div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-[#fffacd] shadow-[0_10px_30px_-12px_rgba(0,100,0,0.35)] lg:h-44 lg:w-44 xl:h-52 xl:w-52">
         <Image
           src="/images/banana/banana-shrub-3289749.jpg"
-          alt="Giống chuối Uni126"
+          alt={t("Giống chuối Uni126")}
           fill
           sizes="160px"
           className="object-cover"
@@ -305,7 +307,7 @@ function LoopDiagram({
           >
             <Image
               src={p.image}
-              alt={p.title}
+              alt={t(p.title)}
               fill
               sizes="120px"
               className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -327,6 +329,7 @@ function LoopDiagram({
 /* ------------------------------------------------------------------ */
 
 export default function AgriTechPillars() {
+  const { t } = useLanguage();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [diagramRef, diagramInView] = useInView(0.35);
@@ -416,7 +419,7 @@ export default function AgriTechPillars() {
           >
             <Leaf className="h-3.5 w-3.5 text-[#006400]" />
             <span className="atx-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#0a3d0a]">
-              Nền tảng công nghệ xanh
+              {t("Nền tảng công nghệ xanh")}
             </span>
           </div>
           <h2
@@ -425,7 +428,7 @@ export default function AgriTechPillars() {
             }`}
             style={{ animationDelay: "0.1s", fontSize: "clamp(0.95rem, 4.4vw, 3rem)" }}
           >
-            Giảm Hóa Chất – Tăng Giá Trị
+            {t("Giảm Hóa Chất – Tăng Giá Trị")}
           </h2>
           <p
             className={`atx-body mt-4 text-base leading-relaxed text-[#3a4a33] sm:text-lg ${
@@ -433,8 +436,7 @@ export default function AgriTechPillars() {
             }`}
             style={{ animationDelay: "0.2s" }}
           >
-            Giảm phụ thuộc không cần thiết vào hóa chất thông qua giống tốt,
-            sức khỏe đất, chế phẩm sinh học và dữ liệu đồng ruộng.
+            {t("Giảm phụ thuộc không cần thiết vào hóa chất thông qua giống tốt, sức khỏe đất, chế phẩm sinh học và dữ liệu đồng ruộng.")}
           </p>
         </div>
 
@@ -486,7 +488,7 @@ export default function AgriTechPillars() {
                   <div className="relative overflow-hidden rounded-3xl border border-[#e6e0c9] shadow-[0_20px_45px_-25px_rgba(10,60,10,0.35)]">
                     <Image
                       src={p.image}
-                      alt={p.title}
+                      alt={t(p.title)}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
@@ -503,17 +505,17 @@ export default function AgriTechPillars() {
                         </span>
                         <span className="h-1 w-1 rounded-full bg-[#006400]/30" />
                         <span className="atx-body text-xs font-medium uppercase tracking-wide text-[#4a90c4]">
-                          {p.tagline}
+                          {t(p.tagline)}
                         </span>
                       </div>
                       <h3 className="uppercase atx-display mt-1.5 text-xl font-bold text-[#006400] sm:text-2xl">
-                        {p.title}
+                        {t(p.title)}
                       </h3>
                       <p
                         className="atx-body mt-2.5 text-base font-medium leading-relaxed text-white sm:text-[20px]"
                         style={{ textShadow: "0 1px 4px rgba(0,0,0,0.65), 0 1px 2px rgba(0,0,0,0.7)" }}
                       >
-                        {p.desc}
+                        {t(p.desc)}
                       </p>
                       <ul className="mt-4 flex flex-wrap gap-2">
                         {p.points.map((pt) => (
@@ -521,7 +523,7 @@ export default function AgriTechPillars() {
                             key={pt}
                             className="atx-body rounded-full bg-[#f3f7ec] px-3 py-1 text-xs font-medium text-[#0a3d0a]"
                           >
-                            {pt}
+                            {t(pt)}
                           </li>
                         ))}
                       </ul>
@@ -541,7 +543,7 @@ export default function AgriTechPillars() {
                     setActive(i);
                     setPaused(true);
                   }}
-                  aria-label={`Xem ${p.title}`}
+                  aria-label={`${t("Xem")} ${t(p.title)}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     active === i ? "w-8 bg-[#006400]" : "w-2 bg-[#e6e0c9] hover:bg-[#87cefa]"
                   }`}
@@ -552,7 +554,7 @@ export default function AgriTechPillars() {
                   onClick={() => setPaused(false)}
                   className="atx-mono ml-1 text-[10px] font-semibold uppercase tracking-wide text-[#4a90c4] hover:text-[#006400]"
                 >
-                  Tiếp tục tự động
+                  {t("Tiếp tục tự động")}
                 </button>
               )}
             </div>
@@ -567,7 +569,7 @@ export default function AgriTechPillars() {
                 statsInView ? "atx-rise" : "opacity-0"
               }`}
             >
-              Vì sao khác biệt
+              {t("Vì sao khác biệt")}
             </span>
             <h3
               className={`uppercase atx-display mt-2 text-2xl font-extrabold text-[#0a3d0a] sm:text-3xl ${
@@ -575,7 +577,7 @@ export default function AgriTechPillars() {
               }`}
               style={{ animationDelay: "0.1s" }}
             >
-              Lợi thế cạnh tranh vượt trội
+              {t("Lợi thế cạnh tranh vượt trội")}
             </h3>
           </div>
 
@@ -601,12 +603,12 @@ export default function AgriTechPillars() {
 
                     <div className="atx-mono mt-5 flex items-baseline gap-1.1">
                       <span className="text-3xl font-bold text-[#0a3d0a] sm:text-[2.25rem]">
-                        {s.value}
+                        {t(s.value)}
                       </span>
-                      <span className="text-sm font-semibold text-[#4a90c4]">{s.unit}</span>
+                      <span className="text-sm font-semibold text-[#4a90c4]">{t(s.unit)}</span>
                     </div>
-                    <p className="atx-body mt-1 text-sm font-semibold text-[#0a3d0a]">{s.label}</p>
-                    <p className="atx-body mt-1.5 text-xs leading-relaxed text-[#5c6a55]">{s.note}</p>
+                    <p className="atx-body mt-1 text-sm font-semibold text-[#0a3d0a]">{t(s.label)}</p>
+                    <p className="atx-body mt-1.5 text-xs leading-relaxed text-[#5c6a55]">{t(s.note)}</p>
 
                     {s.progress !== null && (
                       <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-[#f0eedb]">
@@ -627,17 +629,17 @@ export default function AgriTechPillars() {
         <div className="mt-16 flex flex-col items-center justify-between gap-6 rounded-3xl bg-[#006400] px-6 py-8 text-center sm:mt-20 sm:flex-row sm:px-10 sm:text-left">
           <div>
             <p className="atx-display text-lg font-bold text-white sm:text-xl">
-              Đồng hành cùng nông dân — chuyển giao công nghệ, bao tiêu sản phẩm
+              {t("Đồng hành cùng nông dân — chuyển giao công nghệ, bao tiêu sản phẩm")}
             </p>
             <p className="atx-body mt-1.5 text-sm text-[#c9e8c0]">
-              Chúng tôi không cạnh tranh với nông dân, mà cùng nông dân đi xa hơn.
+              {t("Chúng tôi không cạnh tranh với nông dân, mà cùng nông dân đi xa hơn.")}
             </p>
           </div>
           <Link
             href="/du-an-hop-tac#hop-tac"
             className="atx-body inline-flex shrink-0 items-center gap-2 rounded-full bg-[#fffacd] px-6 py-3 text-sm font-semibold text-[#0a3d0a] transition-transform hover:scale-[1.03] active:scale-95"
           >
-            Hợp tác cùng Unifarm
+            {t("Hợp tác cùng Unifarm")}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

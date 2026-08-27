@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { Settings, ShoppingBasket } from "lucide-react";
 import { useIsMobile } from "@/lib/use-is-mobile";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /* ============================================================
    BẢNG MÀU CHỦ ĐẠO
@@ -459,6 +460,7 @@ function FlagPin({ x, y, id, scale = 1 }: { x: number; y: number; id: string; sc
    THẺ CHỈ SỐ (STAT CARD)
    ============================================================ */
 function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number }) {
+  const { t } = useLanguage();
   const [ref, inView] = useInView(0.35);
   const Icon = stat.icon;
 
@@ -502,7 +504,7 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
       </div>
 
       <h3 className="text-sm font-semibold uppercase tracking-wide" style={{ color: stat.accent }}>
-        {stat.label}
+        {t(stat.label)}
       </h3>
 
       <div className="mt-1 flex items-baseline gap-1.5">
@@ -511,7 +513,7 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
           style={{ color: C.ink }}
         >
           {stat.textValue ? (
-            stat.textValue
+            t(stat.textValue)
           ) : (
             <AnimatedNumber
               target={stat.target}
@@ -524,13 +526,13 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
         </span>
         {stat.unit ? (
           <span className="text-base font-semibold" style={{ color: stat.accent }}>
-            {stat.unit}
+            {t(stat.unit)}
           </span>
         ) : null}
       </div>
 
       <p className="mt-3 text-sm italic leading-relaxed text-gray-500">
-        {stat.detail}
+        {t(stat.detail)}
       </p>
 
       {/* chấm sáng góc dưới - hover glow */}
@@ -546,6 +548,7 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
    THẺ THỊ TRƯỜNG XUẤT KHẨU (GLOBE ĐỘNG)
    ============================================================ */
 function ExportCard() {
+  const { t } = useLanguage();
   const [ref, inView] = useInView(0.3);
   const isMobile = useIsMobile();
   // Nhãn/lá cờ trong SVG dùng đơn vị viewBox nên co theo bề rộng khung chứa —
@@ -639,12 +642,12 @@ function ExportCard() {
               fill={C.blue}
               className="map-label"
             >
-              {VN_ORIGIN.label}
+              {t(VN_ORIGIN.label)}
             </text>
 
             {MARKET_DOTS.map((m) => (
               <g key={m.label}>
-                <title>{m.label}</title>
+                <title>{t(m.label)}</title>
                 <circle
                   className="market-dot-pulse"
                   cx={m.x}
@@ -665,28 +668,28 @@ function ExportCard() {
                   fill="#fff"
                   className="map-label"
                 >
-                  {m.label}
+                  {t(m.label)}
                 </text>
               </g>
             ))}
           </svg>
 
           <span className="absolute left-4 top-4 z-20 rounded-full bg-black/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
-            Bản đồ xuất khẩu toàn cầu
+            {t("Bản đồ xuất khẩu toàn cầu")}
           </span>
         </div>
 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-center sm:text-left">
             <h3 className="text-sm font-semibold uppercase tracking-wide" style={{ color: C.greenSoft }}>
-              Thị trường xuất khẩu
+              {t("Thị trường xuất khẩu")}
             </h3>
             <div className="mt-1 flex items-baseline justify-center gap-1 sm:justify-start">
               <span className="text-4xl font-extrabold tracking-tight sm:text-5xl" style={{ color: C.ink }}>
                 <AnimatedNumber target={66} inView={inView} suffix="%" />
               </span>
             </div>
-            <p className="mt-1 text-sm text-gray-500">Cung ứng chuyên nghiệp đi các thị trường Nhật Bản, Hàn Quốc, Trung Quốc, Trung Đông...</p>
+            <p className="mt-1 text-sm text-gray-500">{t("Cung ứng chuyên nghiệp đi các thị trường Nhật Bản, Hàn Quốc, Trung Quốc, Trung Đông...")}</p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 sm:justify-end">
@@ -696,7 +699,7 @@ function ExportCard() {
                 className="market-chip rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all duration-300"
                 style={{ background: C.yellow, color: C.green }}
               >
-                {m}
+                {t(m)}
               </span>
             ))}
           </div>
@@ -710,6 +713,7 @@ function ExportCard() {
    THẺ THỊ PHẦN NỘI ĐỊA (DONUT ĐỘNG)
    ============================================================ */
 function DomesticCard() {
+  const { t } = useLanguage();
   const [ref, inView] = useInView(0.3);
   const target = 60;
   const value = useCountUp(target, inView, 2800);
@@ -769,22 +773,22 @@ function DomesticCard() {
           </div>
 
           <span className="absolute left-4 top-4 z-20 rounded-full bg-black/25 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
-            Thị phần nội địa
+            {t("Thị phần nội địa")}
           </span>
         </div>
 
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-center sm:text-left">
             <h3 className="text-sm font-semibold uppercase tracking-wide" style={{ color: C.greenSoft }}>
-              Thị phần nội địa
+              {t("Thị phần nội địa")}
             </h3>
             <p className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl" style={{ color: C.ink }}>
-              Dưa lưới, Chuối, Dứa MD2, …
+              {t("Dưa lưới, Chuối, Dứa MD2, …")}
             </p>
           </div>
 
           <p className="max-w-sm text-center text-sm leading-relaxed text-gray-500 sm:text-right">
-            Cung ứng ổn định các dòng nông sản cao cấp, đáp ứng trọn vẹn tiêu chuẩn khắt khe của các đại siêu thị và doanh nghiệp thực phẩm lớn tại Việt Nam.
+            {t("Cung ứng ổn định các dòng nông sản cao cấp, đáp ứng trọn vẹn tiêu chuẩn khắt khe của các đại siêu thị và doanh nghiệp thực phẩm lớn tại Việt Nam.")}
           </p>
         </div>
       </div>
@@ -796,6 +800,7 @@ function DomesticCard() {
    COMPONENT CHÍNH
    ============================================================ */
 export default function StatsSectionPreview() {
+  const { t } = useLanguage();
   const [headRef, headInView] = useInView(0.4);
 
   return (
@@ -824,13 +829,13 @@ export default function StatsSectionPreview() {
             className="inline-block rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider"
             style={{ background: C.yellow, color: C.green }}
           >
-            Nền tảng cạnh tranh
+            {t("Nền tảng cạnh tranh")}
           </span>
           <h2
             className="uppercase mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl"
             style={{ color: C.ink }}
           >
-            KHẢ NĂNG CẠNH TRANH ĐẾN TỪ ĐÂU?
+            {t("KHẢ NĂNG CẠNH TRANH ĐẾN TỪ ĐÂU?")}
           </h2>
         </div>
 
@@ -844,11 +849,11 @@ export default function StatsSectionPreview() {
         {/* tiêu đề khối 2 */}
         <div className="mb-8 mt-20">
           <h2 className="uppercase text-2xl font-extrabold tracking-tight sm:text-3xl" style={{ color: C.ink }}>
-            KẾT NỐI THỊ TRƯỜNG NỘI ĐỊA &{" "}
-            <span style={{ color: C.green }}>XUẤT KHẨU</span>
+            {t("KẾT NỐI THỊ TRƯỜNG NỘI ĐỊA &")}{" "}
+            <span style={{ color: C.green }}>{t("XUẤT KHẨU")}</span>
           </h2>
           <p className="mt-2 text-sm text-gray-500 sm:text-base">
-            Cung ứng ổn định cho các đối tác toàn cầu
+            {t("Cung ứng ổn định cho các đối tác toàn cầu")}
           </p>
         </div>
 

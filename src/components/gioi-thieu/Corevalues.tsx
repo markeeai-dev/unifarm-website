@@ -13,6 +13,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { Compass, Sparkles, Handshake, HeartHandshake, type LucideIcon } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -67,6 +68,7 @@ function ValueCard({
   active: boolean;
   onActivate: (i: number) => void;
 }) {
+  const { t } = useLanguage();
   const Icon: LucideIcon = val.icon;
   const variant = getCardVariant(index);
 
@@ -133,13 +135,13 @@ function ValueCard({
           className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em]"
           style={{ color: val.color }}
         >
-          Giá trị {String(index + 1).padStart(2, "0")}
+          {t("Giá trị")} {String(index + 1).padStart(2, "0")}
         </span>
         <h3 className="mt-1.5 text-lg font-extrabold uppercase leading-tight tracking-tight text-[#06301B] sm:text-xl lg:text-2xl">
-          {val.title}
+          {t(val.title)}
         </h3>
         <p className="mt-2 line-clamp-3 text-[13px] leading-relaxed text-slate-600 sm:text-[18px]">
-          {val.desc}
+          {t(val.desc)}
         </p>
       </div>
 
@@ -158,6 +160,7 @@ function ValueCard({
 }
 
 export default function CoreValues() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
   const reduce = useReducedMotion();
@@ -235,7 +238,7 @@ export default function CoreValues() {
               >
                 <Image
                   src={val.image}
-                  alt={val.title}
+                  alt={t(val.title)}
                   fill
                   sizes="50vw"
                   className="object-cover"
@@ -272,10 +275,10 @@ export default function CoreValues() {
                     className="font-mono text-[11px] font-semibold uppercase tracking-[0.3em]"
                     style={{ color: activeVal.color }}
                   >
-                    Giá trị {String(active + 1).padStart(2, "0")} / 04
+                    {t("Giá trị")} {String(active + 1).padStart(2, "0")} / 04
                   </span>
                   <h3 className="mt-2 text-3xl font-extrabold uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-                    {activeVal.title}
+                    {t(activeVal.title)}
                   </h3>
                 </motion.div>
               </AnimatePresence>

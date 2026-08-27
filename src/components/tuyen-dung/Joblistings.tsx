@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { Job } from "@/lib/db";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import {
   ArrowRight,
   BadgeCheck,
@@ -182,8 +183,13 @@ function JobCard({
   isSaved: boolean;
   onToggleSave: () => void;
 }) {
+  const { t, tr } = useLanguage();
   const level = LEVEL_STYLES[job.level];
   const [daysLeft, setDaysLeft] = useState<number | null>(null);
+  const title = tr(job.translations, "title", job.title);
+  const dept = tr(job.translations, "dept", job.dept);
+  const income = tr(job.translations, "income", job.income);
+  const tags = tr(job.translations, "tags", job.tags);
 
   useEffect(() => {
     if (!job.deadline_date) {
@@ -208,7 +214,7 @@ function JobCard({
         <CompanyLogo />
         <div className="min-w-0 flex-1">
           <h3 className="uppercase min-h-[3rem] text-base font-bold leading-snug text-[#06301B] line-clamp-2">
-            {job.title}
+            {title}
           </h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#06301B]/55">
             <span className="flex items-center gap-1 font-semibold text-[#06301B]/75">
@@ -221,7 +227,7 @@ function JobCard({
                 className="h-1.5 w-1.5 shrink-0 rounded-full"
                 style={{ backgroundColor: job.color }}
               />
-              {job.dept}
+              {dept}
             </span>
           </div>
         </div>
@@ -230,7 +236,7 @@ function JobCard({
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-[#06301B]/60">
         <span className="flex items-center gap-1.5 font-semibold text-[#006400]">
           <CircleDollarSign size={14} />
-          {job.income}
+          {income}
         </span>
         <span className="flex items-center gap-1.5">
           <MapPin size={14} />
@@ -238,13 +244,13 @@ function JobCard({
         </span>
         <span className="flex items-center gap-1.5">
           <Users size={14} />
-          Cần tuyển {job.headcount} người
+          {t("Cần tuyển")} {job.headcount} {t("người")}
         </span>
       </div>
 
-      {job.tags.length > 0 && (
+      {tags.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5">
-          {job.tags.map((tag) => (
+          {tags.map((tag) => (
             <span
               key={tag}
               className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-semibold ${
@@ -261,12 +267,12 @@ function JobCard({
       <div className="mt-auto flex items-center justify-between gap-2 border-t border-gray-100 pt-3">
         <span className="flex items-center gap-1.5 text-sm text-[#06301B]/45">
           <Clock size={14} />
-          {daysLeft !== null ? `Còn ${daysLeft} ngày` : "Đang mở"}
+          {daysLeft !== null ? `${t("Còn")} ${daysLeft} ${t("ngày")}` : t("Đang mở")}
         </span>
         <div className="flex items-center gap-1.5">
           <button
             type="button"
-            aria-label={isSaved ? "Bỏ lưu tin" : "Lưu tin"}
+            aria-label={isSaved ? t("Bỏ lưu tin") : t("Lưu tin")}
             onClick={onToggleSave}
             className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors ${
               isSaved
@@ -278,11 +284,11 @@ function JobCard({
           </button>
           <a
             href={`mailto:tuyendung@unifarm.com?subject=${encodeURIComponent(
-              `Ứng tuyển vị trí ${job.title} tại Unifarm`
+              `Ứng tuyển vị trí ${title} tại Unifarm`
             )}`}
             className="inline-flex items-center gap-1 rounded-full bg-[#f2f9ee] px-3 py-1.5 text-sm font-bold text-[#006400] transition-colors group-hover:bg-[#006400] group-hover:text-white"
           >
-            Ứng tuyển
+            {t("Ứng tuyển")}
             <ArrowRight size={13} />
           </a>
         </div>
@@ -296,6 +302,7 @@ function JobCard({
 /* ------------------------------------------------------------------ */
 
 export default function JobListings({ jobs }: { jobs: Job[] }) {
+  const { t } = useLanguage();
   const [dimension, setDimension] = useState<Dimension>("Địa điểm");
   const [dimensionOpen, setDimensionOpen] = useState(false);
   const [activeValue, setActiveValue] = useState("Tất cả");
@@ -359,7 +366,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
 
             <div className="flex items-center gap-2">
               <h2 className="uppercase text-2xl font-extrabold text-[#06301B] sm:text-4xl">
-                Vị trí đang tuyển gấp
+                {t("Vị trí đang tuyển gấp")}
               </h2>
               <Image
                 src="/images/mascot/mascot-duo.png"
@@ -382,7 +389,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
                 className="flex items-center gap-2 rounded-lg border border-[#06301B]/12 bg-white px-4 py-2.5 text-sm font-semibold text-[#06301B] shadow-sm transition-colors hover:border-[#006400]"
               >
                 <SlidersHorizontal size={15} className="text-[#006400]" />
-                Lọc theo: {dimension}
+                {t("Lọc theo")}: {t(dimension)}
                 <ChevronDown
                   size={14}
                   className={`transition-transform duration-300 ${
@@ -402,7 +409,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
                       }}
                       className="flex w-full items-center justify-between px-4 py-2 text-sm text-[#06301B]/75 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
                     >
-                      {d}
+                      {t(d)}
                       {d === dimension && <Check size={14} className="text-[#006400]" />}
                     </button>
                   ))}
@@ -420,7 +427,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
                   type="text"
                   value={locationSearch}
                   onChange={(e) => setLocationSearch(e.target.value)}
-                  placeholder="Tìm tỉnh/thành..."
+                  placeholder={t("Tìm tỉnh/thành...")}
                   className="w-52 rounded-lg border border-[#06301B]/12 bg-white py-2.5 pl-8 pr-3 text-sm text-[#06301B] placeholder:text-[#06301B]/35 outline-none transition-colors focus:border-[#006400] sm:w-64"
                 />
               </div>
@@ -430,7 +437,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
           <div className="flex min-w-0 items-center gap-2">
             <button
               type="button"
-              aria-label="Cuộn trái"
+              aria-label={t("Cuộn trái")}
               onClick={() => scrollPills(-1)}
               className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#06301B]/10 text-[#06301B]/45 transition-colors hover:border-[#006400] hover:text-[#006400] sm:flex"
             >
@@ -442,7 +449,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
             >
               {visibleOptions.length === 0 ? (
                 <p className="py-2 text-sm text-[#06301B]/40">
-                  Không tìm thấy tỉnh/thành phù hợp.
+                  {t("Không tìm thấy tỉnh/thành phù hợp.")}
                 </p>
               ) : (
                 visibleOptions.map((opt) => (
@@ -459,14 +466,14 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
                         : "border border-[#06301B]/12 text-[#06301B]/65 hover:border-[#006400] hover:text-[#006400]"
                     }`}
                   >
-                    {opt}
+                    {t(opt)}
                   </button>
                 ))
               )}
             </div>
             <button
               type="button"
-              aria-label="Cuộn phải"
+              aria-label={t("Cuộn phải")}
               onClick={() => scrollPills(1)}
               className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#06301B]/10 text-[#06301B]/45 transition-colors hover:border-[#006400] hover:text-[#006400] sm:flex"
             >
@@ -489,14 +496,14 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
 
         {filtered.length === 0 && (
           <p className="mt-10 text-center text-sm text-[#06301B]/50">
-            Không có vị trí phù hợp với bộ lọc này.
+            {t("Không có vị trí phù hợp với bộ lọc này.")}
           </p>
         )}
 
         <Reveal delayMs={120} className="mt-10 flex items-center justify-center gap-4">
           <button
             type="button"
-            aria-label="Trang trước"
+            aria-label={t("Trang trước")}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#06301B]/15 text-[#06301B]/60 transition-colors hover:border-[#006400] hover:text-[#006400] disabled:opacity-30 disabled:hover:border-[#06301B]/15 disabled:hover:text-[#06301B]/60"
@@ -508,7 +515,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
           </span>
           <button
             type="button"
-            aria-label="Trang sau"
+            aria-label={t("Trang sau")}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#06301B]/15 text-[#06301B]/60 transition-colors hover:border-[#006400] hover:text-[#006400] disabled:opacity-30 disabled:hover:border-[#06301B]/15 disabled:hover:text-[#06301B]/60"

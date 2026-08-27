@@ -13,6 +13,7 @@ import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight, Home, Clock, Phone, MapPin, Leaf, ChevronDown } from "lucide-react";
 import type { Distributor } from "@/lib/db";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -24,6 +25,7 @@ const C = {
 };
 
 export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
+  const { t, tr } = useLanguage();
   const reduce = useReducedMotion();
   const [district, setDistrict] = useState<string>("");
 
@@ -67,7 +69,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
             style={{ color: C.green }}
           >
             <Home size={13} strokeWidth={2.2} />
-            Trang chủ
+            {t("Trang chủ")}
           </a>
           <ChevronRight size={13} style={{ color: `${C.forest}55` }} />
           <span className="font-semibold" style={{ color: C.forest }}>
@@ -84,7 +86,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
           className="mx-auto mt-10 max-w-xl text-center sm:mt-12"
         >
           <h2 className="uppercase text-4xl font-extrabold leading-tight tracking-tight text-[#06301B] sm:text-5xl">
-            Hệ thống phân phối
+            {t("Hệ thống phân phối")}
           </h2>
           <div className="mt-4 flex items-center justify-center gap-3">
             <span className="h-px w-14 bg-[#006400]/30" />
@@ -102,15 +104,15 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
           className="mx-auto mt-9 flex max-w-xl flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center sm:gap-6"
         >
           <FilterSelect
-            label="Tỉnh/TP"
+            label={t("Tỉnh/TP")}
             value={province}
             disabled
             options={provinces}
           />
           <FilterSelect
-            label="Quận/Huyện"
+            label={t("Quận/Huyện")}
             value={district}
-            placeholder="Chọn Quận/Huyện"
+            placeholder={t("Chọn Quận/Huyện")}
             onChange={setDistrict}
             options={districts}
           />
@@ -130,10 +132,10 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
                 className="border-b-2 text-sm font-bold uppercase tracking-wide"
                 style={{ borderColor: C.green, color: C.forest, background: "#f7f6ec" }}
               >
-                <th className="w-16 py-3.5 pl-5 font-bold">STT</th>
-                <th className="py-3.5 font-bold">Cửa hàng</th>
-                <th className="py-3.5 font-bold">Thời gian hoạt động</th>
-                <th className="py-3.5 pr-5 font-bold">Điện thoại</th>
+                <th className="w-16 py-3.5 pl-5 font-bold">{t("STT")}</th>
+                <th className="py-3.5 font-bold">{t("Cửa hàng")}</th>
+                <th className="py-3.5 font-bold">{t("Thời gian hoạt động")}</th>
+                <th className="py-3.5 pr-5 font-bold">{t("Điện thoại")}</th>
               </tr>
             </thead>
             <tbody>
@@ -148,7 +150,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
                   </td>
                   <td className="py-4 pr-4">
                     <p className="text-lg font-bold" style={{ color: C.ink }}>
-                      {store.name}
+                      {tr(store.translations, "name", store.name)}
                     </p>
                     <p className="mt-0.5 flex items-center gap-1 text-sm" style={{ color: C.muted }}>
                       <MapPin size={12} strokeWidth={2} />
@@ -176,7 +178,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={4} className="py-10 text-center text-sm" style={{ color: C.muted }}>
-                    Chưa có cửa hàng tại khu vực này.
+                    {t("Chưa có cửa hàng tại khu vực này.")}
                   </td>
                 </tr>
               )}
@@ -202,7 +204,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <p className="mt-0.5 text-base font-bold" style={{ color: C.ink }}>
-                    {store.name}
+                    {tr(store.translations, "name", store.name)}
                   </p>
                 </div>
               </div>
@@ -229,7 +231,7 @@ export default function HeThongPhanPhoi({ stores }: { stores: Distributor[] }) {
 
           {filtered.length === 0 && (
             <p className="py-8 text-center text-sm" style={{ color: C.muted }}>
-              Chưa có cửa hàng tại khu vực này.
+              {t("Chưa có cửa hàng tại khu vực này.")}
             </p>
           )}
         </div>

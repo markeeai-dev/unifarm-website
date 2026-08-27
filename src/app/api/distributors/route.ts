@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const DISTRIBUTOR_TRANSLATE_SPEC: EntitySpec = {
+  name: { kind: "string" },
+};
 
 export async function GET() {
   const rows = await sql`SELECT * FROM distributors ORDER BY sort_order ASC, created_at ASC`;
@@ -31,11 +36,13 @@ export async function POST(req: NextRequest) {
     sortOrder = Number(maxRows[0].next);
   }
 
+  const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
+
   const rows = await sql`
     INSERT INTO distributors
-      (name, province, district, address, hours, phone, sort_order)
+      (name, province, district, address, hours, phone, translations, sort_order)
     VALUES
-      (${name}, ${province || "Hồ Chí Minh"}, ${district}, ${address}, ${hours || ""}, ${phone || ""}, ${sortOrder})
+      (${name}, ${province || "Hồ Chí Minh"}, ${district}, ${address}, ${hours || ""}, ${phone || ""}, ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
     RETURNING *
   `;
 

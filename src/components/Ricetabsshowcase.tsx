@@ -3,6 +3,7 @@
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * RiceTabsShowcase — "Hồ sơ tiêu chuẩn Unifarm"
@@ -208,6 +209,7 @@ function PhoneIcon({ className = "h-4 w-4" }: { className?: string }) {
 }
 
 export default function RiceTabsShowcase() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -282,7 +284,7 @@ export default function RiceTabsShowcase() {
                         isActive ? "text-[#87cefa]" : "text-neutral-400 group-hover:text-[#87cefa]"
                       }`}
                     />
-                    {tab.tabLabel}
+                    {t(tab.tabLabel)}
                   </button>
                 );
               })}
@@ -319,7 +321,7 @@ export default function RiceTabsShowcase() {
                 >
                   <img
                     src={active.image}
-                    alt={active.title}
+                    alt={t(active.title)}
                     className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[480px]"
                   />
                 </div>
@@ -336,11 +338,11 @@ export default function RiceTabsShowcase() {
             >
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400">
                 <FileTabIcon className="h-3.5 w-3.5 text-[#87cefa]" />
-                Hồ sơ {String(activeIndex + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
+                {t("Hồ sơ")} {String(activeIndex + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
               </div>
 
               <h3 className="uppercase mt-3 text-balance text-3xl font-extrabold leading-[1.2] tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[38px]">
-                {active.title}
+                {t(active.title)}
               </h3>
               <span
                 className="mt-4 block h-1 w-14 rounded-full"
@@ -354,8 +356,8 @@ export default function RiceTabsShowcase() {
                       <active.icon className="h-3.5 w-3.5" />
                     </span>
                     <p className="text-[15px] leading-relaxed text-gray-600">
-                      <span className="font-bold text-neutral-800">{it.lead}: </span>
-                      {it.text}
+                      <span className="font-bold text-neutral-800">{t(it.lead)}: </span>
+                      {t(it.text)}
                     </p>
                   </li>
                 ))}
@@ -372,7 +374,7 @@ export default function RiceTabsShowcase() {
                   <PhoneIcon />
                 </span>
                 <span className="text-sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
-                  {active.cta}
+                  {t(active.cta)}
                 </span>
               </Link>
             </div>

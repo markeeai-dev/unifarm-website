@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * CompanyJourney — "Hành trình kiến tạo F1genz-Farm"
@@ -161,6 +162,7 @@ function MilestoneIcon({ type, className }: { type: Milestone['icon']; className
 }
 
 export default function CompanyJourney() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -242,7 +244,7 @@ export default function CompanyJourney() {
 
       <div className="mx-auto w-full max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
         <h2 className="uppercase mb-10 text-center text-2xl font-extrabold text-white sm:mb-14 sm:text-3xl lg:text-4xl">
-          Hành trình kiến tạo <span className="text-[#fffacd]">F1genz-Farm</span>
+          {t('Hành trình kiến tạo')} <span className="text-[#fffacd]">F1genz-Farm</span>
         </h2>
 
         {/* ---- Timeline pills ---- */}
@@ -264,7 +266,7 @@ export default function CompanyJourney() {
                       : 'border-white/20 bg-white/5 text-white/45'
                   }`}
                 >
-                  {m.year}
+                  {t(m.year)}
                 </button>
               );
             })}
@@ -311,21 +313,21 @@ export default function CompanyJourney() {
                     isActive ? 'text-[#87cefa]' : 'text-white/40'
                   }`}
                 >
-                  {m.year}
+                  {t(m.year)}
                 </p>
                 <h3
                   className={`uppercase mb-3 font-extrabold transition-colors duration-500 ${
                     isActive ? 'text-xl text-[#006400]' : 'text-base text-white/70'
                   }`}
                 >
-                  {m.title}
+                  {t(m.title)}
                 </h3>
 
                 <ul className={`mb-5 space-y-1.5 ${isActive ? 'text-sm text-neutral-600' : 'text-xs text-white/45'}`}>
                   {m.bullets.map((b, bi) => (
                     <li key={bi} className={isActive ? 'line-clamp-none' : 'line-clamp-1'}>
                       <span className={isActive ? 'text-[#006400]' : 'text-white/30'}>• </span>
-                      {b}
+                      {t(b)}
                     </li>
                   ))}
                 </ul>
@@ -335,7 +337,7 @@ export default function CompanyJourney() {
                     type="button"
                     className="mt-auto inline-flex w-fit items-center gap-1.5 self-center rounded-full bg-[#006400] px-5 py-2 text-sm font-bold text-[#fffacd] transition-colors hover:bg-[#00520a]"
                   >
-                    Xem thêm
+                    {t('Xem thêm')}
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3">
                       <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

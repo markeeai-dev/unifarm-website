@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Logo set — stylised text-marks standing in for real client logos  */
@@ -90,6 +91,7 @@ const LOOP = [...LOGOS, ...LOGOS];
 export default function TrustedBy() {
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -126,7 +128,7 @@ export default function TrustedBy() {
           }}
         >
           <p className="text-[1.05rem] leading-snug text-ink/70">
-            Được <span className="font-bold text-ink">hàng nghìn</span> doanh nghiệp trên khắp thế giới tin dùng
+            {t('Được')} <span className="font-bold text-ink">{t('hàng nghìn')}</span> {t('doanh nghiệp trên khắp thế giới tin dùng')}
           </p>
         </div>
 

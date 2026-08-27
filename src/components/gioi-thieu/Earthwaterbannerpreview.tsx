@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /* ============================================================
    BẢNG MÀU CHỦ ĐẠO
@@ -52,13 +53,14 @@ function useInView(threshold = 0.25): [RefObject<HTMLElement | null>, boolean] {
    NÚT "XEM THÊM" — mũi tên + gạch chân màu xanh dương
    ============================================================ */
 function MoreLink() {
+  const { t } = useLanguage();
   return (
     <button type="button" className="group/link mt-3 inline-flex flex-col items-start gap-1.5">
       <span
         className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider transition-colors"
         style={{ color: C.green }}
       >
-        Xem thêm
+        {t("Xem thêm")}
         <ArrowUpRight
           className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1"
           strokeWidth={2.5}
@@ -133,7 +135,8 @@ function InfoCard({
    CHỮ NỀN TRANG TRÍ (watermark trôi ngang liên tục)
    ============================================================ */
 function Watermark() {
-  const text = "LÀM NÔNG NGHIỆP LÀ YÊU ĐẤT – NƯỚC";
+  const { t } = useLanguage();
+  const text = t("LÀM NÔNG NGHIỆP LÀ YÊU ĐẤT – NƯỚC");
   const separator = "   •   ";
   return (
     <div className="pointer-events-none absolute inset-0 flex -translate-y-8 select-none items-center justify-center overflow-hidden sm:-translate-y-14">
@@ -151,16 +154,21 @@ function Watermark() {
    COMPONENT CHÍNH
    ============================================================ */
 export default function EarthWaterBannerPreview() {
+  const { t } = useLanguage();
   const [ref, inView] = useInView(0.2);
 
   const cardLeft = {
-    title: "Yêu Đất",
-    desc: "Đất là hệ sinh thái sống. Chúng tôi nuôi dưỡng độ phì, tăng hữu cơ và phát triển bộ rễ khỏe mạnh để duy trì năng suất dài hạn.",
+    title: t("Yêu Đất"),
+    desc: t(
+      "Đất là hệ sinh thái sống. Chúng tôi nuôi dưỡng độ phì, tăng hữu cơ và phát triển bộ rễ khỏe mạnh để duy trì năng suất dài hạn."
+    ),
     image: IMG_LEFT,
   };
   const cardRight = {
-    title: "Yêu Nước",
-    desc: "Đo lường lượng nước tạo ra 1 đơn vị sản phẩm; ứng dụng tưới nhỏ giọt chính xác và tuần hoàn nước xử lý.",
+    title: t("Yêu Nước"),
+    desc: t(
+      "Đo lường lượng nước tạo ra 1 đơn vị sản phẩm; ứng dụng tưới nhỏ giọt chính xác và tuần hoàn nước xử lý."
+    ),
     image: IMG_RIGHT,
   };
 
@@ -181,7 +189,7 @@ export default function EarthWaterBannerPreview() {
             transition: "opacity 0.9s ease-out, transform 0.9s ease-out",
           }}
         >
-          <img src={BG_IMAGE} alt="Canh dong nong nghiep xanh" className="h-full w-full object-cover" />
+          <img src={BG_IMAGE} alt={t("Canh dong nong nghiep xanh")} className="h-full w-full object-cover" />
 
           {/* overlay */}
           <div
@@ -246,7 +254,7 @@ export default function EarthWaterBannerPreview() {
             transition: "opacity 0.7s ease-out, transform 0.7s ease-out",
           }}
         >
-          <img src={BG_IMAGE} alt="Canh dong nong nghiep xanh" className="h-full w-full object-cover" />
+          <img src={BG_IMAGE} alt={t("Canh dong nong nghiep xanh")} className="h-full w-full object-cover" />
           <div
             className="absolute inset-0"
             style={{ background: "linear-gradient(to top, rgba(0,20,10,0.4), transparent 55%)" }}

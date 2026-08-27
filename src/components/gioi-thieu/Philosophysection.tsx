@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * PhilosophySection — "Triết lý: Làm nông nghiệp là yêu Đất – Nước"
@@ -21,6 +22,7 @@ const SLIDES = [
 const SLIDE_INTERVAL = 5000;
 
 export default function PhilosophySection() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
   const [active, setActive] = useState(0);
@@ -63,7 +65,7 @@ export default function PhilosophySection() {
           >
             <Image
               src={s.src}
-              alt={s.caption}
+              alt={t(s.caption)}
               fill
               priority={i === 0}
               sizes="(min-width: 640px) 50vw, 100vw"
@@ -87,7 +89,7 @@ export default function PhilosophySection() {
             className="philosophy-caption inline-block text-3xl font-extrabold text-white sm:text-4xl"
             style={{ textShadow: "0 8px 22px rgba(0,0,0,0.55)" }}
           >
-            {SLIDES[active].caption}
+            {t(SLIDES[active].caption)}
           </span>
         </div>
       </div>
@@ -102,7 +104,7 @@ export default function PhilosophySection() {
           }}
         >
           <h3 className="uppercase text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
-            “Làm nông nghiệp là yêu Đất – Nước”
+            {t("“Làm nông nghiệp là yêu Đất – Nước”")}
             <span className="ml-3 inline-flex translate-y-1 align-middle">
               <IconLotus />
             </span>
@@ -111,20 +113,19 @@ export default function PhilosophySection() {
           <div className="mt-8 divide-y divide-[#00640022]">
             <div className="py-5 first:pt-0">
               <p className="text-lg font-bold text-[#006400] sm:text-3xl">
-                Yêu Đất
+                {t("Yêu Đất")}
               </p>
               <p className="mt-1.5 text-[20px] leading-relaxed text-slate-600">
-                Chúng tôi canh tác bền vững, nuôi dưỡng thổ nhưỡng, giảm thiểu
-                phân bón hóa học.
+                {t("Chúng tôi canh tác bền vững, nuôi dưỡng thổ nhưỡng, giảm thiểu phân bón hóa học.")}
               </p>
             </div>
 
             <div className="py-5 last:pb-0">
               <p className="text-lg font-bold text-[#1E6FA8] sm:text-3xl">
-                Yêu Nước
+                {t("Yêu Nước")}
               </p>
               <p className="mt-1.5 text-[20px] leading-relaxed text-slate-600">
-                Chúng tôi tiết kiệm nguồn nước, xử lý sạch và tuần hoàn.
+                {t("Chúng tôi tiết kiệm nguồn nước, xử lý sạch và tuần hoàn.")}
               </p>
             </div>
           </div>

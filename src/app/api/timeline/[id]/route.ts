@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const TIMELINE_TRANSLATE_SPEC: EntitySpec = {
+  caption: { kind: "string" },
+  partner_title: { kind: "string" },
+  partner_bullets: { kind: "string[]" },
+  stat: { kind: "object[]", keys: ["label", "value"] },
+  bottom: { kind: "string[]" },
+  media: { kind: "object[]", keys: ["label"] },
+};
 
 export async function GET(
   _req: NextRequest,
@@ -52,6 +62,11 @@ export async function PATCH(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
+  const translations = await translateEntity(
+    { caption, partner_title, partner_bullets, stat, bottom, media },
+    TIMELINE_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     UPDATE timeline_milestones SET
       year = ${year},
@@ -63,6 +78,7 @@ export async function PATCH(
       image = ${image || ""},
       media = ${JSON.stringify(media || [])}::jsonb,
       bottom = ${JSON.stringify(bottom || [])}::jsonb,
+      translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${Number(sort_order) || 0},
       updated_at = now()
     WHERE id::text = ${id}

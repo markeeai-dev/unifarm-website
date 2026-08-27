@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * HomeBanner — banner chính của trang chủ.
@@ -90,6 +91,7 @@ function AnimatedChars({
 export default function HomeBanner() {
   const [index, setIndex] = useState(0);
   const introReady = useIntroReady();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const t = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), ROTATE_MS);
@@ -100,11 +102,11 @@ export default function HomeBanner() {
   const textStyle = TEXT_STYLES[index % TEXT_STYLES.length];
   const zoomDirection = index % 2 === 0 ? "in" : "out";
   const line1Delay = 0;
-  const line2Delay = Array.from(slide.titleLine1).length * CHAR_STAGGER_MS + 100;
+  const line2Delay = Array.from(t(slide.titleLine1)).length * CHAR_STAGGER_MS + 100;
 
   return (
     <section
-      className={`relative flex min-h-[85vh] w-full items-center overflow-hidden ${
+      className={`relative flex min-h-[90vh] w-full items-center overflow-hidden ${
         introReady ? "" : "banner-anim-paused"
       }`}
     >
@@ -149,19 +151,19 @@ export default function HomeBanner() {
               className="banner-entrance-item inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-sm"
               style={{ animationDelay: "0ms" }}
             >
-              {slide.badge}
+              {t(slide.badge)}
             </span>
 
             <h1 className="mt-5 text-3xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-4xl lg:text-[3rem]">
               <AnimatedChars
-                text={slide.titleLine1}
+                text={t(slide.titleLine1)}
                 variant={textStyle}
                 startDelay={line1Delay}
               />
               <br />
               <span className="text-[#FFFACD]">
                 <AnimatedChars
-                  text={slide.titleLine2}
+                  text={t(slide.titleLine2)}
                   variant={textStyle}
                   startDelay={line2Delay}
                 />
@@ -172,7 +174,7 @@ export default function HomeBanner() {
               className="banner-entrance-item mt-5 max-w-[620px] text-base leading-relaxed text-white/80 sm:text-[20px]"
               style={{ animationDelay: "550ms" }}
             >
-              {slide.desc}
+              {t(slide.desc)}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -191,7 +193,7 @@ export default function HomeBanner() {
     <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
 
     <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-      Khám phá Unifarm
+      {t("Khám phá Unifarm")}
     </span>
 
     <ArrowRight
@@ -213,7 +215,7 @@ export default function HomeBanner() {
     <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
 
     <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-      Hợp tác cùng Unifarm
+      {t("Hợp tác cùng Unifarm")}
     </span>
 
     <ArrowRight

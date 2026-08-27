@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 import CustomCursor from "@/components/Customcursor";
 import HomeTopHeader from "@/components/Hometopheader";
 import SiteIntro from "@/components/Siteintro";
-import AdminLoginGate from "@/components/Adminlogingate";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 import "./globals.css";
 
@@ -48,11 +48,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "try{if(sessionStorage.getItem('unifarm_intro_seen')==='1'){document.documentElement.setAttribute('data-intro-seen','1');}}catch(e){}",
           }}
         />
-        <SiteIntro />
-        <AdminLoginGate />
-        <CustomCursor />
-        <HomeTopHeader />
-        {children}
+        <LanguageProvider>
+          <SiteIntro />
+          <CustomCursor />
+          <HomeTopHeader />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

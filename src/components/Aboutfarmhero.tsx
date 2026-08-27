@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 // Real fruit photo cutouts (transparent PNG, no frame/crop) cycled across the
 // floating positions below (i % FRUITS.length)
@@ -44,6 +45,7 @@ const FLOATING_ITEMS = [
 export default function AboutFarmHero() {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -122,26 +124,23 @@ export default function AboutFarmHero() {
           }`}
         >
           <p className="mb-3 inline-block rounded-full bg-[#87CEFA]/25 px-4 py-1 text-xs font-semibold tracking-wide text-[#006400]">
-            NÔNG NGHIỆP CÔNG NGHỆ CAO
+            {t("NÔNG NGHIỆP CÔNG NGHỆ CAO")}
           </p>
 
           <h2 className="uppercase text-3xl font-extrabold leading-tight text-[#006400] sm:text-4xl lg:text-[42px]">
-            Tiên phong phát triển{" "}
+            {t("Tiên phong phát triển")}{" "}
             <span className="relative inline-block">
-              nông nghiệp công nghệ cao
+              {t("nông nghiệp công nghệ cao")}
               <span className="absolute -bottom-1 left-0 h-3 w-full -z-10 bg-white" />
             </span>
           </h2>
 
           <p className="mx-auto mt-5 text-justify max-w-xl text-sm leading-relaxed text-gray-500 lg:mx-0">
-            Unifarm phát triển hệ sinh thái nông nghiệp khép kín, từ nghiên cứu
-            và sản xuất giống, phát triển vùng trồng, canh tác bền vững đến chế
-            biến, thị trường và giải pháp nông nghiệp số.
+            {t("Unifarm phát triển hệ sinh thái nông nghiệp khép kín, từ nghiên cứu và sản xuất giống, phát triển vùng trồng, canh tác bền vững đến chế biến, thị trường và giải pháp nông nghiệp số.")}
           </p>
 
           <p className="mx-auto mt-4 text-justify max-w-xl text-sm leading-relaxed text-gray-500 lg:mx-0">
-            Chúng tôi ứng dụng công nghệ và tự động hóa để nâng cao năng suất,
-            chất lượng và giá trị nông sản Việt Nam.
+            {t("Chúng tôi ứng dụng công nghệ và tự động hóa để nâng cao năng suất, chất lượng và giá trị nông sản Việt Nam.")}
           </p>
 
           <button
@@ -150,7 +149,7 @@ export default function AboutFarmHero() {
                        hover:bg-[#87CEFA] hover:text-[#006400]
                        focus:outline-none focus-visible:ring-2 focus-visible:ring-[#006400] focus-visible:ring-offset-2"
           >
-            Tìm hiểu thêm
+            {t("Tìm hiểu thêm")}
           </button>
         </div>
 
@@ -180,7 +179,7 @@ export default function AboutFarmHero() {
             <div className="relative h-[480px] w-full sm:h-[540px] lg:h-[600px]">
               <Image
                 src="/images/Gio-trai-cay.png"
-                alt="Giỏ trái cây tươi Unifarm"
+                alt={t("Giỏ trái cây tươi Unifarm")}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-contain object-bottom p-1 scale-150 -translate-x-16 -translate-y-4 rotate-[-6deg] drop-shadow-[0_30px_40px_rgba(0,0,0,0.3)] sm:-translate-x-20 lg:-translate-x-10"

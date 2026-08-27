@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
 
 const VALID_CATEGORIES = ["fresh", "seedling", "processed"];
+
+const PRODUCT_TRANSLATE_SPEC: EntitySpec = {
+  name: { kind: "string" },
+  subtitle: { kind: "string" },
+  standard: { kind: "string" },
+  description: { kind: "string" },
+  specs: { kind: "object[]", keys: ["label", "value"] },
+  commitments: { kind: "string[]" },
+};
 
 export async function GET() {
   const rows = await sql`SELECT * FROM products ORDER BY sort_order ASC, created_at ASC`;
@@ -44,14 +54,19 @@ export async function POST(req: NextRequest) {
     sortOrder = Number(rows[0].next);
   }
 
+  const translations = await translateEntity(
+    { name, subtitle, standard, description, specs, commitments },
+    PRODUCT_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     INSERT INTO products
-      (name, price, category, type, image, gallery, subtitle, standard, description, specs, commitments, sort_order)
+      (name, price, category, type, image, gallery, subtitle, standard, description, specs, commitments, translations, sort_order)
     VALUES
       (${name}, ${price || 0}, ${category}, ${type || "other"}, ${image || ""},
        ${JSON.stringify(gallery || [])}::jsonb, ${subtitle || ""}, ${standard || ""},
        ${description || ""}, ${JSON.stringify(specs || [])}::jsonb,
-       ${JSON.stringify(commitments || [])}::jsonb, ${sortOrder})
+       ${JSON.stringify(commitments || [])}::jsonb, ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
     RETURNING *
   `;
 

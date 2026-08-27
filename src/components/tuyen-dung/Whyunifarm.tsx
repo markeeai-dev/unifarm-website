@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Sprout, BookOpen, Users, Rocket } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FEATURES = [
   {
@@ -90,6 +91,7 @@ function RevealFromRight({
 }
 
 export default function WhyUnifarm() {
+  const { t } = useLanguage();
   return (
     <section
       id="gioi-thieu-unifarm"
@@ -99,16 +101,17 @@ export default function WhyUnifarm() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="flex items-center justify-center gap-2 text-sm font-semibold text-[#006400]">
             <span aria-hidden>🍃</span>
-            Tại sao chọn Unifarm?
+            {t("Tại sao chọn Unifarm?")}
           </p>
 
           <h2 className="mt-2 text-2xl font-extrabold uppercase leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
-            Điều gì chờ đón bạn tại Unifarm?
+            {t("Điều gì chờ đón bạn tại Unifarm?")}
           </h2>
 
           <p className="mt-4 text-sm leading-relaxed text-[#06301B]/65 sm:text-[15px]">
-            Không chỉ là một nơi làm việc, Unifarm hướng đến xây dựng môi trường nơi mỗi người
-            có thể làm việc tốt hơn, học hỏi nhiều hơn và phát triển lâu dài hơn.
+            {t(
+              "Không chỉ là một nơi làm việc, Unifarm hướng đến xây dựng môi trường nơi mỗi người có thể làm việc tốt hơn, học hỏi nhiều hơn và phát triển lâu dài hơn."
+            )}
           </p>
         </div>
 
@@ -120,8 +123,8 @@ export default function WhyUnifarm() {
               className="group relative py-2 lg:px-8 lg:py-4 lg:first:pl-0"
             >
               <Icon size={26} className="text-[#006400]" />
-              <h3 className="uppercase mt-4 text-lg font-bold text-[#06301B]">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{desc}</p>
+              <h3 className="uppercase mt-4 text-lg font-bold text-[#06301B]">{t(title)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(desc)}</p>
               <span
                 aria-hidden="true"
                 className="mt-4 block h-[2px] w-0 bg-[#006400] transition-all duration-500 ease-out group-hover:w-full"

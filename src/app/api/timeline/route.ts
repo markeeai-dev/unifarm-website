@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const TIMELINE_TRANSLATE_SPEC: EntitySpec = {
+  caption: { kind: "string" },
+  partner_title: { kind: "string" },
+  partner_bullets: { kind: "string[]" },
+  stat: { kind: "object[]", keys: ["label", "value"] },
+  bottom: { kind: "string[]" },
+  media: { kind: "object[]", keys: ["label"] },
+};
 
 export async function GET() {
   const rows = await sql`SELECT * FROM timeline_milestones ORDER BY sort_order ASC, created_at ASC`;
@@ -40,14 +50,19 @@ export async function POST(req: NextRequest) {
     sortOrder = Number(rows[0].next);
   }
 
+  const translations = await translateEntity(
+    { caption, partner_title, partner_bullets, stat, bottom, media },
+    TIMELINE_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     INSERT INTO timeline_milestones
-      (year, caption, icon, stat, partner_title, partner_bullets, image, media, bottom, sort_order)
+      (year, caption, icon, stat, partner_title, partner_bullets, image, media, bottom, translations, sort_order)
     VALUES
       (${year}, ${caption}, ${icon || "Sprout"}, ${JSON.stringify(stat || [])}::jsonb,
        ${partner_title || ""}, ${JSON.stringify(partner_bullets || [])}::jsonb,
        ${image || ""}, ${JSON.stringify(media || [])}::jsonb,
-       ${JSON.stringify(bottom || [])}::jsonb, ${sortOrder})
+       ${JSON.stringify(bottom || [])}::jsonb, ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
     RETURNING *
   `;
 

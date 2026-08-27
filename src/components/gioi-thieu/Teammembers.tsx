@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * TeamMembers ("Các Thành Viên Chuyên Gia")
@@ -287,6 +288,7 @@ function MemberCard({
   dragMovedRef: React.RefObject<boolean>;
   active: boolean;
 }) {
+  const { t } = useLanguage();
   const [hovered, setHovered] = useState(false);
   const [tapped, setTapped] = useState(false);
   const revealed = hovered || tapped;
@@ -310,7 +312,7 @@ function MemberCard({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={member.coverImage}
-        alt={member.name}
+        alt={t(member.name)}
         draggable={false}
         className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
         style={{ opacity: revealed ? 0 : 1 }}
@@ -341,8 +343,8 @@ function MemberCard({
         className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent px-4 pb-4 pt-10 transition-opacity duration-300"
         style={{ opacity: revealed ? 0 : 1 }}
       >
-        <p className="text-base font-bold text-white sm:text-lg">{member.name}</p>
-        <p className="mt-0.5 text-xs font-medium text-[#87cefa] sm:text-sm">{member.position}</p>
+        <p className="text-base font-bold text-white sm:text-lg">{t(member.name)}</p>
+        <p className="mt-0.5 text-xs font-medium text-[#87cefa] sm:text-sm">{t(member.position)}</p>
       </div>
 
       {/* Center reveal panel — avatar / name / position / description / experience */}
@@ -360,27 +362,27 @@ function MemberCard({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={member.avatar}
-            alt={member.name}
+            alt={t(member.name)}
             draggable={false}
             className="h-full w-full object-cover"
           />
         </div>
 
-        <p className="mt-3 text-lg font-bold text-white sm:text-xl">{member.name}</p>
+        <p className="mt-3 text-lg font-bold text-white sm:text-xl">{t(member.name)}</p>
         <span
           className="mt-1 inline-block rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#006400] sm:text-xs"
           style={{ backgroundColor: ACCENT }}
         >
-          {member.position}
+          {t(member.position)}
         </span>
 
-        <p className="mt-2 text-xs leading-relaxed text-white/85 sm:text-sm">{member.description}</p>
+        <p className="mt-2 text-xs leading-relaxed text-white/85 sm:text-sm">{t(member.description)}</p>
 
         <ul className="mt-2 space-y-1 text-left">
           {member.experience.map((line, i) => (
             <li key={i} className="flex items-start gap-2 text-[11px] leading-snug text-white/75 sm:text-xs">
               <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: ACCENT }} />
-              <span>{line}</span>
+              <span>{t(line)}</span>
             </li>
           ))}
         </ul>
@@ -395,6 +397,7 @@ function MemberCard({
 /*  Section                                                             */
 /* ------------------------------------------------------------------ */
 export default function TeamMembers() {
+  const { t } = useLanguage();
   const [sectionRef, inView] = useInView<HTMLDivElement>(0.12);
 
   const [perView, setPerView] = useState(4);
@@ -522,10 +525,10 @@ export default function TeamMembers() {
       >
         <div className="text-center">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#87CEFA]">
-            Đồng hành cùng bạn
+            {t("Đồng hành cùng bạn")}
           </span>
           <h2 className="uppercase mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[42px]">
-            Các Thành Viên Chuyên Gia
+            {t("Các Thành Viên Chuyên Gia")}
           </h2>
         </div>
 
@@ -550,7 +553,7 @@ export default function TeamMembers() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={member.avatar}
-                    alt={member.name}
+                    alt={t(member.name)}
                     draggable={false}
                     className="h-full w-full object-cover"
                   />
@@ -559,7 +562,7 @@ export default function TeamMembers() {
                   className="max-w-[72px] whitespace-nowrap text-[11px] font-semibold leading-tight transition-colors duration-300 sm:max-w-[88px] sm:text-xs"
                   style={{ color: active ? "#006400" : "rgba(0,100,0,0.55)" }}
                 >
-                  {member.name.split(" ").slice(-2).join(" ")}
+                  {t(member.name).split(" ").slice(-2).join(" ")}
                 </span>
               </button>
             );

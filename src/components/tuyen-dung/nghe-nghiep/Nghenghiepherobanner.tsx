@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Compass } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * NgheNghiepHeroBanner — banner đầu trang "Văn hoá & Con đường nghề nghiệp".
@@ -14,6 +15,7 @@ import { useIntroReady } from "@/lib/use-intro-ready";
 export default function NgheNghiepHeroBanner() {
   const [mounted, setMounted] = useState(false);
   const introReady = useIntroReady();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (introReady) setMounted(true);
@@ -37,7 +39,7 @@ export default function NgheNghiepHeroBanner() {
             }`}
           >
             <span className="hero-badge-dot h-1.5 w-1.5 rounded-full bg-[#FFFACD]" />
-            Nghề nghiệp tại Unifarm
+            {t("Nghề nghiệp tại Unifarm")}
           </span>
 
           <h1
@@ -45,8 +47,8 @@ export default function NgheNghiepHeroBanner() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            Nông Nghiệp Hiện Đại Cần{" "}
-            <span className="text-[#FFFACD]">Những Con Người Hiện Đại</span>
+            {t("Nông Nghiệp Hiện Đại Cần")}{" "}
+            <span className="text-[#FFFACD]">{t("Những Con Người Hiện Đại")}</span>
           </h1>
 
           <p
@@ -54,9 +56,9 @@ export default function NgheNghiepHeroBanner() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            Nông nghiệp hôm nay là sự kết hợp của: Sinh học • Máy móc • Công nghệ • Dữ
-            liệu • Chất lượng • Chuỗi cung ứng • Thị trường. Người làm nông nghiệp cũng
-            cần được học và phát triển như bất kỳ nghề chuyên nghiệp nào khác.
+            {t(
+              "Nông nghiệp hôm nay là sự kết hợp của: Sinh học • Máy móc • Công nghệ • Dữ liệu • Chất lượng • Chuỗi cung ứng • Thị trường. Người làm nông nghiệp cũng cần được học và phát triển như bất kỳ nghề chuyên nghiệp nào khác."
+            )}
           </p>
 
           <div
@@ -79,7 +81,7 @@ export default function NgheNghiepHeroBanner() {
               className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-[#006400] to-[#FFFACD] px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,100,0,0.45)] transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
               style={{ textShadow: "0 1px 3px rgba(6,48,27,0.5)" }}
             >
-              Khám phá cơ hội nghề nghiệp
+              {t("Khám phá cơ hội nghề nghiệp")}
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/20">
                 <ArrowRight size={14} />
               </span>
@@ -90,7 +92,7 @@ export default function NgheNghiepHeroBanner() {
               className="inline-flex items-center gap-2.5 rounded-[10px] border border-white/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-[#FFFACD]/60 hover:bg-[#FFFACD]/10"
             >
               <Compass size={17} />
-              Mô hình đào tạo của chúng tôi
+              {t("Mô hình đào tạo của chúng tôi")}
             </a>
           </div>
         </div>

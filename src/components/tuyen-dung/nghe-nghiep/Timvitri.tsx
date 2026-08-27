@@ -3,6 +3,7 @@
 import { Database, GraduationCap, Settings2, Sprout, TestTube2, Truck } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const GROUPS = [
   { icon: Sprout, label: "Lao động nông nghiệp" },
@@ -31,6 +32,7 @@ const ITEM_VARIANTS = {
 };
 
 export default function TimViTri() {
+  const { t } = useLanguage();
   return (
     <section className="relative overflow-hidden py-14 md:py-20">
       <div
@@ -45,14 +47,15 @@ export default function TimViTri() {
       <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
         <Reveal duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Cơ hội cho mọi nền tảng
+            {t("Cơ hội cho mọi nền tảng")}
           </p>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            Tìm Vị Trí Của Bạn Tại Unifarm
+            {t("Tìm Vị Trí Của Bạn Tại Unifarm")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[#06301B]/65 sm:text-[15px]">
-            Bạn không nhất thiết phải học nông nghiệp để xây dựng sự nghiệp vững chắc
-            trong ngành nông nghiệp.
+            {t(
+              "Bạn không nhất thiết phải học nông nghiệp để xây dựng sự nghiệp vững chắc trong ngành nông nghiệp."
+            )}
           </p>
         </Reveal>
 
@@ -77,7 +80,7 @@ export default function TimViTri() {
                 <g.icon size={19} strokeWidth={1.8} />
               </span>
               <span className="flex-1 text-[13.5px] font-semibold leading-snug text-[#06301B]">
-                {g.label}
+                {t(g.label)}
               </span>
               <span
                 aria-hidden

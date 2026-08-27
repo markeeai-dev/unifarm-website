@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * TopSellingProducts — dùng riêng cho trang /san-pham
@@ -118,6 +119,7 @@ function ProductCard({
   product: Product;
   dragMovedRef: React.RefObject<boolean>;
 }) {
+  const { t } = useLanguage();
   const [hovered, setHovered] = useState(false);
   const [tapped, setTapped] = useState(false);
   const revealed = hovered || tapped;
@@ -139,7 +141,7 @@ function ProductCard({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={product.image}
-        alt={product.name}
+        alt={t(product.name)}
         draggable={false}
         className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
         style={{ opacity: revealed ? 0 : 1 }}
@@ -170,7 +172,7 @@ function ProductCard({
         className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent px-4 pb-4 pt-10 transition-opacity duration-300"
         style={{ opacity: revealed ? 0 : 1 }}
       >
-        <p className="text-base font-bold text-white sm:text-lg">{product.name}</p>
+        <p className="text-base font-bold text-white sm:text-lg">{t(product.name)}</p>
       </div>
 
       {/* Center reveal panel — name / description / + Xem thêm */}
@@ -181,8 +183,8 @@ function ProductCard({
           transform: revealed ? "scale(1)" : "scale(0.92)",
         }}
       >
-        <p className="text-lg font-bold text-white sm:text-xl">{product.name}</p>
-        <p className="mt-2 text-xs leading-relaxed text-white/85 sm:text-sm">{product.desc}</p>
+        <p className="text-lg font-bold text-white sm:text-xl">{t(product.name)}</p>
+        <p className="mt-2 text-xs leading-relaxed text-white/85 sm:text-sm">{t(product.desc)}</p>
 
         <button
           type="button"
@@ -204,7 +206,7 @@ function ProductCard({
               <path d="M12 5v14M5 12h14" />
             </svg>
           </span>
-          <span className="text-xs font-semibold tracking-wide text-white sm:text-sm">Xem thêm</span>
+          <span className="text-xs font-semibold tracking-wide text-white sm:text-sm">{t('Xem thêm')}</span>
         </button>
       </div>
     </div>
@@ -215,6 +217,7 @@ function ProductCard({
 /*  Section                                                             */
 /* ------------------------------------------------------------------ */
 export default function TopSellingProducts() {
+  const { t } = useLanguage();
   const [sectionRef, inView] = useInView<HTMLDivElement>(0.12);
 
   const [perView, setPerView] = useState(4);
@@ -322,10 +325,10 @@ export default function TopSellingProducts() {
       >
         <div className="text-center">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#87CEFA]">
-            Tươi mỗi ngày
+            {t('Tươi mỗi ngày')}
           </span>
           <h2 className="uppercase mt-3 text-3xl font-extrabold leading-tight tracking-[-0.01em] text-[#006400] sm:text-4xl lg:text-[42px]">
-            Sản Phẩm Bán Chạy
+            {t('Sản Phẩm Bán Chạy')}
           </h2>
         </div>
 

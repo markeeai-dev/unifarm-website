@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const BG_VIDEO = "/videos/7.mp4";
 const POSTER = "/video-posters/7.jpg";
@@ -34,9 +36,12 @@ const SLIDES = [
 const SLIDE_MS = 4500;
 
 export default function SanPhamHero() {
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const introReady = useIntroReady();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useForcePlayVideo(videoRef);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -75,6 +80,7 @@ export default function SanPhamHero() {
         />
         {(
           <video
+            ref={videoRef}
             autoPlay
             muted
             loop
@@ -111,15 +117,15 @@ export default function SanPhamHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
             }`}
           >
-            Sản phẩm Unifarm
+            {t("Sản phẩm Unifarm")}
           </span>
 
           <div key={slideIndex} style={{ animation: "sanpham-hero-fade 700ms ease-out" }}>
             <h1 className="uppercase max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl md:text-5xl">
-              {slide.title}
+              {t(slide.title)}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-sm text-white/85 sm:text-[20px] md:text-[22px] lg:text-[28px]">
-              {slide.subtitle}
+              {t(slide.subtitle)}
             </p>
           </div>
         </div>

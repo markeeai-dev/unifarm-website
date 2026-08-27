@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * HeroBanner — trang giới thiệu Unifarm
@@ -35,8 +37,11 @@ const COLORS = {
 const TEXT_SHADOW = "0 2px 16px rgba(0,20,10,0.55)";
 
 export default function HeroBanner() {
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const introReady = useIntroReady();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useForcePlayVideo(videoRef);
 
   useEffect(() => {
     if (introReady) setMounted(true);
@@ -45,8 +50,8 @@ export default function HeroBanner() {
   return (
     <section
       className="relative w-full overflow-hidden"
-      style={{ minHeight: "820px" }}
-      aria-label="Giới thiệu Unifarm"
+      style={{ minHeight: "860px" }}
+      aria-label={t("Giới thiệu Unifarm")}
     >
       {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop.
           Cùng lật ngang -scale-x-100 như video để chủ thể lệch sang phải giống nhau. */}
@@ -60,6 +65,7 @@ export default function HeroBanner() {
       />
       {(
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
@@ -144,10 +150,10 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            TỪ MỘT TRANG TRẠI ĐẾN MỘT HỆ SINH THÁI
+            {t("TỪ MỘT TRANG TRẠI ĐẾN MỘT HỆ SINH THÁI")}
             <br />
             <span style={{ color: COLORS.accent }}>
-              HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG
+              {t("HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG")}
             </span>
           </p>
 
@@ -158,9 +164,9 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            Kết nối xuyên suốt từ nghiên cứu – giống – sản xuất quy mô lớn –
-            chuyển giao công nghệ – liên kết vùng nguyên liệu – sau thu hoạch
-            – chế biến – thị trường.
+            {t(
+              "Kết nối xuyên suốt từ nghiên cứu – giống – sản xuất quy mô lớn – chuyển giao công nghệ – liên kết vùng nguyên liệu – sau thu hoạch – chế biến – thị trường."
+            )}
           </p>
 
           {/* Dải số liệu nhanh */}
@@ -175,10 +181,10 @@ export default function HeroBanner() {
                   className="text-lg font-extrabold"
                   style={{ color: "#FFFACD", textShadow: TEXT_SHADOW }}
                 >
-                  {s.value}
+                  {t(s.value)}
                 </span>
                 <span className="text-xs font-medium text-white/85" style={{ textShadow: TEXT_SHADOW }}>
-                  {s.label}
+                  {t(s.label)}
                 </span>
               </div>
             ))}
@@ -199,7 +205,7 @@ export default function HeroBanner() {
               {/* Màu hover kéo từ trái sang phải */}
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                Hệ sinh thái Unifarm
+                {t("Hệ sinh thái Unifarm")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
@@ -216,7 +222,7 @@ export default function HeroBanner() {
               {/* Vệt sáng tự chạy */}
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-                Liên hệ hợp tác
+                {t("Liên hệ hợp tác")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"

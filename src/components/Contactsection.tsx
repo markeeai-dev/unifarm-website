@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Leaf, User, Mail, Phone, MessageSquare, CheckCircle2, ClipboardList } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * ContactSection — "Liên hệ" (Trà xanh / tea-plantation brand)
@@ -27,6 +28,7 @@ const BG_IMAGE_URL =
   "https://images.openai.com/static-rsc-4/An-vs2aGZf7YwcCbIMvarZwwLJfiV6vZ6Tj7I7qvjBPJvamXCYB6QwW4go9CYw_RvMSqr-hkcW1rSeDjuEgolSjoTC3RTFKHfdtLou10ABIYbq8UvZW7T0z46fhtjYxb4eyH0-3432ysL_RTggssYNtBhufgPFmPHKQy7l7OynJ9dWC0huxRlTIJ6yJif6Xx?purpose=fullsize";
 
 export default function ContactSection() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", needs: "", message: "" });
@@ -100,13 +102,13 @@ export default function ContactSection() {
             {/* Eyebrow */}
             <div className="mt-3 flex justify-center">
               <span className="inline-flex items-center rounded-full border border-[#87cefa] bg-[#fffacd]/60 px-3 py-1 text-[11px] font-medium tracking-wide text-[#006400] sm:text-xs">
-                Hợp tác cùng Unifarm
+                {t("Hợp tác cùng Unifarm")}
               </span>
             </div>
 
             {/* Tiêu đề */}
             <h2 className="uppercase mt-4 flex items-center justify-center gap-2 text-center text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
-              Trao Đổi Thông Tin Cùng Unifarm
+              {t("Trao Đổi Thông Tin Cùng Unifarm")}
               {/* <Image
                 src="/images/mascot/banana-mascot.png"
                 alt=""
@@ -117,21 +119,21 @@ export default function ContactSection() {
               /> */}
             </h2>
             <p className="mx-auto mt-2 max-w-xs text-center text-sm text-neutral-500 sm:text-[15px]">
-              Đội ngũ chuyên môn của chúng tôi sẽ liên hệ trao đổi phương án hợp tác hoặc chương trình cung ứng trong thời gian sớm nhất!
+              {t("Đội ngũ chuyên môn của chúng tôi sẽ liên hệ trao đổi phương án hợp tác hoặc chương trình cung ứng trong thời gian sớm nhất!")}
             </p>
 
             {submitted ? (
               <div className="mt-8 flex flex-col items-center gap-3 rounded-xl bg-[#f2fbf2] px-4 py-8 text-center">
                 <CheckCircle2 className="h-9 w-9 text-[#006400]" />
                 <p className="text-sm font-medium text-[#006400]">
-                  Đã tiếp nhận thông tin thành công. Unifarm sẽ phản hồi bạn trong vòng 24h - 48h làm việc!
+                  {t("Đã tiếp nhận thông tin thành công. Unifarm sẽ phản hồi bạn trong vòng 24h - 48h làm việc!")}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3.5 sm:space-y-4">
                 {/* Tên */}
                 <label className="block">
-                  <span className="sr-only">Họ và tên của bạn</span>
+                  <span className="sr-only">{t("Họ và tên của bạn")}</span>
                   <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                     <User className="h-4 w-4 shrink-0 text-[#006400]/70" />
                     <input
@@ -139,7 +141,7 @@ export default function ContactSection() {
                       name="name"
                       value={form.name}
                       onChange={handleChange}
-                      placeholder="Họ và tên của bạn"
+                      placeholder={t("Họ và tên của bạn")}
                       required
                       className="w-full bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                     />
@@ -149,7 +151,7 @@ export default function ContactSection() {
                 {/* Email + SĐT */}
                 <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-3">
                   <label className="block">
-                    <span className="sr-only">Email của bạn</span>
+                    <span className="sr-only">{t("Email của bạn")}</span>
                     <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                       <Mail className="h-4 w-4 shrink-0 text-[#006400]/70" />
                       <input
@@ -157,7 +159,7 @@ export default function ContactSection() {
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        placeholder="Email của bạn"
+                        placeholder={t("Email của bạn")}
                         required
                         className="w-full bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                       />
@@ -165,7 +167,7 @@ export default function ContactSection() {
                   </label>
 
                   <label className="block">
-                    <span className="sr-only">Số điện thoại của bạn</span>
+                    <span className="sr-only">{t("Số điện thoại của bạn")}</span>
                     <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                       <Phone className="h-4 w-4 shrink-0 text-[#006400]/70" />
                       <input
@@ -173,7 +175,7 @@ export default function ContactSection() {
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
-                        placeholder="Số điện thoại của bạn"
+                        placeholder={t("Số điện thoại của bạn")}
                         className="w-full bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                       />
                     </div>
@@ -182,7 +184,7 @@ export default function ContactSection() {
 
                 {/* Nhu cầu */}
                 <label className="block">
-                  <span className="sr-only">Nhu cầu</span>
+                  <span className="sr-only">{t("Nhu cầu")}</span>
                   <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                     <ClipboardList className="h-4 w-4 shrink-0 text-[#006400]/70" />
                     <select
@@ -193,26 +195,26 @@ export default function ContactSection() {
                       className="w-full bg-transparent text-sm text-neutral-800 focus:outline-none"
                     >
                       <option value="" disabled>
-                        Nhu cầu
+                        {t("Nhu cầu")}
                       </option>
-                      <option value="Mua hàng">Mua hàng</option>
-                      <option value="Cung ứng">Cung ứng</option>
-                      <option value="Hợp tác Farm">Hợp tác Farm</option>
-                      <option value="Nghề nghiệp">Nghề nghiệp</option>
+                      <option value="Mua hàng">{t("Mua hàng")}</option>
+                      <option value="Cung ứng">{t("Cung ứng")}</option>
+                      <option value="Hợp tác Farm">{t("Hợp tác Farm")}</option>
+                      <option value="Nghề nghiệp">{t("Nghề nghiệp")}</option>
                     </select>
                   </div>
                 </label>
 
                 {/* Thông tin chi tiết */}
                 <label className="block">
-                  <span className="sr-only">Thông tin chi tiết</span>
+                  <span className="sr-only">{t("Thông tin chi tiết")}</span>
                   <div className="flex gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                     <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-[#006400]/70" />
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
-                      placeholder="Thông tin chi tiết"
+                      placeholder={t("Thông tin chi tiết")}
                       rows={4}
                       required
                       className="w-full resize-none bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
@@ -225,7 +227,7 @@ export default function ContactSection() {
                   type="submit"
                   className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] sm:w-auto sm:mx-auto sm:px-10"
                 >
-                  Gửi Yêu Cầu Hợp Tác
+                  {t("Gửi Yêu Cầu Hợp Tác")}
                   {/* <Image
                     src="/images/mascot/banana-mascot.png"
                     alt=""

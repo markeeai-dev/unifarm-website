@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { FileText, Handshake, MessageCircle, Rocket, Target } from "lucide-react";
 import Image from "next/image";
 import Reveal from "./Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const STEPS = [
   {
@@ -95,6 +96,7 @@ function DrawLine({
 }
 
 export default function ApplyProcess() {
+  const { t } = useLanguage();
   return (
     <section className="relative overflow-hidden bg-[#06301B] py-16 md:py-20">
       {/* Background photo — tinted green via multiply overlay so it reads as on-brand */}
@@ -118,7 +120,7 @@ export default function ApplyProcess() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#F5E98A]">
-            Minh bạch từng bước
+            {t("Minh bạch từng bước")}
           </p>
           <div className="mt-3 flex items-center justify-center gap-2">
             <Image
@@ -131,13 +133,14 @@ export default function ApplyProcess() {
             />
 
             <h2 className="uppercase text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
-              Quy trình tuyển dụng
+              {t("Quy trình tuyển dụng")}
             </h2>
           </div>
 
           <p className="mt-3 text-sm leading-relaxed text-white sm:text-base">
-            5 bước rõ ràng, minh bạch — từ lúc bạn nộp hồ sơ đến ngày đầu tiên
-            đi làm cùng chúng tôi.
+            {t(
+              "5 bước rõ ràng, minh bạch — từ lúc bạn nộp hồ sơ đến ngày đầu tiên đi làm cùng chúng tôi."
+            )}
           </p>
         </Reveal>
 
@@ -160,8 +163,8 @@ export default function ApplyProcess() {
                   </span>
                 </span>
                 <div className="pt-0.5">
-                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{step.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#06301B]/60">{step.desc}</p>
+                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{t(step.title)}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[#06301B]/60">{t(step.desc)}</p>
                 </div>
               </div>
             </Reveal>
@@ -185,9 +188,9 @@ export default function ApplyProcess() {
                     </span>
                   </span>
                   <h3 className="uppercase mt-4 text-[15px] font-bold leading-snug text-[#06301B]">
-                    {step.title}
+                    {t(step.title)}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{step.desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(step.desc)}</p>
                 </div>
               </Reveal>
             ))}

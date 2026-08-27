@@ -1,3 +1,5 @@
+"use client";
+
 import {
   GraduationCap,
   ShieldCheck,
@@ -8,6 +10,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Reveal from "./Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 type Benefit = {
   icon: typeof Wallet;
@@ -65,13 +68,14 @@ const BENEFITS: Benefit[] = [
 ];
 
 export default function ApplyBenefits() {
+  const { t } = useLanguage();
   return (
     <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <div className="flex items-center justify-center gap-1.5">
             <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-              Vì sao chọn Unifarm
+              {t("Vì sao chọn Unifarm")}
             </p>
 
             <Image
@@ -84,7 +88,7 @@ export default function ApplyBenefits() {
             />
           </div>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            Quyền lợi khi bạn gia nhập đội ngũ
+            {t("Quyền lợi khi bạn gia nhập đội ngũ")}
           </h2>
         </Reveal>
 
@@ -108,10 +112,10 @@ export default function ApplyBenefits() {
                         <b.icon size={22} strokeWidth={1.8} />
                       </span>
                       <h3 className="uppercase mt-5 text-lg font-bold text-white sm:text-xl">
-                        {b.title}
+                        {t(b.title)}
                       </h3>
                       <p className="mt-2.5 text-sm leading-relaxed text-white/65">
-                        {b.desc}
+                        {t(b.desc)}
                       </p>
                     </div>
                     {b.stat && (
@@ -120,7 +124,7 @@ export default function ApplyBenefits() {
                           {b.stat.value}
                         </div>
                         <div className="mt-1 max-w-[6rem] text-[11px] font-medium uppercase tracking-wide text-white/45">
-                          {b.stat.label}
+                          {t(b.stat.label)}
                         </div>
                       </div>
                     )}
@@ -150,8 +154,8 @@ export default function ApplyBenefits() {
                     <b.icon size={20} strokeWidth={1.8} />
                   </span>
 
-                  <h3 className="uppercase relative mt-5 text-[15px] font-bold text-[#06301B]">{b.title}</h3>
-                  <p className="relative mt-2 text-sm leading-relaxed text-[#06301B]/60">{b.desc}</p>
+                  <h3 className="uppercase relative mt-5 text-[15px] font-bold text-[#06301B]">{t(b.title)}</h3>
+                  <p className="relative mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(b.desc)}</p>
                 </div>
               </Reveal>
             )

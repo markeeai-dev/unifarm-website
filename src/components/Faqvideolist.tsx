@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                                */
@@ -73,6 +74,7 @@ function PlayIcon({ className = 'h-6 w-6' }: { className?: string }) {
 /*  Component                                                           */
 /* ------------------------------------------------------------------ */
 export default function FaqVideoList() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -128,7 +130,7 @@ export default function FaqVideoList() {
           }}
         >
           <span className="h-[6px] w-[6px] rounded-full bg-[#006400]" />
-          Hợp Tác Phát Triển
+          {t('Hợp Tác Phát Triển')}
         </div>
 
         {/* Heading — rises from below on scroll-in */}
@@ -142,7 +144,7 @@ export default function FaqVideoList() {
             transitionDelay: visible ? '250ms' : '0ms',
           }}
         >
-          Bạn Có Thắc Mắc? Chúng Tôi Có <em className="font-normal italic text-[#006400]">Câu Trả Lời</em>.
+          {t('Bạn Có Thắc Mắc? Chúng Tôi Có')} <em className="font-normal italic text-[#006400]">{t('Câu Trả Lời')}</em>.
         </h2>
 
         {/* Rows */}
@@ -186,7 +188,7 @@ export default function FaqVideoList() {
                 >
                   <span className="w-[26px] flex-shrink-0 text-[11px] font-semibold text-neutral-900/40">({num})</span>
                   <span className="flex-1 text-[16px] font-semibold text-neutral-900 transition-colors duration-300 sm:text-[19px] md:text-[21px]">
-                    {item.question}
+                    {t(item.question)}
                   </span>
 
                   {/* Mobile-only compact play affordance (no hover on touch) */}
@@ -221,7 +223,7 @@ export default function FaqVideoList() {
                     type="button"
                     onClick={() => setOpenIndex(i)}
                     className="pointer-events-auto relative block h-[112px] w-[168px] overflow-hidden rounded-[20px] shadow-[0_18px_36px_rgba(0,60,20,0.28)] lg:h-[128px] lg:w-[192px]"
-                    aria-label={`Xem video: ${item.question}`}
+                    aria-label={`${t('Xem video:')} ${t(item.question)}`}
                     tabIndex={isHovered ? 0 : -1}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -252,7 +254,7 @@ export default function FaqVideoList() {
             <button
               type="button"
               onClick={() => setOpenIndex(null)}
-              aria-label="Đóng video"
+              aria-label={t('Đóng video')}
               className="absolute -top-[46px] right-0 flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-200 hover:bg-white/20"
             >
               <svg viewBox="0 0 24 24" fill="none" className="h-[18px] w-[18px]">
@@ -274,7 +276,7 @@ export default function FaqVideoList() {
               />
             </div>
             <p className="mt-[14px] text-center text-[14px] font-medium text-white/70">
-              {ITEMS[openIndex].question}
+              {t(ITEMS[openIndex].question)}
             </p>
           </div>
         </div>

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useIsMobile } from '@/lib/use-is-mobile';
+import { useForcePlayVideo } from '@/lib/use-force-play-video';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 const POSTER = '/video-posters/2021-2.jpg';
 
@@ -13,47 +15,27 @@ const NAV_LINKS = ['Trang chủ', 'Về chúng tôi', 'Giải pháp', 'Nhà đ�
 
 const SLIDES = [
   {
-    title: (
-      <>
-        Nghiên cứu &amp; Giống cây trồng
-      </>
-    ),
+    title: 'Nghiên cứu & Giống cây trồng',
     subhead:
       'Tìm kiếm, tuyển chọn, thử nghiệm và phát triển những bộ giống có khả năng thích nghi và tạo giá trị cao trong điều kiện sản xuất thực tế.',
   },
   {
-    title: (
-      <>
-        Sản xuất quy mô lớn
-      </>
-    ),
+    title: 'Sản xuất quy mô lớn',
     subhead:
       'Trang trại là nơi thử nghiệm công nghệ, chuẩn hóa quy trình, đào tạo con người, thu thập dữ liệu và kiểm chứng ý tưởng trước khi nhân rộng.',
   },
   {
-    title: (
-      <>
-        Liên kết sản xuất
-      </>
-    ),
+    title: 'Liên kết sản xuất',
     subhead:
       'Chuẩn hóa và chuyển giao những quy trình đã kiểm chứng thành công cho các hợp tác xã, doanh nghiệp và nông dân liên kết.',
   },
   {
-    title: (
-      <>
-        Sau thu hoạch &amp; Chế biến
-      </>
-    ),
+    title: 'Sau thu hoạch & Chế biến',
     subhead:
       'Xử lý, đóng gói, kiểm soát chuỗi lạnh và chế biến chuyên sâu nhằm giữ trọn giá trị nông sản và đáp ứng tiêu chuẩn khắt khe của thị trường.',
   },
   {
-    title: (
-      <>
-        Tiếp nhận ý kiến thị trường
-      </>
-    ),
+    title: 'Tiếp nhận ý kiến thị trường',
     subhead:
       'Lấy phản hồi và tiêu chuẩn kỹ thuật từ thị trường quay trở lại định hướng quy trình thu hoạch, canh tác, chọn giống và nghiên cứu.',
   },
@@ -69,8 +51,11 @@ export default function AgroviaHero() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [slide, setSlide] = useState(0);
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useForcePlayVideo(videoRef);
 
   /* ---- headline auto-rotate ---- */
   const startAutoRotate = () => {
@@ -109,6 +94,7 @@ export default function AgroviaHero() {
       />
       {(
         <video
+          ref={videoRef}
           className="absolute inset-0 -z-30 h-full w-full object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
           autoPlay
           muted
@@ -154,7 +140,7 @@ export default function AgroviaHero() {
               activeNav === i ? 'text-[#87cefa]' : 'text-cream'
             }`}
           >
-            {label}
+            {t(label)}
           </a>
         ))}
       </div>
@@ -175,10 +161,10 @@ export default function AgroviaHero() {
                 }`}
               >
                 <h1 className="uppercase text-[2.3rem] font-medium leading-[1.06] tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-[3rem] lg:text-[3.6rem] [&_em]:font-medium [&_em]:not-italic [&_em]:italic [&_em]:text-[#87cefa]">
-                  {s.title}
+                  {t(s.title)}
                 </h1>
                 <p className="mt-4 max-w-[420px] font-sans text-[1.25rem] font-medium leading-[1.55] text-cream/[0.82] lg:max-w-[540px] lg:text-[1.4rem]">
-                  {s.subhead}
+                  {t(s.subhead)}
                 </p>
               </div>
             ))}
@@ -201,7 +187,7 @@ export default function AgroviaHero() {
           {/* CTAs */}
           <div className="mt-7 flex animate-rise-in flex-wrap gap-3.5 font-sans opacity-0 [animation-delay:.55s]">
             <button className="group inline-flex items-center gap-2.5 rounded-full border border-[#87cefa] bg-[#87cefa] px-6 py-3.5 text-[0.92rem] font-bold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0_12px_26px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[.97]">
-              Hợp Tác Cùng Unifarm
+              {t('Hợp Tác Cùng Unifarm')}
               <svg
                 width="15"
                 height="15"
@@ -219,7 +205,7 @@ export default function AgroviaHero() {
               </svg>
             </button>
             <button className="rounded-full border border-white/55 bg-transparent px-6 py-3.5 text-[0.92rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:text-ink active:translate-y-0 active:scale-[.97]">
-              Đánh Giá Nông Trại
+              {t('Đánh Giá Nông Trại')}
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * FreshProduceShowcase
@@ -118,6 +119,7 @@ function LeafFlourish() {
 }
 
 function SectionTitle({ visible }: { visible: boolean }) {
+  const { t } = useLanguage();
   return (
     <div
       className="mb-10 text-center transition-all duration-700 ease-out sm:mb-14"
@@ -130,10 +132,10 @@ function SectionTitle({ visible }: { visible: boolean }) {
         <LeafFlourish />
       </div>
       <p className="text-base italic text-[#006400] sm:text-lg">
-        Tiêu chuẩn Unifarm
+        {t('Tiêu chuẩn Unifarm')}
       </p>
       <h2 className="mt-1 text-2xl font-extrabold uppercase tracking-wide text-neutral-900 sm:text-3xl lg:text-[38px]">
-        Chất Lượng Được Xây Dựng Từ Hệ Thống
+        {t('Chất Lượng Được Xây Dựng Từ Hệ Thống')}
       </h2>
     </div>
   );
@@ -148,6 +150,7 @@ function FeatureItem({
   visible: boolean;
   delayMs: number;
 }) {
+  const { t } = useLanguage();
   return (
     <div
       className="group flex flex-col items-center text-center transition-all duration-500 ease-out"
@@ -161,16 +164,17 @@ function FeatureItem({
         <FeatureIcon type={feature.icon} className="h-7 w-7 sm:h-8 sm:w-8" />
       </span>
       <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-neutral-800 transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:text-[#006400] sm:text-base">
-        {feature.title}
+        {t(feature.title)}
       </h3>
       <p className="max-w-[210px] text-xs leading-relaxed text-neutral-500 transition-all duration-500 ease-out group-hover:-translate-y-0.5 sm:text-sm">
-        {feature.desc}
+        {t(feature.desc)}
       </p>
     </div>
   );
 }
 
 export default function FreshProduceShowcase() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -204,7 +208,7 @@ export default function FreshProduceShowcase() {
       <div className="absolute inset-0 -z-10 rounded-full bg-[#87cefa]/20 blur-3xl" />
       <Image
         src={IMAGE_SRC}
-        alt="Nông sản tươi Unifarm"
+        alt={t('Nông sản tươi Unifarm')}
         width={IMAGE_W}
         height={IMAGE_H}
         className="h-auto w-full drop-shadow-[0_30px_55px_rgba(0,60,0,0.28)]"

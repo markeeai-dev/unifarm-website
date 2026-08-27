@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import { ArrowLeft, CalendarDays, Eye, User, Clock, Sparkles } from "lucide-reac
 import type { BlogPost } from "@/lib/db";
 import { TAG_COLOR, DEFAULT_TAG_COLOR } from "@/lib/blog-tags";
 import { Particles, BLOG_DECOR_KEYFRAMES } from "./Decor";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]*>/g, " ");
@@ -20,49 +21,17 @@ function readingTime(html: string) {
 }
 
 export default function BlogDetailClient({ post, related }: { post: BlogPost; related: BlogPost[] }) {
-  const [lang, setLang] = useState<"vi" | "en">("vi");
-  const [translated, setTranslated] = useState<{ title: string; excerpt: string; content: string } | null>(null);
-  const lastTranslatedLang = useRef<string>("");
-
-  const translatePost = useCallback(
-    async (targetLang: string, signal?: AbortSignal) => {
-      if (lastTranslatedLang.current === targetLang) return;
-      try {
-        const res = await fetch("/api/translate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ texts: [post.title, post.excerpt || "", post.content], targetLang }),
-          signal,
-        });
-        if (!res.ok) return;
-        const data = await res.json();
-        const tr: string[] = data.translations;
-        setTranslated({ title: tr[0] || post.title, excerpt: tr[1] || post.excerpt || "", content: tr[2] || post.content });
-        lastTranslatedLang.current = targetLang;
-      } catch {
-        // giữ nguyên tiếng Việt nếu dịch lỗi
-      }
-    },
-    [post]
-  );
-
-  useEffect(() => {
-    const controller = new AbortController();
-    if (lang !== "vi") translatePost(lang, controller.signal);
-    if (lang === "vi") {
-      setTranslated(null);
-      lastTranslatedLang.current = "";
-    }
-    return () => controller.abort();
-  }, [lang, translatePost]);
+  const { tr } = useLanguage();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [post.slug]);
 
-  const isTranslated = lang !== "vi" && translated !== null;
   const mins = readingTime(post.content);
-  const displayContent = isTranslated ? translated.content : post.content;
+  const displayTitle = tr(post.translations, "title", post.title);
+  const displayExcerpt = tr(post.translations, "excerpt", post.excerpt);
+  const displayTag = tr(post.translations, "tag", post.tag);
+  const displayContent = tr(post.translations, "content", post.content);
 
   return (
     <main className="min-h-screen text-gray-900">
@@ -107,7 +76,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
       <section className="relative overflow-hidden">
         {post.cover_image ? (
           <div className="absolute inset-0">
-            <Image src={post.cover_image} alt={post.title} fill priority className="object-cover" />
+            <Image src={post.cover_image} alt={displayTitle} fill priority className="object-cover" />
             <div
               className="absolute inset-0"
               style={{ background: "linear-gradient(180deg, rgba(4,26,12,0.55) 0%, rgba(4,26,12,0.75) 50%, rgba(4,26,12,0.92) 100%)" }}
@@ -138,7 +107,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
               <ArrowLeft className="h-4 w-4" /> Blog
             </Link>
             <span className="text-white/30">/</span>
-            <span className="max-w-[200px] truncate text-sm text-white/40 sm:max-w-[400px]">{post.title}</span>
+            <span className="max-w-[200px] truncate text-sm text-white/40 sm:max-w-[400px]">{displayTitle}</span>
           </motion.div>
 
           <div className="mb-5 flex flex-wrap items-center gap-3">
@@ -149,29 +118,8 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
               className="inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]"
               style={{ background: "rgba(255,255,255,0.12)", color: "#fff", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)" }}
             >
-              {post.tag}
+              {displayTag}
             </motion.div>
-
-            <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 p-1 backdrop-blur-sm">
-              <button
-                type="button"
-                onClick={() => setLang("vi")}
-                className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-colors ${
-                  lang === "vi" ? "bg-white text-[#06301B]" : "text-white/70 hover:text-white"
-                }`}
-              >
-                Tiếng Việt
-              </button>
-              <button
-                type="button"
-                onClick={() => setLang("en")}
-                className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-colors ${
-                  lang === "en" ? "bg-white text-[#06301B]" : "text-white/70 hover:text-white"
-                }`}
-              >
-                English
-              </button>
-            </div>
           </div>
 
           <motion.h1
@@ -181,17 +129,17 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
             className="uppercase mb-5 text-3xl font-black leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl"
             style={{ textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}
           >
-            {isTranslated ? translated.title : post.title}
+            {displayTitle}
           </motion.h1>
 
-          {(isTranslated ? translated.excerpt : post.excerpt) && (
+          {displayExcerpt && (
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mb-6 max-w-2xl text-base font-light leading-relaxed text-white/60 sm:text-lg"
             >
-              {isTranslated ? translated.excerpt : post.excerpt}
+              {displayExcerpt}
             </motion.p>
           )}
 
@@ -350,6 +298,9 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
             <div className="grid gap-7 sm:grid-cols-3">
               {related.map((r) => {
                 const rtc = TAG_COLOR[r.tag] ?? DEFAULT_TAG_COLOR;
+                const rTitle = tr(r.translations, "title", r.title);
+                const rExcerpt = tr(r.translations, "excerpt", r.excerpt);
+                const rTag = tr(r.translations, "tag", r.tag);
                 return (
                   <motion.div key={r.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}>
                     <Link
@@ -361,7 +312,7 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
                         {r.cover_image ? (
                           <Image
                             src={r.cover_image}
-                            alt={r.title}
+                            alt={rTitle}
                             fill
                             sizes="(min-width: 640px) 33vw, 100vw"
                             className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -371,12 +322,12 @@ export default function BlogDetailClient({ post, related }: { post: BlogPost; re
                         )}
                         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.5))" }} />
                         <span className="absolute left-3 top-3 rounded-lg px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em]" style={{ background: rtc.bg, color: rtc.text }}>
-                          {r.tag}
+                          {rTag}
                         </span>
                       </div>
                       <div className="p-5">
-                        <p className="line-clamp-2 text-[15px] font-bold leading-snug text-gray-900 transition group-hover:text-[#006400]">{r.title}</p>
-                        {r.excerpt && <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">{r.excerpt}</p>}
+                        <p className="line-clamp-2 text-[15px] font-bold leading-snug text-gray-900 transition group-hover:text-[#006400]">{rTitle}</p>
+                        {rExcerpt && <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">{rExcerpt}</p>}
                       </div>
                     </Link>
                   </motion.div>

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * NewProductAnnouncement — banner "thông báo sản phẩm mới" cho trang sản phẩm.
@@ -43,6 +44,7 @@ const COUNTDOWN_UNITS: { label: string; key: keyof TimeLeft }[] = [
 ];
 
 export default function NewProductAnnouncement() {
+  const { t } = useLanguage();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, mins: 0, secs: 0 });
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -105,7 +107,7 @@ export default function NewProductAnnouncement() {
         >
           <Image
             src="/images/products/dua-vip.png"
-            alt="Chuối Unifarm"
+            alt={t('Chuối Unifarm')}
             width={1280}
             height={961}
             className="h-auto w-[240px] drop-shadow-[0_30px_40px_rgba(0,60,20,0.18)] sm:w-[360px] lg:w-[460px]"
@@ -122,26 +124,24 @@ export default function NewProductAnnouncement() {
           }}
         >
           <p className="font-serif text-base italic text-[#006400] sm:text-lg">
-            Sản phẩm mới
+            {t('Sản phẩm mới')}
           </p>
           <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-4xl lg:text-[42px]">
-            Thông Báo Sản Phẩm Mới
+            {t('Thông Báo Sản Phẩm Mới')}
           </h2>
 
           <div className="mt-5">
             <p className="text-base font-semibold text-neutral-800 sm:text-lg">
-              Dứa MD2 Unifarm
+              {t('Dứa MD2 Unifarm')}
             </p>
             <p className="mt-1 inline-flex items-center gap-2 text-sm font-bold text-[#006400] sm:text-base">
               <span className="h-2 w-2 rounded-full bg-[#87cefa]" />
-              Sắp ra mắt · Vụ mùa mới
+              {t('Sắp ra mắt · Vụ mùa mới')}
             </p>
           </div>
 
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-600 sm:text-base lg:mx-0">
-            Sản phẩm nông nghiệp mới nhất của Unifarm sắp được giới thiệu đến người
-            tiêu dùng — canh tác theo quy trình khép kín, đạt chuẩn VietGAP và
-            GlobalG.A.P, đảm bảo độ tươi ngon khi đến tay khách hàng.
+            {t('Sản phẩm nông nghiệp mới nhất của Unifarm sắp được giới thiệu đến người tiêu dùng — canh tác theo quy trình khép kín, đạt chuẩn VietGAP và GlobalG.A.P, đảm bảo độ tươi ngon khi đến tay khách hàng.')}
           </p>
 
           {/* Đếm ngược đến ngày ra mắt */}
@@ -155,7 +155,7 @@ export default function NewProductAnnouncement() {
                   {String(timeLeft[unit.key]).padStart(2, '0')}
                 </span>
                 <span className="text-[10px] uppercase tracking-wide text-neutral-500">
-                  {unit.label}
+                  {t(unit.label)}
                 </span>
               </div>
             ))}
@@ -165,7 +165,7 @@ export default function NewProductAnnouncement() {
             type="button"
             className="group mt-8 inline-flex items-center gap-2 border-b-2 border-neutral-900 pb-1 text-xs font-bold uppercase tracking-[0.2em] text-neutral-900 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400]"
           >
-            Tìm hiểu thêm
+            {t('Tìm hiểu thêm')}
             <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </div>

@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/use-is-mobile";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * SmartFarmingShowcase — dùng riêng cho trang /gioi-thieu
@@ -55,6 +56,7 @@ const CHECKLIST = [
 ];
 
 export default function SmartFarmingShowcase() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
   const isMobile = useIsMobile();
@@ -98,7 +100,7 @@ export default function SmartFarmingShowcase() {
           <div className="relative w-full overflow-hidden">
             <img
               src="/images/UNIFARM/1787218973789_1582751505492234802_4935324150679931320_ae20e008b6b700cead007d04eae29597.jpg"
-              alt="Ứng dụng công nghệ cao trong nông nghiệp"
+              alt={t("Ứng dụng công nghệ cao trong nông nghiệp")}
               className="kb-zoom h-[360px] w-full object-cover sm:h-[460px] lg:h-[620px]"
             />
             {/* soft bottom gradient so pills stay legible */}
@@ -113,7 +115,7 @@ export default function SmartFarmingShowcase() {
                       key={i}
                       className="shrink-0 whitespace-nowrap rounded-full bg-white/95 px-4 py-2 text-xs font-semibold tracking-wide text-gray-800 shadow-md"
                     >
-                      {tag}
+                      {t(tag)}
                     </span>
                   ))}
                 </div>
@@ -125,7 +127,7 @@ export default function SmartFarmingShowcase() {
                       key={i}
                       className="shrink-0 whitespace-nowrap rounded-full bg-white/95 px-4 py-2 text-xs font-semibold tracking-wide text-[#006400] shadow-md"
                     >
-                      {tag}
+                      {t(tag)}
                     </span>
                   ))}
                 </div>
@@ -147,19 +149,18 @@ export default function SmartFarmingShowcase() {
           }}
         >
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#87CEFA]">
-            Công nghệ phục vụ con người
+            {t("Công nghệ phục vụ con người")}
           </span>
 
           <h2 className="uppercase mt-3 text-4xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-5xl lg:text-[42px]">
-            Kết Hợp Công Nghệ Và Con Người,
-
-            Tạo Nên <span className="text-[#006400]">Năng Suất Vượt Trội</span>
+            {t("Kết Hợp Công Nghệ Và Con Người, Tạo Nên")}{" "}
+            <span className="text-[#006400]">{t("Năng Suất Vượt Trội")}</span>
           </h2>
 
           <p className="mt-5 text-justify text-[20px] leading-relaxed text-gray-500">
-            Chúng tôi không dùng công nghệ để thay thế người nông dân, mà dùng
-            để giúp họ hiểu cây trồng sâu hơn, kiểm soát rủi ro tốt hơn và tạo
-            ra nhiều giá trị hơn trên mỗi cánh đồng.
+            {t(
+              "Chúng tôi không dùng công nghệ để thay thế người nông dân, mà dùng để giúp họ hiểu cây trồng sâu hơn, kiểm soát rủi ro tốt hơn và tạo ra nhiều giá trị hơn trên mỗi cánh đồng."
+            )}
           </p>
 
           <ul className="mt-7 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
@@ -180,7 +181,7 @@ export default function SmartFarmingShowcase() {
                     </svg>
                   </span>
                   <span className="text-2sm font-medium text-gray-700">
-                    {item}
+                    {t(item)}
                   </span>
                 </li>
               ))
@@ -214,7 +215,7 @@ export default function SmartFarmingShowcase() {
                 </svg>
               </span>
               <span className="text-2sm font-semibold tracking-wide text-gray-800 transition-colors duration-300 group-hover:text-[#006400]">
-                Khám Phá Giải Pháp
+                {t("Khám Phá Giải Pháp")}
               </span>
             </button>
           </div>

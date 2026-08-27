@@ -23,6 +23,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const VIEWPORT = { once: false, amount: 0.35 } as const;
@@ -188,6 +189,7 @@ export default function HanhTrinhNongSanXanh() {
 
 function HeaderBlock() {
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
   return (
     <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
       <motion.p
@@ -198,7 +200,7 @@ function HeaderBlock() {
         className="text-xs font-bold uppercase tracking-[0.32em]"
         style={{ color: C.green }}
       >
-        Hành trình đồng hành cùng nông dân
+        {t("Hành trình đồng hành cùng nông dân")}
       </motion.p>
 
       <motion.h2
@@ -209,9 +211,9 @@ function HeaderBlock() {
         className="uppercase mt-4 max-w-4xl text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] sm:text-5xl lg:text-6xl"
         style={{ color: C.forest }}
       >
-        Tư vấn <span style={{ color: C.soft }}>→</span> Cung ứng{" "}
-        <span style={{ color: C.soft }}>→</span> Chuyển giao{" "}
-        <span style={{ color: C.soft }}>→</span> Trải nghiệm
+        {t("Tư vấn")} <span style={{ color: C.soft }}>→</span> {t("Cung ứng")}{" "}
+        <span style={{ color: C.soft }}>→</span> {t("Chuyển giao")}{" "}
+        <span style={{ color: C.soft }}>→</span> {t("Trải nghiệm")}
       </motion.h2>
 
       <motion.div
@@ -318,6 +320,7 @@ function ImageReveal({ src, alt }: { src: string; alt: string }) {
 /* ------------------------------------------------------------------ */
 
 function ContentBlock({ service, slideFromRight }: { service: Service; slideFromRight: boolean }) {
+  const { t } = useLanguage();
   const variants: Variants = {
     hidden: { opacity: 0, x: slideFromRight ? 60 : -60 },
     show: (delay: number = 0) => ({
@@ -350,7 +353,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         className="mt-3 text-2xl font-extrabold uppercase leading-[1.15] tracking-tight sm:text-3xl lg:text-[2rem]"
         style={{ color: C.forest }}
       >
-        {service.title}
+        {t(service.title)}
       </motion.h3>
 
       <motion.p
@@ -362,7 +365,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         className="mt-4 text-base font-semibold leading-relaxed"
         style={{ color: C.fresh }}
       >
-        {service.description}
+        {t(service.description)}
       </motion.p>
 
       <motion.ul
@@ -376,7 +379,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         {service.bullets.map((b) => (
           <li key={b} className="flex gap-2.5 text-sm leading-relaxed text-neutral-600">
             <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ background: C.blue }} />
-            {b}
+            {t(b)}
           </li>
         ))}
       </motion.ul>
@@ -396,7 +399,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
               <span className="text-lg font-black" style={{ color: C.green }}>
                 {s.number}
               </span>
-              <span className="text-sm font-medium text-neutral-600">{s.label}</span>
+              <span className="text-sm font-medium text-neutral-600">{t(s.label)}</span>
             </div>
           ))}
         </motion.div>
@@ -412,9 +415,9 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         style={{ borderColor: "rgba(6,59,36,0.12)" }}
       >
         <span className="font-bold uppercase tracking-wide" style={{ color: C.ink }}>
-          {service.highlight.label}:
+          {t(service.highlight.label)}:
         </span>{" "}
-        <span className="text-neutral-600">{service.highlight.value}</span>
+        <span className="text-neutral-600">{t(service.highlight.value)}</span>
       </motion.div>
 
       <motion.button
@@ -427,7 +430,7 @@ function ContentBlock({ service, slideFromRight }: { service: Service; slideFrom
         className="group mt-7 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white shadow-md transition-transform duration-300 hover:-translate-y-0.5"
         style={{ background: C.green }}
       >
-        {service.cta}
+        {t(service.cta)}
         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
       </motion.button>
     </div>

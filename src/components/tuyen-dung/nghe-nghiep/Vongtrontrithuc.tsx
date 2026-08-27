@@ -3,6 +3,7 @@
 import { GraduationCap, Sprout, Users } from "lucide-react";
 import Image from "next/image";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const MODELS = [
   {
@@ -32,15 +33,16 @@ const MODELS = [
 ];
 
 export default function VongTronTriThuc() {
+  const { t } = useLanguage();
   return (
     <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 lg:py-20">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Đào tạo & Cộng đồng
+            {t("Đào tạo & Cộng đồng")}
           </p>
           <h2 className="uppercase mt-2 text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
-            Vòng Tròn Tri Thức: Trường – Nông Trại – Làng
+            {t("Vòng Tròn Tri Thức: Trường – Nông Trại – Làng")}
           </h2>
         </Reveal>
 
@@ -51,7 +53,7 @@ export default function VongTronTriThuc() {
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
                     src={m.image}
-                    alt={m.title}
+                    alt={t(m.title)}
                     fill
                     sizes="(min-width: 1024px) 30vw, 100vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
@@ -71,8 +73,8 @@ export default function VongTronTriThuc() {
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{m.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{m.desc}</p>
+                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{t(m.title)}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(m.desc)}</p>
                 </div>
               </div>
             </Reveal>

@@ -3,6 +3,7 @@
 import { Award, Briefcase, GraduationCap, Sparkles, UserCheck, Users2 } from "lucide-react";
 import Image from "next/image";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const MANAGEMENT_PATH = [
   { icon: Users2, label: "Người lao động" },
@@ -29,6 +30,7 @@ function PathColumn({
   steps: { icon: typeof Users2; label: string }[];
   delayBase: number;
 }) {
+  const { t } = useLanguage();
   return (
     <Reveal delay={delayBase} duration={1} className="h-full">
       <div className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-[0_10px_28px_rgba(15,40,20,0.08)] ring-1 ring-[#06301B]/[0.06] sm:p-8">
@@ -36,7 +38,7 @@ function PathColumn({
           className="text-center text-base font-extrabold uppercase tracking-wide"
           style={{ color }}
         >
-          {title}
+          {t(title)}
         </h3>
 
         <div className="relative mt-8 flex-1 pl-12">
@@ -61,9 +63,9 @@ function PathColumn({
                 >
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-wide" style={{ color: `${color}99` }}>
-                      Bước {i + 1}
+                      {t("Bước")} {i + 1}
                     </p>
-                    <p className="text-sm font-semibold text-[#06301B]">{step.label}</p>
+                    <p className="text-sm font-semibold text-[#06301B]">{t(step.label)}</p>
                   </div>
                 </div>
               </div>
@@ -76,19 +78,21 @@ function PathColumn({
 }
 
 export default function LoTrinh() {
+  const { t } = useLanguage();
   return (
     <section className="py-14 md:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Hai con đường phát triển sự nghiệp
+            {t("Hai con đường phát triển sự nghiệp")}
           </p>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            2 Lộ Trình Phát Triển Bình Đẳng
+            {t("2 Lộ Trình Phát Triển Bình Đẳng")}
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-[#06301B]/65 sm:text-[15px]">
-            Không phải ai giỏi cũng cần làm quản lý. Một tổ chức mạnh cần rất nhiều
-            người giỏi nghề.
+            {t(
+              "Không phải ai giỏi cũng cần làm quản lý. Một tổ chức mạnh cần rất nhiều người giỏi nghề."
+            )}
           </p>
         </Reveal>
 
@@ -96,7 +100,7 @@ export default function LoTrinh() {
           <div className="relative mx-auto mt-10 aspect-[21/9] w-full max-w-4xl overflow-hidden rounded-3xl shadow-[0_25px_60px_-22px_rgba(15,40,20,0.35)]">
             <Image
               src="/images/UNIFARM/DJI_20260805085036_0330_D.JPG"
-              alt="Đội ngũ Unifarm cùng nhau trưởng thành trong nghề nông nghiệp"
+              alt={t("Đội ngũ Unifarm cùng nhau trưởng thành trong nghề nông nghiệp")}
               fill
               sizes="(min-width: 1024px) 60vw, 100vw"
               className="object-cover"
@@ -107,13 +111,13 @@ export default function LoTrinh() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12">
           <PathColumn
-            title="Con đường quản lý"
+            title={"Con đường quản lý"}
             color="#006400"
             steps={MANAGEMENT_PATH}
             delayBase={0}
           />
           <PathColumn
-            title="Con đường chuyên môn"
+            title={"Con đường chuyên môn"}
             color="#0B7A0B"
             steps={EXPERT_PATH}
             delayBase={0.15}

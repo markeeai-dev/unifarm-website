@@ -13,6 +13,7 @@ import {
   Truck,
 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * DuanContactForm — Section 4 "Bắt Đầu Dự Án Nông Nghiệp Cùng Unifarm"
@@ -67,6 +68,7 @@ export default function DuanContactForm() {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLanguage();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -94,17 +96,18 @@ export default function DuanContactForm() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.32em]" style={{ color: C.green }}>
-            Cùng Unifarm hợp tác phát triển
+            {t("Cùng Unifarm hợp tác phát triển")}
           </p>
           <h2
             className="uppercase mt-4 text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl"
             style={{ color: C.forest }}
           >
-            Bắt Đầu Dự Án Nông Nghiệp Cùng Unifarm
+            {t("Bắt Đầu Dự Án Nông Nghiệp Cùng Unifarm")}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed sm:text-lg" style={{ color: C.fresh }}>
-            Gửi thông tin nông trại hoặc nhu cầu hợp tác của bạn, đội ngũ chuyên gia Unifarm
-            sẽ liên hệ tư vấn và khảo sát thực địa trong vòng 24h - 48h làm việc.
+            {t(
+              "Gửi thông tin nông trại hoặc nhu cầu hợp tác của bạn, đội ngũ chuyên gia Unifarm sẽ liên hệ tư vấn và khảo sát thực địa trong vòng 24h - 48h làm việc."
+            )}
           </p>
         </div>
 
@@ -113,7 +116,7 @@ export default function DuanContactForm() {
           <div className="relative hidden overflow-hidden lg:block">
             <Image
               src="/images/UNIFARM/DSC00385.jpg"
-              alt="Nông trường Unifarm — sẵn sàng đồng hành cùng nông dân và đối tác"
+              alt={t("Nông trường Unifarm — sẵn sàng đồng hành cùng nông dân và đối tác")}
               fill
               sizes="35vw"
               className="object-cover"
@@ -121,7 +124,7 @@ export default function DuanContactForm() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#063B24]/92 via-[#063B24]/55 to-[#063B24]/10" />
             <div className="relative flex h-full flex-col justify-end gap-5 p-8">
               <p className="text-2xl font-extrabold leading-snug text-white">
-                Đồng hành cùng hơn một thập kỷ phát triển nông nghiệp bền vững
+                {t("Đồng hành cùng hơn một thập kỷ phát triển nông nghiệp bền vững")}
               </p>
               <ul className="space-y-3.5">
                 {HIGHLIGHTS.map(({ icon: Icon, text }) => (
@@ -129,7 +132,7 @@ export default function DuanContactForm() {
                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25">
                       <Icon size={15} strokeWidth={1.8} />
                     </span>
-                    {text}
+                    {t(text)}
                   </li>
                 ))}
               </ul>
@@ -140,14 +143,14 @@ export default function DuanContactForm() {
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl lg:hidden">
             <Image
               src="/images/UNIFARM/16.JPG"
-              alt="Nông trường Unifarm — sẵn sàng đồng hành cùng nông dân và đối tác"
+              alt={t("Nông trường Unifarm — sẵn sàng đồng hành cùng nông dân và đối tác")}
               fill
               sizes="100vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#063B24]/85 via-transparent to-transparent" />
             <p className="absolute inset-x-0 bottom-0 p-5 text-lg font-extrabold leading-snug text-white">
-              Đồng hành cùng hơn một thập kỷ phát triển nông nghiệp bền vững
+              {t("Đồng hành cùng hơn một thập kỷ phát triển nông nghiệp bền vững")}
             </p>
           </div>
 
@@ -159,11 +162,12 @@ export default function DuanContactForm() {
             <div className="flex flex-col items-center gap-3 rounded-xl bg-[#f2fbf2] px-4 py-10 text-center">
               <CheckCircle2 className="h-10 w-10" style={{ color: C.green }} />
               <p className="text-base font-semibold" style={{ color: C.green }}>
-                Đã gửi thông tin khảo sát thành công!
+                {t("Đã gửi thông tin khảo sát thành công!")}
               </p>
               <p className="max-w-sm text-sm text-neutral-500">
-                Cảm ơn bạn đã quan tâm hợp tác cùng Unifarm. Đội ngũ chuyên gia sẽ liên hệ lại
-                trong vòng 24h - 48h làm việc.
+                {t(
+                  "Cảm ơn bạn đã quan tâm hợp tác cùng Unifarm. Đội ngũ chuyên gia sẽ liên hệ lại trong vòng 24h - 48h làm việc."
+                )}
               </p>
             </div>
           ) : (
@@ -171,7 +175,7 @@ export default function DuanContactForm() {
               {/* Họ và tên / Tên doanh nghiệp */}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                  Họ và tên của bạn / Tên Doanh nghiệp – HTX
+                  {t("Họ và tên của bạn / Tên Doanh nghiệp – HTX")}
                 </span>
                 <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                   <Building2 className="h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -180,7 +184,7 @@ export default function DuanContactForm() {
                     name="contactName"
                     value={form.contactName}
                     onChange={handleChange}
-                    placeholder="Nguyễn Văn A / Công ty TNHH ..."
+                    placeholder={t("Nguyễn Văn A / Công ty TNHH ...")}
                     required
                     className="w-full bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                   />
@@ -191,7 +195,7 @@ export default function DuanContactForm() {
               <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-3">
                 <label className="block">
                   <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                    Số điện thoại liên hệ
+                    {t("Số điện thoại liên hệ")}
                   </span>
                   <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                     <Phone className="h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -209,7 +213,7 @@ export default function DuanContactForm() {
 
                 <label className="block">
                   <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                    Email liên hệ
+                    {t("Email liên hệ")}
                   </span>
                   <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                     <MessageSquare className="h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -228,7 +232,7 @@ export default function DuanContactForm() {
               {/* Vị trí khu đất */}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                  Vị trí khu đất / Tỉnh thành &amp; Diện tích dự kiến (ha)
+                  {t("Vị trí khu đất / Tỉnh thành & Diện tích dự kiến (ha)")}
                 </span>
                 <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                   <MapPinned className="h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -237,7 +241,7 @@ export default function DuanContactForm() {
                     name="location"
                     value={form.location}
                     onChange={handleChange}
-                    placeholder="VD: Bình Phước, dự kiến 20 ha"
+                    placeholder={t("VD: Bình Phước, dự kiến 20 ha")}
                     className="w-full bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                   />
                 </div>
@@ -246,7 +250,7 @@ export default function DuanContactForm() {
               {/* Nhu cầu hợp tác */}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                  Nhu cầu hợp tác chính
+                  {t("Nhu cầu hợp tác chính")}
                 </span>
                 <div className="flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                   <ClipboardList className="h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -258,7 +262,7 @@ export default function DuanContactForm() {
                   >
                     {NEEDS.map((n) => (
                       <option key={n} value={n}>
-                        {n}
+                        {t(n)}
                       </option>
                     ))}
                   </select>
@@ -268,7 +272,7 @@ export default function DuanContactForm() {
               {/* Nội dung thêm */}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-                  Nội dung thông tin thêm
+                  {t("Nội dung thông tin thêm")}
                 </span>
                 <div className="flex gap-2.5 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors focus-within:border-[#87cefa] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#87cefa]/50">
                   <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-[#006400]/70" />
@@ -276,7 +280,7 @@ export default function DuanContactForm() {
                     name="message"
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Chia sẻ thêm về khu đất, mô hình hiện tại hoặc mục tiêu hợp tác..."
+                    placeholder={t("Chia sẻ thêm về khu đất, mô hình hiện tại hoặc mục tiêu hợp tác...")}
                     rows={4}
                     className="w-full resize-none bg-transparent text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
                   />
@@ -289,7 +293,7 @@ export default function DuanContactForm() {
                 disabled={submitting}
                 className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:mx-auto sm:px-10"
               >
-                {submitting ? "Đang gửi..." : "Gửi thông tin khảo sát"}
+                {submitting ? t("Đang gửi...") : t("Gửi thông tin khảo sát")}
               </button>
             </form>
           )}

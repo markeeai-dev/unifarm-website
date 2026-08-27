@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * HeThongPhanPhoiBanner — banner đầu trang "Hệ thống phân phối".
@@ -15,6 +16,7 @@ import { useIntroReady } from "@/lib/use-intro-ready";
 export default function HeThongPhanPhoiBanner() {
   const [mounted, setMounted] = useState(false);
   const introReady = useIntroReady();
+  const { t, locale } = useLanguage();
 
   useEffect(() => {
     if (introReady) setMounted(true);
@@ -37,7 +39,7 @@ export default function HeThongPhanPhoiBanner() {
           }`}
         >
           <span className="hpp-badge-dot h-1.5 w-1.5 rounded-full bg-[#FFFACD]" />
-          Unifarm trên toàn quốc
+          {t("Unifarm trên toàn quốc")}
         </span>
 
         <h1
@@ -46,7 +48,13 @@ export default function HeThongPhanPhoiBanner() {
           }`}
           style={{ textShadow: "0 2px 24px rgba(0,0,0,0.75), 0 2px 8px rgba(0,0,0,0.85)" }}
         >
-          Hệ thống <span className="text-[#FFFACD]">phân phối</span>
+          {locale === "vi" ? (
+            <>
+              Hệ thống <span className="text-[#FFFACD]">phân phối</span>
+            </>
+          ) : (
+            t("Hệ thống phân phối")
+          )}
         </h1>
 
         <p
@@ -55,8 +63,9 @@ export default function HeThongPhanPhoiBanner() {
           }`}
           style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.85)" }}
         >
-          Tìm cửa hàng Unifarm gần bạn nhất — nông sản sạch, an toàn, chuẩn
-          truy xuất nguồn gốc, sẵn sàng phục vụ mỗi ngày.
+          {t(
+            "Tìm cửa hàng Unifarm gần bạn nhất — nông sản sạch, an toàn, chuẩn truy xuất nguồn gốc, sẵn sàng phục vụ mỗi ngày."
+          )}
         </p>
       </div>
 

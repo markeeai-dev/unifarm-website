@@ -6,6 +6,13 @@ if (!process.env.DATABASE_URL) {
 
 export const sql = neon(process.env.DATABASE_URL);
 
+/** Bản dịch nội dung admin — khoá ngoài là mã ngôn ngữ đích ("en"|"ja"|"ko"|"zh-TW"),
+ * giá trị là các field đã dịch cùng tên với field gốc trên bản ghi (vd.
+ * translations.en.name). Field nào chưa dịch được (chưa cấu hình API key,
+ * lỗi mạng...) thì không có mặt trong object — phía hiển thị luôn fallback
+ * về tiếng Việt gốc khi thiếu. */
+export type ContentTranslations = Record<string, Record<string, unknown>>;
+
 export type BlogPost = {
   id: string;
   slug: string;
@@ -19,6 +26,7 @@ export type BlogPost = {
   is_featured: boolean;
   view_count: number;
   published_at: string | null;
+  translations: ContentTranslations | null;
   created_at: string;
   updated_at: string;
 };
@@ -38,6 +46,7 @@ export type Product = {
   description: string;
   specs: SpecField[];
   commitments: string[];
+  translations: ContentTranslations | null;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -57,6 +66,7 @@ export type Job = {
   benefit: string;
   deadline_date: string | null;
   tags: string[];
+  translations: ContentTranslations | null;
   status: "active" | "closed";
   sort_order: number;
   created_at: string;
@@ -71,6 +81,7 @@ export type Distributor = {
   address: string;
   hours: string;
   phone: string;
+  translations: ContentTranslations | null;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -87,6 +98,7 @@ export type TimelineMilestone = {
   image: string;
   media: { label: string; video: string }[];
   bottom: string[];
+  translations: ContentTranslations | null;
   sort_order: number;
   created_at: string;
   updated_at: string;

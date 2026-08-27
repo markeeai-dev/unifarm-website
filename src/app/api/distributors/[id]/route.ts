@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const DISTRIBUTOR_TRANSLATE_SPEC: EntitySpec = {
+  name: { kind: "string" },
+};
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -33,6 +38,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   let sortOrder = Number(sort_order);
   if (!sortOrder || sortOrder <= 0) sortOrder = Number(current[0].sort_order);
 
+  const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
+
   const rows = await sql`
     UPDATE distributors SET
       name = ${name},
@@ -41,6 +48,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       address = ${address},
       hours = ${hours || ""},
       phone = ${phone || ""},
+      translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${sortOrder},
       updated_at = now()
     WHERE id::text = ${id}

@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const BLOG_TRANSLATE_SPEC: EntitySpec = {
+  title: { kind: "string" },
+  excerpt: { kind: "string" },
+  tag: { kind: "string" },
+  content: { kind: "html" },
+};
 
 export async function GET(
   _req: NextRequest,
@@ -42,6 +50,11 @@ export async function PATCH(
   if (status === "published" && !publishedAt) publishedAt = new Date().toISOString();
   if (status === "draft") publishedAt = null;
 
+  const translations = await translateEntity(
+    { title, excerpt, tag: tag || "Tin tức", content },
+    BLOG_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     UPDATE blog_posts SET
       title = ${title},
@@ -52,7 +65,8 @@ export async function PATCH(
       author = ${author || "Unifarm"},
       status = ${status || "draft"},
       is_featured = ${!!is_featured},
-      published_at = ${publishedAt}
+      published_at = ${publishedAt},
+      translations = ${JSON.stringify(translations || {})}::jsonb
     WHERE id::text = ${id}
     RETURNING *
   `;

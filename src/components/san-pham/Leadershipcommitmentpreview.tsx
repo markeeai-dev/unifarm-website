@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * LeadershipCommitment
@@ -59,6 +60,7 @@ const SLIDES = [
 const AUTOPLAY_MS = 6000;
 
 export default function LeadershipCommitment() {
+  const { t } = useLanguage();
   const [active, setActive] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -139,20 +141,20 @@ export default function LeadershipCommitment() {
                 <div className="mb-5 h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-full border-[3px] border-[#8CA86E] shadow-sm">
                   <img
                     src={slide.avatar}
-                    alt={slide.name}
+                    alt={t(slide.name)}
                     className="h-full w-full object-cover"
                   />
                 </div>
 
                 <h3 className="uppercase text-lg sm:text-xl font-medium text-neutral-800">
-                  {slide.name}
+                  {t(slide.name)}
                 </h3>
                 <p className="mt-1 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#8CA86E]">
-                  {slide.role}
+                  {t(slide.role)}
                 </p>
 
                 <p className="mt-5 max-w-xl text-[13px] sm:text-[15px] leading-relaxed text-neutral-500">
-                  {slide.quote}
+                  {t(slide.quote)}
                 </p>
               </div>
             ))}

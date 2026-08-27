@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * QuoteSlider — "Những câu nói về nông nghiệp công nghệ cao"
@@ -56,6 +57,7 @@ const SLIDES: Slide[] = [
 const SLIDE_DURATION = 6000; // ms mỗi slide hiển thị
 
 export default function QuoteSlider() {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -117,7 +119,7 @@ export default function QuoteSlider() {
       {/* Content */}
       <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-20">
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#87cefa] sm:text-sm">
-          Góc nhìn về nông nghiệp của lãnh đạo Unifarm
+          {t("Góc nhìn về nông nghiệp của lãnh đạo Unifarm")}
         </p>
 
         {/* Quote mark */}
@@ -137,13 +139,13 @@ export default function QuoteSlider() {
 
         <div key={index} style={{ animation: "qs-fadeup 700ms ease-out both" }}>
           <blockquote className="max-w-3xl text-3xl font-extrabold leading-snug text-white sm:text-2xl sm:leading-tight lg:text-[32px] lg:leading-tight">
-            {SLIDES[index].quote}
+            {t(SLIDES[index].quote)}
           </blockquote>
 
           <div className="mt-8 flex items-center gap-3">
             <span className="h-8 w-1 shrink-0 rounded-full bg-[#87cefa]" />
             <p className="text-sm font-bold uppercase tracking-wider text-[#fffacd] sm:text-base">
-              {SLIDES[index].topic}
+              {t(SLIDES[index].topic)}
             </p>
           </div>
         </div>
@@ -155,7 +157,7 @@ export default function QuoteSlider() {
               key={i}
               type="button"
               onClick={() => goTo(i)}
-              aria-label={`Đi tới slide ${i + 1}`}
+              aria-label={`${t("Đi tới slide")} ${i + 1}`}
               aria-current={i === index}
               className="relative h-1.5 w-9 overflow-hidden rounded-full bg-white/25 transition-colors hover:bg-white/40 sm:w-12"
             >

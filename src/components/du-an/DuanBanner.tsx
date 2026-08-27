@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * DuanBanner — Hero Banner cho trang "Dự Án & Hợp Tác"
@@ -37,6 +39,9 @@ const TEXT_SHADOW = "0 2px 16px rgba(0,20,10,0.55)";
 export default function DuanBanner() {
   const [mounted, setMounted] = useState(false);
   const introReady = useIntroReady();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useForcePlayVideo(videoRef);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (introReady) setMounted(true);
@@ -45,12 +50,13 @@ export default function DuanBanner() {
   return (
     <section
       className="relative w-full overflow-hidden min-h-[1120px] sm:min-h-[860px]"
-      aria-label="Dự án & Hợp tác Unifarm"
+      aria-label={t("Dự án & Hợp tác Unifarm")}
     >
       {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
       <Image src={POSTER} alt="" fill priority sizes="100vw" className="absolute inset-0 object-cover" />
       {(
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
@@ -107,7 +113,7 @@ export default function DuanBanner() {
             >
               <Leaf className="h-3 w-3" strokeWidth={2.5} />
             </span>
-            Hạ tầng &amp; Dự án Unifarm
+            {t("Hạ tầng & Dự án Unifarm")}
           </div>
 
           {/* Tiêu đề chính */}
@@ -117,8 +123,8 @@ export default function DuanBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            Hệ thống nông trường công nghệ cao{" "}
-            <span style={{ color: COLORS.accent }}>&amp; chuỗi giá trị khép kín</span>
+            {t("Hệ thống nông trường công nghệ cao")}{" "}
+            <span style={{ color: COLORS.accent }}>{t("& chuỗi giá trị khép kín")}</span>
           </h1>
 
           {/* Tagline */}
@@ -128,8 +134,7 @@ export default function DuanBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            &ldquo;Unifarm không cần sở hữu mọi cánh đồng. Chúng tôi cùng bạn xây dựng nhiều
-            cánh đồng tốt hơn.&rdquo;
+            &ldquo;{t("Unifarm không cần sở hữu mọi cánh đồng. Chúng tôi cùng bạn xây dựng nhiều cánh đồng tốt hơn.")}&rdquo;
           </p>
 
           {/* Mô tả */}
@@ -139,9 +144,9 @@ export default function DuanBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            Kết nối đồng bộ từ vùng trồng tập trung quy mô 1.694+ ha, ứng dụng công nghệ Sinh
-            học – Tự động hóa – Số hóa, các tổ hợp chế biến sâu sau thu hoạch đến dịch vụ
-            chuyển giao kỹ thuật thực chiến cho nhà nông.
+            {t(
+              "Kết nối đồng bộ từ vùng trồng tập trung quy mô 1.694+ ha, ứng dụng công nghệ Sinh học – Tự động hóa – Số hóa, các tổ hợp chế biến sâu sau thu hoạch đến dịch vụ chuyển giao kỹ thuật thực chiến cho nhà nông."
+            )}
           </p>
 
           {/* Dải thẻ số liệu */}
@@ -163,10 +168,10 @@ export default function DuanBanner() {
                   className="text-xl font-extrabold"
                   style={{ color: "#FFFACD", textShadow: TEXT_SHADOW }}
                 >
-                  {s.value}
+                  {t(s.value)}
                 </div>
                 <div className="mt-1 text-xs font-medium leading-snug text-white/85">
-                  {s.label}
+                  {t(s.label)}
                 </div>
               </div>
             ))}
@@ -187,7 +192,7 @@ export default function DuanBanner() {
               {/* Màu hover kéo từ trái sang phải */}
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                Khám phá dự án
+                {t("Khám phá dự án")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
@@ -204,7 +209,7 @@ export default function DuanBanner() {
               {/* Vệt sáng tự chạy */}
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-                Liên hệ hợp tác
+                {t("Liên hệ hợp tác")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"

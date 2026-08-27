@@ -15,6 +15,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VIEWPORT = { once: false, amount: 0.2 } as const;
@@ -201,13 +202,14 @@ const TAB_IMAGES: Record<string, { src: string; alt: string; tag: string }> = {
 export default function DuanTruCot() {
   const [activeTab, setActiveTab] = useState(0);
   const reduce = useReducedMotion();
+  const { t } = useLanguage();
   const tab = TABS[activeTab];
   const image = TAB_IMAGES[tab.id];
 
   return (
     <section
       id="tru-cot"
-      className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-28"
+      className="relative w-full overflow-visible bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 sm:overflow-hidden sm:py-28"
     >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         {/* Header */}
@@ -219,7 +221,7 @@ export default function DuanTruCot() {
           className="text-xs font-bold uppercase tracking-[0.32em]"
           style={{ color: C.green }}
         >
-          Ba trụ cột hạ tầng Unifarm
+          {t("Ba trụ cột hạ tầng Unifarm")}
         </motion.p>
         <motion.h2
           initial={reduce ? false : { opacity: 0, y: 30 }}
@@ -229,7 +231,7 @@ export default function DuanTruCot() {
           className="mt-4 max-w-3xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl"
           style={{ color: C.forest }}
         >
-          Vùng trồng · Chế biến · Chuyển giao
+          {t("Vùng trồng · Chế biến · Chuyển giao")}
         </motion.h2>
         <motion.div
           initial={reduce ? false : { scaleX: 0 }}
@@ -240,36 +242,55 @@ export default function DuanTruCot() {
           style={{ background: C.green }}
         />
 
-        {/* Tab bar — cuộn ngang trên mobile (3 nhãn dài không đủ chỗ nằm 1
-            hàng ở màn hẹp, tránh bị bể xuống 3 dòng riêng biệt); từ sm trở
-            lên giữ nguyên hàng ngang tự xuống dòng như cũ. */}
-        <div className="relative mt-10">
+        {/* Tab bar — mobile: dải pill cuộn ngang, nền xanh trượt mượt theo
+            tab đang chọn (kiểu segmented control cao cấp hơn gạch chân
+            phẳng). "Dính" lại ngay dưới thanh nav khi cuộn xuống đọc nội
+            dung, để đổi tab không phải cuộn lên lại từ đầu — tự hết dính
+            khi cuộn qua khỏi section này (giới hạn trong khối cha, không
+            đụng section khác). Từ sm trở lên giữ nguyên kiểu gạch chân +
+            tự xuống dòng, nằm yên tại chỗ như cũ, không đổi gì. */}
+        <div className="sticky top-[64px] z-30 -mx-5 mt-6 bg-[#fffde7] px-5 pb-2 pt-1 shadow-[0_10px_16px_-14px_rgba(6,59,36,0.35)] sm:relative sm:top-auto sm:z-auto sm:mx-0 sm:mt-10 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:shadow-none">
           <div
-            className="flex flex-nowrap gap-1 overflow-x-auto border-b [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:gap-2"
+            className="flex flex-nowrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:gap-2 sm:overflow-visible sm:border-b sm:pb-0"
             style={{ borderColor: `${C.forest}18` }}
             role="tablist"
-            aria-label="Ba trụ cột hạ tầng Unifarm"
+            aria-label={t("Ba trụ cột hạ tầng Unifarm")}
           >
-            {TABS.map((t, i) => {
+            {TABS.map((tabItem, i) => {
               const isActive = i === activeTab;
               return (
                 <button
-                  key={t.id}
+                  key={tabItem.id}
                   type="button"
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(i)}
-                  className="relative shrink-0 whitespace-nowrap px-4 py-3 text-xs font-bold uppercase tracking-wide transition-colors sm:px-5 sm:text-sm"
-                  style={{ color: isActive ? C.forest : "#9ca3af" }}
+                  className={`relative shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-xs font-bold uppercase tracking-wide ring-1 transition-colors sm:rounded-none sm:bg-transparent sm:px-5 sm:py-3 sm:text-sm sm:ring-0 ${
+                    isActive
+                      ? "text-white ring-transparent sm:text-[#063B24]"
+                      : "bg-white/70 text-[#063B24] ring-[#063B24]/15 sm:bg-transparent sm:text-[#9ca3af]"
+                  }`}
                 >
-                  <span className="mr-1.5" style={{ color: C.soft }}>
+                  {isActive && (
+                    <motion.span
+                      layoutId="truCotTabPillMobile"
+                      className="absolute inset-0 rounded-full shadow-[0_6px_16px_-4px_rgba(6,59,36,0.55)] sm:hidden"
+                      style={{ background: C.green }}
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span
+                    className={`relative mr-1.5 sm:!text-[#8FBF72] ${
+                      isActive ? "text-[#FFFACD]" : "text-[#8FBF72]"
+                    }`}
+                  >
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  {t.label}
+                  <span className="relative">{t(tabItem.label)}</span>
                   {isActive && (
                     <motion.span
                       layoutId="truCotTabIndicator"
-                      className="absolute inset-x-2 -bottom-px h-[3px] rounded-full"
+                      className="absolute inset-x-2 -bottom-px hidden h-[3px] rounded-full sm:block"
                       style={{ background: C.green }}
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
@@ -286,7 +307,7 @@ export default function DuanTruCot() {
         </div>
 
         {/* Tab content: ảnh minh hoạ (trái) + nội dung (phải) */}
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
           {/* Image panel */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div
@@ -304,7 +325,7 @@ export default function DuanTruCot() {
                 >
                   <Image
                     src={image.src}
-                    alt={image.alt}
+                    alt={t(image.alt)}
                     fill
                     sizes="(min-width: 1024px) 40vw, 100vw"
                     className="object-cover"
@@ -345,11 +366,11 @@ export default function DuanTruCot() {
               transition={{ duration: 0.45, ease: EASE }}
             >
               <p className="max-w-3xl text-base font-semibold leading-relaxed" style={{ color: C.fresh }}>
-                {tab.description}
+                {t(tab.description)}
               </p>
 
               <div
-                className={`mt-8 grid grid-cols-1 gap-5 ${
+                className={`mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:gap-5 ${
                   tab.cards.length === 4 ? "sm:grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-3"
                 }`}
               >
@@ -359,7 +380,7 @@ export default function DuanTruCot() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.08 + ci * 0.08, ease: EASE }}
-                    className="group relative flex flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-[0_2px_14px_rgba(6,59,36,0.07)] ring-1 ring-[#063B24]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-12px_rgba(6,59,36,0.22)]"
+                    className="group relative flex flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[0_2px_14px_rgba(6,59,36,0.07)] ring-1 ring-[#063B24]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-12px_rgba(6,59,36,0.22)] sm:p-6"
                   >
                     <span
                       aria-hidden
@@ -371,15 +392,15 @@ export default function DuanTruCot() {
                       className="uppercase text-lg font-extrabold leading-snug"
                       style={{ color: C.forest }}
                     >
-                      {card.title}
+                      {t(card.title)}
                     </h3>
 
                     {card.meta && (
                       <p className="mt-3 text-sm leading-relaxed">
                         <span className="font-bold uppercase tracking-wide" style={{ color: C.ink }}>
-                          {card.meta.label}:
+                          {t(card.meta.label)}:
                         </span>{" "}
-                        <span className="text-neutral-600">{card.meta.value}</span>
+                        <span className="text-neutral-600">{t(card.meta.value)}</span>
                       </p>
                     )}
 
@@ -391,7 +412,7 @@ export default function DuanTruCot() {
                               className="mt-2 h-1 w-1 shrink-0 rounded-full"
                               style={{ background: C.blue }}
                             />
-                            {b}
+                            {t(b)}
                           </li>
                         ))}
                       </ul>
@@ -407,9 +428,9 @@ export default function DuanTruCot() {
                             />
                             <div>
                               <p className="text-sm font-bold" style={{ color: C.ink }}>
-                                {String(si + 1).padStart(2, "0")}. {s.title}
+                                {String(si + 1).padStart(2, "0")}. {t(s.title)}
                               </p>
-                              <p className="mt-1 text-sm leading-relaxed text-neutral-600">{s.desc}</p>
+                              <p className="mt-1 text-sm leading-relaxed text-neutral-600">{t(s.desc)}</p>
                             </div>
                           </div>
                         ))}

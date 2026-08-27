@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import {
   Microscope,
   Sprout,
@@ -106,6 +107,7 @@ function ProjectCard({
   size: "lg" | "sm";
   inView: boolean;
 }) {
+  const { t } = useLanguage();
   const Icon = project.icon;
 
   // Card 1, 2: nhỏ → lớn
@@ -164,12 +166,12 @@ function ProjectCard({
       <div className="absolute inset-x-4 bottom-4 z-10 rounded-xl bg-white/95 p-5 shadow-lg backdrop-blur-sm md:inset-x-5 md:bottom-5 md:p-6">
         <div className="flex items-start justify-between gap-3">
           <h3 className="uppercase text-lg font-bold leading-snug text-[#006400] md:text-xl">
-            {project.title}
+            {t(project.title)}
           </h3>
 
           <Link
             href="/du-an-hop-tac#hop-tac"
-            aria-label="Liên hệ hợp tác cùng Unifarm"
+            aria-label={t("Liên hệ hợp tác cùng Unifarm")}
             className="arrow-badge relative z-20 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#87cefa]/40 text-[#006400] transition-transform duration-500 ease-out group-hover:rotate-[135deg] group-hover:bg-[#fffacd] md:h-10 md:w-10"
           >
             <ArrowUpRight
@@ -181,14 +183,14 @@ function ProjectCard({
 
         <div className="reveal grid overflow-hidden transition-all duration-500 ease-out">
           <p className="reveal-inner text-sm leading-relaxed text-[#006400]/75">
-            {project.description}
+            {t(project.description)}
           </p>
 
           <Link
             href="/du-an-hop-tac#hop-tac"
             className="relative z-20 mt-3 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[#006400] opacity-0 transition-opacity duration-500 [transition-delay:150ms] group-hover:opacity-100"
           >
-            Khám phá
+            {t("Khám phá")}
             <ArrowUpRight
               className="h-4 w-4"
               strokeWidth={2.5}
@@ -278,6 +280,7 @@ function ProjectCard({
 /* ------------------------------------------------------------------ */
 
 export default function AgricultureProjects() {
+     const { t } = useLanguage();
      const backgroundImage = "/images/nen_vang.jpg";
     const { ref: headerRef, inView: headerInView } =
   useInView<HTMLDivElement>(0.05);
@@ -322,7 +325,7 @@ const { ref: bottomRef, inView: bottomInView } =
                     : "translate-y-5 opacity-0",
                 ].join(" ")}
                 >
-                Lĩnh Vực Hoạt Động
+                {t("Lĩnh Vực Hoạt Động")}
                 </span>
             <h2
                 className={[
@@ -333,8 +336,8 @@ const { ref: bottomRef, inView: bottomInView } =
                     : "translate-y-8 opacity-0 scale-[0.96]",
                 ].join(" ")}
                 >
-                Hệ Sinh Thái Nông Nghiệp
-                <br className="hidden sm:block" /> Công Nghệ Cao
+                {t("Hệ Sinh Thái Nông Nghiệp")}
+                <br className="hidden sm:block" /> {t("Công Nghệ Cao")}
                 </h2>
           </div>
           <p
@@ -346,9 +349,7 @@ const { ref: bottomRef, inView: bottomInView } =
                 : "translate-x-10 opacity-0",
             ].join(" ")}
             >
-            Chúng tôi kiến tạo chuỗi giá trị nông nghiệp khép kín — từ nghiên cứu giống,
-            phát triển vùng trồng, đến chế biến sâu và số hóa toàn diện, đưa nông sản
-            Việt vươn tầm quốc tế.
+            {t("Chúng tôi kiến tạo chuỗi giá trị nông nghiệp khép kín — từ nghiên cứu giống, phát triển vùng trồng, đến chế biến sâu và số hóa toàn diện, đưa nông sản Việt vươn tầm quốc tế.")}
             </p>
         </div>
 

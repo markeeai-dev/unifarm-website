@@ -13,6 +13,7 @@
 
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /* ------------------------------------------------------------------ */
 /* Animation helpers                                                   */
@@ -111,6 +112,7 @@ function Header({
 /* ------------------------------------------------------------------ */
 
 function VisionMission() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
   const reduce = useReducedMotion();
@@ -142,7 +144,7 @@ function VisionMission() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
             src="/images/UNIFARM/UNIFARM/hinh-chinh/IMG_4854.JPG"
-            alt="Tầm nhìn Unifarm"
+            alt={t("Tầm nhìn Unifarm")}
             className="h-full w-full object-cover"
             initial={{ scale: 1.05 }}
             animate={
@@ -175,7 +177,7 @@ function VisionMission() {
               className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.25em] text-[#F4FFE8] backdrop-blur-sm"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[#B7FF6B]" />
-              Đến 2030
+              {t("Đến 2030")}
             </motion.span>
             <motion.h3
               initial={{ opacity: 0, y: 20 }}
@@ -183,7 +185,7 @@ function VisionMission() {
               transition={badgeTiming(1)}
               className="uppercase text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-4xl lg:text-5xl"
             >
-              Tầm nhìn
+              {t("Tầm nhìn")}
             </motion.h3>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -191,8 +193,7 @@ function VisionMission() {
               transition={badgeTiming(2)}
               className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-[22px]"
             >
-              Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu Việt Nam, vươn
-              tầm thế giới.
+              {t("Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu Việt Nam, vươn tầm thế giới.")}
             </motion.p>
             <motion.span
               initial={{ opacity: 0, scaleX: 0 }}
@@ -214,7 +215,7 @@ function VisionMission() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
             src="/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg"
-            alt="Sứ mệnh Unifarm"
+            alt={t("Sứ mệnh Unifarm")}
             className="h-full w-full object-cover"
             initial={{ scale: 1.05 }}
             animate={
@@ -245,7 +246,7 @@ function VisionMission() {
               className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.25em] text-[#F4FFE8] backdrop-blur-sm"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[#B7FF6B]" />
-              Cam kết
+              {t("Cam kết")}
             </motion.span>
             <motion.h3
               initial={{ opacity: 0, y: 20 }}
@@ -253,7 +254,7 @@ function VisionMission() {
               transition={badgeTiming(1)}
               className="uppercase text-3xl font-extrabold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-right sm:text-4xl lg:text-5xl"
             >
-              Sứ mệnh
+              {t("Sứ mệnh")}
             </motion.h3>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -261,8 +262,7 @@ function VisionMission() {
               transition={badgeTiming(2)}
               className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-right sm:text-[22px]"
             >
-              Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người
-              và một hành tinh xanh.
+              {t("Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người và một hành tinh xanh.")}
             </motion.p>
             <motion.span
               initial={{ opacity: 0, scaleX: 0 }}
@@ -298,7 +298,7 @@ function VisionMission() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRztd8dEt6y61-RxCHWiqdEOISvYACyKY2F8Mvu8JYAw&s=10"
-            alt="Hạt giống Unifarm"
+            alt={t("Hạt giống Unifarm")}
             className="h-full w-full object-cover"
           />
           <span className="absolute inset-0 rounded-full shadow-[inset_0_0_0_2px_rgba(0,100,0,0.25)]" />

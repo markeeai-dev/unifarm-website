@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * TuyenDungHero — banner đầu trang Tuyển dụng.
@@ -23,6 +24,7 @@ const STATS = [
 export default function TuyenDungHero() {
   const [mounted, setMounted] = useState(false);
   const introReady = useIntroReady();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (introReady) setMounted(true);
@@ -48,7 +50,7 @@ export default function TuyenDungHero() {
             }`}
           >
             <span className="hero-badge-dot h-1.5 w-1.5 rounded-full bg-[#FFFACD]" />
-            🌱 Gia nhập Unifarm
+            🌱 {t("Gia nhập Unifarm")}
           </span>
 
           <h1
@@ -56,8 +58,8 @@ export default function TuyenDungHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            Cùng nhau tạo giá trị -{" "}
-            <span className="text-[#FFFACD]">cùng nhau phát triển</span>
+            {t("Cùng nhau tạo giá trị -")}{" "}
+            <span className="text-[#FFFACD]">{t("cùng nhau phát triển")}</span>
           </h1>
 
           <p
@@ -65,8 +67,9 @@ export default function TuyenDungHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            Unifarm là nơi bạn không chỉ tìm một công việc, mà tìm một môi trường để phát
-            triển năng lực, tạo ra giá trị và xây dựng hành trình sự nghiệp của riêng mình.
+            {t(
+              "Unifarm là nơi bạn không chỉ tìm một công việc, mà tìm một môi trường để phát triển năng lực, tạo ra giá trị và xây dựng hành trình sự nghiệp của riêng mình."
+            )}
           </p>
 
           <div
@@ -105,8 +108,9 @@ export default function TuyenDungHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            Từ sản xuất, kỹ thuật, kinh doanh đến các bộ phận hỗ trợ – mỗi vị trí đều góp
-            phần tạo nên một Unifarm phát triển bền vững.
+            {t(
+              "Từ sản xuất, kỹ thuật, kinh doanh đến các bộ phận hỗ trợ – mỗi vị trí đều góp phần tạo nên một Unifarm phát triển bền vững."
+            )}
           </p>
 
           <div
@@ -119,7 +123,7 @@ export default function TuyenDungHero() {
               className="inline-flex items-center gap-3 rounded-lg bg-gradient-to-r from-[#006400] to-[#FFFACD] px-5 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,100,0,0.45)] transition-transform duration-300 hover:-translate-y-1 hover:scale-105 sm:px-7"
               style={{ textShadow: "0 1px 3px rgba(6,48,27,0.5)" }}
             >
-              Khám phá cơ hội nghề nghiệp
+              {t("Khám phá cơ hội nghề nghiệp")}
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black/20">
                 <ArrowRight size={14} />
               </span>
@@ -130,7 +134,7 @@ export default function TuyenDungHero() {
               className="inline-flex items-center gap-2.5 rounded-[10px] border border-white/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-[#FFFACD]/60 hover:bg-[#FFFACD]/10"
             >
               <PlayCircle size={17} />
-              Tìm hiểu về Unifarm
+              {t("Tìm hiểu về Unifarm")}
             </a>
           </div>
 

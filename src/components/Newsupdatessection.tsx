@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/lib/use-is-mobile";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * NewsUpdatesSection
@@ -64,6 +65,7 @@ const ARTICLES = [
 ];
 
 export default function NewsUpdatesSection() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
   const isMobile = useIsMobile();
@@ -128,7 +130,7 @@ useEffect(() => {
           opacity: inView ? 1 : 0,
         }}
       >
-        Unifarm – Tri Thức Từ Đồng Ruộng
+        {t("Unifarm – Tri Thức Từ Đồng Ruộng")}
       </h2>
 
       {/* ================= CARDS ================= */}
@@ -190,7 +192,7 @@ useEffect(() => {
               >
                 <img
                   src={a.image}
-                  alt={a.title}
+                  alt={t(a.title)}
                   className="kb-zoom-alt h-[240px] w-full object-cover sm:h-[300px]"
                 />
               </a>
@@ -248,7 +250,7 @@ useEffect(() => {
                       rel="noopener noreferrer"
                       className="transition-colors duration-300 hover:text-[#006400]"
                     >
-                      {a.title}
+                      {t(a.title)}
                     </a>
                   </h3>
 
@@ -264,7 +266,7 @@ useEffect(() => {
                       sm:text-[18px]
                     "
                   >
-                    {a.excerpt}
+                    {t(a.excerpt)}
                   </p>
 
                   {/* BUTTON */}
@@ -315,7 +317,7 @@ useEffect(() => {
                         group-hover:text-[#006400]
                       "
                     >
-                      Xem thêm
+                      {t("Xem thêm")}
                     </span>
                   </a>
 

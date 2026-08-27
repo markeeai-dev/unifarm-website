@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Salad, Cherry, GlassWater, Wheat, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * CategoryShowcase
@@ -123,6 +124,7 @@ function CategoryCard({
   index: number;
   visible: boolean;
 }) {
+  const { t } = useLanguage();
   const { title, count, image, Icon } = category;
 
   return (
@@ -192,7 +194,7 @@ function CategoryCard({
         </span>
 
         <h3 className="uppercase text-base sm:text-lg md:text-xl font-bold tracking-wide">
-          {title}
+          {t(title)}
         </h3>
 
         {/* Count + CTA — hidden by default, revealed only on hover */}
@@ -204,7 +206,7 @@ function CategoryCard({
             group-hover:max-h-6 group-hover:opacity-100 group-hover:translate-y-0
           "
         >
-          - {count} -
+          - {t(count)} -
         </span>
 
         <span
@@ -217,7 +219,7 @@ function CategoryCard({
             group-hover:mt-1
           "
         >
-          Xem sản phẩm
+          {t('Xem sản phẩm')}
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
         </span>
       </div>

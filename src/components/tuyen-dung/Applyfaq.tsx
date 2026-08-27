@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import Reveal from "./Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FAQS = [
   {
@@ -29,16 +30,17 @@ const FAQS = [
 
 export default function ApplyFAQ() {
   const [open, setOpen] = useState(0);
+  const { t } = useLanguage();
 
   return (
     <section className="py-14 md:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            Giải đáp nhanh
+            {t("Giải đáp nhanh")}
           </p>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            Câu hỏi thường gặp
+            {t("Câu hỏi thường gặp")}
           </h2>
         </Reveal>
 
@@ -52,14 +54,14 @@ export default function ApplyFAQ() {
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   className="flex w-full items-center justify-between gap-4 py-5 text-left"
                 >
-                  <span className="text-[15px] font-semibold text-[#06301B]">{item.q}</span>
+                  <span className="text-[15px] font-semibold text-[#06301B]">{t(item.q)}</span>
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#006400] text-white">
                     {isOpen ? <Minus size={14} /> : <Plus size={14} />}
                   </span>
                 </button>
                 {isOpen && (
                   <p className="-mt-2 max-w-2xl pb-5 text-sm leading-relaxed text-[#06301B]/60">
-                    {item.a}
+                    {t(item.a)}
                   </p>
                 )}
               </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircleHeart, Lock, Send, CheckCircle2 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const CATEGORIES = [
   "Môi trường làm việc",
@@ -25,6 +26,7 @@ function FloatingIcon({ children }: { children: React.ReactNode }) {
 }
 
 export default function FeedbackBox() {
+  const { t } = useLanguage();
   const [category, setCategory] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -61,20 +63,21 @@ export default function FeedbackBox() {
               <FloatingIcon>
                 <MessageCircleHeart size={18} />
               </FloatingIcon>
-              Ý kiến của bạn
+              {t("Ý kiến của bạn")}
             </p>
 
             <h2 className="mt-2 text-2xl font-extrabold uppercase leading-snug text-white sm:text-3xl lg:text-4xl">
-              Bạn muốn Unifarm tốt hơn ở điều gì?
+              {t("Bạn muốn Unifarm tốt hơn ở điều gì?")}
             </h2>
 
             <p className="mt-4 text-base font-semibold text-white/90">
-              Hãy nói với chúng tôi.
+              {t("Hãy nói với chúng tôi.")}
             </p>
 
             <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70 sm:text-[15px]">
-              Mọi góp ý đều được tiếp nhận và bảo mật danh tính. Mỗi góc nhìn là một cơ hội
-              để Unifarm tốt hơn.
+              {t(
+                "Mọi góp ý đều được tiếp nhận và bảo mật danh tính. Mỗi góc nhìn là một cơ hội để Unifarm tốt hơn."
+              )}
             </p>
 
             <div className="mt-6 inline-flex items-start gap-3 rounded-xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur-sm">
@@ -82,8 +85,8 @@ export default function FeedbackBox() {
                 <Lock size={14} />
               </span>
               <p className="text-xs leading-relaxed text-white/75 sm:text-sm">
-                Đây là nơi tiếp nhận đóng góp trực tiếp về Unifarm từ nhân viên —
-                bạn <span className="font-semibold text-white">không cần</span> để lại danh tính.
+                {t("Đây là nơi tiếp nhận đóng góp trực tiếp về Unifarm từ nhân viên — bạn")}{" "}
+                <span className="font-semibold text-white">{t("không cần")}</span> {t("để lại danh tính.")}
               </p>
             </div>
           </motion.div>
@@ -113,7 +116,7 @@ export default function FeedbackBox() {
                 >
                   <div>
                     <p className="text-sm font-semibold text-[#06301B]">
-                      Chủ đề góp ý <span className="font-normal text-[#06301B]/40">(không bắt buộc)</span>
+                      {t("Chủ đề góp ý")} <span className="font-normal text-[#06301B]/40">{t("(không bắt buộc)")}</span>
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {CATEGORIES.map((c) => {
@@ -129,7 +132,7 @@ export default function FeedbackBox() {
                                 : "border-[#06301B]/15 bg-white text-[#06301B]/60 hover:border-[#06301B]/40 hover:text-[#06301B]"
                             }`}
                           >
-                            {c}
+                            {t(c)}
                           </button>
                         );
                       })}
@@ -138,7 +141,7 @@ export default function FeedbackBox() {
 
                   <div>
                     <label htmlFor="feedback-message" className="text-sm font-semibold text-[#06301B]">
-                      Góp ý của bạn
+                      {t("Góp ý của bạn")}
                     </label>
                     <textarea
                       id="feedback-message"
@@ -146,7 +149,7 @@ export default function FeedbackBox() {
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Chia sẻ điều bạn nghĩ Unifarm có thể làm tốt hơn…"
+                      placeholder={t("Chia sẻ điều bạn nghĩ Unifarm có thể làm tốt hơn…")}
                       className="mt-2 w-full resize-none rounded-xl border border-[#06301B]/15 bg-white p-4 text-sm leading-relaxed text-[#06301B] outline-none transition-all duration-200 placeholder:text-[#06301B]/35 focus:border-[#06301B] focus:ring-4 focus:ring-[#06301B]/10 sm:text-[15px]"
                     />
                   </div>
@@ -156,7 +159,7 @@ export default function FeedbackBox() {
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#FFFACD] px-6 py-3.5 text-sm font-semibold text-[#06301B] transition-all hover:gap-3 hover:scale-[1.02] sm:w-auto sm:px-8"
                   >
                     <Send size={16} />
-                    Gửi góp ý ẩn danh
+                    {t("Gửi góp ý ẩn danh")}
                   </button>
                 </motion.form>
               ) : (
@@ -178,11 +181,12 @@ export default function FeedbackBox() {
                   </motion.span>
 
                   <h3 className="uppercase mt-5 text-lg font-bold text-[#06301B]">
-                    Cảm ơn bạn đã chia sẻ!
+                    {t("Cảm ơn bạn đã chia sẻ!")}
                   </h3>
                   <p className="mt-2 max-w-xs text-sm leading-relaxed text-[#06301B]/60">
-                    Góp ý của bạn đã được ghi nhận ẩn danh. Đây chính là cách Unifarm
-                    tốt hơn mỗi ngày.
+                    {t(
+                      "Góp ý của bạn đã được ghi nhận ẩn danh. Đây chính là cách Unifarm tốt hơn mỗi ngày."
+                    )}
                   </p>
 
                   <button
@@ -190,7 +194,7 @@ export default function FeedbackBox() {
                     onClick={handleReset}
                     className="mt-6 text-sm font-semibold text-[#006400] transition-colors hover:text-[#06301B] hover:underline underline-offset-4"
                   >
-                    Gửi thêm góp ý khác
+                    {t("Gửi thêm góp ý khác")}
                   </button>
                 </motion.div>
               )}

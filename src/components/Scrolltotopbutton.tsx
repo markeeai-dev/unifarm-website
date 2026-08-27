@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const RADIUS = 19;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export default function ScrollToTopButton() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -39,7 +41,7 @@ export default function ScrollToTopButton() {
     <button
       type="button"
       onClick={scrollToTop}
-      aria-label="Về đầu trang"
+      aria-label={t("Về đầu trang")}
       // Hidden below its resting position by default (translate-y-4) and
       // slides up into place (translate-y-0) once the user has scrolled
       // past the threshold — i.e. it rises up from below as you scroll down.

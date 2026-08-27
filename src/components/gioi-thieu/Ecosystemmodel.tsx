@@ -26,6 +26,7 @@ import {
   Building2,
   Network,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const C = {
   yellow: "#FFFACD",
@@ -169,6 +170,7 @@ function HexPillar({
   icon: Icon,
   tone,
 }: (typeof PILLARS)[number]) {
+  const { t } = useLanguage();
   return (
     <div
       className="hex-cell relative"
@@ -187,10 +189,10 @@ function HexPillar({
           <Icon className="h-7 w-7" strokeWidth={2} />
         </span>
         <h4 className="uppercase text-[15px] font-extrabold leading-snug text-[#06301B] sm:text-base">
-          {title}
+          {t(title)}
         </h4>
         {subtitle ? (
-          <p className="text-[11px] leading-snug text-slate-500 sm:text-[14px] sm:text-[#06301B]">{subtitle}</p>
+          <p className="text-[11px] leading-snug text-slate-500 sm:text-[14px] sm:text-[#06301B]">{t(subtitle)}</p>
         ) : null}
         <span
           className="h-[3px] w-8 rounded-full"
@@ -212,6 +214,7 @@ function MemberNetworkPanel({
   variants: Variants;
   className?: string;
 }) {
+  const { t } = useLanguage();
   return (
     <motion.div
       variants={variants}
@@ -232,14 +235,13 @@ function MemberNetworkPanel({
         className="relative z-10 inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider"
         style={{ background: C.yellow, color: C.green }}
       >
-        Mô hình vận hành
+        {t("Mô hình vận hành")}
       </span>
       <h2 className="uppercase relative z-10 mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-        Vòng Tuần Hoàn Hệ Sinh Thái
+        {t("Vòng Tuần Hoàn Hệ Sinh Thái")}
       </h2>
       <p className="relative z-10 mt-3 max-w-xs text-sm leading-relaxed text-white/75 sm:text-base">
-        Vận hành đồng bộ từ nghiên cứu đến khách hàng và lấy phản hồi thị
-        trường quay lại cải tiến nghiên cứu.
+        {t("Vận hành đồng bộ từ nghiên cứu đến khách hàng và lấy phản hồi thị trường quay lại cải tiến nghiên cứu.")}
       </p>
 
       <div className="relative z-10 my-7 h-px w-16 bg-white/20" />
@@ -252,11 +254,10 @@ function MemberNetworkPanel({
       </span>
 
       <h3 className="uppercase relative z-10 mt-5 text-xl font-extrabold text-white sm:text-2xl">
-        Mạng lưới thành viên &amp; liên kết
+        {t("Mạng lưới thành viên & liên kết")}
       </h3>
       <p className="relative z-10 mt-2 max-w-xs text-sm leading-relaxed text-white/70">
-        Hệ thống công ty thành viên phối hợp xuyên suốt trong toàn chuỗi
-        giá trị.
+        {t("Hệ thống công ty thành viên phối hợp xuyên suốt trong toàn chuỗi giá trị.")}
       </p>
 
       <ul className="relative z-10 mt-6 flex flex-col items-center gap-2.5">
@@ -270,7 +271,7 @@ function MemberNetworkPanel({
               style={{ color: C.yellow }}
               strokeWidth={2}
             />
-            {name}
+            {t(name)}
           </li>
         ))}
       </ul>
@@ -283,6 +284,7 @@ function MemberNetworkPanel({
 /* ------------------------------------------------------------------ */
 
 export default function EcosystemModel() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement | null>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.15 });
   const v = useRevealVariants();
@@ -313,7 +315,7 @@ export default function EcosystemModel() {
           />
 
           <h3 className="uppercase relative z-10 text-center text-xl font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
-            5 Trụ cột hoạt động
+            {t("5 Trụ cột hoạt động")}
           </h3>
 
           <div className="relative z-10 mt-10 flex flex-col items-center">
@@ -375,7 +377,7 @@ export default function EcosystemModel() {
           />
 
           <h3 className="uppercase relative z-10 text-center text-lg font-extrabold text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.6),0_1px_3px_rgba(0,0,0,0.8)]">
-            5 Trụ cột hoạt động
+            {t("5 Trụ cột hoạt động")}
           </h3>
           <div className="relative z-10 mt-5 grid grid-cols-2 gap-3 sm:grid-cols-2">
             {PILLARS.map((p, i) => (
@@ -396,11 +398,11 @@ export default function EcosystemModel() {
                   <p.icon className="h-6 w-6" strokeWidth={2} />
                 </span>
                 <h4 className="uppercase text-sm font-extrabold leading-snug text-[#06301B]">
-                  {p.title}
+                  {t(p.title)}
                 </h4>
                 {p.subtitle ? (
                   <p className="text-xs leading-snug text-slate-500">
-                    {p.subtitle}
+                    {t(p.subtitle)}
                   </p>
                 ) : null}
               </motion.div>

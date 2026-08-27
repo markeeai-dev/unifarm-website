@@ -4,12 +4,14 @@ import { ArrowRight, Cpu, Gauge, Gem, Wallet, Wrench } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "../Reveal";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FORMULA_STEPS = ["KỸ NĂNG", "NĂNG SUẤT", "GIÁ TRỊ", "THU NHẬP"];
 
 const STEP_ICONS = [Wrench, Gauge, Gem, Wallet];
 
 export default function KyNangThuNhap() {
+  const { t } = useLanguage();
   return (
     <section className="relative overflow-hidden bg-[#06301B] py-16 md:py-20">
       <div className="absolute inset-0">
@@ -36,10 +38,10 @@ export default function KyNangThuNhap() {
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
           <p className="text-sm font-semibold uppercase tracking-wide text-[#F5E98A]">
-            Hiệu quả lao động
+            {t("Hiệu quả lao động")}
           </p>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
-            Kỹ Năng Tạo Ra Thu Nhập
+            {t("Kỹ Năng Tạo Ra Thu Nhập")}
           </h2>
         </Reveal>
 
@@ -61,7 +63,7 @@ export default function KyNangThuNhap() {
                         <Icon size={20} strokeWidth={1.8} />
                       </span>
                       <span className="text-sm font-extrabold tracking-wide text-[#FFFACD] sm:text-base">
-                        {step}
+                        {t(step)}
                       </span>
                     </div>
                   </Reveal>
@@ -99,7 +101,7 @@ export default function KyNangThuNhap() {
           </Reveal>
 
           <p className="mx-auto mt-6 max-w-xl text-center text-sm leading-relaxed text-white/60 sm:text-base">
-            Kỹ năng tốt hơn → Năng suất cao hơn → Giá trị lớn hơn → Thu nhập tốt hơn.
+            {t("Kỹ năng tốt hơn → Năng suất cao hơn → Giá trị lớn hơn → Thu nhập tốt hơn.")}
           </p>
         </div>
 
@@ -112,8 +114,7 @@ export default function KyNangThuNhap() {
             <Cpu size={20} strokeWidth={1.8} />
           </span>
           <p className="text-sm leading-relaxed text-white/70">
-            Công nghệ giúp con người tạo ra nhiều giá trị hơn, không đơn thuần là sự
-            thay thế.
+            {t("Công nghệ giúp con người tạo ra nhiều giá trị hơn, không đơn thuần là sự thay thế.")}
           </p>
         </Reveal>
       </div>

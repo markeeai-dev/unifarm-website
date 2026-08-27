@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 /**
  * HomeTopHeader — thanh điều hướng chính, dính trên cùng khi cuộn.
@@ -75,6 +77,7 @@ export default function HomeTopHeader() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const introReady = useIntroReady();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!introReady) return;
@@ -182,7 +185,7 @@ export default function HomeTopHeader() {
                     transitionDelay: mounted ? `${NAV_ENTRANCE_BASE_MS + i * NAV_ENTRANCE_STAGGER_MS}ms` : "0ms",
                   }}
                 >
-                  {link.label}
+                  {t(link.label)}
                   {link.children && (
                     <svg
                       viewBox="0 0 24 24"
@@ -209,7 +212,7 @@ export default function HomeTopHeader() {
                           className="nav-dropdown-item group/item relative flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] font-medium leading-snug text-[#06301B]/80 transition-colors duration-200 hover:bg-[#f2f9ee] hover:text-[#006400]"
                         >
                           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#87CEFA] transition-all duration-300 group-hover/item:scale-125 group-hover/item:bg-[#006400]" />
-                          <span className="flex-1">{child.label}</span>
+                          <span className="flex-1">{t(child.label)}</span>
                           <svg
                             viewBox="0 0 24 24"
                             className="h-3.5 w-3.5 shrink-0 -translate-x-1 opacity-0 transition-all duration-300 group-hover/item:translate-x-0 group-hover/item:opacity-100"
@@ -229,6 +232,19 @@ export default function HomeTopHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <div
+              className={`origin-right transition-[transform,opacity] duration-300 ease-out ${
+                mounted ? "opacity-100" : "opacity-0"
+              }`}
+              style={{
+                transform: `translateY(${mounted ? 0 : -12}px) scale(${scrolled ? 0.8 : 1})`,
+                transitionDelay: mounted ? "150ms" : "0ms",
+                transitionDuration: mounted ? "300ms" : "700ms",
+              }}
+            >
+              <LanguageSwitcher />
+            </div>
+
             <Link
               href="/#contact"
               className={`hidden origin-right rounded-full bg-[#006400] px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-[box-shadow,transform,opacity] duration-300 ease-out hover:bg-[#004d00] hover:shadow-md sm:inline-flex ${
@@ -240,11 +256,11 @@ export default function HomeTopHeader() {
                 transitionDuration: mounted ? "300ms" : "700ms",
               }}
             >
-              Liên hệ ngay
+              {t("Liên hệ ngay")}
             </Link>
 
             <button
-              aria-label="Mở menu"
+              aria-label={t("Mở menu")}
               onClick={() => setMenuOpen((v) => !v)}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f2f9ee] text-[#006400] transition-transform active:scale-90 lg:hidden"
             >
@@ -287,7 +303,7 @@ export default function HomeTopHeader() {
             />
             <button
               type="button"
-              aria-label="Đóng menu"
+              aria-label={t("Đóng menu")}
               onClick={() => setMenuOpen(false)}
               className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f2f9ee] text-[#006400] transition-transform active:scale-90"
             >
@@ -309,7 +325,7 @@ export default function HomeTopHeader() {
                       }
                       className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-left text-sm font-semibold text-[#06301B]/80 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
                     >
-                      {link.label}
+                      {t(link.label)}
                       <svg
                         viewBox="0 0 24 24"
                         className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${
@@ -338,7 +354,7 @@ export default function HomeTopHeader() {
                             }}
                             className="rounded-lg px-4 py-2 text-[13px] font-medium text-[#06301B]/70 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
                           >
-                            {child.label}
+                            {t(child.label)}
                           </Link>
                         ))}
                       </div>
@@ -351,7 +367,7 @@ export default function HomeTopHeader() {
                     onClick={() => setMenuOpen(false)}
                     className="rounded-xl px-4 py-2.5 text-sm font-semibold text-[#06301B]/80 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>
                 )
               )}
@@ -364,7 +380,7 @@ export default function HomeTopHeader() {
               onClick={() => setMenuOpen(false)}
               className="block rounded-xl bg-[#006400] px-4 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-[#004d00]"
             >
-              Liên hệ ngay
+              {t("Liên hệ ngay")}
             </Link>
           </div>
         </div>

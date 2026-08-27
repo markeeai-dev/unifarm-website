@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 type SlotImage = {
   id: string;
@@ -150,6 +151,7 @@ export default function AgricultureHero() {
   const [slots, setSlots] = useState<SlotImage[]>(INITIAL_SLOTS);
   const [mediaRef, mediaInView] = useInView<HTMLDivElement>(0.2);
   const [contentRef, contentInView] = useInView<HTMLDivElement>(0.2);
+  const { t } = useLanguage();
 
   const handleSwap = useCallback((index: number) => {
     if (index === 0) return;
@@ -176,7 +178,7 @@ export default function AgricultureHero() {
                 <Image
                   key={slots[0].id}
                   src={slots[0].src}
-                  alt={slots[0].alt}
+                  alt={t(slots[0].alt)}
                   fill
                   sizes="(max-width: 640px) 280px, (max-width: 1024px) 360px, 460px"
                   className="agrihero-main-img"
@@ -190,12 +192,12 @@ export default function AgricultureHero() {
               className="agrihero-small-circle-top"
               data-inview={mediaInView}
               onClick={() => handleSwap(1)}
-              aria-label={`Xem ảnh lớn: ${slots[1].alt}`}
+              aria-label={`Xem ảnh lớn: ${t(slots[1].alt)}`}
             >
               <Image
                 key={slots[1].id}
                 src={slots[1].src}
-                alt={slots[1].alt}
+                alt={t(slots[1].alt)}
                 fill
                 sizes="140px"
                 className="agrihero-small-img"
@@ -207,12 +209,12 @@ export default function AgricultureHero() {
               className="agrihero-small-circle-bottom"
               data-inview={mediaInView}
               onClick={() => handleSwap(2)}
-              aria-label={`Xem ảnh lớn: ${slots[2].alt}`}
+              aria-label={`Xem ảnh lớn: ${t(slots[2].alt)}`}
             >
               <Image
                 key={slots[2].id}
                 src={slots[2].src}
-                alt={slots[2].alt}
+                alt={t(slots[2].alt)}
                 fill
                 sizes="140px"
                 className="agrihero-small-img"
@@ -223,14 +225,12 @@ export default function AgricultureHero() {
 
         {/* CỘT PHẢI — nội dung */}
         <div ref={contentRef} className="agrihero-content-col" data-inview={contentInView}>
-          <span className="agrihero-eyebrow">Triết lý Unifarm</span>
+          <span className="agrihero-eyebrow">{t("Triết lý Unifarm")}</span>
 
-          <h2 className="agrihero-heading uppercase">Đất - Nước – Con Người - Giá Trị.</h2>
+          <h2 className="agrihero-heading uppercase">{t("Đất - Nước – Con Người - Giá Trị.")}</h2>
 
           <p className="agrihero-paragraph">
-            Làm nông nghiệp là yêu Đất – Nước. Chúng tôi hướng tới tạo ra nhiều giá trị
-            hơn trong khi sử dụng tài nguyên hiệu quả hơn, giảm tổn thất và giúp người
-            làm nông nghiệp có cuộc sống tốt hơn.
+            {t("Làm nông nghiệp là yêu Đất – Nước. Chúng tôi hướng tới tạo ra nhiều giá trị hơn trong khi sử dụng tài nguyên hiệu quả hơn, giảm tổn thất và giúp người làm nông nghiệp có cuộc sống tốt hơn.")}
           </p>
 
           {/* Danh sách check-mark và 2 vòng thống kê nằm cùng một hàng */}
@@ -239,7 +239,7 @@ export default function AgricultureHero() {
               {CHECKLIST_ITEMS.map((item, i) => (
                 <li key={item} style={{ transitionDelay: `${2200 + i * 220}ms` }}>
                   <CheckIcon />
-                  <span>{item}</span>
+                  <span>{t(item)}</span>
                 </li>
               ))}
             </ul>
@@ -247,14 +247,14 @@ export default function AgricultureHero() {
             <div className="agrihero-stats">
               <StatRing
                 percent={80}
-                label={'Giảm Lãng Phí –\nTăng Giá Trị'}
+                label={t('Giảm Lãng Phí –\nTăng Giá Trị')}
                 delay={3000}
                 inView={contentInView}
                 tone="green"
               />
               <StatRing
                 percent={100}
-                label={'Tuân thủ tiêu chuẩn\nan toàn & MRL'}
+                label={t('Tuân thủ tiêu chuẩn\nan toàn & MRL')}
                 delay={3300}
                 inView={contentInView}
                 tone="blue"

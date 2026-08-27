@@ -1,4 +1,17 @@
 -- ============================================================
+-- Unifarm — Bản dịch nội dung admin (products/jobs/timeline/
+-- distributors/blog_posts) — cột `translations` được thêm vào các bảng
+-- đã tồn tại qua ALTER TABLE riêng (CREATE TABLE IF NOT EXISTS phía dưới
+-- không tự thêm cột mới vào bảng cũ). Chạy an toàn nhiều lần.
+-- ============================================================
+
+ALTER TABLE IF EXISTS blog_posts        ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
+ALTER TABLE IF EXISTS products          ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
+ALTER TABLE IF EXISTS jobs              ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
+ALTER TABLE IF EXISTS timeline_milestones ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
+ALTER TABLE IF EXISTS distributors      ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
+
+-- ============================================================
 -- Unifarm — Blog Schema (Neon Postgres)
 -- ============================================================
 
@@ -11,6 +24,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   tag           TEXT        DEFAULT 'Tin tức',
   cover_image   TEXT        DEFAULT '',
   author        TEXT        DEFAULT 'Unifarm',
+  translations  JSONB       DEFAULT '{}',
   status        TEXT        DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
   is_featured   BOOLEAN     DEFAULT false,
   view_count    INTEGER     DEFAULT 0,
@@ -55,6 +69,7 @@ CREATE TABLE IF NOT EXISTS products (
   description   TEXT        DEFAULT '',
   specs         JSONB       DEFAULT '[]',
   commitments   JSONB       DEFAULT '[]',
+  translations  JSONB       DEFAULT '{}',
   sort_order    INTEGER     DEFAULT 0,
   created_at    TIMESTAMPTZ DEFAULT now(),
   updated_at    TIMESTAMPTZ DEFAULT now()
@@ -95,6 +110,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   benefit        TEXT        DEFAULT '',
   deadline_date  DATE,
   tags           JSONB       DEFAULT '[]',
+  translations   JSONB       DEFAULT '{}',
   status         TEXT        DEFAULT 'active' CHECK (status IN ('active', 'closed')),
   sort_order     INTEGER     DEFAULT 0,
   created_at     TIMESTAMPTZ DEFAULT now(),
@@ -133,6 +149,7 @@ CREATE TABLE IF NOT EXISTS timeline_milestones (
   image           TEXT        DEFAULT '',
   media           JSONB       DEFAULT '[]',
   bottom          JSONB       DEFAULT '[]',
+  translations    JSONB       DEFAULT '{}',
   sort_order      INTEGER     DEFAULT 0,
   created_at      TIMESTAMPTZ DEFAULT now(),
   updated_at      TIMESTAMPTZ DEFAULT now()
@@ -166,6 +183,7 @@ CREATE TABLE IF NOT EXISTS distributors (
   address     TEXT        NOT NULL,
   hours       TEXT        DEFAULT '',
   phone       TEXT        DEFAULT '',
+  translations JSONB      DEFAULT '{}',
   sort_order  INTEGER     DEFAULT 0,
   created_at  TIMESTAMPTZ DEFAULT now(),
   updated_at  TIMESTAMPTZ DEFAULT now()

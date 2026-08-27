@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Inline chips — small icon / photo bubbles sitting mid-sentence     */
@@ -17,12 +18,13 @@ function IconChip() {
 }
 
 function PhotoChip() {
+  const { t } = useLanguage();
   return (
     <span className="relative inline-flex h-[22px] w-[22px] -translate-y-[1px] items-center justify-center overflow-hidden rounded-full align-middle ring-2 ring-lime/70 sm:h-[26px] sm:w-[26px] md:h-[30px] md:w-[30px]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="https://images.unsplash.com/photo-1745239853358-5ab62bc08af2?fm=jpg&q=70&w=160&h=160&fit=crop&auto=format"
-        alt="Nông dân Việt Nam canh tác lúa xanh"
+        alt={t("Nông dân Việt Nam canh tác lúa xanh")}
         className="h-full w-full object-cover"
       />
     </span>
@@ -39,12 +41,32 @@ type Token = { type: 'word'; text: string } | { type: 'chip'; chip: 'icon' | 'ph
 const w = (text: string): Token => ({ type: 'word', text });
 const mkChip = (c: 'icon' | 'photo'): Token => ({ type: 'chip', chip: c });
 
-const ROWS: Token[][] = [
-  [w('Nền'), w('tảng'), w('của'), w('chúng'), w('tôi'), w('được'), w('xây'), w('dựng'), w('để'), w('hỗ'), w('trợ')],
-  [w('nông'), w('dân,'), w('doanh'), w('nghiệp'), w('nông'), w('nghiệp'), mkChip('icon'), w('và'), w('các'), w('nhà')],
-  [w('đổi'), w('mới,'), w('mang'), w('đến'), mkChip('photo'), w('nông'), w('sản'), w('xanh'), w('Việt'), w('Nam')],
-  [w('cùng'), w('những'), w('công'), w('cụ'), w('thực'), w('tiễn'), w('cho'), w('một'), w('tương'), w('lai'), w('bền'), w('vững.')],
-];
+/**
+ * Toàn bộ câu tiêu đề dưới dạng MỘT chuỗi (khoá tra từ điển), thay vì mảng
+ * từ đã tách sẵn — để bản dịch ở các ngôn ngữ khác không bị bẻ gãy ngữ
+ * pháp do tách theo đúng vị trí từ tiếng Việt. `{{icon}}` / `{{photo}}` là
+ * điểm chèn 2 chip minh hoạ giữa câu, giữ nguyên vị trí ở mọi bản dịch.
+ */
+const FULL_HEADLINE =
+  'Nền tảng của chúng tôi được xây dựng để hỗ trợ nông dân, doanh nghiệp nông nghiệp {{icon}} và các nhà đổi mới, mang đến {{photo}} nông sản xanh Việt Nam cùng những công cụ thực tiễn cho một tương lai bền vững.';
+
+const ROW_SIZE = 10; // số từ mỗi "hàng" — chỉ để chia nhóm hiệu ứng so le, không ảnh hưởng ngữ nghĩa
+
+/** Tách câu đã dịch thành các token (từ hoặc chip), rồi chia thành từng nhóm ROW_SIZE từ. */
+function buildRows(sentence: string): Token[][] {
+  const words = sentence.split(/\s+/).filter(Boolean);
+  const tokens: Token[] = words.map((word) => {
+    if (word === '{{icon}}') return mkChip('icon');
+    if (word === '{{photo}}') return mkChip('photo');
+    return w(word);
+  });
+
+  const rows: Token[][] = [];
+  for (let i = 0; i < tokens.length; i += ROW_SIZE) {
+    rows.push(tokens.slice(i, i + ROW_SIZE));
+  }
+  return rows;
+}
 
 const WORD_STAGGER = 16; // ms between each word inside the same row
 const WORD_DURATION = 280; // ms — each word's own rise-up time
@@ -60,8 +82,6 @@ function buildSchedule(rows: Token[][]) {
     return delays;
   });
 }
-
-const SCHEDULE = buildSchedule(ROWS);
 
 /* ------------------------------------------------------------------ */
 /*  Single reveal token                                                */
@@ -95,6 +115,10 @@ function RevealToken({
 export default function GreenPlatformIntro() {
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useLanguage();
+
+  const rows = useMemo(() => buildRows(t(FULL_HEADLINE)), [t]);
+  const schedule = useMemo(() => buildSchedule(rows), [rows]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -129,15 +153,15 @@ export default function GreenPlatformIntro() {
           }}
         >
           <span className="h-[6px] w-[6px] rounded-full bg-lime-dark" />
-          Nông Sản Xanh Việt Nam
+          {t("Nông Sản Xanh Việt Nam")}
         </div>
 
         {/* Word-by-word, row-by-row reveal heading */}
         <h2 className="uppercase max-w-[1500px] text-[22px] font-medium leading-[1.4] tracking-tight text-ink sm:text-[28px] sm:leading-[1.35] md:text-[34px] md:leading-[1.3] lg:text-[38px] lg:leading-[1.28]">
-          {ROWS.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <span key={rowIndex} className="flex flex-wrap items-center gap-x-[0.32em] gap-y-[4px]">
               {row.map((token, tokenIndex) => {
-                const delay = SCHEDULE[rowIndex][tokenIndex];
+                const delay = schedule[rowIndex][tokenIndex];
                 return (
                   <RevealToken key={tokenIndex} visible={visible} delay={delay}>
                     {token.type === 'word' ? token.text : token.chip === 'icon' ? <IconChip /> : <PhotoChip />}
@@ -150,7 +174,7 @@ export default function GreenPlatformIntro() {
 
         {/* Faded continuation line — hints there's more, no animation */}
         <p className="mt-[16px] max-w-[560px] text-[15px] leading-relaxed text-ink/35 sm:mt-[20px] sm:text-[16px]">
-          Từ cánh đồng đến bàn ăn, mọi giá trị đều được lan tỏa mỗi ngày.
+          {t("Từ cánh đồng đến bàn ăn, mọi giá trị đều được lan tỏa mỗi ngày.")}
         </p>
       </div>
     </section>

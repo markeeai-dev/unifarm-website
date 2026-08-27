@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { Product } from '@/lib/db';
+import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
  * ProductsShowcase — "Nông sản Unifarm"
@@ -125,54 +126,181 @@ function PhoneIcon({ className = 'h-4 w-4' }: { className?: string }) {
   );
 }
 
+/** Bỏ dấu tiếng Việt + ký tự đặc biệt để dùng làm tên file PDF an toàn. */
+function slugifyFileName(name: string): string {
+  return (
+    name
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/đ/gi, 'd')
+      .replace(/[^a-zA-Z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
+      .toLowerCase() || 'san-pham'
+  );
+}
+
+/**
+ * Xuất PDF tài liệu sản phẩm (tên, mô tả, bảng thông số, cam kết chất
+ * lượng) từ chính dữ liệu đang hiển thị trên trang — chụp DOM bằng
+ * `html2canvas` thành ảnh rồi nhúng vào PDF (`doc.addImage()`) thay vì
+ * dùng font vẽ chữ trực tiếp của jsPDF, vì font mặc định của jsPDF chỉ
+ * hỗ trợ Latin1/WinAnsi nên không hiển thị đúng dấu tiếng Việt lẫn tiếng
+ * Nhật/Hàn/Trung; chụp ảnh thì chữ hiện đúng y hệt trên mọi ngôn ngữ.
+ */
+async function downloadProductPdf(
+  p: { name: string; subtitle: string; description: string; category: Product['category'] },
+  specs: { label: string; value: string }[],
+  commitments: string[],
+  certBadge: string,
+  categoryLabel: string,
+  t: (text: string) => string
+) {
+  const { jsPDF } = await import('jspdf');
+
+  const plainDescription = p.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+  // jsPDF.html() (qua html2canvas) không capture đúng nội dung nếu đặt
+  // container ở toạ độ âm/position:fixed ngoài màn hình — html2canvas cần
+  // phần tử nằm trong luồng layout bình thường để đo/vẽ đúng. Thay vào đó,
+  // bọc trong 1 wrapper cao 0px + overflow:hidden ở cuối <body> để không
+  // ảnh hưởng bố cục trang nhưng vẫn "thật sự" nằm trong layout.
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'height:0;overflow:hidden;';
+
+  const container = document.createElement('div');
+  container.style.cssText =
+    'width:700px;padding:40px;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;background:#ffffff;box-sizing:border-box;';
+  container.innerHTML = `
+    <div style="border-bottom:4px solid #006400;padding-bottom:16px;margin-bottom:24px;">
+      <div style="font-size:22px;font-weight:800;color:#006400;letter-spacing:1px;">UNIFARM</div>
+      <div style="font-size:11px;color:#666;margin-top:2px;">${t('Tài liệu sản phẩm')}</div>
+    </div>
+    <div style="font-size:12px;color:#006400;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">${categoryLabel}</div>
+    <div style="font-size:26px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">${p.name}</div>
+    ${p.subtitle ? `<div style="font-size:14px;color:#555;margin-bottom:10px;">${p.subtitle}</div>` : ''}
+    <div style="font-size:13px;color:#006400;font-weight:700;margin-bottom:16px;">${certBadge}</div>
+    ${plainDescription ? `<div style="font-size:13px;line-height:1.6;color:#333;margin-bottom:20px;">${plainDescription}</div>` : ''}
+    <div style="font-size:14px;font-weight:700;margin-bottom:8px;">${t('Bảng thông số')}</div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;">
+      <tr style="background:#f0f7ee;">
+        <th style="text-align:left;padding:8px;border:1px solid #ddd;width:40%;">${t('Đặc tính')}</th>
+        <th style="text-align:left;padding:8px;border:1px solid #ddd;">${t('Chi tiết sản phẩm')}</th>
+      </tr>
+      ${specs
+        .map(
+          (row) =>
+            `<tr><td style="padding:8px;border:1px solid #ddd;color:#555;">${row.label}</td><td style="padding:8px;border:1px solid #ddd;font-weight:600;">${row.value}</td></tr>`
+        )
+        .join('')}
+    </table>
+    ${
+      commitments.length
+        ? `<div style="font-size:14px;font-weight:700;margin-bottom:8px;">${t('Cam kết chất lượng')}</div>
+    <ul style="font-size:12px;line-height:1.8;color:#333;margin:0 0 24px 18px;padding:0;">
+      ${commitments.map((c) => `<li>${c}</li>`).join('')}
+    </ul>`
+        : ''
+    }
+    <div style="border-top:1px solid #ddd;padding-top:14px;font-size:11px;color:#777;">
+      <div>Unifarm — (0274) 3889887 — info@unifarm.com.vn</div>
+      <div>158, Đường Ngô Gia Tự, Phường Thủ Dầu Một, Tp. Hồ Chí Minh</div>
+    </div>
+  `;
+  wrapper.appendChild(container);
+  document.body.appendChild(wrapper);
+
+  try {
+    // Dùng html2canvas-pro (bản fork có hỗ trợ hàm màu CSS hiện đại như
+    // oklch()) thay vì html2canvas gốc — Tailwind CSS v4 định nghĩa bảng
+    // màu mặc định bằng oklch(), còn html2canvas gốc không parse được hàm
+    // này và ném lỗi "unsupported color function oklch" khi chụp DOM.
+    const { default: html2canvas } = await import('html2canvas-pro');
+    const canvas = await html2canvas(container, { scale: 2, backgroundColor: '#ffffff' });
+
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const contentWidth = pageWidth - margin * 2;
+    const contentHeightPerPage = pageHeight - margin * 2;
+
+    const imgWidth = contentWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    // Cắt ảnh dài thành từng trang A4 bằng cách vẽ cùng 1 ảnh nhiều lần,
+    // mỗi lần dịch lên trên 1 khoảng bằng chiều cao đã hiển thị ở các
+    // trang trước — cách chuẩn để "phân trang" một ảnh cao hơn 1 trang.
+    // Dùng JPEG (nén có mất mát) thay vì PNG vì nội dung chủ yếu là văn
+    // bản trên nền trắng — PNG không nén tốt trường hợp này nên file
+    // nặng hơn nhiều lần so với JPEG chất lượng cao, cùng độ nét.
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    let heightLeft = imgHeight;
+    let position = margin;
+
+    doc.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+    heightLeft -= contentHeightPerPage;
+
+    while (heightLeft > 0) {
+      position = margin - (imgHeight - heightLeft);
+      doc.addPage();
+      doc.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+      heightLeft -= contentHeightPerPage;
+    }
+
+    doc.save(`${slugifyFileName(p.name)}.pdf`);
+  } finally {
+    document.body.removeChild(wrapper);
+  }
+}
+
 /** Nhãn chứng nhận ngắn theo từng danh mục — hiển thị dưới tên sản phẩm trong bảng chi tiết.
  * Dùng `p.standard` (dữ liệu thật) nếu có, ngược lại rơi về mặc định theo danh mục. */
-function getCertBadge(p: Product) {
+function getCertBadge(p: Product, t: (text: string) => string) {
   if (p.standard) return p.standard;
   switch (p.category) {
     case 'fresh':
-      return 'Đạt tiêu chuẩn xuất khẩu';
+      return t('Đạt tiêu chuẩn xuất khẩu');
     case 'seedling':
-      return 'Đạt chuẩn cây giống sạch bệnh';
+      return t('Đạt chuẩn cây giống sạch bệnh');
     case 'processed':
-      return 'Đạt chuẩn an toàn thực phẩm';
+      return t('Đạt chuẩn an toàn thực phẩm');
     default:
-      return 'Đạt tiêu chuẩn chất lượng cao';
+      return t('Đạt tiêu chuẩn chất lượng cao');
   }
 }
 
 /** Bảng thông số kỹ thuật — dùng `p.specs` (dữ liệu thật) nếu có, ngược lại rơi về
  * bảng mặc định ngắn gọn theo từng nhóm sản phẩm. */
-function getProductSpecs(p: Product): { label: string; value: string }[] {
+function getProductSpecs(p: Product, t: (text: string) => string): { label: string; value: string }[] {
   if (p.specs && p.specs.length > 0) return p.specs;
   switch (p.category) {
     case 'fresh':
       return [
-        { label: 'Giống', value: p.name },
-        { label: 'Độ ngọt (Brix)', value: '13 - 16' },
-        { label: 'Mùa vụ', value: 'Quanh năm' },
-        { label: 'Năng suất', value: '60 - 70 tấn/hecta' },
+        { label: t('Giống'), value: p.name },
+        { label: t('Độ ngọt (Brix)'), value: t('13 - 16') },
+        { label: t('Mùa vụ'), value: t('Quanh năm') },
+        { label: t('Năng suất'), value: t('60 - 70 tấn/hecta') },
       ];
     case 'seedling':
       return [
-        { label: 'Giống', value: p.name },
-        { label: 'Tỷ lệ sống', value: '≥ 95%' },
-        { label: 'Thời gian xuất vườn', value: '45 - 60 ngày' },
-        { label: 'Quy mô cung ứng', value: 'Số lượng lớn theo đơn hàng' },
+        { label: t('Giống'), value: p.name },
+        { label: t('Tỷ lệ sống'), value: t('≥ 95%') },
+        { label: t('Thời gian xuất vườn'), value: t('45 - 60 ngày') },
+        { label: t('Quy mô cung ứng'), value: t('Số lượng lớn theo đơn hàng') },
       ];
     case 'processed':
       return [
-        { label: 'Sản phẩm', value: p.name },
-        { label: 'Hạn sử dụng', value: '12 tháng' },
-        { label: 'Đóng gói', value: 'Túi/hộp tiêu chuẩn xuất khẩu' },
-        { label: 'Chứng nhận', value: 'An toàn thực phẩm' },
+        { label: t('Sản phẩm'), value: p.name },
+        { label: t('Hạn sử dụng'), value: t('12 tháng') },
+        { label: t('Đóng gói'), value: t('Túi/hộp tiêu chuẩn xuất khẩu') },
+        { label: t('Chứng nhận'), value: t('An toàn thực phẩm') },
       ];
     default:
       return [
-        { label: 'Sản phẩm', value: p.name },
-        { label: 'Xuất xứ', value: 'Sản xuất trong nước' },
-        { label: 'Bảo hành', value: 'Theo chính sách nhà cung cấp' },
-        { label: 'Đóng gói', value: 'Theo quy cách tiêu chuẩn' },
+        { label: t('Sản phẩm'), value: p.name },
+        { label: t('Xuất xứ'), value: t('Sản xuất trong nước') },
+        { label: t('Bảo hành'), value: t('Theo chính sách nhà cung cấp') },
+        { label: t('Đóng gói'), value: t('Theo quy cách tiêu chuẩn') },
       ];
   }
 }
@@ -193,8 +321,10 @@ function getGalleryImages(p: Product): string[] {
 /** Ảnh lớn + dải thumbnail bên dưới, bấm để đổi ảnh xem chính — dùng `key={product.id}`
  * ở nơi gọi để state tự reset về ảnh đầu tiên mỗi khi đổi sản phẩm, không cần effect. */
 function ProductGallery({ product }: { product: Product }) {
+  const { tr } = useLanguage();
   const images = getGalleryImages(product);
   const [active, setActive] = useState(images[0]);
+  const name = tr(product.translations, 'name', product.name);
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
@@ -202,7 +332,7 @@ function ProductGallery({ product }: { product: Product }) {
         <img
           key={active}
           src={active}
-          alt={product.name}
+          alt={name}
           className="h-full w-full object-contain"
           style={{ animation: 'ps-fadeUp 320ms ease-out both' }}
         />
@@ -277,8 +407,10 @@ function IconButton({
 }
 
 export default function ProductsShowcase({ products }: { products: Product[] }) {
+  const { t, tr } = useLanguage();
   const [activeCat, setActiveCat] = useState(CATEGORIES[0].id);
   const [selected, setSelected] = useState<Product | null>(null);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [addedId, setAddedId] = useState<string | null>(null);
   const [liked, setLiked] = useState<Set<string>>(new Set());
 
@@ -383,10 +515,10 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
         {/* Heading */}
         <div className="mb-8 text-center sm:mb-10">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#006400] sm:text-sm">
-            Thông số & Quy cách thương mại
+            {t('Thông số & Quy cách thương mại')}
           </p>
           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
-            Danh Mục Cung Ứng Unifarm
+            {t('Danh Mục Cung Ứng Unifarm')}
           </h2>
         </div>
 
@@ -405,7 +537,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                     : 'border-transparent text-neutral-400 hover:text-neutral-700'
                 }`}
               >
-                {c.label}
+                {t(c.label)}
               </button>
             );
           })}
@@ -417,7 +549,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
             — so le theo thứ tự để tạo cảm giác chuyển cảnh sống động. */}
         {displayed.length === 0 ? (
           <p className="py-16 text-center text-sm text-neutral-400">
-            Chưa có sản phẩm phù hợp trong mục này.
+            {t('Chưa có sản phẩm phù hợp trong mục này.')}
           </p>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
@@ -425,6 +557,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
               const justAdded = addedId === p.id;
               const isLiked = liked.has(p.id);
               const scatter = getScatter(p.id);
+              const name = tr(p.translations, 'name', p.name);
 
               return (
                 <div
@@ -457,27 +590,27 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                     <div className="mx-auto flex h-32 items-center justify-center sm:h-40">
                       <img
                         src={p.image}
-                        alt={p.name}
+                        alt={name}
                         className="max-h-full w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-110"
                       />
                     </div>
 
-                    <h3 className="uppercase mt-4 text-[13px] font-bold text-neutral-800 sm:text-sm">{p.name}</h3>
+                    <h3 className="uppercase mt-4 text-[13px] font-bold text-neutral-800 sm:text-sm">{name}</h3>
 
                     {/* Icon liên hệ (bấm được) <-> 3 icon hành động, đổi chỗ cho nhau khi hover, không xô lệch layout */}
                     <div className="relative mt-2 flex h-9 items-center justify-center">
                       <Link
                         href="/#contact"
                         onClick={(e) => e.stopPropagation()}
-                        aria-label={`Liên hệ tư vấn giá ${p.name}`}
+                        aria-label={`Liên hệ tư vấn giá ${name}`}
                         className="absolute inline-flex items-center gap-1.5 rounded-full bg-[#87cefa]/20 px-3 py-1 text-[12px] font-bold text-[#006400] transition-all duration-300 ease-out hover:bg-[#006400] hover:text-[#fffacd] group-hover:scale-0 group-hover:opacity-0 sm:text-[13px]"
                       >
                         <PhoneIcon className="h-3.5 w-3.5" />
-                        Liên hệ
+                        {t('Liên hệ')}
                       </Link>
                       <div className="absolute flex items-center gap-2 scale-75 opacity-0 transition-all duration-300 ease-out group-hover:scale-100 group-hover:opacity-100">
                         <IconButton
-                          label="Xem nhanh"
+                          label={t('Xem nhanh')}
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelected(p);
@@ -486,7 +619,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                           <EyeIcon />
                         </IconButton>
                         <IconButton
-                          label="Thêm vào giỏ hàng"
+                          label={t('Thêm vào giỏ hàng')}
                           active={justAdded}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -496,7 +629,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                           {justAdded ? <CheckIcon /> : <CartIcon />}
                         </IconButton>
                         <IconButton
-                          label="Yêu thích"
+                          label={t('Yêu thích')}
                           active={isLiked}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -516,7 +649,18 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
       </div>
 
       {/* ---------------- PRODUCT DETAIL PANEL ---------------- */}
-      {selected && (
+      {selected && (() => {
+        const s = selected;
+        const translated = {
+          ...s,
+          name: tr(s.translations, 'name', s.name),
+          subtitle: tr(s.translations, 'subtitle', s.subtitle),
+          standard: tr(s.translations, 'standard', s.standard),
+          description: tr(s.translations, 'description', s.description),
+          specs: tr(s.translations, 'specs', s.specs),
+          commitments: tr(s.translations, 'commitments', s.commitments),
+        };
+        return (
         <div
           className="fixed inset-0 z-[999] flex items-center justify-center bg-[#001b0b]/80 px-4 py-8 backdrop-blur-sm sm:px-5"
           onClick={() => setSelected(null)}
@@ -531,47 +675,50 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
             <button
               type="button"
               onClick={() => setSelected(null)}
-              aria-label="Đóng"
-              className="absolute -top-4 -right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-[#006400] text-white shadow-[0_8px_24px_rgba(0,0,0,0.45)] transition-all duration-200 hover:scale-110 hover:bg-[#00520a]"
+              aria-label={t('Đóng')}
+              className="absolute top-3 right-3 z-20 flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-[#006400] text-white shadow-[0_8px_24px_rgba(0,0,0,0.45)] transition-all duration-200 hover:scale-110 hover:bg-[#00520a] sm:top-4 sm:right-4"
             >
               <CloseIcon className="h-5 w-5" />
             </button>
 
             {/* Ảnh sản phẩm — ảnh lớn + dải thumbnail bấm để đổi ảnh xem */}
             <div className="flex min-w-0 items-center justify-center">
-              <ProductGallery key={selected.id} product={selected} />
+              <ProductGallery key={s.id} product={translated} />
             </div>
 
             {/* Chi tiết */}
             <div className="flex min-w-0 flex-col">
               <span className="mb-2 inline-flex w-fit items-center rounded-full bg-[#87cefa]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#006400]">
-                {CATEGORIES.find((c) => c.id === selected.category)?.label}
+                {(() => {
+                  const catLabel = CATEGORIES.find((c) => c.id === s.category)?.label;
+                  return catLabel ? t(catLabel) : null;
+                })()}
               </span>
-              <h3 className="uppercase text-xl font-extrabold text-neutral-900 sm:text-2xl">{selected.name}</h3>
-              {selected.subtitle && (
-                <p className="mt-1 text-sm font-semibold text-neutral-500">{selected.subtitle}</p>
+              <h3 className="uppercase text-xl font-extrabold text-neutral-900 sm:text-2xl">{translated.name}</h3>
+              {translated.subtitle && (
+                <p className="mt-1 text-sm font-semibold text-neutral-500">{translated.subtitle}</p>
               )}
               <p className="mb-4 mt-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#006400] sm:text-sm">
-                <ShieldCheckIcon className="h-4 w-4" /> {getCertBadge(selected)}
+                <ShieldCheckIcon className="h-4 w-4" /> {getCertBadge(translated, t)}
               </p>
 
               <div
                 className="prose-product mb-5 text-sm leading-relaxed text-neutral-600"
-                dangerouslySetInnerHTML={{ __html: selected.description }}
+                dangerouslySetInnerHTML={{ __html: translated.description }}
               />
 
               <hr className="mb-5 border-neutral-100" />
 
               {/* Bảng thông số */}
-              <p className="mb-2 text-sm font-bold text-neutral-900">Bảng thông số</p>
+              <p className="mb-2 text-sm font-bold text-neutral-900">{t('Bảng thông số')}</p>
               <div className="mb-5 overflow-hidden rounded-lg border border-neutral-200">
                 <table className="w-full table-fixed text-left text-xs sm:text-sm">
                   <tbody>
                     <tr className="bg-[#006400]/5">
-                      <th className="w-1/2 px-3 py-2 font-semibold text-neutral-700">Đặc tính</th>
-                      <th className="px-3 py-2 font-semibold text-neutral-700">Chi tiết sản phẩm</th>
+                      <th className="w-1/2 px-3 py-2 font-semibold text-neutral-700">{t('Đặc tính')}</th>
+                      <th className="px-3 py-2 font-semibold text-neutral-700">{t('Chi tiết sản phẩm')}</th>
                     </tr>
-                    {getProductSpecs(selected).map((row, i) => (
+                    {getProductSpecs(translated, t).map((row, i) => (
                       <tr key={row.label} className={i % 2 === 0 ? 'bg-white' : 'bg-[#87cefa]/5'}>
                         <td className="px-3 py-2 text-neutral-500">{row.label}</td>
                         <td className="px-3 py-2 font-medium text-neutral-800">{row.value}</td>
@@ -582,7 +729,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
               </div>
 
               {/* Cam kết chất lượng */}
-              <p className="mb-3 text-sm font-bold text-neutral-900">Cam kết chất lượng</p>
+              <p className="mb-3 text-sm font-bold text-neutral-900">{t('Cam kết chất lượng')}</p>
               <div className="mb-6 grid grid-cols-3 gap-3">
                 {QUALITY_COMMITMENTS.map((c, i) => (
                   <div key={c.label} className="flex flex-col items-center gap-2 text-center">
@@ -590,7 +737,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                       <c.icon className="h-5 w-5" />
                     </span>
                     <span className="text-[11px] leading-snug text-neutral-500">
-                      {selected.commitments?.[i] ?? c.label}
+                      {translated.commitments?.[i] ?? t(c.label)}
                     </span>
                   </div>
                 ))}
@@ -602,20 +749,46 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                   href="/#contact"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3 text-sm font-bold text-[#fffacd] shadow-md transition-colors duration-300 hover:bg-[#00520a]"
                 >
-                  <PhoneIcon /> Liên hệ báo giá sỉ
+                  <PhoneIcon /> {t('Liên hệ báo giá sỉ')}
                 </Link>
-                <Link
-                  href="/#contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-bold text-neutral-700 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400]"
+                <button
+                  type="button"
+                  disabled={pdfLoading}
+                  onClick={async () => {
+                    setPdfLoading(true);
+                    try {
+                      await downloadProductPdf(
+                        translated,
+                        getProductSpecs(translated, t),
+                        translated.commitments?.length
+                          ? translated.commitments
+                          : QUALITY_COMMITMENTS.map((c) => t(c.label)),
+                        getCertBadge(translated, t),
+                        (() => {
+                          const catLabel = CATEGORIES.find((c) => c.id === s.category)?.label;
+                          return catLabel ? t(catLabel) : '';
+                        })(),
+                        t
+                      );
+                    } catch (err) {
+                      console.error('Không tạo được PDF:', err);
+                      window.alert(t('Không thể tạo tài liệu PDF lúc này, vui lòng thử lại.'));
+                    } finally {
+                      setPdfLoading(false);
+                    }
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-bold text-neutral-700 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400] disabled:cursor-wait disabled:opacity-60"
                 >
-                  <DocumentIcon /> Tải tài liệu sản phẩm (PDF)
-                </Link>
-                <p className="text-center text-[11px] text-neutral-400">Thời gian phản hồi nhanh trong 24h</p>
+                  <DocumentIcon />
+                  {pdfLoading ? t('Đang tạo tài liệu…') : t('Tải tài liệu sản phẩm (PDF)')}
+                </button>
+                <p className="text-center text-[11px] text-neutral-400">{t('Thời gian phản hồi nhanh trong 24h')}</p>
               </div>
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
     </section>
   );
 }

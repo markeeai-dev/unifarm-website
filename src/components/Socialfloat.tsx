@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Mail, Phone, MessageCircle } from "lucide-react";
 import type { SVGProps } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 function FacebookGlyph(props: SVGProps<SVGSVGElement>) {
   return (
@@ -123,6 +124,7 @@ const CHANNELS = [
 ];
 
 export default function SocialFloat() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -189,7 +191,7 @@ export default function SocialFloat() {
                       ? undefined
                       : "noopener noreferrer"
                   }
-                  aria-label={c.label}
+                  aria-label={t(c.label)}
                   className={`social-item group relative flex h-10 w-10 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-12 sm:w-12 ${
                     open ? "social-wiggle" : ""
                   }`}
@@ -203,7 +205,7 @@ export default function SocialFloat() {
 
                   {/* Tooltip – nằm trong w-40 nên không bị cắt */}
                   <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-ink px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-md transition-all duration-300 group-hover:mr-3.5 group-hover:opacity-100">
-                    {c.label}
+                    {t(c.label)}
                   </span>
                 </a>
               </div>
@@ -216,7 +218,7 @@ export default function SocialFloat() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Đóng liên hệ" : "Mở liên hệ"}
+        aria-label={open ? t("Đóng liên hệ") : t("Mở liên hệ")}
         aria-expanded={open}
         className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-forest,#1f5c34)] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-14 sm:w-14 ${
           open ? "" : "wiggle-btn"

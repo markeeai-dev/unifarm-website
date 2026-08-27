@@ -2,6 +2,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * FarmQuotesBanner
@@ -47,6 +48,7 @@ const AUTOPLAY_MS = 4500;
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');`;
 
 export default function FarmQuotesBanner() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -114,7 +116,7 @@ export default function FarmQuotesBanner() {
         {/* full-bleed background photo */}
         <img
           src="https://images.unsplash.com/photo-1595855709940-2fb8fe661e0e?auto=format&fit=crop&w=1600&q=80"
-          alt="Người nông dân cầm giỏ rau củ và trái cây tươi"
+          alt={t("Người nông dân cầm giỏ rau củ và trái cây tươi")}
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
 
@@ -180,7 +182,7 @@ export default function FarmQuotesBanner() {
                   inView ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
                 }`}
               >
-                CÂU NÓI TRUYỀN CẢM HỨNG
+                {t("CÂU NÓI TRUYỀN CẢM HỨNG")}
               </span>
 
               <div
@@ -204,7 +206,7 @@ export default function FarmQuotesBanner() {
                             : "-translate-x-10 opacity-0"
                         }`}
                       >
-                        “{q.quote}”
+                        “{t(q.quote)}”
                       </h2>
                       <p
                         className={`mt-4 text-sm font-medium italic tracking-wide text-white/75 transition-all duration-700 ease-out [font-family:'Inter',sans-serif] sm:text-base ${
@@ -213,7 +215,7 @@ export default function FarmQuotesBanner() {
                             : "-translate-x-10 opacity-0"
                         }`}
                       >
-                        — {q.author}
+                        — {t(q.author)}
                       </p>
                     </div>
                   );
@@ -233,7 +235,7 @@ export default function FarmQuotesBanner() {
                            hover:bg-[#87CEFA] hover:text-[#006400]
                            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFACD] focus-visible:ring-offset-2 focus-visible:ring-offset-[#006400]"
               >
-                Khám phá thêm
+                {t("Khám phá thêm")}
               </button>
 
               {/* dot indicators */}
@@ -241,7 +243,7 @@ export default function FarmQuotesBanner() {
                 {QUOTES.map((_, i) => (
                   <button
                     key={i}
-                    aria-label={`Xem câu nói ${i + 1}`}
+                    aria-label={`${t("Xem câu nói")} ${i + 1}`}
                     onClick={() => goTo(i)}
                     className={`h-2 rounded-full transition-all duration-300 ${
                       i === index ? "w-6 bg-[#FFFACD]" : "w-2 bg-white/30 hover:bg-white/50"

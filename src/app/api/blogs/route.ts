@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
+import { translateEntity, type EntitySpec } from "@/lib/translate-content";
+
+const BLOG_TRANSLATE_SPEC: EntitySpec = {
+  title: { kind: "string" },
+  excerpt: { kind: "string" },
+  tag: { kind: "string" },
+  content: { kind: "html" },
+};
 
 function slugify(title: string) {
   return title
@@ -39,12 +47,18 @@ export async function POST(req: NextRequest) {
 
   const publishedAt = status === "published" ? new Date().toISOString() : null;
 
+  const translations = await translateEntity(
+    { title, excerpt, tag: tag || "Tin tức", content },
+    BLOG_TRANSLATE_SPEC
+  );
+
   const rows = await sql`
     INSERT INTO blog_posts
-      (slug, title, excerpt, content, tag, cover_image, author, status, is_featured, published_at)
+      (slug, title, excerpt, content, tag, cover_image, author, status, is_featured, published_at, translations)
     VALUES
       (${slug}, ${title}, ${excerpt || ""}, ${content || ""}, ${tag || "Tin tức"},
-       ${cover_image || ""}, ${author || "Unifarm"}, ${status || "draft"}, ${!!is_featured}, ${publishedAt})
+       ${cover_image || ""}, ${author || "Unifarm"}, ${status || "draft"}, ${!!is_featured}, ${publishedAt},
+       ${JSON.stringify(translations || {})}::jsonb)
     RETURNING *
   `;
 

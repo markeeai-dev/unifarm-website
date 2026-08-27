@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import { Leaf, Recycle, Check } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * AgriTechHero
@@ -77,6 +78,7 @@ const FEATURES = [
 const CHECKLIST = ["Tối ưu hóa từng đơn vị tài nguyên", "Đồng hành cùng nông dân Việt"];
 
 export default function AgriTechHero() {
+  const { t } = useLanguage();
   return (
     <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 md:py-28">
       {/* Khối trang trí nền */}
@@ -123,7 +125,7 @@ export default function AgriTechHero() {
             <div className="ath-zoom relative h-full w-full">
               <Image
                 src="/images/UNIFARM/UNIFARM/peggy_marco-banana-2058196_1920.jpg"
-                alt="Kỹ sư kiểm tra chất lượng nông sản trong nhà kính"
+                alt={t("Kỹ sư kiểm tra chất lượng nông sản trong nhà kính")}
                 fill
                 priority
                 className="object-cover"
@@ -143,7 +145,7 @@ export default function AgriTechHero() {
             <div className="ath-zoom relative h-full w-full" style={{ animationDelay: "0.3s" }}>
               <Image
                 src="/images/UNIFARM/UNIFARM/thaithu007-banana-4671645_1920.jpg"
-                alt="Vùng trồng nông sản ứng dụng công nghệ cao"
+                alt={t("Vùng trồng nông sản ứng dụng công nghệ cao")}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 68vw, 32vw"
@@ -163,7 +165,7 @@ export default function AgriTechHero() {
             className="absolute bottom-[-12px] left-4 z-30 hidden items-center gap-2 bg-white/95 px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-[#006400] shadow-lg backdrop-blur sm:flex"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#006400]" />
-            Hệ sinh thái liên kết
+            {t("Hệ sinh thái liên kết")}
           </motion.div>
         </div>
 
@@ -178,7 +180,7 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="inline-flex items-center rounded-full border border-[#006400]/25 bg-[#f2f9ee] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#006400]"
           >
-            nông nghiệp công nghệ cao Unifarm
+            {t("nông nghiệp công nghệ cao Unifarm")}
           </motion.span>
 
           {/* Tiêu đề 2 dòng — mờ dần trồi lên */}
@@ -190,9 +192,9 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="uppercase mt-5 text-3xl font-extrabold leading-[1.15] text-[#053d05] sm:text-4xl lg:text-[2.75rem]"
           >
-            Từ một trang trại 
+            {t("Từ một trang trại")}
             <br />
-            Đến một hệ sinh thái
+            {t("Đến một hệ sinh thái")}
           </motion.h2>
 
           {/* Thẻ số liệu + 2 mục nổi bật */}
@@ -220,9 +222,9 @@ export default function AgriTechHero() {
                     <f.icon className="h-5 w-5" strokeWidth={2.2} />
                   </span>
                   <div>
-                    <p className="font-bold text-[#053d05]">{f.title}</p>
+                    <p className="font-bold text-[#053d05]">{t(f.title)}</p>
                     <p className="mt-0.5 text-sm leading-snug text-neutral-500">
-                      {f.desc}
+                      {t(f.desc)}
                     </p>
                   </div>
                 </div>
@@ -239,9 +241,7 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="mt-6 text-base leading-relaxed text-neutral-600 sm:text-lg"
           >
-            Câu trả lời không nằm ở riêng một cánh đồng hay một công nghệ, mà
-            nằm trong khả năng kết nối khép kín: Nghiên cứu → Giống → Sản xuất
-            → Liên kết → Sau thu hoạch &amp; Chế biến → Thị trường.
+            {t("Câu trả lời không nằm ở riêng một cánh đồng hay một công nghệ, mà nằm trong khả năng kết nối khép kín: Nghiên cứu → Giống → Sản xuất → Liên kết → Sau thu hoạch & Chế biến → Thị trường.")}
           </motion.p>
 
           {/* Checklist + Nút CTA */}
@@ -260,7 +260,7 @@ export default function AgriTechHero() {
                   className="flex items-center gap-2 text-sm font-medium text-[#053d05] sm:text-base"
                 >
                   <Check className="h-4 w-4 shrink-0 text-[#006400]" strokeWidth={3} />
-                  {item}
+                  {t(item)}
                 </li>
               ))}
             </ul>
@@ -272,7 +272,7 @@ export default function AgriTechHero() {
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border-2 border-[#006400] px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-[#006400] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-transparent hover:text-white hover:shadow-[0_14px_30px_-10px_rgba(0,100,0,0.5)]"
             >
               <span className="absolute inset-0 -z-10 scale-x-0 bg-gradient-to-r from-[#006400] to-[#2E7DC2] transition-transform duration-500 ease-out group-hover:scale-x-100" />
-              Câu chuyện Unifarm
+              {t("Câu chuyện Unifarm")}
               <svg
                 className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                 fill="none"
