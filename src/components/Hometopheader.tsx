@@ -309,14 +309,20 @@ export default function HomeTopHeader() {
           aria-hidden="true"
         />
 
-        {/* Mobile menu — drawer trượt vào từ bên phải kèm zoom nhẹ + mờ dần
-            (chỉ dùng transform/opacity, không đổi layout nên vẫn mượt),
-            thời lượng dài hơn và easing "ease-out-expo" cho cảm giác trôi
-            chứ không giật cứng ở cuối. */}
+        {/* Mobile menu — "sóng vỗ" loang ra từ góc trên-phải (đúng vị trí nút
+            hamburger) bằng clip-path hình tròn giãn dần, thay vì trượt
+            ngang — cảm giác một đợt sóng cuộn nhẹ nhàng loang ra rồi mới
+            "kết tinh" thành khung menu, thay vì bật/trượt cứng. Nội dung
+            bên trong cũng chỉ hiện ra tới đâu sóng loang tới đó vì bị clip
+            theo đúng hình dạng của cha. */}
         <div
-          className={`fixed inset-y-0 right-0 z-[60] flex w-[82%] max-w-sm flex-col bg-white shadow-2xl transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.19,1,0.22,1)] lg:hidden ${
-            menuOpen ? "translate-x-0 scale-100 opacity-100" : "translate-x-full scale-95 opacity-0"
+          className={`fixed inset-y-0 right-0 z-[60] flex w-[82%] max-w-sm flex-col bg-white shadow-2xl transition-[clip-path] duration-[600ms] ease-in-out lg:hidden ${
+            menuOpen ? "" : "pointer-events-none"
           }`}
+          style={{
+            clipPath: menuOpen ? "circle(112% at 100% 0%)" : "circle(0% at 100% 0%)",
+            willChange: "clip-path",
+          }}
         >
           <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
             <Image
@@ -343,10 +349,11 @@ export default function HomeTopHeader() {
               {NAV_LINKS.map((link, i) => {
                 const active = isLinkActive(pathname, link.href);
                 /* Từng mục trồi vào từ phải, so le theo thứ tự mỗi lần mở
-                   drawer — thay vì hiện ra đồng loạt cùng lúc với drawer,
-                   tạo cảm giác chuyển động có chủ đích, "wow" hơn. */
+                   drawer — dàn đều trong khoảng thời gian "sóng" loang ra
+                   (600ms) nên mục cuối cùng vừa hiện xong đúng lúc sóng
+                   loang tới hết khung menu. */
                 const itemStyle = {
-                  transitionDelay: menuOpen ? `${120 + i * 55}ms` : "0ms",
+                  transitionDelay: menuOpen ? `${160 + i * 75}ms` : "0ms",
                 };
                 return link.children ? (
                   <div
