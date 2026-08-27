@@ -25,7 +25,7 @@ export default function HeThongPhanPhoiBanner() {
   return (
     <section className="relative isolate w-full overflow-hidden">
       <div
-        className="relative flex min-h-[62vh] flex-col items-center justify-center px-6 py-16 text-center sm:min-h-[74vh] sm:py-20"
+        className="relative flex min-h-[100dvh] flex-col items-center justify-center px-6 py-16 text-center sm:min-h-[74vh] sm:py-20"
         style={{
           backgroundImage:
             "linear-gradient(rgba(6,48,27,0.15), rgba(6,48,27,0.15)), linear-gradient(90deg, rgba(6,48,27,0.82) 0%, rgba(6,48,27,0.28) 24%, rgba(6,48,27,0.28) 76%, rgba(6,48,27,0.82) 100%), url('/images/UNIFARM/UNIFARM/hinh-chinh/banner-phanphoi.jpg')",

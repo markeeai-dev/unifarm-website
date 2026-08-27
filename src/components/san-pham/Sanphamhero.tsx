@@ -117,7 +117,7 @@ export default function SanPhamHero() {
         />
 
         {/* ================= HERO TEXT (auto-cycling) ================= */}
-        <div className="relative flex h-[640px] flex-col items-center justify-center px-6 text-center sm:h-[760px] md:h-[860px]">
+        <div className="relative flex min-h-[100dvh] flex-col items-center justify-center px-6 text-center sm:h-[760px] sm:min-h-0 md:h-[860px]">
           <span
             className={`mb-4 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-white/85 backdrop-blur-sm transition-all duration-700 ease-out ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"

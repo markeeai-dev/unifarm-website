@@ -298,33 +298,36 @@ export default function HomeTopHeader() {
           </div>
         </div>
 
-        {/* Overlay tối phía sau drawer — bấm để đóng. Thêm kính mờ nhẹ cho
-            cảm giác cao cấp hơn (chỉ bật/tắt khi mở menu, không chạy liên
-            tục theo scroll như thanh nav nên không lo giật). */}
+        {/* Mobile menu — "sóng vỗ" loang ra phủ TOÀN MÀN HÌNH từ góc
+            trên-phải (đúng vị trí nút hamburger) bằng clip-path hình tròn
+            giãn dần, chậm và mượt hơn hẳn kiểu trượt ngang cũ. 145% vừa đủ
+            để hình tròn từ góc phủ hết đường chéo màn hình (căn theo công
+            thức resolve % của clip-path: 100% ≈ 0.707×đường chéo, nên cần
+            ~141.4% mới chạm hết góc xa nhất — làm tròn lên 145%). Vài vòng
+            "vân sóng" lan toả phía sau (RippleRings) chỉ mount khi mở để
+            hiệu ứng lặp lại từ đầu mỗi lần bấm mở. */}
         <div
-          className={`fixed inset-0 z-[60] bg-[#06301B]/55 backdrop-blur-sm transition-opacity duration-300 ease-out lg:hidden ${
-            menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-          onClick={() => setMenuOpen(false)}
-          aria-hidden="true"
-        />
-
-        {/* Mobile menu — "sóng vỗ" loang ra từ góc trên-phải (đúng vị trí nút
-            hamburger) bằng clip-path hình tròn giãn dần, thay vì trượt
-            ngang — cảm giác một đợt sóng cuộn nhẹ nhàng loang ra rồi mới
-            "kết tinh" thành khung menu, thay vì bật/trượt cứng. Nội dung
-            bên trong cũng chỉ hiện ra tới đâu sóng loang tới đó vì bị clip
-            theo đúng hình dạng của cha. */}
-        <div
-          className={`fixed inset-y-0 right-0 z-[60] flex w-[82%] max-w-sm flex-col bg-white shadow-2xl transition-[clip-path] duration-[600ms] ease-in-out lg:hidden ${
+          className={`fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-white via-white to-[#f2f9ee] transition-[clip-path] duration-[850ms] ease-in-out lg:hidden ${
             menuOpen ? "" : "pointer-events-none"
           }`}
           style={{
-            clipPath: menuOpen ? "circle(112% at 100% 0%)" : "circle(0% at 100% 0%)",
+            clipPath: menuOpen ? "circle(145% at 100% 0%)" : "circle(0% at 100% 0%)",
             willChange: "clip-path",
           }}
         >
-          <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
+          {menuOpen && (
+            <div
+              className="wave-rings-wrap pointer-events-none absolute inset-0 overflow-hidden"
+              aria-hidden="true"
+            >
+              <span className="wave-ring" style={{ animationDelay: "0ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "160ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "320ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "480ms" }} />
+            </div>
+          )}
+
+          <div className="relative flex items-center justify-between border-b border-black/5 px-5 py-4">
             <Image
               src="/images/logo-unifarm.png"
               alt="Unifarm"
@@ -344,16 +347,16 @@ export default function HomeTopHeader() {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-4 py-3">
-            <div className="flex flex-col gap-1">
+          <div className="relative flex-1 overflow-y-auto px-4 py-3">
+            <div className="mx-auto flex w-full max-w-md flex-col gap-1">
               {NAV_LINKS.map((link, i) => {
                 const active = isLinkActive(pathname, link.href);
                 /* Từng mục trồi vào từ phải, so le theo thứ tự mỗi lần mở
                    drawer — dàn đều trong khoảng thời gian "sóng" loang ra
-                   (600ms) nên mục cuối cùng vừa hiện xong đúng lúc sóng
+                   (850ms) nên mục cuối cùng vừa hiện xong đúng lúc sóng
                    loang tới hết khung menu. */
                 const itemStyle = {
-                  transitionDelay: menuOpen ? `${160 + i * 75}ms` : "0ms",
+                  transitionDelay: menuOpen ? `${220 + i * 95}ms` : "0ms",
                 };
                 return link.children ? (
                   <div
@@ -424,11 +427,11 @@ export default function HomeTopHeader() {
             </div>
           </div>
 
-          <div className="border-t border-black/5 p-4">
+          <div className="relative border-t border-black/5 p-4">
             <Link
               href="/#contact"
               onClick={() => setMenuOpen(false)}
-              className="block rounded-xl bg-[#006400] px-4 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-[#004d00]"
+              className="mx-auto block w-full max-w-md rounded-xl bg-[#006400] px-4 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-[#004d00]"
             >
               {t("Liên hệ ngay")}
             </Link>
@@ -469,8 +472,32 @@ export default function HomeTopHeader() {
         .nav-dropdown-item:nth-child(4) { transition-delay: 120ms; }
         .nav-dropdown-item:nth-child(5) { transition-delay: 160ms; }
 
+        /* "Vân sóng" — các vòng tròn lan toả từ góc trên-phải (đúng tâm
+           của hiệu ứng clip-path), mô phỏng gợn sóng loang ra trên mặt
+           nước, tô điểm thêm cho hiệu ứng mở menu toàn màn hình. */
+        .wave-ring {
+          position: absolute;
+          top: -12vmax;
+          right: -12vmax;
+          width: 24vmax;
+          height: 24vmax;
+          border-radius: 9999px;
+          border: 1.5px solid rgba(0, 100, 0, 0.3);
+          transform: scale(0.15);
+          opacity: 0;
+          animation: wave-ring-pulse 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .wave-rings-wrap .wave-ring:nth-child(2) { border-color: rgba(135, 206, 250, 0.35); }
+        .wave-rings-wrap .wave-ring:nth-child(3) { border-color: rgba(11, 122, 11, 0.28); }
+        .wave-rings-wrap .wave-ring:nth-child(4) { border-color: rgba(135, 206, 250, 0.22); }
+        @keyframes wave-ring-pulse {
+          0% { transform: scale(0.15); opacity: 0.75; }
+          65% { opacity: 0.3; }
+          100% { transform: scale(1); opacity: 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .logo-wiggle, .nav-dropdown, .nav-dropdown-item { animation: none; transition: none; }
+          .logo-wiggle, .nav-dropdown, .nav-dropdown-item, .wave-ring { animation: none; transition: none; }
         }
       `}</style>
     </div>
