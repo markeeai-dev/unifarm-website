@@ -482,17 +482,19 @@ export default function HomeTopHeader() {
           width: 24vmax;
           height: 24vmax;
           border-radius: 9999px;
-          border: 1.5px solid rgba(0, 100, 0, 0.3);
+          border: 2.5px solid rgba(0, 100, 0, 0.55);
+          box-shadow: 0 0 26px 3px rgba(0, 100, 0, 0.18);
+          filter: blur(0.4px);
           transform: scale(0.15);
           opacity: 0;
-          animation: wave-ring-pulse 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+          animation: wave-ring-pulse 1800ms cubic-bezier(0.19, 1, 0.22, 1) both;
         }
-        .wave-rings-wrap .wave-ring:nth-child(2) { border-color: rgba(135, 206, 250, 0.35); }
-        .wave-rings-wrap .wave-ring:nth-child(3) { border-color: rgba(11, 122, 11, 0.28); }
-        .wave-rings-wrap .wave-ring:nth-child(4) { border-color: rgba(135, 206, 250, 0.22); }
+        .wave-rings-wrap .wave-ring:nth-child(2) { border-color: rgba(34, 139, 34, 0.5); }
+        .wave-rings-wrap .wave-ring:nth-child(3) { border-color: rgba(11, 122, 11, 0.46); }
+        .wave-rings-wrap .wave-ring:nth-child(4) { border-color: rgba(0, 100, 0, 0.4); }
         @keyframes wave-ring-pulse {
-          0% { transform: scale(0.15); opacity: 0.75; }
-          65% { opacity: 0.3; }
+          0% { transform: scale(0.15); opacity: 0.9; }
+          55% { opacity: 0.5; }
           100% { transform: scale(1); opacity: 0; }
         }
 
