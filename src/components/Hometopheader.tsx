@@ -321,9 +321,9 @@ export default function HomeTopHeader() {
               aria-hidden="true"
             >
               <span className="wave-ring" style={{ animationDelay: "0ms" }} />
-              <span className="wave-ring" style={{ animationDelay: "160ms" }} />
-              <span className="wave-ring" style={{ animationDelay: "320ms" }} />
-              <span className="wave-ring" style={{ animationDelay: "480ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "280ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "560ms" }} />
+              <span className="wave-ring" style={{ animationDelay: "840ms" }} />
             </div>
           )}
 
@@ -473,27 +473,29 @@ export default function HomeTopHeader() {
         .nav-dropdown-item:nth-child(5) { transition-delay: 160ms; }
 
         /* "Vân sóng" — các vòng tròn lan toả từ góc trên-phải (đúng tâm
-           của hiệu ứng clip-path), mô phỏng gợn sóng loang ra trên mặt
-           nước, tô điểm thêm cho hiệu ứng mở menu toàn màn hình. */
+           của hiệu ứng clip-path), phóng to đủ lớn để loang ra phủ hết
+           toàn bộ menu (240vmax ở scale 1 ~ bán kính lớn hơn cả đường
+           chéo màn hình), chạy chậm rãi cho cảm giác mượt mà như sóng
+           nước thật thay vì chỉ gợn nhẹ quanh góc. */
         .wave-ring {
           position: absolute;
-          top: -12vmax;
-          right: -12vmax;
-          width: 24vmax;
-          height: 24vmax;
+          top: -120vmax;
+          right: -120vmax;
+          width: 240vmax;
+          height: 240vmax;
           border-radius: 9999px;
           border: 2.5px solid rgba(0, 100, 0, 0.55);
           box-shadow: 0 0 26px 3px rgba(0, 100, 0, 0.18);
           filter: blur(0.4px);
-          transform: scale(0.15);
+          transform: scale(0.1);
           opacity: 0;
-          animation: wave-ring-pulse 1800ms cubic-bezier(0.19, 1, 0.22, 1) both;
+          animation: wave-ring-pulse 2600ms ease-in-out both;
         }
         .wave-rings-wrap .wave-ring:nth-child(2) { border-color: rgba(34, 139, 34, 0.5); }
         .wave-rings-wrap .wave-ring:nth-child(3) { border-color: rgba(11, 122, 11, 0.46); }
         .wave-rings-wrap .wave-ring:nth-child(4) { border-color: rgba(0, 100, 0, 0.4); }
         @keyframes wave-ring-pulse {
-          0% { transform: scale(0.15); opacity: 0.9; }
+          0% { transform: scale(0.1); opacity: 0.9; }
           55% { opacity: 0.5; }
           100% { transform: scale(1); opacity: 0; }
         }
