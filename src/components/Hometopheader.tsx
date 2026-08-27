@@ -69,6 +69,15 @@ const NAV_ENTRANCE_BASE_MS = 200;
 const NAV_ENTRANCE_STAGGER_MS = 320;
 const NAV_ENTRANCE_DURATION_MS = 450;
 
+/** Trang chủ chỉ khớp tuyệt đối (tránh mọi route đều "khớp" với "/"); các
+ * trang khác cũng tính khớp khi đang ở trang con (vd: /tuyen-dung/nghe-nghiep
+ * vẫn highlight mục "Tuyển dụng"). */
+function isLinkActive(pathname: string | null, href: string) {
+  if (!pathname) return false;
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function HomeTopHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -177,9 +186,9 @@ export default function HomeTopHeader() {
               <div key={link.label} className="group relative">
                 <Link
                   href={link.href}
-                  className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-[#06301B]/80 transition-all ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
-                    mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                  }`}
+                  className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                    isLinkActive(pathname, link.href) ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
+                  } ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
                   style={{
                     transitionDuration: `${NAV_ENTRANCE_DURATION_MS}ms`,
                     transitionDelay: mounted ? `${NAV_ENTRANCE_BASE_MS + i * NAV_ENTRANCE_STAGGER_MS}ms` : "0ms",
@@ -260,37 +269,53 @@ export default function HomeTopHeader() {
             </Link>
 
             <button
-              aria-label={t("Mở menu")}
+              type="button"
+              aria-label={menuOpen ? t("Đóng menu") : t("Mở menu")}
               onClick={() => setMenuOpen((v) => !v)}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f2f9ee] text-[#006400] transition-transform active:scale-90 lg:hidden"
             >
-              {menuOpen ? (
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
-                </svg>
-              )}
+              {/* Icon hamburger "biến hình" mượt sang dấu X bằng cách xoay/co
+                  3 vạch — thay vì đổi hẳn 2 icon SVG khác nhau như trước
+                  (đổi tức thì, không có chuyển động), cảm giác cao cấp hơn. */}
+              <span className="relative flex h-4 w-[18px] flex-col items-center justify-center">
+                <span
+                  className={`absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    menuOpen ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0"
+                  }`}
+                />
+                <span
+                  className={`absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-200 ease-out ${
+                    menuOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute h-[2px] w-[18px] rounded-full bg-current transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    menuOpen ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0"
+                  }`}
+                />
+              </span>
             </button>
           </div>
         </div>
 
-        {/* Overlay tối phía sau drawer — bấm để đóng */}
+        {/* Overlay tối phía sau drawer — bấm để đóng. Thêm kính mờ nhẹ cho
+            cảm giác cao cấp hơn (chỉ bật/tắt khi mở menu, không chạy liên
+            tục theo scroll như thanh nav nên không lo giật). */}
         <div
-          className={`fixed inset-0 z-[60] bg-[#06301B]/50 transition-opacity duration-300 ease-out lg:hidden ${
+          className={`fixed inset-0 z-[60] bg-[#06301B]/55 backdrop-blur-sm transition-opacity duration-300 ease-out lg:hidden ${
             menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
           onClick={() => setMenuOpen(false)}
           aria-hidden="true"
         />
 
-        {/* Mobile menu — drawer trượt vào từ bên phải (chỉ dùng transform,
-            không đổi layout như kiểu accordion cũ nên mượt hơn hẳn) */}
+        {/* Mobile menu — drawer trượt vào từ bên phải kèm zoom nhẹ + mờ dần
+            (chỉ dùng transform/opacity, không đổi layout nên vẫn mượt),
+            thời lượng dài hơn và easing "ease-out-expo" cho cảm giác trôi
+            chứ không giật cứng ở cuối. */}
         <div
-          className={`fixed inset-y-0 right-0 z-[60] flex w-[82%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
+          className={`fixed inset-y-0 right-0 z-[60] flex w-[82%] max-w-sm flex-col bg-white shadow-2xl transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.19,1,0.22,1)] lg:hidden ${
+            menuOpen ? "translate-x-0 scale-100 opacity-100" : "translate-x-full scale-95 opacity-0"
           }`}
         >
           <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
@@ -315,15 +340,30 @@ export default function HomeTopHeader() {
 
           <div className="flex-1 overflow-y-auto px-4 py-3">
             <div className="flex flex-col gap-1">
-              {NAV_LINKS.map((link) =>
-                link.children ? (
-                  <div key={link.label}>
+              {NAV_LINKS.map((link, i) => {
+                const active = isLinkActive(pathname, link.href);
+                /* Từng mục trồi vào từ phải, so le theo thứ tự mỗi lần mở
+                   drawer — thay vì hiện ra đồng loạt cùng lúc với drawer,
+                   tạo cảm giác chuyển động có chủ đích, "wow" hơn. */
+                const itemStyle = {
+                  transitionDelay: menuOpen ? `${120 + i * 55}ms` : "0ms",
+                };
+                return link.children ? (
+                  <div
+                    key={link.label}
+                    className={`transition-[opacity,transform] duration-300 ease-out ${
+                      menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
+                    }`}
+                    style={itemStyle}
+                  >
                     <button
                       type="button"
                       onClick={() =>
                         setMobileExpanded((cur) => (cur === link.label ? null : link.label))
                       }
-                      className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-left text-sm font-semibold text-[#06301B]/80 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
+                      className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-left text-sm font-semibold transition-colors hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                        active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
+                      }`}
                     >
                       {t(link.label)}
                       <svg
@@ -365,12 +405,15 @@ export default function HomeTopHeader() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className="rounded-xl px-4 py-2.5 text-sm font-semibold text-[#06301B]/80 transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
+                    className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                      active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
+                    } ${menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
+                    style={itemStyle}
                   >
                     {t(link.label)}
                   </Link>
-                )
-              )}
+                );
+              })}
             </div>
           </div>
 

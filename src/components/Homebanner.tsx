@@ -154,13 +154,16 @@ export default function HomeBanner() {
               {t(slide.badge)}
             </span>
 
-            <h1 className="mt-5 text-3xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-4xl lg:text-[3rem]">
+            <h1 className="mt-5 text-balance text-3xl font-semibold uppercase leading-[1.18] tracking-[0.025em] text-white sm:text-4xl lg:text-[3rem]">
               <AnimatedChars
                 text={t(slide.titleLine1)}
                 variant={textStyle}
                 startDelay={line1Delay}
               />
-              <br />
+              {/* Xuống dòng cứng chỉ áp dụng từ sm trở lên — trên mobile để
+                  chữ tự ngắt dòng theo `text-balance`, tránh cảnh dòng 1 dài
+                  tràn xuống tạo 1 từ mồ côi đứng riêng 1 dòng như trước. */}
+              <br className="hidden sm:block" />{" "}
               <span className="text-[#FFFACD]">
                 <AnimatedChars
                   text={t(slide.titleLine2)}

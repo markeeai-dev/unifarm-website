@@ -151,13 +151,16 @@ export default function HeroBanner() {
 
           {/* Tagline — 2 dòng, dòng dưới tô màu nhấn */}
           <p
-            className={`mt-5 text-xl font-semibold leading-snug text-white transition-all delay-150 duration-700 sm:text-2xl ${
+            className={`mt-5 text-balance text-xl font-semibold leading-snug text-white transition-all delay-150 duration-700 sm:text-2xl ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
             {t("TỪ MỘT TRANG TRẠI ĐẾN MỘT HỆ SINH THÁI")}
-            <br />
+            {/* Xuống dòng cứng chỉ áp dụng từ sm trở lên — trên mobile để
+                chữ tự ngắt dòng theo `text-balance`, tránh cảnh mỗi câu dài
+                tràn xuống tạo 1 từ mồ côi đứng riêng 1 dòng như trước. */}
+            <br className="hidden sm:block" />{" "}
             <span style={{ color: COLORS.accent }}>
               {t("HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG")}
             </span>
