@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight, Leaf } from "lucide-react";
 import { useIntroReady } from "@/lib/use-intro-ready";
 import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useIsInAppBrowser } from "@/lib/use-is-inapp-browser";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
@@ -41,6 +42,7 @@ export default function DuanBanner() {
   const introReady = useIntroReady();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useForcePlayVideo(videoRef);
+  const isInAppBrowser = useIsInAppBrowser();
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -54,7 +56,11 @@ export default function DuanBanner() {
     >
       {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
       <Image src={POSTER} alt="" fill priority sizes="100vw" className="absolute inset-0 object-cover" />
-      {(
+      {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
+          cho phát video inline dù có playsInline — hiện control mặc định
+          + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
+          trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
+      {isInAppBrowser !== true && (
         <video
           ref={videoRef}
           autoPlay

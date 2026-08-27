@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useIsMobile } from '@/lib/use-is-mobile';
 import { useForcePlayVideo } from '@/lib/use-force-play-video';
+import { useIsInAppBrowser } from '@/lib/use-is-inapp-browser';
 import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 const POSTER = '/video-posters/2021-2.jpg';
@@ -56,6 +57,7 @@ export default function AgroviaHero() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useForcePlayVideo(videoRef);
+  const isInAppBrowser = useIsInAppBrowser();
 
   /* ---- headline auto-rotate ---- */
   const startAutoRotate = () => {
@@ -92,7 +94,11 @@ export default function AgroviaHero() {
         sizes="100vw"
         className="absolute inset-0 -z-30 object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"
       />
-      {(
+      {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
+          cho phát video inline dù có playsInline — hiện control mặc định
+          + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
+          trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
+      {isInAppBrowser !== true && (
         <video
           ref={videoRef}
           className="absolute inset-0 -z-30 h-full w-full object-cover [filter:contrast(1.14)_saturate(1.18)_brightness(1.04)]"

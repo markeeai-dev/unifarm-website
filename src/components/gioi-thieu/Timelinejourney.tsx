@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { TimelineMilestone } from "@/lib/db";
 import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useIsInAppBrowser } from "@/lib/use-is-inapp-browser";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /** Ảnh tĩnh trích từ khung hình đầu của từng video mẫu — dùng thay video
@@ -48,6 +49,7 @@ function MediaCard({ label, video }: { label: string; video: string }) {
   const poster = VIDEO_POSTER_MAP[video];
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useForcePlayVideo(videoRef);
+  const isInAppBrowser = useIsInAppBrowser();
 
   return (
     <div className="group relative flex h-full min-h-[130px] w-full items-end overflow-hidden rounded-2xl bg-[#0a3d0a] p-3 sm:min-h-[150px]">
@@ -61,7 +63,11 @@ function MediaCard({ label, video }: { label: string; video: string }) {
           className="absolute inset-0 object-cover"
         />
       )}
-      {(
+      {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
+          cho phát video inline dù có playsInline — hiện control mặc định
+          + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
+          trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
+      {isInAppBrowser !== true && (
         <video
           ref={videoRef}
           src={video}

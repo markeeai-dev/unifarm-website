@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useIntroReady } from "@/lib/use-intro-ready";
 import { useForcePlayVideo } from "@/lib/use-force-play-video";
+import { useIsInAppBrowser } from "@/lib/use-is-inapp-browser";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const BG_VIDEO = "/videos/7.mp4";
@@ -42,6 +43,7 @@ export default function SanPhamHero() {
   const introReady = useIntroReady();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useForcePlayVideo(videoRef);
+  const isInAppBrowser = useIsInAppBrowser();
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -78,7 +80,11 @@ export default function SanPhamHero() {
           sizes="100vw"
           className="absolute inset-0 -z-20 object-cover"
         />
-        {(
+        {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
+            cho phát video inline dù có playsInline — hiện control mặc định
+            + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
+            trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
+        {isInAppBrowser !== true && (
           <video
             ref={videoRef}
             autoPlay
