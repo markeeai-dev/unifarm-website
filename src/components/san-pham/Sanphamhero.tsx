@@ -9,6 +9,7 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const BG_VIDEO = "/videos/7.mp4";
 const POSTER = "/video-posters/7.jpg";
+const WEBP_LOOP = "/video-loops/7.webp";
 
 /**
  * SanPhamHero — banner đầu trang Sản phẩm.
@@ -80,11 +81,23 @@ export default function SanPhamHero() {
           sizes="100vw"
           className="absolute inset-0 -z-20 object-cover"
         />
-        {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
-            cho phát video inline dù có playsInline — hiện control mặc định
-            + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
-            trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
-        {isInAppBrowser !== true && (
+        {/* Trình duyệt-trong-app (Zalo, Facebook, Messenger, Instagram,
+            TikTok...) trên iOS thường không cho phát video inline dù có
+            playsInline — hiện control mặc định + méo kích thước, rất thô.
+            `<img>` (kể cả ảnh động webp) thì không bao giờ bị chặn kiểu
+            này nên dùng bản webp động thay video ở đúng các trường hợp
+            đó; còn Safari/Chrome/quét QR thật vẫn giữ video tự chạy như cũ. */}
+        {isInAppBrowser === true && (
+          <Image
+            src={WEBP_LOOP}
+            alt=""
+            fill
+            unoptimized
+            sizes="100vw"
+            className="absolute inset-0 -z-20 object-cover"
+          />
+        )}
+        {isInAppBrowser === false && (
           <video
             ref={videoRef}
             autoPlay

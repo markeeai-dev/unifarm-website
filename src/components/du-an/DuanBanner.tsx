@@ -22,6 +22,7 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const BG_VIDEO = "/videos/unripe-green-bananas-on-tree.mp4";
 const POSTER = "/video-posters/unripe-green-bananas-on-tree.jpg";
+const WEBP_LOOP = "/video-loops/unripe-green-bananas-on-tree.webp";
 
 const STATS = [
   { value: "1.694+ ha", label: "Tổng diện tích vùng trồng lõi" },
@@ -56,11 +57,23 @@ export default function DuanBanner() {
     >
       {/* Ảnh nền tĩnh — luôn hiển thị, video (nếu có) phủ lên trên trên desktop */}
       <Image src={POSTER} alt="" fill priority sizes="100vw" className="absolute inset-0 object-cover" />
-      {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
-          cho phát video inline dù có playsInline — hiện control mặc định
-          + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
-          trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
-      {isInAppBrowser !== true && (
+      {/* Trình duyệt-trong-app (Zalo, Facebook, Messenger, Instagram,
+          TikTok...) trên iOS thường không cho phát video inline dù có
+          playsInline — hiện control mặc định + méo kích thước, rất thô.
+          `<img>` (kể cả ảnh động webp) thì không bao giờ bị chặn kiểu này
+          nên dùng bản webp động thay video ở đúng các trường hợp đó; còn
+          Safari/Chrome/quét QR thật vẫn giữ video tự chạy như cũ. */}
+      {isInAppBrowser === true && (
+        <Image
+          src={WEBP_LOOP}
+          alt=""
+          fill
+          unoptimized
+          sizes="100vw"
+          className="absolute inset-0 object-cover"
+        />
+      )}
+      {isInAppBrowser === false && (
         <video
           ref={videoRef}
           autoPlay

@@ -27,6 +27,16 @@ const VIDEO_POSTER_MAP: Record<string, string> = {
   "/videos/banana-leaves-blooming-arboretum.mp4": "/video-posters/banana-leaves-blooming-arboretum.jpg",
 };
 
+/** Bản webp động (loop ngắn) thay cho video ở trình duyệt-trong-app
+ * (Zalo, Facebook...) — nơi `<video autoPlay playsInline>` thường bị hệ
+ * điều hành ép hiện control mặc định thay vì phát nền như bình thường. */
+const VIDEO_LOOP_MAP: Record<string, string> = {
+  "/videos/7.mp4": "/video-loops/7.webp",
+  "/videos/banana-leaves-closeup.mp4": "/video-loops/banana-leaves-closeup.webp",
+  "/videos/unripe-green-bananas-on-tree.mp4": "/video-loops/unripe-green-bananas-on-tree.webp",
+  "/videos/banana-leaves-blooming-arboretum.mp4": "/video-loops/banana-leaves-blooming-arboretum.webp",
+};
+
 /* ------------------------------------------------------------------ */
 /*  Map tên icon (string, lưu trong DB) -> component lucide-react      */
 /* ------------------------------------------------------------------ */
@@ -47,6 +57,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 function MediaCard({ label, video }: { label: string; video: string }) {
   const poster = VIDEO_POSTER_MAP[video];
+  const loopWebp = VIDEO_LOOP_MAP[video];
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useForcePlayVideo(videoRef);
   const isInAppBrowser = useIsInAppBrowser();
@@ -63,11 +74,23 @@ function MediaCard({ label, video }: { label: string; video: string }) {
           className="absolute inset-0 object-cover"
         />
       )}
-      {/* Trình duyệt-trong-app (Zalo, Facebook...) trên iOS thường không
-          cho phát video inline dù có playsInline — hiện control mặc định
-          + méo kích thước, rất thô. Các trường hợp đó chỉ dùng ảnh tĩnh ở
-          trên; Safari/Chrome/quét QR thật vẫn có video tự chạy bình thường. */}
-      {isInAppBrowser !== true && (
+      {/* Trình duyệt-trong-app (Zalo, Facebook, Messenger, Instagram,
+          TikTok...) trên iOS thường không cho phát video inline dù có
+          playsInline — hiện control mặc định + méo kích thước, rất thô.
+          `<img>` (kể cả ảnh động webp) thì không bao giờ bị chặn kiểu này
+          nên dùng bản webp động thay video ở đúng các trường hợp đó; còn
+          Safari/Chrome/quét QR thật vẫn giữ video tự chạy như cũ. */}
+      {isInAppBrowser === true && loopWebp && (
+        <Image
+          src={loopWebp}
+          alt=""
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 50vw, 300px"
+          className="absolute inset-0 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+      )}
+      {isInAppBrowser === false && (
         <video
           ref={videoRef}
           src={video}
