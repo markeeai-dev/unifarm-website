@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ImageOff, Pencil, Trash2, Loader2, ChevronUp, ChevronDown, ListChecks } from "lucide-react";
 import type { TimelineMilestone } from "@/lib/db";
 import { TIMELINE_ICON_MAP, DEFAULT_TIMELINE_ICON } from "@/lib/timeline-icons";
+import { SearchInput, EmptyState } from "@/components/admin/ui";
 
 async function patchMilestone(m: TimelineMilestone, sort_order: number) {
   await fetch(`/api/timeline/${m.id}`, {
@@ -150,9 +151,18 @@ function MilestoneCard({
 export default function TimelineList({ milestones: initial }: { milestones: TimelineMilestone[] }) {
   const [milestones, setMilestones] = useState(initial);
   const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return milestones;
+    return milestones.filter((m) => m.caption.toLowerCase().includes(q) || m.year.toLowerCase().includes(q));
+  }, [milestones, search]);
 
   const handleDeleted = (id: string) => setMilestones((prev) => prev.filter((m) => m.id !== id));
 
+  // Luôn dựa vào vị trí trong danh sách ĐẦY ĐỦ (không phải danh sách đã
+  // lọc) để tráo sort_order — tránh đổi nhầm thứ tự khi đang gõ tìm kiếm.
   const handleMove = async (index: number, dir: -1 | 1) => {
     const targetIndex = index + dir;
     if (targetIndex < 0 || targetIndex >= milestones.length) return;
@@ -175,27 +185,32 @@ export default function TimelineList({ milestones: initial }: { milestones: Time
     }
   };
 
-  if (milestones.length === 0) {
-    return (
-      <div className="mt-6 rounded-2xl border border-black/5 bg-white p-10 text-center shadow-sm">
-        <p className="text-sm text-gray-500">Chưa có mốc lịch sử nào.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="mt-6 space-y-3">
-      {milestones.map((m, i) => (
-        <MilestoneCard
-          key={m.id}
-          milestone={m}
-          isFirst={i === 0}
-          isLast={i === milestones.length - 1}
-          reordering={reorderingId === m.id}
-          onMove={(dir) => handleMove(i, dir)}
-          onDeleted={handleDeleted}
-        />
-      ))}
+    <div>
+      <div className="mt-6">
+        <SearchInput value={search} onChange={setSearch} placeholder="Tìm theo tên mốc hoặc năm…" />
+      </div>
+
+      {filtered.length === 0 ? (
+        <EmptyState message={milestones.length === 0 ? "Chưa có mốc lịch sử nào." : "Không tìm thấy mốc phù hợp."} />
+      ) : (
+        <div className="mt-4 space-y-3">
+          {filtered.map((m) => {
+            const fullIndex = milestones.findIndex((x) => x.id === m.id);
+            return (
+              <MilestoneCard
+                key={m.id}
+                milestone={m}
+                isFirst={fullIndex === 0}
+                isLast={fullIndex === milestones.length - 1}
+                reordering={reorderingId === m.id}
+                onMove={(dir) => handleMove(fullIndex, dir)}
+                onDeleted={handleDeleted}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

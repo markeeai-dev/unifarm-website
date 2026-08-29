@@ -9,11 +9,11 @@ import {
   CalendarDays,
   MapPin,
   Pencil,
-  Search,
   Trash2,
   Users,
   Wallet,
 } from "lucide-react";
+import { SearchInput, EmptyState } from "@/components/admin/ui";
 
 type StatusFilter = "all" | "active" | "closed";
 
@@ -150,20 +150,12 @@ export default function JobsListClient({ jobs }: { jobs: Job[] }) {
 
   return (
     <div>
-      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-black/5 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Tìm theo tên vị trí…"
-            className="w-full rounded-lg border border-[#06301B]/15 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
-          />
-        </div>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <SearchInput value={query} onChange={setQuery} placeholder="Tìm theo tên vị trí…" />
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value as StatusFilter)}
-          className="rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm font-medium outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10 sm:w-52"
+          className="w-full rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-[#06301B] outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10 sm:w-52"
         >
           <option value="all">Tất cả trạng thái</option>
           <option value="active">Đang mở</option>
@@ -176,9 +168,7 @@ export default function JobsListClient({ jobs }: { jobs: Job[] }) {
       </p>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-black/10 bg-white p-10 text-center text-sm text-gray-400">
-          {list.length === 0 ? "Chưa có vị trí tuyển dụng nào." : "Không tìm thấy vị trí phù hợp."}
-        </div>
+        <EmptyState message={list.length === 0 ? "Chưa có vị trí tuyển dụng nào." : "Không tìm thấy vị trí phù hợp."} />
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((job) => (

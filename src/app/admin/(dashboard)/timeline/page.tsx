@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CalendarPlus } from "lucide-react";
 import { sql, type TimelineMilestone } from "@/lib/db";
 import TimelineList from "@/components/admin/Timelinelist";
+import { PageHeader, buttonClass } from "@/components/admin/ui";
 
 export default async function AdminTimelineListPage() {
   const milestones = (await sql`
@@ -10,20 +11,16 @@ export default async function AdminTimelineListPage() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-xl font-bold text-[#06301B]">Quản trị Mốc lịch sử</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            {milestones.length} mốc · sắp xếp theo thứ tự hiển thị trên trang Giới thiệu.
-          </p>
-        </div>
-        <Link
-          href="/admin/timeline/new"
-          className="inline-flex items-center gap-2 rounded-full bg-[#006400] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#004d00]"
-        >
-          <CalendarPlus size={16} /> Mốc mới
-        </Link>
-      </div>
+      <PageHeader
+        eyebrow="Nội dung"
+        title="Quản trị Mốc lịch sử"
+        subtitle={`${milestones.length} mốc · sắp xếp theo thứ tự hiển thị trên trang Giới thiệu.`}
+        action={
+          <Link href="/admin/timeline/new" className={buttonClass("primary")}>
+            <CalendarPlus size={16} /> Mốc mới
+          </Link>
+        }
+      />
 
       <TimelineList milestones={milestones} />
     </div>

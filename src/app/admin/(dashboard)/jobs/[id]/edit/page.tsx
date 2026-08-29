@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { sql, type Job } from "@/lib/db";
 import JobForm from "@/components/admin/Jobform";
+import { FormHeader } from "@/components/admin/ui";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -12,7 +13,7 @@ export default async function AdminJobEditPage({ params }: Params) {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-bold text-[#06301B]">Sửa vị trí tuyển dụng</h1>
+      <FormHeader backHref="/admin/jobs" title="Sửa vị trí tuyển dụng" />
       <JobForm job={job} />
     </div>
   );

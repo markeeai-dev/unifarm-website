@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
 import type { BlogPost } from "@/lib/db";
 import { TAG_OPTIONS } from "@/lib/blog-tags";
 import { SingleImageUploader } from "@/components/admin/ImageUploader";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import { Card, Field, FormActions, inputClass } from "@/components/admin/ui";
 
 type FormValues = {
   title: string;
@@ -18,30 +18,6 @@ type FormValues = {
   status: "draft" | "published";
   is_featured: boolean;
 };
-
-function Card({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
-      <h2 className="text-sm font-extrabold uppercase tracking-wide text-[#06301B]">{title}</h2>
-      {hint && <p className="mt-0.5 text-xs text-gray-400">{hint}</p>}
-      <div className="mt-4 space-y-5">{children}</div>
-    </div>
-  );
-}
-
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <div>
-      <label className="block text-sm font-semibold text-[#06301B]">
-        {label} {required && <span className="text-[#006400]">*</span>}
-      </label>
-      <div className="mt-1.5">{children}</div>
-    </div>
-  );
-}
-
-const inputClass =
-  "w-full rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10";
 
 export default function BlogForm({ post }: { post?: BlogPost }) {
   const router = useRouter();
@@ -56,6 +32,7 @@ export default function BlogForm({ post }: { post?: BlogPost }) {
     is_featured: post?.is_featured ?? false,
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
@@ -88,9 +65,14 @@ export default function BlogForm({ post }: { post?: BlogPost }) {
   const handleDelete = async () => {
     if (!post) return;
     if (!confirm(`Xoá bài viết "${post.title}"? Hành động này không thể hoàn tác.`)) return;
-    await fetch(`/api/blogs/${post.id}`, { method: "DELETE" });
-    router.push("/admin/blog");
-    router.refresh();
+    setDeleting(true);
+    try {
+      await fetch(`/api/blogs/${post.id}`, { method: "DELETE" });
+      router.push("/admin/blog");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -180,29 +162,16 @@ export default function BlogForm({ post }: { post?: BlogPost }) {
         />
       </Card>
 
-      {error && (
-        <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>
-      )}
+      {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}
 
-      <div className="flex items-center gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-full bg-[#006400] px-7 py-3 text-sm font-bold text-white transition-colors hover:bg-[#004d00] disabled:opacity-60"
-        >
-          {saving ? "Đang lưu…" : post ? "Lưu thay đổi" : "Tạo bài viết"}
-        </button>
-
-        {post && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="inline-flex items-center gap-1.5 rounded-full border border-red-200 px-6 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
-          >
-            <Trash2 size={14} /> Xoá bài viết
-          </button>
-        )}
-      </div>
+      <FormActions
+        cancelHref="/admin/blog"
+        saving={saving}
+        submitLabel={post ? "Lưu thay đổi" : "Tạo bài viết"}
+        onDelete={post ? handleDelete : undefined}
+        deleting={deleting}
+        deleteLabel="Xoá bài viết"
+      />
     </form>
   );
 }

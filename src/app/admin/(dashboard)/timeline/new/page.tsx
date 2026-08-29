@@ -1,9 +1,10 @@
 import TimelineForm from "@/components/admin/Timelineform";
+import { FormHeader } from "@/components/admin/ui";
 
 export default function AdminTimelineNewPage() {
   return (
     <div>
-      <h1 className="mb-6 text-xl font-bold text-[#06301B]">Mốc lịch sử mới</h1>
+      <FormHeader backHref="/admin/timeline" title="Mốc lịch sử mới" />
       <TimelineForm />
     </div>
   );

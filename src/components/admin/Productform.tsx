@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Info, Image as ImageIcon, FileText, ListChecks, ShieldCheck, Trash2, Plus } from "lucide-react";
 import type { Product, SpecField } from "@/lib/db";
 import { SingleImageUploader, GalleryUploader } from "@/components/admin/ImageUploader";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import { Card, Field, FormActions, inputClass, labelClass } from "@/components/admin/ui";
 
 type FormValues = {
   name: string;
@@ -21,27 +22,6 @@ type FormValues = {
   commitments: string;
   sort_order: number;
 };
-
-const inputClass =
-  "mt-1.5 w-full rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10";
-const labelClass = "block text-sm font-semibold text-[#06301B]";
-
-function Sec({ icon, title, hint, children }: { icon: ReactNode; title: string; hint?: string; children: ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm sm:p-6">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f2f9ee] text-[#006400]">
-          {icon}
-        </span>
-        <div>
-          <h2 className="text-[15px] font-extrabold text-[#06301B]">{title}</h2>
-          {hint && <p className="mt-0.5 text-xs text-gray-400">{hint}</p>}
-        </div>
-      </div>
-      {children}
-    </div>
-  );
-}
 
 export default function ProductForm({ product }: { product?: Product }) {
   const router = useRouter();
@@ -60,6 +40,7 @@ export default function ProductForm({ product }: { product?: Product }) {
     sort_order: product?.sort_order ?? 0,
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
@@ -122,116 +103,104 @@ export default function ProductForm({ product }: { product?: Product }) {
   const handleDelete = async () => {
     if (!product) return;
     if (!confirm(`Xoá sản phẩm "${product.name}"? Hành động này không thể hoàn tác.`)) return;
-    await fetch(`/api/products/${product.id}`, { method: "DELETE" });
-    router.push("/admin/products");
-    router.refresh();
+    setDeleting(true);
+    try {
+      await fetch(`/api/products/${product.id}`, { method: "DELETE" });
+      router.push("/admin/products");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-3xl space-y-5">
-      <Sec icon={<Info size={18} strokeWidth={2} />} title="Thông tin cơ bản">
-        <div className="space-y-5">
-          <div>
-            <label className={labelClass}>Tên sản phẩm</label>
-            <input
-              required
-              value={values.name}
-              onChange={(e) => set("name", e.target.value)}
+      <Card icon={<Info size={18} strokeWidth={2} />} title="Thông tin cơ bản">
+        <Field label="Tên sản phẩm">
+          <input required value={values.name} onChange={(e) => set("name", e.target.value)} className={inputClass} />
+        </Field>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Danh mục">
+            <select
+              value={values.category}
+              onChange={(e) => set("category", e.target.value as FormValues["category"])}
               className={inputClass}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div>
-              <label className={labelClass}>Danh mục</label>
-              <select
-                value={values.category}
-                onChange={(e) => set("category", e.target.value as FormValues["category"])}
-                className={inputClass}
-              >
-                <option value="fresh">Trái cây tươi</option>
-                <option value="seedling">Cây giống nuôi cấy mô</option>
-                <option value="processed">Sản phẩm chế biến</option>
-              </select>
-            </div>
-            <div>
-              <label className={labelClass}>Loại (quick-filter)</label>
-              <select
-                value={values.type}
-                onChange={(e) => set("type", e.target.value as FormValues["type"])}
-                className={inputClass}
-              >
-                <option value="banana">Chuối</option>
-                <option value="pineapple">Dứa</option>
-                <option value="melon">Dưa lưới</option>
-                <option value="other">Khác</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <div>
-              <label className={labelClass}>Giá</label>
-              <input
-                type="number"
-                value={values.price}
-                onChange={(e) => set("price", Number(e.target.value))}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Thứ tự hiển thị</label>
-              <input
-                type="number"
-                value={values.sort_order}
-                onChange={(e) => set("sort_order", Number(e.target.value))}
-                placeholder="Để trống hoặc 0 để tự xuống cuối"
-                className={inputClass}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className={labelClass}>Tiêu đề phụ</label>
-            <input
-              value={values.subtitle}
-              onChange={(e) => set("subtitle", e.target.value)}
-              placeholder="VD: Giòn xốp tự nhiên, Hương vị đậm đà"
+            >
+              <option value="fresh">Trái cây tươi</option>
+              <option value="seedling">Cây giống nuôi cấy mô</option>
+              <option value="processed">Sản phẩm chế biến</option>
+            </select>
+          </Field>
+          <Field label="Loại (quick-filter)">
+            <select
+              value={values.type}
+              onChange={(e) => set("type", e.target.value as FormValues["type"])}
               className={inputClass}
-            />
-          </div>
-
-          <div>
-            <label className={labelClass}>Nhãn chứng nhận</label>
-            <input
-              value={values.standard}
-              onChange={(e) => set("standard", e.target.value)}
-              placeholder="VD: Đạt tiêu chuẩn xuất khẩu — để trống sẽ dùng nhãn mặc định theo danh mục"
-              className={inputClass}
-            />
-          </div>
+            >
+              <option value="banana">Chuối</option>
+              <option value="pineapple">Dứa</option>
+              <option value="melon">Dưa lưới</option>
+              <option value="other">Khác</option>
+            </select>
+          </Field>
         </div>
-      </Sec>
 
-      <Sec icon={<ImageIcon size={18} strokeWidth={2} />} title="Hình ảnh">
-        <div className="space-y-6">
-          <SingleImageUploader
-            value={values.image}
-            onChange={(url) => set("image", url)}
-            label="Ảnh chính"
-            hint="Ảnh đại diện hiển thị ở danh sách và thẻ sản phẩm."
-            aspect="aspect-[4/3]"
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Giá">
+            <input
+              type="number"
+              value={values.price}
+              onChange={(e) => set("price", Number(e.target.value))}
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Thứ tự hiển thị" hint="Để trống hoặc 0 để tự xuống cuối">
+            <input
+              type="number"
+              value={values.sort_order}
+              onChange={(e) => set("sort_order", Number(e.target.value))}
+              className={inputClass}
+            />
+          </Field>
+        </div>
+
+        <Field label="Tiêu đề phụ">
+          <input
+            value={values.subtitle}
+            onChange={(e) => set("subtitle", e.target.value)}
+            placeholder="VD: Giòn xốp tự nhiên, Hương vị đậm đà"
+            className={inputClass}
           />
-          <div>
-            <label className={labelClass}>Thư viện ảnh</label>
-            <div className="mt-1.5">
-              <GalleryUploader value={values.gallery} onChange={(urls) => set("gallery", urls)} />
-            </div>
+        </Field>
+
+        <Field label="Nhãn chứng nhận">
+          <input
+            value={values.standard}
+            onChange={(e) => set("standard", e.target.value)}
+            placeholder="VD: Đạt tiêu chuẩn xuất khẩu — để trống sẽ dùng nhãn mặc định theo danh mục"
+            className={inputClass}
+          />
+        </Field>
+      </Card>
+
+      <Card icon={<ImageIcon size={18} strokeWidth={2} />} title="Hình ảnh">
+        <SingleImageUploader
+          value={values.image}
+          onChange={(url) => set("image", url)}
+          label="Ảnh chính"
+          hint="Ảnh đại diện hiển thị ở danh sách và thẻ sản phẩm."
+          aspect="aspect-[4/3]"
+        />
+        <div>
+          <label className={labelClass}>Thư viện ảnh</label>
+          <div className="mt-1.5">
+            <GalleryUploader value={values.gallery} onChange={(urls) => set("gallery", urls)} />
           </div>
         </div>
-      </Sec>
+      </Card>
 
-      <Sec icon={<FileText size={18} strokeWidth={2} />} title="Nội dung">
+      <Card icon={<FileText size={18} strokeWidth={2} />} title="Nội dung">
         <RichTextEditor
           value={values.description}
           onChange={(html) => set("description", html)}
@@ -239,9 +208,9 @@ export default function ProductForm({ product }: { product?: Product }) {
           minHeight={260}
           required
         />
-      </Sec>
+      </Card>
 
-      <Sec icon={<ListChecks size={18} strokeWidth={2} />} title="Bảng thông số">
+      <Card icon={<ListChecks size={18} strokeWidth={2} />} title="Bảng thông số">
         <div className="space-y-2.5">
           {values.specs.map((spec, i) => (
             <div key={i} className="flex items-center gap-2.5">
@@ -249,13 +218,13 @@ export default function ProductForm({ product }: { product?: Product }) {
                 value={spec.label}
                 onChange={(e) => setSpec(i, "label", e.target.value)}
                 placeholder="Nhãn"
-                className="w-1/2 rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
+                className={`w-1/2 ${inputClass}`}
               />
               <input
                 value={spec.value}
                 onChange={(e) => setSpec(i, "value", e.target.value)}
                 placeholder="Giá trị"
-                className="w-1/2 rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
+                className={`w-1/2 ${inputClass}`}
               />
               <button
                 type="button"
@@ -275,9 +244,9 @@ export default function ProductForm({ product }: { product?: Product }) {
         >
           <Plus size={13} /> Thêm thông số
         </button>
-      </Sec>
+      </Card>
 
-      <Sec icon={<ShieldCheck size={18} strokeWidth={2} />} title="Cam kết chất lượng" hint="Mỗi dòng 1 cam kết, tối đa 3 dòng">
+      <Card icon={<ShieldCheck size={18} strokeWidth={2} />} title="Cam kết chất lượng" hint="Mỗi dòng 1 cam kết, tối đa 3 dòng">
         <textarea
           rows={3}
           value={values.commitments}
@@ -285,29 +254,18 @@ export default function ProductForm({ product }: { product?: Product }) {
           placeholder={"Truy xuất nguồn gốc minh bạch\nKiểm soát dư lượng nghiêm ngặt (MRL)\nSản xuất trên dây chuyền hiện đại"}
           className={inputClass}
         />
-      </Sec>
+      </Card>
 
-      {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+      {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}
 
-      <div className="flex items-center gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-full bg-[#006400] px-7 py-3 text-sm font-bold text-white transition-colors hover:bg-[#004d00] disabled:opacity-60"
-        >
-          {saving ? "Đang lưu…" : product ? "Lưu thay đổi" : "Tạo sản phẩm"}
-        </button>
-
-        {product && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="rounded-full border border-red-200 px-6 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
-          >
-            Xoá sản phẩm
-          </button>
-        )}
-      </div>
+      <FormActions
+        cancelHref="/admin/products"
+        saving={saving}
+        submitLabel={product ? "Lưu thay đổi" : "Tạo sản phẩm"}
+        onDelete={product ? handleDelete : undefined}
+        deleting={deleting}
+        deleteLabel="Xoá sản phẩm"
+      />
     </form>
   );
 }

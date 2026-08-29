@@ -4,9 +4,10 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Search, Eye, Pencil, Trash2, ImageOff, Star } from "lucide-react";
+import { Eye, Pencil, Trash2, ImageOff, Star } from "lucide-react";
 import type { BlogPost } from "@/lib/db";
 import { TAG_COLOR, DEFAULT_TAG_COLOR } from "@/lib/blog-tags";
+import { SearchInput, EmptyState } from "@/components/admin/ui";
 
 type StatusFilter = "all" | "draft" | "published";
 
@@ -49,15 +50,7 @@ export default function BlogList({ posts: initialPosts }: { posts: BlogPost[] })
     <div>
       {/* Toolbar: search + status filter */}
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-xs">
-          <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Tìm theo tiêu đề..."
-            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
-          />
-        </div>
+        <SearchInput value={search} onChange={setSearch} placeholder="Tìm theo tiêu đề..." />
         <div className="inline-flex items-center gap-1 rounded-full border border-black/10 bg-white p-1">
           {(
             [
@@ -82,11 +75,7 @@ export default function BlogList({ posts: initialPosts }: { posts: BlogPost[] })
 
       {/* Grid */}
       {filtered.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-black/5 bg-white p-12 text-center shadow-sm">
-          <p className="text-sm text-gray-500">
-            {posts.length === 0 ? "Chưa có bài viết nào." : "Không tìm thấy bài viết phù hợp."}
-          </p>
-        </div>
+        <EmptyState message={posts.length === 0 ? "Chưa có bài viết nào." : "Không tìm thấy bài viết phù hợp."} />
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((post) => {

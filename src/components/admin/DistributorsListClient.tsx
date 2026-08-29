@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil, Trash2, Loader2, ChevronUp, ChevronDown, MapPin, Phone, Clock } from "lucide-react";
 import type { Distributor } from "@/lib/db";
+import { SearchInput, EmptyState } from "@/components/admin/ui";
 
 async function patchDistributor(d: Distributor, sort_order: number) {
   await fetch(`/api/distributors/${d.id}`, {
@@ -126,9 +127,20 @@ function DistributorRow({
 export default function DistributorsListClient({ distributors: initial }: { distributors: Distributor[] }) {
   const [distributors, setDistributors] = useState(initial);
   const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return distributors;
+    return distributors.filter(
+      (d) => d.name.toLowerCase().includes(q) || d.district.toLowerCase().includes(q) || d.address.toLowerCase().includes(q)
+    );
+  }, [distributors, search]);
 
   const handleDeleted = (id: string) => setDistributors((prev) => prev.filter((d) => d.id !== id));
 
+  // Luôn dựa vào vị trí trong danh sách ĐẦY ĐỦ (không phải danh sách đã
+  // lọc) để tráo sort_order — tránh đổi nhầm thứ tự khi đang gõ tìm kiếm.
   const handleMove = async (index: number, dir: -1 | 1) => {
     const targetIndex = index + dir;
     if (targetIndex < 0 || targetIndex >= distributors.length) return;
@@ -151,43 +163,48 @@ export default function DistributorsListClient({ distributors: initial }: { dist
     }
   };
 
-  if (distributors.length === 0) {
-    return (
-      <div className="mt-6 rounded-2xl border border-black/5 bg-white p-10 text-center shadow-sm">
-        <p className="text-sm text-gray-500">Chưa có cửa hàng nào.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="mt-6 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] border-collapse text-left">
-          <thead>
-            <tr className="border-b-2 border-[#006400] bg-[#f7f6ec] text-xs font-bold uppercase tracking-wide text-[#06301B]">
-              <th className="w-14 py-3 pl-4">Thứ tự</th>
-              <th className="py-3 pr-4">Cửa hàng</th>
-              <th className="py-3 pr-4">Quận/Huyện</th>
-              <th className="py-3 pr-4">Giờ hoạt động</th>
-              <th className="py-3 pr-4">Điện thoại</th>
-              <th className="py-3 pr-4 text-right">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {distributors.map((d, i) => (
-              <DistributorRow
-                key={d.id}
-                distributor={d}
-                isFirst={i === 0}
-                isLast={i === distributors.length - 1}
-                reordering={reorderingId === d.id}
-                onMove={(dir) => handleMove(i, dir)}
-                onDeleted={handleDeleted}
-              />
-            ))}
-          </tbody>
-        </table>
+    <div>
+      <div className="mt-6">
+        <SearchInput value={search} onChange={setSearch} placeholder="Tìm theo tên, quận/huyện, địa chỉ…" />
       </div>
+
+      {filtered.length === 0 ? (
+        <EmptyState message={distributors.length === 0 ? "Chưa có cửa hàng nào." : "Không tìm thấy cửa hàng phù hợp."} />
+      ) : (
+        <div className="mt-4 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[720px] border-collapse text-left">
+              <thead>
+                <tr className="border-b-2 border-[#006400] bg-[#f7f6ec] text-xs font-bold uppercase tracking-wide text-[#06301B]">
+                  <th className="w-14 py-3 pl-4">Thứ tự</th>
+                  <th className="py-3 pr-4">Cửa hàng</th>
+                  <th className="py-3 pr-4">Quận/Huyện</th>
+                  <th className="py-3 pr-4">Giờ hoạt động</th>
+                  <th className="py-3 pr-4">Điện thoại</th>
+                  <th className="py-3 pr-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((d) => {
+                  const fullIndex = distributors.findIndex((x) => x.id === d.id);
+                  return (
+                    <DistributorRow
+                      key={d.id}
+                      distributor={d}
+                      isFirst={fullIndex === 0}
+                      isLast={fullIndex === distributors.length - 1}
+                      reordering={reorderingId === d.id}
+                      onMove={(dir) => handleMove(fullIndex, dir)}
+                      onDeleted={handleDeleted}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,8 +4,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Search, ImageOff, Pencil, Trash2, Loader2 } from "lucide-react";
+import { ImageOff, Pencil, Trash2, Loader2 } from "lucide-react";
 import type { Product } from "@/lib/db";
+import { SearchInput, EmptyState } from "@/components/admin/ui";
 
 const CATEGORY_TABS: { id: Product["category"]; label: string }[] = [
   { id: "fresh", label: "Trái cây tươi" },
@@ -163,15 +164,7 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
 
       {/* Filters */}
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-xs">
-          <Search size={15} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Tìm theo tên sản phẩm…"
-            className="w-full rounded-full border border-black/10 bg-white py-2.5 pl-9 pr-4 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
-          />
-        </div>
+        <SearchInput value={search} onChange={setSearch} placeholder="Tìm theo tên sản phẩm…" />
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value as "all" | Product["type"])}
@@ -186,13 +179,13 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
 
       {/* Grid */}
       {visible.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-black/5 bg-white p-10 text-center shadow-sm">
-          <p className="text-sm text-gray-500">
-            {products.filter((p) => p.category === activeTab).length === 0
+        <EmptyState
+          message={
+            products.filter((p) => p.category === activeTab).length === 0
               ? "Chưa có sản phẩm nào trong danh mục này."
-              : "Không tìm thấy sản phẩm phù hợp."}
-          </p>
-        </div>
+              : "Không tìm thấy sản phẩm phù hợp."
+          }
+        />
       ) : (
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visible.map((product) => (

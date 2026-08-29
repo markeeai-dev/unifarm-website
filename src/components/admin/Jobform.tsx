@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, type KeyboardEvent } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Trash2, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Job } from "@/lib/db";
-import { SectionCard } from "@/components/admin/DashboardCharts";
+import { Card, Field, FormActions, inputClass } from "@/components/admin/ui";
 
 type FormValues = {
   title: string;
@@ -31,10 +30,6 @@ function toDateInputValue(value: string | Date | null) {
   if (value instanceof Date) return value.toISOString().slice(0, 10);
   return String(value).slice(0, 10);
 }
-
-const inputClass =
-  "mt-1.5 w-full rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10";
-const labelClass = "block text-sm font-semibold text-[#06301B]";
 
 function TagInput({ tags, onChange }: { tags: string[]; onChange: (tags: string[]) => void }) {
   const [draft, setDraft] = useState("");
@@ -127,6 +122,7 @@ export default function JobForm({ job }: { job?: Job }) {
     sort_order: job?.sort_order ?? "",
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
@@ -163,230 +159,187 @@ export default function JobForm({ job }: { job?: Job }) {
   const handleDelete = async () => {
     if (!job) return;
     if (!confirm(`Xoá vị trí "${job.title}"? Hành động này không thể hoàn tác.`)) return;
-    await fetch(`/api/jobs/${job.id}`, { method: "DELETE" });
-    router.push("/admin/jobs");
-    router.refresh();
+    setDeleting(true);
+    try {
+      await fetch(`/api/jobs/${job.id}`, { method: "DELETE" });
+      router.push("/admin/jobs");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <Link
-        href="/admin/jobs"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 transition-colors hover:text-[#006400]"
-      >
-        <ArrowLeft size={15} /> Quay lại danh sách
-      </Link>
+    <form onSubmit={handleSubmit} className="mx-auto max-w-3xl space-y-5">
+      <Card title="Thông tin cơ bản" hint="Tên vị trí, cấp bậc và phòng ban">
+        <Field label="Tên vị trí">
+          <input
+            required
+            value={values.title}
+            onChange={(e) => set("title", e.target.value)}
+            placeholder="VD: Kỹ sư nông nghiệp"
+            className={inputClass}
+          />
+        </Field>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <SectionCard title="Thông tin cơ bản" sub="Tên vị trí, cấp bậc và phòng ban">
-          <div className="space-y-5">
-            <div>
-              <label className={labelClass}>Tên vị trí</label>
-              <input
-                required
-                value={values.title}
-                onChange={(e) => set("title", e.target.value)}
-                placeholder="VD: Kỹ sư nông nghiệp"
-                className={inputClass}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <div>
-                <label className={labelClass}>Phòng ban</label>
-                <input
-                  required
-                  value={values.dept}
-                  onChange={(e) => set("dept", e.target.value)}
-                  placeholder="Kinh doanh, Kỹ thuật, Sản xuất, Chất lượng, Marketing, Data..."
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Địa điểm</label>
-                <input
-                  required
-                  value={values.location}
-                  onChange={(e) => set("location", e.target.value)}
-                  placeholder="VD: Hà Nội, TP. Hồ Chí Minh..."
-                  className={inputClass}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <div>
-                <label className={labelClass}>Cấp bậc</label>
-                <select
-                  value={values.level}
-                  onChange={(e) => set("level", e.target.value as FormValues["level"])}
-                  className={inputClass}
-                >
-                  <option value="Intern">Intern</option>
-                  <option value="Fresher">Fresher</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Middle">Middle</option>
-                  <option value="Senior">Senior</option>
-                </select>
-              </div>
-              <div>
-                <label className={labelClass}>Kinh nghiệm</label>
-                <select
-                  value={values.experience}
-                  onChange={(e) => set("experience", e.target.value as FormValues["experience"])}
-                  className={inputClass}
-                >
-                  <option value="Không yêu cầu">Không yêu cầu</option>
-                  <option value="Có kinh nghiệm">Có kinh nghiệm</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="sm:w-1/2 sm:pr-2.5">
-              <label className={labelClass}>Số lượng cần tuyển</label>
-              <input
-                type="number"
-                min={1}
-                value={values.headcount}
-                onChange={(e) => set("headcount", Number(e.target.value))}
-                className={inputClass}
-              />
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Thu nhập & Thời hạn" sub="Mức lương hiển thị công khai và hạn nộp hồ sơ">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div>
-              <label className={labelClass}>Mức thu nhập (hiển thị)</label>
-              <input
-                value={values.income}
-                onChange={(e) => set("income", e.target.value)}
-                placeholder="VD: 12 - 18 triệu"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Khoảng thu nhập (lọc)</label>
-              <select
-                value={values.income_bucket}
-                onChange={(e) => set("income_bucket", e.target.value as FormValues["income_bucket"])}
-                className={inputClass}
-              >
-                <option value="Dưới 8 triệu">Dưới 8 triệu</option>
-                <option value="8 - 12 triệu">8 - 12 triệu</option>
-                <option value="Trên 12 triệu">Trên 12 triệu</option>
-              </select>
-            </div>
-            <div>
-              <label className={labelClass}>Hạn nộp hồ sơ</label>
-              <input
-                type="date"
-                value={values.deadline_date}
-                onChange={(e) => set("deadline_date", e.target.value)}
-                className={inputClass}
-              />
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Mô tả & Quyền lợi" sub="Quyền lợi ứng viên và các nhãn nổi bật">
-          <div className="space-y-5">
-            <div>
-              <label className={labelClass}>Quyền lợi / mô tả ngắn</label>
-              <textarea
-                rows={4}
-                value={values.benefit}
-                onChange={(e) => set("benefit", e.target.value)}
-                placeholder={"VD:\n- Lương thưởng cạnh tranh\n- BHXH đầy đủ theo luật lao động\n- Môi trường làm việc chuyên nghiệp"}
-                className={`${inputClass} resize-y leading-relaxed`}
-              />
-              <p className="mt-1.5 text-xs text-gray-400">Mỗi dòng một ý để dễ đọc — ví dụ mỗi quyền lợi trên một dòng riêng.</p>
-            </div>
-            <div>
-              <label className={labelClass}>Nhãn (tags)</label>
-              <div className="mt-1.5">
-                <TagInput tags={values.tags} onChange={(tags) => set("tags", tags)} />
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title="Trạng thái" sub="Hiển thị, thứ tự sắp xếp và màu badge">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div>
-              <label className={labelClass}>Trạng thái</label>
-              <select
-                value={values.status}
-                onChange={(e) => set("status", e.target.value as FormValues["status"])}
-                className={inputClass}
-              >
-                <option value="active">Đang tuyển</option>
-                <option value="closed">Đã đóng</option>
-              </select>
-            </div>
-            <div>
-              <label className={labelClass}>Thứ tự hiển thị</label>
-              <input
-                type="number"
-                min={1}
-                value={values.sort_order}
-                onChange={(e) => set("sort_order", e.target.value === "" ? "" : Number(e.target.value))}
-                placeholder="Tự động"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Màu sắc (badge phòng ban)</label>
-              <div className="mt-1.5 flex items-center gap-2">
-                <input
-                  type="color"
-                  value={/^#[0-9a-fA-F]{6}$/.test(values.color) ? values.color : "#006400"}
-                  onChange={(e) => set("color", e.target.value)}
-                  className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-[#06301B]/15 p-1"
-                />
-                <input
-                  value={values.color}
-                  onChange={(e) => set("color", e.target.value)}
-                  placeholder="#006400"
-                  className="w-full rounded-lg border border-[#06301B]/15 px-3 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10"
-                />
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-
-        {error && (
-          <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>
-        )}
-
-        <div className="flex items-center gap-3 pt-1">
-          <button
-            type="submit"
-            disabled={saving}
-            className="rounded-full bg-[#006400] px-7 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#004d00] disabled:opacity-60"
-          >
-            {saving ? "Đang lưu…" : job ? "Lưu thay đổi" : "Tạo vị trí"}
-          </button>
-
-          <Link
-            href="/admin/jobs"
-            className="rounded-full border border-[#06301B]/15 px-6 py-3 text-sm font-semibold text-[#06301B] transition-colors hover:bg-gray-50"
-          >
-            Huỷ
-          </Link>
-
-          {job && (
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="ml-auto flex items-center gap-1.5 rounded-full border border-red-200 px-6 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
-            >
-              <Trash2 size={14} /> Xoá vị trí
-            </button>
-          )}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Phòng ban">
+            <input
+              required
+              value={values.dept}
+              onChange={(e) => set("dept", e.target.value)}
+              placeholder="Kinh doanh, Kỹ thuật, Sản xuất, Chất lượng, Marketing, Data..."
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Địa điểm">
+            <input
+              required
+              value={values.location}
+              onChange={(e) => set("location", e.target.value)}
+              placeholder="VD: Hà Nội, TP. Hồ Chí Minh..."
+              className={inputClass}
+            />
+          </Field>
         </div>
-      </form>
-    </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Cấp bậc">
+            <select
+              value={values.level}
+              onChange={(e) => set("level", e.target.value as FormValues["level"])}
+              className={inputClass}
+            >
+              <option value="Intern">Intern</option>
+              <option value="Fresher">Fresher</option>
+              <option value="Junior">Junior</option>
+              <option value="Middle">Middle</option>
+              <option value="Senior">Senior</option>
+            </select>
+          </Field>
+          <Field label="Kinh nghiệm">
+            <select
+              value={values.experience}
+              onChange={(e) => set("experience", e.target.value as FormValues["experience"])}
+              className={inputClass}
+            >
+              <option value="Không yêu cầu">Không yêu cầu</option>
+              <option value="Có kinh nghiệm">Có kinh nghiệm</option>
+            </select>
+          </Field>
+        </div>
+
+        <div className="sm:w-1/2 sm:pr-2.5">
+          <Field label="Số lượng cần tuyển">
+            <input
+              type="number"
+              min={1}
+              value={values.headcount}
+              onChange={(e) => set("headcount", Number(e.target.value))}
+              className={inputClass}
+            />
+          </Field>
+        </div>
+      </Card>
+
+      <Card title="Thu nhập & Thời hạn" hint="Mức lương hiển thị công khai và hạn nộp hồ sơ">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <Field label="Mức thu nhập (hiển thị)">
+            <input
+              value={values.income}
+              onChange={(e) => set("income", e.target.value)}
+              placeholder="VD: 12 - 18 triệu"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Khoảng thu nhập (lọc)">
+            <select
+              value={values.income_bucket}
+              onChange={(e) => set("income_bucket", e.target.value as FormValues["income_bucket"])}
+              className={inputClass}
+            >
+              <option value="Dưới 8 triệu">Dưới 8 triệu</option>
+              <option value="8 - 12 triệu">8 - 12 triệu</option>
+              <option value="Trên 12 triệu">Trên 12 triệu</option>
+            </select>
+          </Field>
+          <Field label="Hạn nộp hồ sơ">
+            <input
+              type="date"
+              value={values.deadline_date}
+              onChange={(e) => set("deadline_date", e.target.value)}
+              className={inputClass}
+            />
+          </Field>
+        </div>
+      </Card>
+
+      <Card title="Mô tả & Quyền lợi" hint="Quyền lợi ứng viên và các nhãn nổi bật">
+        <Field label="Quyền lợi / mô tả ngắn" hint="Mỗi dòng một ý để dễ đọc — ví dụ mỗi quyền lợi trên một dòng riêng.">
+          <textarea
+            rows={4}
+            value={values.benefit}
+            onChange={(e) => set("benefit", e.target.value)}
+            placeholder={"VD:\n- Lương thưởng cạnh tranh\n- BHXH đầy đủ theo luật lao động\n- Môi trường làm việc chuyên nghiệp"}
+            className={`${inputClass} resize-y leading-relaxed`}
+          />
+        </Field>
+        <Field label="Nhãn (tags)">
+          <TagInput tags={values.tags} onChange={(tags) => set("tags", tags)} />
+        </Field>
+      </Card>
+
+      <Card title="Trạng thái" hint="Hiển thị, thứ tự sắp xếp và màu badge">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <Field label="Trạng thái">
+            <select
+              value={values.status}
+              onChange={(e) => set("status", e.target.value as FormValues["status"])}
+              className={inputClass}
+            >
+              <option value="active">Đang tuyển</option>
+              <option value="closed">Đã đóng</option>
+            </select>
+          </Field>
+          <Field label="Thứ tự hiển thị">
+            <input
+              type="number"
+              min={1}
+              value={values.sort_order}
+              onChange={(e) => set("sort_order", e.target.value === "" ? "" : Number(e.target.value))}
+              placeholder="Tự động"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Màu sắc (badge phòng ban)">
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={/^#[0-9a-fA-F]{6}$/.test(values.color) ? values.color : "#006400"}
+                onChange={(e) => set("color", e.target.value)}
+                className="h-10 w-12 shrink-0 cursor-pointer rounded-lg border border-[#06301B]/15 p-1"
+              />
+              <input
+                value={values.color}
+                onChange={(e) => set("color", e.target.value)}
+                placeholder="#006400"
+                className={inputClass}
+              />
+            </div>
+          </Field>
+        </div>
+      </Card>
+
+      {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}
+
+      <FormActions
+        cancelHref="/admin/jobs"
+        saving={saving}
+        submitLabel={job ? "Lưu thay đổi" : "Tạo vị trí"}
+        onDelete={job ? handleDelete : undefined}
+        deleting={deleting}
+        deleteLabel="Xoá vị trí"
+      />
+    </form>
   );
 }

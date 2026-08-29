@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import type { TimelineMilestone, SpecField } from "@/lib/db";
 import { SingleImageUploader } from "@/components/admin/ImageUploader";
 import {
@@ -10,6 +10,7 @@ import {
   TIMELINE_ICON_MAP,
   DEFAULT_TIMELINE_ICON,
 } from "@/lib/timeline-icons";
+import { Card, Field, FormActions, inputClass } from "@/components/admin/ui";
 
 type MediaItem = { label: string; video: string };
 
@@ -27,31 +28,6 @@ type FormValues = {
 };
 
 const MIN_MEDIA_ROWS = 2;
-
-function Card({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm sm:p-6">
-      <h2 className="text-sm font-extrabold uppercase tracking-wide text-[#06301B]">{title}</h2>
-      {hint && <p className="mt-0.5 text-xs text-gray-400">{hint}</p>}
-      <div className="mt-4 space-y-5">{children}</div>
-    </div>
-  );
-}
-
-function Field({ label, hint, required, children }: { label: string; hint?: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <div>
-      <label className="block text-sm font-semibold text-[#06301B]">
-        {label} {required && <span className="text-[#006400]">*</span>}
-      </label>
-      {hint && <p className="mt-0.5 text-xs text-gray-400">{hint}</p>}
-      <div className="mt-1.5">{children}</div>
-    </div>
-  );
-}
-
-const inputClass =
-  "w-full rounded-lg border border-[#06301B]/15 px-4 py-2.5 text-sm outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10";
 
 /** Danh sách 1 dòng/mục có thể thêm/xoá — dùng cho partner_bullets và bottom. */
 function DynamicListField({
@@ -128,6 +104,7 @@ export default function TimelineForm({ milestone }: { milestone?: TimelineMilest
     sort_order: milestone?.sort_order ?? 0,
   });
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
@@ -200,9 +177,14 @@ export default function TimelineForm({ milestone }: { milestone?: TimelineMilest
   const handleDelete = async () => {
     if (!milestone) return;
     if (!confirm(`Xoá mốc "${milestone.caption}"? Hành động này không thể hoàn tác.`)) return;
-    await fetch(`/api/timeline/${milestone.id}`, { method: "DELETE" });
-    router.push("/admin/timeline");
-    router.refresh();
+    setDeleting(true);
+    try {
+      await fetch(`/api/timeline/${milestone.id}`, { method: "DELETE" });
+      router.push("/admin/timeline");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -396,10 +378,7 @@ export default function TimelineForm({ milestone }: { milestone?: TimelineMilest
       </Card>
 
       <Card title="Ghi chú thêm">
-        <Field
-          label="Khối tổng kết cuối card"
-          hint="Mỗi dòng là một ghi chú, khuyến nghị 2–5 dòng."
-        >
+        <Field label="Khối tổng kết cuối card" hint="Mỗi dòng là một ghi chú, khuyến nghị 2–5 dòng.">
           <DynamicListField
             items={values.bottom}
             onChange={(items) => set("bottom", items)}
@@ -410,29 +389,16 @@ export default function TimelineForm({ milestone }: { milestone?: TimelineMilest
         </Field>
       </Card>
 
-      {error && (
-        <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>
-      )}
+      {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}
 
-      <div className="flex items-center gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-full bg-[#006400] px-7 py-3 text-sm font-bold text-white transition-colors hover:bg-[#004d00] disabled:opacity-60"
-        >
-          {saving ? "Đang lưu…" : milestone ? "Lưu thay đổi" : "Tạo mốc mới"}
-        </button>
-
-        {milestone && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="inline-flex items-center gap-1.5 rounded-full border border-red-200 px-6 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50"
-          >
-            <Trash2 size={14} /> Xoá mốc
-          </button>
-        )}
-      </div>
+      <FormActions
+        cancelHref="/admin/timeline"
+        saving={saving}
+        submitLabel={milestone ? "Lưu thay đổi" : "Tạo mốc mới"}
+        onDelete={milestone ? handleDelete : undefined}
+        deleting={deleting}
+        deleteLabel="Xoá mốc"
+      />
     </form>
   );
 }
