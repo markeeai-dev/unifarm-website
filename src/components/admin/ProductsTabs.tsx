@@ -4,15 +4,12 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ImageOff, Pencil, Trash2, Loader2 } from "lucide-react";
+import { ImageOff, Pencil, Trash2, Loader2, ShieldCheck } from "lucide-react";
 import type { Product } from "@/lib/db";
 import { SearchInput, EmptyState } from "@/components/admin/ui";
+import { CATEGORIES, getCertBadge } from "@/components/ProductDetailPanel";
 
-const CATEGORY_TABS: { id: Product["category"]; label: string }[] = [
-  { id: "fresh", label: "Trái cây tươi" },
-  { id: "seedling", label: "Cây giống nuôi cấy mô" },
-  { id: "processed", label: "Sản phẩm chế biến" },
-];
+type TabId = "all" | Product["category"];
 
 const TYPE_LABELS: Record<Product["type"], string> = {
   banana: "Chuối",
@@ -26,6 +23,18 @@ const TYPE_OPTIONS: Product["type"][] = ["banana", "pineapple", "melon", "other"
 function formatPrice(price: number) {
   if (!price) return "Chưa có giá";
   return `${price.toLocaleString("vi-VN")} đ`;
+}
+
+function categoryLabel(category: Product["category"]) {
+  return CATEGORIES.find((c) => c.id === category)?.label ?? category;
+}
+
+/** Tóm tắt mô tả (bỏ thẻ HTML) để thẻ sản phẩm ở admin có đủ thông tin
+ * nhận diện nhanh mà không cần mở chi tiết. */
+function plainSnippet(html: string, maxLen = 90) {
+  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  return text.length > maxLen ? `${text.slice(0, maxLen).trimEnd()}…` : text;
 }
 
 function ProductCard({
@@ -50,8 +59,14 @@ function ProductCard({
     }
   };
 
+  const snippet = plainSnippet(product.description);
+
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_18px_40px_-16px_rgba(0,100,0,0.35)]">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_50px_-18px_rgba(0,100,0,0.4)]">
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#006400] via-[#87cefa] to-[#fffacd] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
       <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-gray-50">
         {product.image ? (
           <Image
@@ -59,7 +74,7 @@ function ProductCard({
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center">
@@ -93,8 +108,11 @@ function ProductCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-1 p-4">
-        <h3 className="truncate text-sm font-bold text-[#06301B]" title={product.name}>
+      <div className="flex flex-1 flex-col gap-1.5 p-4">
+        <span className="w-fit rounded-full bg-[#f2f9ee] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#006400]">
+          {categoryLabel(product.category)}
+        </span>
+        <h3 className="mt-0.5 truncate text-sm font-bold text-[#06301B]" title={product.name}>
           {product.name}
         </h3>
         {product.subtitle && (
@@ -102,7 +120,11 @@ function ProductCard({
             {product.subtitle}
           </p>
         )}
-        <p className="mt-1.5 text-sm font-extrabold text-[#006400]">{formatPrice(product.price)}</p>
+        {snippet && <p className="line-clamp-2 text-xs leading-relaxed text-gray-400">{snippet}</p>}
+        <p className="flex items-center gap-1 text-[11px] font-semibold text-[#006400]/80">
+          <ShieldCheck size={12} /> {getCertBadge(product)}
+        </p>
+        <p className="mt-1 text-sm font-extrabold text-[#006400]">{formatPrice(product.price)}</p>
       </div>
     </div>
   );
@@ -110,12 +132,12 @@ function ProductCard({
 
 export default function ProductsTabs({ products: initialProducts }: { products: Product[] }) {
   const [products, setProducts] = useState(initialProducts);
-  const [activeTab, setActiveTab] = useState<Product["category"]>("fresh");
+  const [activeTab, setActiveTab] = useState<TabId>("all");
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | Product["type"]>("all");
 
   const counts = useMemo(() => {
-    const map: Record<Product["category"], number> = { fresh: 0, seedling: 0, processed: 0 };
+    const map: Record<TabId, number> = { all: products.length, fresh: 0, seedling: 0, processed: 0 };
     products.forEach((p) => { map[p.category] += 1; });
     return map;
   }, [products]);
@@ -123,7 +145,7 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
     return products.filter((p) => {
-      if (p.category !== activeTab) return false;
+      if (activeTab !== "all" && p.category !== activeTab) return false;
       if (typeFilter !== "all" && p.type !== typeFilter) return false;
       if (q && !p.name.toLowerCase().includes(q)) return false;
       return true;
@@ -136,13 +158,14 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
     <div className="mt-6">
       {/* Tabs */}
       <div className="flex flex-wrap gap-2">
-        {CATEGORY_TABS.map((tab) => {
-          const active = tab.id === activeTab;
+        {CATEGORIES.map((tab) => {
+          const id = tab.id as TabId;
+          const active = id === activeTab;
           return (
             <button
-              key={tab.id}
+              key={id}
               type="button"
-              onClick={() => { setActiveTab(tab.id); setTypeFilter("all"); }}
+              onClick={() => { setActiveTab(id); setTypeFilter("all"); }}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-bold transition-colors ${
                 active
                   ? "border-[#006400] bg-[#006400] text-white shadow-sm"
@@ -155,7 +178,7 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
                   active ? "bg-white/20 text-white" : "bg-[#f2f9ee] text-[#006400]"
                 }`}
               >
-                {counts[tab.id]}
+                {counts[id]}
               </span>
             </button>
           );

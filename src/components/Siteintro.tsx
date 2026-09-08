@@ -19,9 +19,9 @@ import { markIntroReady } from "@/lib/use-intro-ready";
  * khi trình duyệt vẽ khung hình) để người dùng quay lại không bị chớp hình
  * intro dù chỉ 1 khung hình.
  */
-const COUNT_MS = 1050;
-const HOLD_MS = 100;
-const PEEL_MS = 350;
+const COUNT_MS = 650;
+const HOLD_MS = 80;
+const PEEL_MS = 270;
 const SEEN_KEY = "unifarm_intro_seen";
 
 type Phase = "show" | "peel" | "hidden";
@@ -139,7 +139,6 @@ export default function SiteIntro() {
             <span className="text-6xl font-extrabold text-[#fffacd] sm:text-7xl">
               {progress}
             </span>
-            <span className="text-2xl font-bold text-[#fffacd]/70 sm:text-3xl">%</span>
           </div>
 
           <div className="h-[3px] w-28 overflow-hidden rounded-full bg-white/10 sm:w-36">

@@ -142,6 +142,22 @@ export default function QuoteSlider() {
             {t(SLIDES[index].quote)}
           </blockquote>
 
+          <div className="max-w-3xl flex justify-end">
+            <svg
+              viewBox="0 0 48 32"
+              className="mt-2 h-8 w-8 rotate-180 text-[#87cefa]/70 sm:h-10 sm:w-10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <path
+                d="M2 20c0-8 5-13 12-15M2 20c0 6 3 10 9 10M20 20c0-8 5-13 12-15M20 20c0 6 3 10 9 10"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+
           <div className="mt-8 flex items-center gap-3">
             <span className="h-8 w-1 shrink-0 rounded-full bg-[#87cefa]" />
             <p className="text-sm font-bold uppercase tracking-wider text-[#fffacd] sm:text-base">

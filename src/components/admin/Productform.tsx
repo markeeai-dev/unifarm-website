@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Info, Image as ImageIcon, FileText, ListChecks, ShieldCheck, Trash2, Plus } from "lucide-react";
+import { Info, Image as ImageIcon, FileText, ListChecks, ShieldCheck, Trash2, Plus, Eye } from "lucide-react";
 import type { Product, SpecField } from "@/lib/db";
 import { SingleImageUploader, GalleryUploader } from "@/components/admin/ImageUploader";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { Card, Field, FormActions, inputClass, labelClass } from "@/components/admin/ui";
+import { CATEGORIES, ProductGallery, ProductDetailPanel } from "@/components/ProductDetailPanel";
 
 type FormValues = {
   name: string;
@@ -113,8 +114,26 @@ export default function ProductForm({ product }: { product?: Product }) {
     }
   };
 
+  const previewCommitments = values.commitments
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const previewProduct = {
+    id: product?.id ?? "preview",
+    name: values.name,
+    subtitle: values.subtitle,
+    standard: values.standard,
+    category: values.category,
+    description: values.description,
+    specs: values.specs,
+    commitments: previewCommitments,
+    image: values.image,
+    gallery: values.gallery,
+  };
+  const previewCategoryLabel = CATEGORIES.find((c) => c.id === values.category)?.label ?? null;
+
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-3xl space-y-5">
+    <form onSubmit={handleSubmit} className="mx-auto max-w-5xl space-y-5">
       <Card icon={<Info size={18} strokeWidth={2} />} title="Thông tin cơ bản">
         <Field label="Tên sản phẩm">
           <input required value={values.name} onChange={(e) => set("name", e.target.value)} className={inputClass} />
@@ -254,6 +273,21 @@ export default function ProductForm({ product }: { product?: Product }) {
           placeholder={"Truy xuất nguồn gốc minh bạch\nKiểm soát dư lượng nghiêm ngặt (MRL)\nSản xuất trên dây chuyền hiện đại"}
           className={inputClass}
         />
+      </Card>
+
+      <Card
+        icon={<Eye size={18} strokeWidth={2} />}
+        title="Xem trước trên website"
+        hint="Đúng nội dung sẽ hiển thị ở trang Sản phẩm — kiểm tra kỹ trước khi lưu để tránh phải sửa lại sau khi lên trang chính."
+      >
+        <div className="rounded-xl border border-dashed border-[#06301B]/15 bg-neutral-50 p-4 sm:p-6">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-[1.15fr_1fr] sm:gap-10">
+            <div className="flex min-w-0 items-center justify-center">
+              <ProductGallery key={values.image} product={previewProduct} />
+            </div>
+            <ProductDetailPanel product={previewProduct} categoryLabel={previewCategoryLabel} />
+          </div>
+        </div>
       </Card>
 
       {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}

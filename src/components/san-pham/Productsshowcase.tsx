@@ -6,6 +6,14 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { Product } from '@/lib/db';
 import { useLanguage } from '@/lib/i18n/LanguageProvider';
+import {
+  CATEGORIES,
+  ProductDetailPanel,
+  ProductGallery,
+  getCertBadge,
+  getProductSpecs,
+  QUALITY_COMMITMENTS,
+} from '@/components/ProductDetailPanel';
 
 /**
  * ProductsShowcase — "Nông sản Unifarm"
@@ -27,15 +35,6 @@ import { useLanguage } from '@/lib/i18n/LanguageProvider';
  * PRODUCTS trước khi lên production (ảnh demo dùng placeholder từ
  * picsum.photos chỉ để đảm bảo luôn hiển thị được).
  */
-
-type Category = { id: string; label: string };
-
-const CATEGORIES: Category[] = [
-  { id: 'all', label: 'Tất cả sản phẩm' },
-  { id: 'fresh', label: 'Trái cây tươi' },
-  { id: 'seedling', label: 'Cây giống nuôi cấy mô' },
-  { id: 'processed', label: 'Sản phẩm chế biến' },
-];
 
 function CartIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return (
@@ -77,30 +76,6 @@ function CloseIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
       <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-function ShieldCheckIcon({ className = 'h-5 w-5' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-function FlaskIcon({ className = 'h-5 w-5' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M9 3h6M10 3v6.2L5.5 18a2 2 0 0 0 1.8 2.9h9.4a2 2 0 0 0 1.8-2.9L14 9.2V3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7.5 15h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-function FactoryIcon({ className = 'h-5 w-5' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M3 21V11l6 4v-4l6 4V6l6 4v11H3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M3 21h18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -251,111 +226,6 @@ async function downloadProductPdf(
   } finally {
     document.body.removeChild(wrapper);
   }
-}
-
-/** Nhãn chứng nhận ngắn theo từng danh mục — hiển thị dưới tên sản phẩm trong bảng chi tiết.
- * Dùng `p.standard` (dữ liệu thật) nếu có, ngược lại rơi về mặc định theo danh mục. */
-function getCertBadge(p: Product, t: (text: string) => string) {
-  if (p.standard) return p.standard;
-  switch (p.category) {
-    case 'fresh':
-      return t('Đạt tiêu chuẩn xuất khẩu');
-    case 'seedling':
-      return t('Đạt chuẩn cây giống sạch bệnh');
-    case 'processed':
-      return t('Đạt chuẩn an toàn thực phẩm');
-    default:
-      return t('Đạt tiêu chuẩn chất lượng cao');
-  }
-}
-
-/** Bảng thông số kỹ thuật — dùng `p.specs` (dữ liệu thật) nếu có, ngược lại rơi về
- * bảng mặc định ngắn gọn theo từng nhóm sản phẩm. */
-function getProductSpecs(p: Product, t: (text: string) => string): { label: string; value: string }[] {
-  if (p.specs && p.specs.length > 0) return p.specs;
-  switch (p.category) {
-    case 'fresh':
-      return [
-        { label: t('Giống'), value: p.name },
-        { label: t('Độ ngọt (Brix)'), value: t('13 - 16') },
-        { label: t('Mùa vụ'), value: t('Quanh năm') },
-        { label: t('Năng suất'), value: t('60 - 70 tấn/hecta') },
-      ];
-    case 'seedling':
-      return [
-        { label: t('Giống'), value: p.name },
-        { label: t('Tỷ lệ sống'), value: t('≥ 95%') },
-        { label: t('Thời gian xuất vườn'), value: t('45 - 60 ngày') },
-        { label: t('Quy mô cung ứng'), value: t('Số lượng lớn theo đơn hàng') },
-      ];
-    case 'processed':
-      return [
-        { label: t('Sản phẩm'), value: p.name },
-        { label: t('Hạn sử dụng'), value: t('12 tháng') },
-        { label: t('Đóng gói'), value: t('Túi/hộp tiêu chuẩn xuất khẩu') },
-        { label: t('Chứng nhận'), value: t('An toàn thực phẩm') },
-      ];
-    default:
-      return [
-        { label: t('Sản phẩm'), value: p.name },
-        { label: t('Xuất xứ'), value: t('Sản xuất trong nước') },
-        { label: t('Bảo hành'), value: t('Theo chính sách nhà cung cấp') },
-        { label: t('Đóng gói'), value: t('Theo quy cách tiêu chuẩn') },
-      ];
-  }
-}
-
-const QUALITY_COMMITMENTS = [
-  { icon: ShieldCheckIcon, label: 'Truy xuất nguồn gốc minh bạch' },
-  { icon: FlaskIcon, label: 'Kiểm soát dư lượng nghiêm ngặt (MRL)' },
-  { icon: FactoryIcon, label: 'Sản xuất trên dây chuyền hiện đại' },
-];
-
-/** 3 ảnh cho gallery ở bảng chi tiết — dùng `gallery` (ảnh thật) nếu có,
- * ngược lại rơi về ảnh chính + 2 góc chụp demo placeholder. */
-function getGalleryImages(p: Product): string[] {
-  if (p.gallery && p.gallery.length > 0) return p.gallery;
-  return [p.image, `https://picsum.photos/seed/${p.id}-alt1/500/500`, `https://picsum.photos/seed/${p.id}-alt2/500/500`];
-}
-
-/** Ảnh lớn + dải thumbnail bên dưới, bấm để đổi ảnh xem chính — dùng `key={product.id}`
- * ở nơi gọi để state tự reset về ảnh đầu tiên mỗi khi đổi sản phẩm, không cần effect. */
-function ProductGallery({ product }: { product: Product }) {
-  const { tr } = useLanguage();
-  const images = getGalleryImages(product);
-  const [active, setActive] = useState(images[0]);
-  const name = tr(product.translations, 'name', product.name);
-
-  return (
-    <div className="flex w-full flex-col items-center gap-3">
-      <div className="aspect-[16/11] w-full overflow-hidden rounded-xl border border-neutral-100 bg-gradient-to-b from-[#fffacd]/30 to-[#87cefa]/10 p-5 shadow-inner sm:p-6">
-        <img
-          key={active}
-          src={active}
-          alt={name}
-          className="h-full w-full object-contain"
-          style={{ animation: 'ps-fadeUp 320ms ease-out both' }}
-        />
-      </div>
-      <div className="flex items-center gap-3">
-        {images.map((src, i) => (
-          <button
-            key={src}
-            type="button"
-            onClick={() => setActive(src)}
-            aria-label={`Xem ảnh ${i + 1}`}
-            className={`h-14 w-14 overflow-hidden rounded-lg border-2 p-1 transition-all duration-300 sm:h-16 sm:w-16 ${
-              active === src
-                ? 'border-[#006400] shadow-[0_4px_14px_rgba(0,100,0,0.25)]'
-                : 'border-neutral-200 opacity-70 hover:border-[#87cefa] hover:opacity-100'
-            }`}
-          >
-            <img src={src} alt="" className="h-full w-full object-contain" />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 // Deterministic pseudo-random offset per product id (same on server & client —
@@ -688,60 +558,14 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
 
             {/* Chi tiết */}
             <div className="flex min-w-0 flex-col">
-              <span className="mb-2 inline-flex w-fit items-center rounded-full bg-[#87cefa]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#006400]">
-                {(() => {
+              <ProductDetailPanel
+                product={translated}
+                categoryLabel={(() => {
                   const catLabel = CATEGORIES.find((c) => c.id === s.category)?.label;
                   return catLabel ? t(catLabel) : null;
                 })()}
-              </span>
-              <h3 className="uppercase text-xl font-extrabold text-neutral-900 sm:text-2xl">{translated.name}</h3>
-              {translated.subtitle && (
-                <p className="mt-1 text-sm font-semibold text-neutral-500">{translated.subtitle}</p>
-              )}
-              <p className="mb-4 mt-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#006400] sm:text-sm">
-                <ShieldCheckIcon className="h-4 w-4" /> {getCertBadge(translated, t)}
-              </p>
-
-              <div
-                className="prose-product mb-5 text-sm leading-relaxed text-neutral-600"
-                dangerouslySetInnerHTML={{ __html: translated.description }}
+                t={t}
               />
-
-              <hr className="mb-5 border-neutral-100" />
-
-              {/* Bảng thông số */}
-              <p className="mb-2 text-sm font-bold text-neutral-900">{t('Bảng thông số')}</p>
-              <div className="mb-5 overflow-hidden rounded-lg border border-neutral-200">
-                <table className="w-full table-fixed text-left text-xs sm:text-sm">
-                  <tbody>
-                    <tr className="bg-[#006400]/5">
-                      <th className="w-1/2 px-3 py-2 font-semibold text-neutral-700">{t('Đặc tính')}</th>
-                      <th className="px-3 py-2 font-semibold text-neutral-700">{t('Chi tiết sản phẩm')}</th>
-                    </tr>
-                    {getProductSpecs(translated, t).map((row, i) => (
-                      <tr key={row.label} className={i % 2 === 0 ? 'bg-white' : 'bg-[#87cefa]/5'}>
-                        <td className="px-3 py-2 text-neutral-500">{row.label}</td>
-                        <td className="px-3 py-2 font-medium text-neutral-800">{row.value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Cam kết chất lượng */}
-              <p className="mb-3 text-sm font-bold text-neutral-900">{t('Cam kết chất lượng')}</p>
-              <div className="mb-6 grid grid-cols-3 gap-3">
-                {QUALITY_COMMITMENTS.map((c, i) => (
-                  <div key={c.label} className="flex flex-col items-center gap-2 text-center">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#006400]/10 text-[#006400]">
-                      <c.icon className="h-5 w-5" />
-                    </span>
-                    <span className="text-[11px] leading-snug text-neutral-500">
-                      {translated.commitments?.[i] ?? t(c.label)}
-                    </span>
-                  </div>
-                ))}
-              </div>
 
               {/* Nút kêu gọi hành động */}
               <div className="mt-auto flex flex-col gap-2.5">
