@@ -63,7 +63,8 @@ export function SingleImageUploader({
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onChange(""); }}
-              className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100"
+              aria-label="Xoá ảnh"
+              className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
             >
               <X size={13} strokeWidth={2.5} />
             </button>
@@ -172,7 +173,8 @@ export function GalleryUploader({ value, onChange }: { value: string[]; onChange
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); removeAt(i); }}
-                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                  aria-label={`Xoá ảnh ${i + 1}`}
+                  className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
                 >
                   <X size={11} strokeWidth={2.5} />
                 </button>

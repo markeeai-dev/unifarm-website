@@ -149,7 +149,10 @@ function useScrollIntoView(active: number, count: number): React.RefObject<HTMLD
 
 export default function TimelineJourney({ milestones }: { milestones: TimelineMilestone[] }) {
   const { t, tr } = useLanguage();
-  const [active, setActive] = useState(4);
+  // Mặc định mở mốc thứ 5 (index 4) — nhưng phải kẹp trong khoảng hợp lệ,
+  // vì số mốc được quản lý ở admin (có thể xoá xuống dưới 5 mốc bất cứ lúc
+  // nào) và milestones[active] phía dưới được dùng trực tiếp không kiểm tra.
+  const [active, setActive] = useState(() => Math.min(4, Math.max(0, milestones.length - 1)));
   const [inView, setInView] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -157,8 +160,27 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
   const trackRef = useScrollIntoView(active, milestones.length);
 
   const n = milestones.length;
-  const progressPct = ((active + 0.5) / n) * 100;
-  const current = milestones[active];
+  const progressPct = n > 0 ? ((active + 0.5) / n) * 100 : 0;
+  // Rơi về 1 mốc rỗng khi timeline không còn dữ liệu — tránh crash ở các
+  // hook/biến bên dưới (Rules of Hooks không cho return sớm trước chúng),
+  // JSX phía dưới tự ẩn hẳn section này khi milestones rỗng.
+  const current: TimelineMilestone =
+    milestones[active] ?? {
+      id: "",
+      year: "",
+      caption: "",
+      icon: "Sprout",
+      stat: [],
+      partner_title: "",
+      partner_bullets: [],
+      image: "",
+      media: [],
+      bottom: [],
+      translations: null,
+      sort_order: 0,
+      created_at: "",
+      updated_at: "",
+    };
   const CurrentIcon = ICON_MAP[current.icon] ?? Sprout;
 
   const currentCaption = tr(current.translations, "caption", current.caption);
@@ -193,6 +215,8 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
 
     return () => observer.disconnect();
   }, []);
+
+  if (n === 0) return null;
 
   return (
     <section
@@ -549,7 +573,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
           className="mt-12 flex flex-col gap-4 sm:mt-14 md:grid md:gap-5 lg:gap-6"
           style={{
             gridTemplateColumns:
-              "300px minmax(280px,1fr) 300px",
+              "minmax(220px,300px) minmax(240px,1fr) minmax(220px,300px)",
 
             gridTemplateAreas:
               `"stat spot media1" "partner spot media2" "bottom bottom bottom"`,

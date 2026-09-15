@@ -581,13 +581,13 @@ export default function AgriTechPillars() {
             </h3>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            {STATS.map((s, i) => {
+          {(() => {
+            const statCard = (s: (typeof STATS)[number], i: number) => {
               const Icon = s.icon;
               return (
                 <div
                   key={s.label}
-                  className={`relative overflow-hidden rounded-3xl border border-[#e6e0c9] bg-white p-6 ${
+                  className={`relative h-full overflow-hidden rounded-3xl border border-[#e6e0c9] bg-white p-6 ${
                     statsInView ? "atx-rise" : "opacity-0"
                   }`}
                   style={{ animationDelay: `${0.15 + i * 0.15}s` }}
@@ -621,8 +621,24 @@ export default function AgriTechPillars() {
                   </div>
                 </div>
               );
-            })}
-          </div>
+            };
+            return (
+              <>
+                {/* Mobile — carousel vuốt ngang thay vì 3 thẻ xếp chồng dọc. */}
+                <div className="[scrollbar-width:none] -mx-5 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+                  {STATS.map((s, i) => (
+                    <div key={s.label} className="w-[80%] max-w-[280px] shrink-0 snap-start">
+                      {statCard(s, i)}
+                    </div>
+                  ))}
+                  <div className="w-px shrink-0" aria-hidden />
+                </div>
+                <div className="mt-10 hidden gap-5 sm:grid sm:grid-cols-3">
+                  {STATS.map((s, i) => statCard(s, i))}
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         {/* ---------- CTA ---------- */}

@@ -5,6 +5,7 @@ import { useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { markIntroReady } from "@/lib/use-intro-ready";
+import { getLenis } from "@/components/SmoothScroll";
 
 /**
  * SiteIntro — màn hình mở đầu dạng "curtain peel" (2 nửa màn hình tách ra
@@ -60,6 +61,7 @@ export default function SiteIntro() {
     }
 
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
     let raf = 0;
     let t1 = 0;
     let t2 = 0;
@@ -76,6 +78,7 @@ export default function SiteIntro() {
           t2 = window.setTimeout(() => {
             setPhase("hidden");
             document.body.style.overflow = "";
+            getLenis()?.start();
             window.sessionStorage.setItem(SEEN_KEY, "1");
             // Chỉ báo "sẵn sàng" SAU KHI intro đã biến mất hoàn toàn, để
             // trang chủ chạy hiệu ứng xuất hiện của riêng nó SAU (không
@@ -92,6 +95,7 @@ export default function SiteIntro() {
       clearTimeout(t1);
       clearTimeout(t2);
       document.body.style.overflow = "";
+      getLenis()?.start();
     };
   }, [isAdminRoute]);
 

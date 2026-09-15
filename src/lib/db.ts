@@ -87,6 +87,21 @@ export type Distributor = {
   updated_at: string;
 };
 
+export type ContactMessageSource = "contact" | "du_an" | "feedback";
+
+export type ContactMessage = {
+  id: string;
+  source: ContactMessageSource;
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  category: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+};
+
 export type TimelineMilestone = {
   id: string;
   year: string;

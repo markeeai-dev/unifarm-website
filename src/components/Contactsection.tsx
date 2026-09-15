@@ -31,8 +31,10 @@ export default function ContactSection() {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", needs: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", needs: "", message: "", website: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -59,9 +61,35 @@ export default function ContactSection() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact",
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          category: form.needs,
+          message: form.message,
+          website: form.website,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || t("Có lỗi xảy ra, vui lòng thử lại."));
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError(t("Không thể kết nối, vui lòng kiểm tra mạng và thử lại."));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -131,6 +159,17 @@ export default function ContactSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3.5 sm:space-y-4">
+                {/* Honeypot chống bot — người dùng thật không thấy field này */}
+                <input
+                  type="text"
+                  name="website"
+                  value={form.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="sr-only"
+                />
                 {/* Tên */}
                 <label className="block">
                   <span className="sr-only">{t("Họ và tên của bạn")}</span>
@@ -222,12 +261,19 @@ export default function ContactSection() {
                   </div>
                 </label>
 
+                {error && (
+                  <p className="rounded-lg bg-red-50 px-4 py-2.5 text-center text-sm font-medium text-red-600">
+                    {error}
+                  </p>
+                )}
+
                 {/* Nút gửi */}
                 <button
                   type="submit"
-                  className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] sm:w-auto sm:mx-auto sm:px-10"
+                  disabled={submitting}
+                  className="group mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#004d00] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:mx-auto sm:px-10"
                 >
-                  {t("Gửi Yêu Cầu Hợp Tác")}
+                  {submitting ? t("Đang gửi…") : t("Gửi Yêu Cầu Hợp Tác")}
                   {/* <Image
                     src="/images/mascot/banana-mascot.png"
                     alt=""

@@ -192,7 +192,7 @@ export default function SocialFloat() {
                       : "noopener noreferrer"
                   }
                   aria-label={t(c.label)}
-                  className={`social-item group relative flex h-10 w-10 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-12 sm:w-12 ${
+                  className={`social-item group relative flex h-11 w-11 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 active:scale-95 sm:h-12 sm:w-12 ${
                     open ? "social-wiggle" : ""
                   }`}
                   style={{

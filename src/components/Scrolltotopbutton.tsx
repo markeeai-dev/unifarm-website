@@ -45,7 +45,7 @@ export default function ScrollToTopButton() {
       // Hidden below its resting position by default (translate-y-4) and
       // slides up into place (translate-y-0) once the user has scrolled
       // past the threshold — i.e. it rises up from below as you scroll down.
-      className={`fixed bottom-4 right-3 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-forest text-white shadow-lg ring-1 ring-black/5 transition-all duration-500 ease-out hover:bg-gold hover:text-ink sm:bottom-6 sm:right-6 sm:h-12 sm:w-12 ${
+      className={`fixed bottom-4 right-3 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-forest text-white shadow-lg ring-1 ring-black/5 transition-all duration-500 ease-out hover:bg-gold hover:text-ink active:scale-90 sm:bottom-6 sm:right-6 sm:h-12 sm:w-12 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
       }`}
     >

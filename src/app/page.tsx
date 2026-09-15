@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 // import AgroviaHero from "@/components/AgroviaHero";
 // import GreenPlatformIntro from "@/components/GreenPlatformIntro";
 // import SmartFarmingLanding from "@/components/Smartfarminglanding";
@@ -26,6 +27,12 @@ import AgricultureProjects from "@/components/Agricultureprojects";
 import AgriTechHero from "@/components/Agritechhero";
 import SmartFarmingShowcase from "@/components/gioi-thieu/Smartfarmingshowcase";
 import Aboutbanner from "@/components/gioi-thieu/Aboutbanner";
+
+export const metadata: Metadata = {
+  title: "Unifarm | Nông nghiệp công nghệ cao Việt Nam",
+  description:
+    "Thành lập từ năm 2009, Unifarm là hệ sinh thái nông nghiệp công nghệ cao tại Việt Nam — từ nghiên cứu giống, canh tác bền vững, chế biến quy mô lớn đến phân phối nông sản sạch ra thị trường.",
+};
 
 export default function Home() {
   return (

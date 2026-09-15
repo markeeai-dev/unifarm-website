@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * CustomCursor — hiệu ứng thêm cho con trỏ chuột thật của máy (không ẩn/thay
@@ -8,14 +9,19 @@ import { useEffect, useRef } from "react";
  * tuyến tính mỗi frame) và kéo dài theo hướng di chuyển khi rê nhanh — tạo
  * cảm giác như một "con chuột thứ 2" bị kéo theo con trỏ thật.
  * - Phồng to + đổi màu khi rê vào link/button để báo hiệu có thể bấm được.
- * - Tự tắt trên thiết bị cảm ứng / không có chuột thật (pointer: fine)
- *   và khi người dùng bật "giảm hiệu ứng chuyển động" (prefers-reduced-motion).
+ * - Tự tắt trên thiết bị cảm ứng / không có chuột thật (pointer: fine),
+ *   khi người dùng bật "giảm hiệu ứng chuyển động" (prefers-reduced-motion),
+ *   và ở khu vực /admin (thao tác nhập liệu, không cần hiệu ứng trang trí —
+ *   giống cách SiteIntro/HomeTopHeader/SmoothScroll đã tự loại trừ admin).
  */
 export default function CustomCursor() {
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith("/admin") ?? false;
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (isAdminRoute) return;
     const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!hasFinePointer || reducedMotion) return;
@@ -78,7 +84,9 @@ export default function CustomCursor() {
       window.removeEventListener("pointerover", onPointerOver);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isAdminRoute]);
+
+  if (isAdminRoute) return null;
 
   return (
     <>

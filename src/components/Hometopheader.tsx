@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useIntroReady } from "@/lib/use-intro-ready";
+import { getLenis } from "@/components/SmoothScroll";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -99,8 +100,10 @@ export default function HomeTopHeader() {
     if (!menuOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
     return () => {
       document.body.style.overflow = prev;
+      getLenis()?.start();
     };
   }, [menuOpen]);
 
@@ -347,8 +350,8 @@ export default function HomeTopHeader() {
             </button>
           </div>
 
-          <div className="relative flex-1 overflow-y-auto px-4 py-3">
-            <div className="mx-auto flex w-full max-w-md flex-col gap-1">
+          <div className="relative flex flex-1 flex-col justify-center overflow-y-auto px-4 py-3">
+            <div className="mx-auto flex w-full max-w-md flex-col gap-1.5">
               {NAV_LINKS.map((link, i) => {
                 const active = isLinkActive(pathname, link.href);
                 /* Từng mục trồi vào từ phải, so le theo thứ tự mỗi lần mở
@@ -371,7 +374,7 @@ export default function HomeTopHeader() {
                       onClick={() =>
                         setMobileExpanded((cur) => (cur === link.label ? null : link.label))
                       }
-                      className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-left text-sm font-semibold transition-colors hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                      className={`flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-[15px] font-semibold transition-colors hover:bg-[#f2f9ee] hover:text-[#006400] ${
                         active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
                       }`}
                     >
@@ -415,7 +418,7 @@ export default function HomeTopHeader() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                    className={`block rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
                       active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
                     } ${menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
                     style={itemStyle}

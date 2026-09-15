@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
@@ -314,15 +314,18 @@ export default function RiceTabsShowcase() {
             <div className="mx-auto w-full max-w-[560px]">
               <div className="overflow-hidden">
                 <div
+                  className="relative h-[280px] w-full sm:h-[360px] lg:h-[480px]"
                   style={{
                     clipPath: visible ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
                     transition: "clip-path 700ms cubic-bezier(0.65,0,0.35,1)",
                   }}
                 >
-                  <img
+                  <Image
                     src={active.image}
                     alt={t(active.title)}
-                    className="h-[280px] w-full object-cover sm:h-[360px] lg:h-[480px]"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 560px"
+                    className="object-cover"
                   />
                 </div>
               </div>

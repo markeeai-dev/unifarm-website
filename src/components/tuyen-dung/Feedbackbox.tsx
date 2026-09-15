@@ -29,19 +29,40 @@ export default function FeedbackBox() {
   const { t } = useLanguage();
   const [category, setCategory] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    // TODO: nối API/endpoint thực tế tại đây
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source: "feedback", category: category || "", message, website }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || t("Có lỗi xảy ra, vui lòng thử lại."));
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError(t("Không thể kết nối, vui lòng kiểm tra mạng và thử lại."));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setMessage("");
     setCategory(null);
     setSubmitted(false);
+    setError("");
   };
 
   return (
@@ -114,6 +135,17 @@ export default function FeedbackBox() {
                   onSubmit={handleSubmit}
                   className="relative space-y-5"
                 >
+                  {/* Honeypot chống bot — người dùng thật không thấy field này */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="sr-only"
+                  />
                   <div>
                     <p className="text-sm font-semibold text-[#06301B]">
                       {t("Chủ đề góp ý")} <span className="font-normal text-[#06301B]/40">{t("(không bắt buộc)")}</span>
@@ -154,12 +186,17 @@ export default function FeedbackBox() {
                     />
                   </div>
 
+                  {error && (
+                    <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#FFFACD] px-6 py-3.5 text-sm font-semibold text-[#06301B] transition-all hover:gap-3 hover:scale-[1.02] sm:w-auto sm:px-8"
+                    disabled={submitting}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#FFFACD] px-6 py-3.5 text-sm font-semibold text-[#06301B] transition-all hover:gap-3 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:gap-2 disabled:hover:scale-100 sm:w-auto sm:px-8"
                   >
                     <Send size={16} />
-                    {t("Gửi góp ý ẩn danh")}
+                    {submitting ? t("Đang gửi…") : t("Gửi góp ý ẩn danh")}
                   </button>
                 </motion.form>
               ) : (

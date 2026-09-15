@@ -159,6 +159,43 @@ function ValueCard({
   );
 }
 
+/** Thanh chọn giá trị dạng tab vuốt ngang cho mobile — thay 4 thẻ to xếp
+ * chồng dọc (mỗi thẻ min-h-[190px], tổng ~760px chỉ để chọn 1 trong 4 mục)
+ * bằng dải tab gọn, vẫn giữ đúng hành vi chạm-để-đổi-ảnh như cũ. */
+function MobileValueTabs({
+  active,
+  onActivate,
+}: {
+  active: number;
+  onActivate: (i: number) => void;
+}) {
+  const { t } = useLanguage();
+  return (
+    <div className="[scrollbar-width:none] flex gap-2.5 overflow-x-auto px-4 py-4 sm:hidden [&::-webkit-scrollbar]:hidden">
+      {CORE_VALUES.map((val, i) => {
+        const Icon = val.icon;
+        const isActive = active === i;
+        return (
+          <button
+            key={val.key}
+            type="button"
+            onClick={() => onActivate(i)}
+            className="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-bold transition-all duration-300"
+            style={{
+              borderColor: isActive ? val.color : "rgba(6,48,27,0.12)",
+              background: isActive ? val.color : "#fff",
+              color: isActive ? "#fff" : "#06301B",
+            }}
+          >
+            <Icon size={15} strokeWidth={2} />
+            {t(val.title)}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function CoreValues() {
   const { t } = useLanguage();
   const ref = useRef<HTMLDivElement | null>(null);
@@ -286,7 +323,11 @@ export default function CoreValues() {
           </div>
         </motion.div>
 
-        {/* LƯỚI GIÁ TRỊ BÊN PHẢI — dính sát nhau, không gap, không bo góc */}
+        {/* Mobile — dải tab vuốt ngang thay 4 thẻ to xếp chồng dọc, vẫn giữ
+            đúng hành vi chạm-để-đổi-ảnh phía trên. */}
+        <MobileValueTabs active={active} onActivate={setActive} />
+
+        {/* LƯỚI GIÁ TRỊ BÊN PHẢI (tablet/desktop) — dính sát nhau, không gap, không bo góc */}
         <motion.div
           initial="hidden"
           animate={inView ? "show" : "hidden"}
@@ -294,7 +335,7 @@ export default function CoreValues() {
             hidden: {},
             show: { transition: { staggerChildren: 0.12, delayChildren: 0.15 } },
           }}
-          className="grid w-full grid-cols-1 sm:grid-cols-2 lg:h-[70vh] lg:w-1/2 lg:grid-rows-2"
+          className="hidden w-full sm:grid sm:grid-cols-2 lg:h-[70vh] lg:w-1/2 lg:grid-rows-2"
         >
           {CORE_VALUES.map((val, i) => (
             <ValueCard

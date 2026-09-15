@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import CustomCursor from "@/components/Customcursor";
 import HomeTopHeader from "@/components/Hometopheader";
 import SiteIntro from "@/components/Siteintro";
+import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 import "./globals.css";
@@ -26,8 +27,25 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.name,
   description: siteConfig.description,
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    images: [{ url: "/images/UNIFARM/DSC00385.jpg", width: 1200, height: 900, alt: siteConfig.name }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: ["/images/UNIFARM/DSC00385.jpg"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -49,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
         <LanguageProvider>
+          <SmoothScroll />
           <SiteIntro />
           <CustomCursor />
           <HomeTopHeader />

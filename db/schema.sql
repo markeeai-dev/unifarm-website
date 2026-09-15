@@ -233,3 +233,26 @@ CREATE TABLE IF NOT EXISTS media (
   size_bytes  INTEGER     NOT NULL,
   created_at  TIMESTAMPTZ DEFAULT now()
 );
+
+-- ============================================================
+-- Unifarm — Contact messages (form Liên hệ trang chủ, form Dự án &
+-- Hợp tác, hộp góp ý ẩn danh trang Tuyển dụng) — trước đây 3 form này
+-- không lưu đi đâu cả, chỉ đổi giao diện thành "đã gửi" ở client.
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  source      TEXT        NOT NULL CHECK (source IN ('contact', 'du_an', 'feedback')),
+  name        TEXT        DEFAULT '',
+  email       TEXT        DEFAULT '',
+  phone       TEXT        DEFAULT '',
+  location    TEXT        DEFAULT '',
+  category    TEXT        DEFAULT '',
+  message     TEXT        NOT NULL,
+  is_read     BOOLEAN     DEFAULT false,
+  created_at  TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_contact_messages_source ON contact_messages(source);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_created ON contact_messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_unread ON contact_messages(is_read);

@@ -17,13 +17,8 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
  * DuanContactForm — Section 4 "Bắt Đầu Dự Án Nông Nghiệp Cùng Unifarm"
- * (id="hop-tac") của trang "Dự Án & Hợp Tác".
- * ------------------------------------------------------------------
- * Không có API `/api/contact` sẵn có trong dự án (đã kiểm tra
- * `src/app/api`), nên form chỉ xử lý UI + state ở client: giả lập gửi
- * bằng `setTimeout` rồi hiện thông báo thành công, theo đúng gợi ý khi
- * không có backend thật — cùng phong cách input/label/nút submit như
- * `Contactsection.tsx`.
+ * (id="hop-tac") của trang "Dự Án & Hợp Tác". Gửi tới `/api/contact`
+ * (source: "du_an") — cùng backend dùng chung với `Contactsection.tsx`.
  */
 
 const NEEDS = [
@@ -47,6 +42,7 @@ type FormState = {
   location: string;
   need: string;
   message: string;
+  website: string;
 };
 
 const INITIAL_FORM: FormState = {
@@ -56,6 +52,7 @@ const INITIAL_FORM: FormState = {
   location: "",
   need: NEEDS[0],
   message: "",
+  website: "",
 };
 
 const HIGHLIGHTS = [
@@ -68,6 +65,7 @@ export default function DuanContactForm() {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
   const { t } = useLanguage();
 
   const handleChange = (
@@ -77,15 +75,36 @@ export default function DuanContactForm() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
     setSubmitting(true);
-    // Chưa có API backend thật cho trang này — giả lập độ trễ gửi đi rồi
-    // hiện thông báo thành công ở client.
-    window.setTimeout(() => {
-      setSubmitting(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "du_an",
+          name: form.contactName,
+          email: form.email,
+          phone: form.phone,
+          location: form.location,
+          category: form.need,
+          message: form.message,
+          website: form.website,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || t("Có lỗi xảy ra, vui lòng thử lại."));
+        return;
+      }
       setSubmitted(true);
-    }, 900);
+    } catch {
+      setError(t("Không thể kết nối, vui lòng kiểm tra mạng và thử lại."));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -172,6 +191,17 @@ export default function DuanContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot chống bot — người dùng thật không thấy field này */}
+              <input
+                type="text"
+                name="website"
+                value={form.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="sr-only"
+              />
               {/* Họ và tên / Tên doanh nghiệp */}
               <label className="block">
                 <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-neutral-500">
@@ -286,6 +316,12 @@ export default function DuanContactForm() {
                   />
                 </div>
               </label>
+
+              {error && (
+                <p className="rounded-lg bg-red-50 px-4 py-2.5 text-center text-sm font-medium text-red-600">
+                  {error}
+                </p>
+              )}
 
               {/* Nút gửi */}
               <button

@@ -37,6 +37,14 @@
   --animate-marquee: marquee 28s linear infinite;
 }
 
+/* Viền focus cho điều hướng bàn phím — đặt ngoài mọi @layer nên luôn thắng
+   các utility Tailwind (kể cả `focus:outline-none`) theo thứ tự ưu tiên
+   cascade layer chuẩn: CSS không nằm trong layer luôn thắng CSS trong layer. */
+:focus-visible {
+  outline: 2px solid var(--color-brand-green);
+  outline-offset: 2px;
+}
+
 @keyframes rise-in {
   from {
     opacity: 0;

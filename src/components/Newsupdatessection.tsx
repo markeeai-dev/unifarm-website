@@ -64,6 +64,46 @@ const ARTICLES = [
   },
 ];
 
+/** Thẻ bài viết dùng riêng cho carousel mobile — bố cục "ảnh trên/chữ dưới"
+ * gọn hơn thay vì cột ngày tháng to bản vốn được tính cho bề ngang đầy đủ
+ * của màn hình (350-390px), sẽ bị chật khi nhét vào 1 thẻ carousel hẹp hơn. */
+function MobileArticleCard({ a, t }: { a: (typeof ARTICLES)[number]; t: (s: string) => string }) {
+  return (
+    <a
+      href={a.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_-15px_rgba(0,0,0,0.25)]"
+    >
+      <div className="relative h-[170px] w-full shrink-0 overflow-hidden">
+        <img src={a.image} alt={t(a.title)} className="h-full w-full object-cover" />
+        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#006400] shadow-sm">
+          {a.day}/{a.monthYear.split(", ")[0]}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="uppercase line-clamp-2 text-[14px] font-semibold leading-[1.4] text-gray-900">
+          {t(a.title)}
+        </h3>
+        <p className="mt-2 line-clamp-2 flex-1 text-[13px] leading-relaxed text-gray-500">
+          {t(a.excerpt)}
+        </p>
+        <span className="mt-3 inline-flex w-fit items-center gap-2 text-sm font-semibold text-gray-800">
+          <span
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white"
+            style={{ backgroundColor: ACCENT }}
+          >
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+          {t("Xem thêm")}
+        </span>
+      </div>
+    </a>
+  );
+}
+
 export default function NewsUpdatesSection() {
   const { t } = useLanguage();
   const sectionRef = useRef(null);
@@ -133,8 +173,19 @@ useEffect(() => {
         {t("Unifarm – Tri Thức Từ Đồng Ruộng")}
       </h2>
 
-      {/* ================= CARDS ================= */}
-      <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      {/* Mobile — carousel vuốt ngang, thẻ ảnh/chữ gọn hơn thay vì cột ngày
+          tháng to bản xếp chồng dọc 3 lần. */}
+      <div className="[scrollbar-width:none] -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+        {ARTICLES.map((a, i) => (
+          <div key={i} className="w-[78%] max-w-[280px] shrink-0 snap-start">
+            <MobileArticleCard a={a} t={t} />
+          </div>
+        ))}
+        <div className="w-px shrink-0" aria-hidden />
+      </div>
+
+      {/* ================= CARDS (tablet/desktop) ================= */}
+      <div className="mt-10 hidden gap-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         {ARTICLES.map((a, i) => {
           /*
            * CARD 1: 108% -> 100%, đi xuống

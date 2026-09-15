@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { sql, type TimelineMilestone } from "@/lib/db";
@@ -27,6 +28,12 @@ const NAV_LINKS = [
   { label: "Góc chia sẻ", href: "/" },
   { label: "Tuyển dụng", href: "/" },
 ];
+
+export const metadata: Metadata = {
+  title: "Về chúng tôi | Unifarm",
+  description:
+    "Hành trình kiến tạo của Unifarm — từ 2009 đến nay: nghiên cứu giống, mở rộng vùng trồng, hợp tác chuyển giao công nghệ và xây dựng hệ sinh thái nông nghiệp bền vững tại Việt Nam.",
+};
 
 export default async function GioiThieuPage() {
   const milestones = (await sql`

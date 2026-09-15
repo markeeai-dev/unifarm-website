@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import TopSellingProducts from "@/components/san-pham/Topsellingproducts";
 import Footer from "@/components/Footer";
 import ScrollToTopButton from "@/components/Scrolltotopbutton";
@@ -10,6 +11,12 @@ import LeadershipCommitmentPreview from "@/components/san-pham/Leadershipcommitm
 import SanPhamHero from "@/components/san-pham/Sanphamhero";
 import RiceTabsShowcase from "@/components/Ricetabsshowcase";
 import { sql, type Product } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Sản phẩm | Unifarm",
+  description:
+    "Sản phẩm Unifarm: trái cây tươi, cây giống nuôi cấy mô và sản phẩm chế biến đạt tiêu chuẩn xuất khẩu — sản xuất từ vùng trồng công nghệ cao, kiểm soát chất lượng nghiêm ngặt.",
+};
 
 export default async function SanPhamPage() {
   const products = (await sql`

@@ -63,18 +63,21 @@ export default function NgheChuyenNghiep() {
             </div>
           </Reveal>
 
-          <div className="order-1 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:order-2">
+          {/* Mobile: lưới 2 cột gọn (4 thẻ ngắn không cần vuốt/không cần
+              xếp chồng 1 cột dài) — tablet/desktop giữ nguyên 2 cột như cũ. */}
+          <div className="order-1 grid grid-cols-2 gap-3 sm:gap-5 lg:order-2">
             {DEFINITIONS.map(({ icon: Icon, text }, i) => (
               <Reveal key={text} delay={i * 0.1} duration={1}>
-                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-6 shadow-[0_2px_10px_rgba(15,40,20,0.06)] ring-1 ring-[#06301B]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(15,40,20,0.14)]">
+                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-4 shadow-[0_2px_10px_rgba(15,40,20,0.06)] ring-1 ring-[#06301B]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(15,40,20,0.14)] sm:p-6">
                   <span
                     aria-hidden
                     className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100"
                   />
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#006400] text-white shadow-lg transition-transform duration-400 group-hover:-translate-y-1 group-hover:scale-105">
-                    <Icon size={20} strokeWidth={1.8} />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#006400] text-white shadow-lg transition-transform duration-400 group-hover:-translate-y-1 group-hover:scale-105 sm:h-12 sm:w-12">
+                    <Icon size={18} strokeWidth={1.8} className="sm:hidden" />
+                    <Icon size={20} strokeWidth={1.8} className="hidden sm:block" />
                   </span>
-                  <p className="mt-5 text-sm leading-relaxed text-[#06301B]/75">{t(text)}</p>
+                  <p className="mt-4 text-[13px] leading-relaxed text-[#06301B]/75 sm:mt-5 sm:text-sm">{t(text)}</p>
                 </div>
               </Reveal>
             ))}

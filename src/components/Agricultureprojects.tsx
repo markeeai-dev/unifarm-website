@@ -276,6 +276,47 @@ function ProjectCard({
 }
 
 /* ------------------------------------------------------------------ */
+/*  Thẻ dùng riêng cho carousel mobile — thiết bị cảm ứng không có      */
+/*  trạng thái hover nên bản desktop (mô tả chỉ hiện khi group-hover)   */
+/*  sẽ khiến mô tả GẦN NHƯ KHÔNG BAO GIỜ hiện ra trên điện thoại. Thẻ   */
+/*  mobile hiện mô tả sẵn luôn, dạng ảnh trên/nội dung dưới quen thuộc  */
+/*  với app thay vì overlay toàn ảnh.                                  */
+/* ------------------------------------------------------------------ */
+
+function MobileProjectCard({ project }: { project: Project }) {
+  const { t } = useLanguage();
+  const Icon = project.icon;
+  return (
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_10px_30px_-15px_rgba(0,100,0,0.35)]">
+      <div
+        className="relative aspect-[4/3] w-full bg-cover bg-center"
+        style={{ backgroundImage: `url(${project.image})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+        <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-lg bg-[#fffacd]/95 text-[#006400] shadow-sm ring-1 ring-black/5">
+          <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="uppercase text-[15px] font-bold leading-snug text-[#006400]">
+          {t(project.title)}
+        </h3>
+        <p className="mt-2 flex-1 text-[13px] leading-relaxed text-[#06301B]/65">
+          {t(project.description)}
+        </p>
+        <Link
+          href="/du-an-hop-tac#hop-tac"
+          className="mt-3 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[#006400]"
+        >
+          {t("Khám phá")}
+          <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Section chính                                                     */
 /* ------------------------------------------------------------------ */
 
@@ -353,10 +394,23 @@ const { ref: bottomRef, inView: bottomInView } =
             </p>
         </div>
 
+        {/* Mobile — carousel vuốt ngang gộp cả 5 mảng hoạt động. Thẻ desktop
+            chỉ hiện mô tả khi hover nên trên cảm ứng gần như vô dụng — thẻ
+            mobile hiện mô tả sẵn, dạng ảnh/nội dung quen thuộc hơn là overlay
+            toàn ảnh phải chạm-giữ mới thấy chữ. */}
+        <div className="[scrollbar-width:none] -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+          {projects.map((project) => (
+            <div key={project.title} className="w-[80%] max-w-[300px] shrink-0 snap-start">
+              <MobileProjectCard project={project} />
+            </div>
+          ))}
+          <div className="w-px shrink-0" aria-hidden />
+        </div>
+
         {/* hàng trên: 2 card lớn */}
         <div
             ref={topRef}
-            className="mb-5 grid grid-cols-1 gap-5 sm:grid-cols-2 md:mb-6 md:gap-6"
+            className="mb-5 hidden gap-5 sm:grid sm:grid-cols-2 md:mb-6 md:gap-6"
             >
             {projects.slice(0, 2).map((project, i) => (
                 <ProjectCard
@@ -372,7 +426,7 @@ const { ref: bottomRef, inView: bottomInView } =
         {/* hàng dưới: 3 card đều nhau */}
         <div
             ref={bottomRef}
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3"
+            className="hidden gap-5 sm:grid sm:grid-cols-2 md:gap-6 lg:grid-cols-3"
             >
             {projects.slice(2).map((project, i) => (
                 <ProjectCard

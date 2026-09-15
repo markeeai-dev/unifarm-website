@@ -17,6 +17,7 @@ import {
   CalendarPlus,
   Store,
   MapPinPlus,
+  MessagesSquare,
   ExternalLink,
   Menu,
   X,
@@ -74,6 +75,10 @@ const NAV: NavGroup[] = [
       { href: "/admin/distributors", label: "Danh sách cửa hàng", icon: Store },
       { href: "/admin/distributors/new", label: "Thêm cửa hàng", icon: MapPinPlus },
     ],
+  },
+  {
+    group: "Liên hệ",
+    items: [{ href: "/admin/contacts", label: "Liên hệ & Góp ý", icon: MessagesSquare }],
   },
 ];
 

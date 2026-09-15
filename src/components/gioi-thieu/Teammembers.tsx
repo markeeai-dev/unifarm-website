@@ -543,7 +543,8 @@ export default function TeamMembers() {
                 key={member.id}
                 type="button"
                 onClick={() => goToMember(i)}
-                className="flex shrink-0 flex-col items-center gap-1.5 focus:outline-none"
+                aria-label={t(member.name)}
+                className="flex shrink-0 flex-col items-center gap-1.5 rounded-lg focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#87cefa]"
               >
                 <span
                   className={`block h-12 w-12 overflow-hidden rounded-full ring-2 transition-all duration-300 sm:h-14 sm:w-14 ${

@@ -839,8 +839,18 @@ export default function StatsSectionPreview() {
           </h2>
         </div>
 
-        {/* grid 4 chỉ số */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile — carousel vuốt ngang thay vì 4 thẻ cao xếp chồng dọc. */}
+        <div className="[scrollbar-width:none] -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+          {STATS.map((s, i) => (
+            <div key={s.label} className="w-[80%] max-w-[280px] shrink-0 snap-start">
+              <StatCard stat={s} index={i} />
+            </div>
+          ))}
+          <div className="w-px shrink-0" aria-hidden />
+        </div>
+
+        {/* Tablet/desktop — lưới 4 cột như cũ. */}
+        <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <StatCard key={s.label} stat={s} index={i} />
           ))}

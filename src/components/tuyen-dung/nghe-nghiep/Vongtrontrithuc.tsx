@@ -46,40 +46,58 @@ export default function VongTronTriThuc() {
           </h2>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3 lg:mt-14">
-          {MODELS.map((m, i) => (
-            <Reveal key={m.title} delay={i * 0.1} duration={1}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(15,40,20,0.06)] ring-1 ring-[#06301B]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_rgba(15,40,20,0.16)]">
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <Image
-                    src={m.image}
-                    alt={t(m.title)}
-                    fill
-                    sizes="(min-width: 1024px) 30vw, 100vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute -right-1 -top-4 select-none text-6xl font-black leading-none text-white/25"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-lg"
-                    style={{ backgroundColor: m.color, boxShadow: `0 12px 24px -8px ${m.glow}` }}
-                  >
-                    <m.icon size={19} strokeWidth={1.8} />
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{t(m.title)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(m.desc)}</p>
-                </div>
+        {(() => {
+          const modelCard = (m: (typeof MODELS)[number], i: number) => (
+            <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_2px_10px_rgba(15,40,20,0.06)] ring-1 ring-[#06301B]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_rgba(15,40,20,0.16)]">
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <Image
+                  src={m.image}
+                  alt={t(m.title)}
+                  fill
+                  sizes="(min-width: 1024px) 30vw, 100vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -right-1 -top-4 select-none text-6xl font-black leading-none text-white/25"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center rounded-xl text-white shadow-lg"
+                  style={{ backgroundColor: m.color, boxShadow: `0 12px 24px -8px ${m.glow}` }}
+                >
+                  <m.icon size={19} strokeWidth={1.8} />
+                </span>
               </div>
-            </Reveal>
-          ))}
-        </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="uppercase text-[15px] font-bold text-[#06301B]">{t(m.title)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#06301B]/60">{t(m.desc)}</p>
+              </div>
+            </div>
+          );
+          return (
+            <>
+              {/* Mobile — carousel vuốt ngang thay vì 3 thẻ ảnh xếp chồng dọc. */}
+              <div className="[scrollbar-width:none] -mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+                {MODELS.map((m, i) => (
+                  <div key={m.title} className="w-[82%] max-w-[300px] shrink-0 snap-start">
+                    {modelCard(m, i)}
+                  </div>
+                ))}
+                <div className="w-px shrink-0" aria-hidden />
+              </div>
+              <div className="mt-10 hidden gap-6 sm:grid sm:grid-cols-3 lg:mt-14">
+                {MODELS.map((m, i) => (
+                  <Reveal key={m.title} delay={i * 0.1} duration={1}>
+                    {modelCard(m, i)}
+                  </Reveal>
+                ))}
+              </div>
+            </>
+          );
+        })()}
       </div>
     </section>
   );
