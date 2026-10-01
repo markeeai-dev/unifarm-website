@@ -4,20 +4,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
-/**
- * ClientsMarquee — "Our client's"
- * --------------------------------
- * - Dải logo khách hàng chạy ngang vô hạn (CSS keyframes, không dùng JS timer
- *   nên rất mượt và nhẹ CPU).
- * - Toàn bộ khối xuất hiện trượt lên + mờ dần khi cuộn tới (IntersectionObserver).
- * - Tông màu: Vàng kem #fffacd · Xanh lá đậm #006400 · Xanh dương nhạt #87cefa
- * - Mobile: card logo tự co nhỏ, khoảng cách giảm, tốc độ chạy giữ nguyên cảm
- *   giác vì dùng % thay vì px.
- *
- * LOGO KHÁCH HÀNG:
- *  - Mảng CLIENTS bên dưới dùng logo thật (PNG) của các chuỗi siêu thị/nhà
- *    phân phối, đặt trong `public/images/clients/`.
- */
+const PARTNERS = [
+  // Thêm logo đối tác thực tế tại đây
+  { name: "Co.opmart", logo: "/images/clients/coopmart.png" },
+  { name: "WinMart", logo: "/images/clients/winmart.png" },
+  { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
+  { name: "AEON", logo: "/images/clients/aeon.png" },
+  { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
+  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
+  { name: "DOLE", logo: "/images/clients/dole.png" },
+];
 
 const CLIENTS = [
   { name: "Co.opmart", logo: "/images/clients/coopmart.png" },
@@ -29,11 +25,59 @@ const CLIENTS = [
   { name: "DOLE", logo: "/images/clients/dole.png" },
 ];
 
-// Nhân đôi mảng để tạo vòng lặp liền mạch (seamless loop)
-const LOOP_CLIENTS = [...CLIENTS, ...CLIENTS];
+type Logo = {
+  name: string;
+  logo: string;
+};
+
+function LogoMarquee({
+  items,
+  direction = "left",
+  duration = 30,
+}: {
+  items: Logo[];
+  direction?: "left" | "right";
+  duration?: number;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div
+      className="logo-marquee group relative w-full overflow-hidden"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+      }}
+    >
+      <div
+        className={`marquee-track flex w-max items-center ${
+          direction === "right" ? "marquee-right" : "marquee-left"
+        }`}
+        style={{ animationDuration: `${duration}s` }}
+      >
+        {[...items, ...items].map((item, i) => (
+          <div
+            key={`${item.name}-${i}`}
+            className="flex h-16 w-32 shrink-0 items-center justify-center px-4 transition-transform duration-300 hover:-translate-y-1 sm:h-20 sm:w-44 sm:px-5"
+          >
+            <img
+              src={item.logo}
+              alt={item.name}
+              draggable={false}
+              loading="lazy"
+              className="h-10 w-full object-contain sm:h-12"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ClientsMarquee() {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
   const { t } = useLanguage();
 
@@ -62,14 +106,14 @@ export default function ClientsMarquee() {
       ref={sectionRef}
       className="relative w-full overflow-hidden py-14 sm:py-20"
     >
-      {/* Điểm nhấn nền nhẹ theo tông thương hiệu */}
+      {/* Nền trang trí giữ phong cách ban đầu */}
       <div
-        className="pointer-events-none absolute -top-16 left-1/2 h-40 w-[70%] -translate-x-1/2 rounded-full blur-3xl"
+        className="pointer-events-none absolute -top-16 left-1/2 h-40 w-[70%] -translate-x-1/2 rounded-full bg-[#87cefa]/15 blur-3xl"
         aria-hidden="true"
       />
 
       <div
-        className="relative mx-auto max-w-[1500px] px-4 motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100"
+        className="relative mx-auto max-w-[1500px] px-4 motion-reduce:transition-none sm:px-8"
         style={{
           transitionProperty: "transform, opacity",
           transitionDuration: "800ms",
@@ -78,50 +122,89 @@ export default function ClientsMarquee() {
           opacity: visible ? 1 : 0,
         }}
       >
-        {/* Tiêu đề */}
-        <div className="mb-9 flex flex-col items-center gap-2 text-center sm:mb-12">
-          <span className="h-1 w-10 rounded-full bg-[#87cefa]" aria-hidden="true" />
-          <h2 className="uppercase text-3xl font-extrabold text-[#006400] sm:text-4xl lg:text-[42px]">
-            {t("Khách hàng & Đối tác đồng hành")}
+        {/* Tiêu đề chính */}
+        <div className="mb-10 flex flex-col items-center gap-2 text-center sm:mb-14">
+          <span
+            className="h-1 w-10 rounded-full bg-[#87cefa]"
+            aria-hidden="true"
+          />
+          <h2 className="text-3xl font-extrabold uppercase text-[#006400] sm:text-4xl lg:text-[42px]">
+            {t("Đối tác & Khách hàng")}
           </h2>
         </div>
 
-        {/* Marquee — chạy vô hạn */}
-        <div
-          className="group relative w-full overflow-hidden"
-          style={{
-            maskImage:
-              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-          }}
-        >
-          <div className="marquee-track flex w-max items-center gap-3 sm:gap-4">
-            {LOOP_CLIENTS.map((client, i) => (
-              <div
-                key={`${client.name}-${i}`}
-                className="flex h-16 w-32 shrink-0 items-center justify-center px-4 transition-transform duration-300 hover:-translate-y-0.5 sm:h-20 sm:w-44"
-              >
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  draggable={false}
-                  className="h-10 w-full object-contain sm:h-12"
-                />
+        <div className="flex flex-col gap-10 sm:gap-14">
+          {/* ĐỐI TÁC */}
+          {PARTNERS.length > 0 && (
+            <div className="w-full">
+              <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
+                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
+                <h3 className="text-lg font-bold uppercase tracking-wider text-[#006400] sm:text-xl">
+                  {t("Đối tác")}
+                </h3>
+                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
               </div>
-            ))}
+
+              <LogoMarquee
+                items={PARTNERS}
+                direction="left"
+                duration={28}
+              />
+            </div>
+          )}
+
+          {/* Đường phân cách */}
+          {PARTNERS.length > 0 && (
+            <div
+              className="mx-auto h-px w-full max-w-5xl"
+              style={{
+                background:
+                  "linear-gradient(to right, transparent, rgba(135,206,250,0.5), transparent)",
+              }}
+            />
+          )}
+
+          {/* KHÁCH HÀNG */}
+          <div className="w-full">
+            {PARTNERS.length > 0 && (
+              <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
+                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
+                <h3 className="text-lg font-bold uppercase tracking-wider text-[#2582b8] sm:text-xl">
+                  {t("Khách hàng")}
+                </h3>
+                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
+              </div>
+            )}
+
+            <LogoMarquee
+              items={CLIENTS}
+              direction="right"
+              duration={42}
+            />
           </div>
         </div>
       </div>
 
       <style jsx>{`
         .marquee-track {
-          animation: marquee-scroll 22s linear infinite;
+          will-change: transform;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
         }
-        .group:hover .marquee-track {
+
+        .marquee-left {
+          animation-name: marquee-scroll-left;
+        }
+
+        .marquee-right {
+          animation-name: marquee-scroll-right;
+        }
+
+        .logo-marquee:hover .marquee-track {
           animation-play-state: paused;
         }
-        @keyframes marquee-scroll {
+
+        @keyframes marquee-scroll-left {
           from {
             transform: translateX(0);
           }
@@ -129,9 +212,20 @@ export default function ClientsMarquee() {
             transform: translateX(-50%);
           }
         }
+
+        @keyframes marquee-scroll-right {
+          from {
+            transform: translateX(-50%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .marquee-track {
-            animation: none;
+            animation: none !important;
+            transform: none !important;
           }
         }
       `}</style>

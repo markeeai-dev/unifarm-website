@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
@@ -12,33 +13,35 @@ type FaqItem = {
   video: string;
 };
 
+// LƯU Ý: thumb/video đang dùng ảnh/clip minh hoạ (stock) tạm thời — thay
+// bằng video thật trả lời từng câu hỏi của Unifarm khi có.
 const ITEMS: FaqItem[] = [
   {
-    question: 'Unifarm tiếp cận một dự án nông nghiệp mới như thế nào?',
+    question: 'Tôi có đất hoặc một dự án nông nghiệp. Unifarm có thể cùng tôi phát triển như thế nào?',
     thumb:
       'https://images.unsplash.com/photo-1745239853358-5ab62bc08af2?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Unifarm và đối tác phân chia vai trò đóng góp ra sao trong chuỗi liên kết?',
+    question: 'Tôi là nông dân hoặc hợp tác xã. Làm thế nào để tham gia chuỗi liên kết của Unifarm?',
     thumb:
       'https://images.unsplash.com/photo-1692369584496-3216a88f94c1?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Unifarm đảm bảo hiệu quả kinh tế và lợi nhuận cho nông hộ liên kết như thế nào?',
+    question: 'Tôi muốn sử dụng giống, công nghệ hoặc giải pháp nông nghiệp của Unifarm. Tôi nên bắt đầu từ đâu?',
     thumb:
       'https://images.unsplash.com/photo-1720071702672-d18c69cb475c?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Làm thế nào để khách hàng có thể mua sản phẩm và sử dụng các dịch vụ của Unifarm?',
+    question: 'Tôi muốn mua hoặc phân phối sản phẩm của Unifarm. Làm thế nào để hợp tác?',
     thumb:
       'https://images.unsplash.com/photo-1758927837398-248358bfda13?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
   },
   {
-    question: 'Unifarm tạo ra giá trị khác biệt gì cho khách hàng so với các sản phẩm nông sản khác trên thị trường?',
+    question: 'Tôi có một sản phẩm nông nghiệp tốt. Unifarm có thể hợp tác để cùng phát triển thị trường không?',
     thumb:
       'https://images.unsplash.com/photo-1745239853358-5ab62bc08af2?fm=jpg&q=70&w=480&h=320&fit=crop&auto=format',
     video: 'https://assets.mixkit.co/videos/8582/8582-720.mp4',
@@ -118,7 +121,7 @@ export default function FaqVideoList() {
 
   return (
     <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat">
-      <div className="mx-auto w-full max-w-[1000px] px-[20px] py-[64px] sm:px-[40px] sm:py-[88px] lg:py-[104px]">
+      <div className="mx-auto w-full max-w-[1300px] px-[20px] py-[64px] sm:px-[40px] sm:py-[88px] lg:py-[104px]">
         {/* Badge — rises from below on scroll-in */}
         <div
           className="mb-[16px] inline-flex items-center gap-2 rounded-full border border-neutral-900/10 bg-white px-[14px] py-[6px] text-[12px] font-semibold text-neutral-900/70 transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] ease-out"
@@ -130,7 +133,7 @@ export default function FaqVideoList() {
           }}
         >
           <span className="h-[6px] w-[6px] rounded-full bg-[#006400]" />
-          {t('Hợp Tác Phát Triển')}
+          {t('Hợp tác cùng Unifarm')}
         </div>
 
         {/* Heading — rises from below on scroll-in */}
@@ -144,8 +147,19 @@ export default function FaqVideoList() {
             transitionDelay: visible ? '250ms' : '0ms',
           }}
         >
-          {t('Bạn Có Thắc Mắc? Chúng Tôi Có')} <em className="font-normal italic text-[#006400]">{t('Câu Trả Lời')}</em>.
+          {t('Bạn Muốn Hợp Tác Cùng Unifarm?')}
         </h2>
+
+        <p
+          className="mt-4 max-w-xl text-base leading-relaxed text-neutral-600 transition-all duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:text-lg"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: visible ? '350ms' : '0ms',
+          }}
+        >
+          {t('Hãy bắt đầu từ nhu cầu của bạn. Unifarm cùng trao đổi để tìm giải pháp và cách hợp tác phù hợp.')}
+        </p>
 
         {/* Rows */}
         <div className="mt-[36px] sm:mt-[44px]">
@@ -237,6 +251,24 @@ export default function FaqVideoList() {
               </div>
             );
           })}
+        </div>
+
+        {/* CTA — dẫn xuống form trao đổi ở Contactsection */}
+        <div
+          className="mt-[36px] flex justify-center transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] sm:mt-[44px] sm:justify-start"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(25px)',
+            transitionDelay: visible ? `${300 + ITEMS.length * 220}ms` : '0ms',
+          }}
+        >
+          <Link
+            href="/#contact"
+            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#006400] px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-10px_rgba(0,100,0,0.5)]"
+          >
+            {t('Trao Đổi Với Unifarm')}
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
       </div>
 

@@ -32,6 +32,30 @@ const FONT_IMPORT = `
 .kb-zoom-alt { animation: kbZoomAlt 9s ease-in-out infinite alternate; }
 `;
 
+// 2 tin tức mới/đáng chú ý — nội dung và link thật, lấy từ nongnghiepmoitruong.vn
+const NEWS = [
+  {
+    image:
+      "https://i.ex-cdn.com/nongnghiepmoitruong.vn/files/content/2025/08/22/unifarm-va-dai-hoc-thu-dau-mot-hop-tac-dao-tao-nhan-luc-200404_408-145523.jpg",
+    day: "22",
+    monthYear: "08, 2025",
+    title: "Unifarm Và Đại Học Thủ Dầu Một Hợp Tác Đào Tạo Nhân Lực",
+    excerpt:
+      "Unifarm và Trường Đại học Thủ Dầu Một ký kết hợp tác đào tạo nguồn nhân lực chất lượng cao, nghiên cứu phát triển sản phẩm, bảo quản và chế biến nông sản trong lĩnh vực nông nghiệp công nghệ cao.",
+    link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/unifarm-va-dai-hoc-thu-dau-mot-hop-tac-dao-tao-nhan-luc-d768892.html",
+  },
+  {
+    image:
+      "https://i.ex-cdn.com/nongnghiepmoitruong.vn/files/content/2025/12/07/488761353918024933-114743_324-162058.jpg",
+    day: "07",
+    monthYear: "12, 2025",
+    title: "Cách Mạng Giống: Chuối Cấy Mô Hướng Đến Cây Tỷ Đô",
+    excerpt:
+      "Unifarm phát triển giống chuối cấy mô kháng bệnh Panama, quản lý hơn 1.000 ha chuối công nghệ cao xuất khẩu sang Nhật Bản, Hàn Quốc, Singapore, hướng đến mục tiêu 1 tỷ USD giá trị xuất khẩu vào năm 2030.",
+    link: "https://nongnghiepmoitruong.vn/cach-mang-giong-bai-3-chuoi-cay-mo-huong-den-cay-ty-do-d787333.html",
+  },
+];
+
 const ARTICLES = [
   {
     image: "/images/UNIFARM/1787197933802_1582751505492234802_4935324150679931320_5e69f078e10587e5c3411b75ace4006b.jpg",
@@ -67,7 +91,15 @@ const ARTICLES = [
 /** Thẻ bài viết dùng riêng cho carousel mobile — bố cục "ảnh trên/chữ dưới"
  * gọn hơn thay vì cột ngày tháng to bản vốn được tính cho bề ngang đầy đủ
  * của màn hình (350-390px), sẽ bị chật khi nhét vào 1 thẻ carousel hẹp hơn. */
-function MobileArticleCard({ a, t }: { a: (typeof ARTICLES)[number]; t: (s: string) => string }) {
+function MobileArticleCard({
+  a,
+  t,
+  category,
+}: {
+  a: (typeof ARTICLES)[number];
+  t: (s: string) => string;
+  category: string;
+}) {
   return (
     <a
       href={a.link}
@@ -77,7 +109,13 @@ function MobileArticleCard({ a, t }: { a: (typeof ARTICLES)[number]; t: (s: stri
     >
       <div className="relative h-[170px] w-full shrink-0 overflow-hidden">
         <img src={a.image} alt={t(a.title)} className="h-full w-full object-cover" />
-        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#006400] shadow-sm">
+        <span
+          className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm"
+          style={{ backgroundColor: ACCENT }}
+        >
+          {t(category)}
+        </span>
+        <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[#006400] shadow-sm">
           {a.day}/{a.monthYear.split(", ")[0]}
         </span>
       </div>
@@ -101,6 +139,190 @@ function MobileArticleCard({ a, t }: { a: (typeof ARTICLES)[number]; t: (s: stri
         </span>
       </div>
     </a>
+  );
+}
+
+/** Thẻ dùng chung cho cả khối "Tin tức" và "Bài viết" ở tablet/desktop —
+ * giữ đúng hiệu ứng ảnh zoom + date/divider/title/excerpt/button như bản gốc. */
+function ContentCard({
+  a,
+  i,
+  inView,
+  revealMs,
+  isMobile,
+  t,
+  initialScale,
+  initialY,
+}: {
+  a: (typeof ARTICLES)[number];
+  i: number;
+  inView: boolean;
+  revealMs: number;
+  isMobile: boolean | null;
+  t: (s: string) => string;
+  initialScale: number;
+  initialY: number;
+}) {
+  return (
+    <article
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView
+          ? "translateY(0) scale(1)"
+          : `translateY(${initialY}px) scale(${initialScale})`,
+        transition: inView
+          ? `
+            transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
+            opacity ${revealMs}ms ease-out
+          `
+          : `
+            transform 0ms,
+            opacity 0ms
+          `,
+        transitionDelay: inView ? `${i * 180}ms` : "0ms",
+        willChange: "transform, opacity",
+      }}
+    >
+      {/* ================= ẢNH ================= */}
+      <a
+        href={a.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block overflow-hidden shadow-lg"
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? "scale(1)" : `scale(${initialScale})`,
+          transition: inView
+            ? `
+              transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
+              opacity ${revealMs}ms ease-out
+            `
+            : "none",
+          transitionDelay: inView ? `${i * 180}ms` : "0ms",
+        }}
+      >
+        <img
+          src={a.image}
+          alt={t(a.title)}
+          className="kb-zoom-alt h-[240px] w-full object-cover sm:h-[300px]"
+        />
+      </a>
+
+      {/* =====================================================
+          TOÀN BỘ PHẦN DATE + TITLE + EXCERPT + BUTTON
+          ===================================================== */}
+      <div
+        className="mt-12 flex gap-1.5 sm:mt-10"
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateY(0)" : "translateY(70px)",
+          transition: `opacity ${revealMs}ms ease-out, transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1)`,
+          transitionDelay: inView
+            ? `${isMobile ? 150 + i * 80 : 900 + i * 250}ms`
+            : "0ms",
+        }}
+      >
+        {/* ================= DATE ================= */}
+        <div className="w-[20%] shrink-0 lg:translate-x-7">
+          <p className="text-5xl font-extrabold leading-none text-gray-900">{a.day}</p>
+          <p className="mt-1 text-xs font-medium text-gray-500 sm:text-sm">{a.monthYear}</p>
+        </div>
+
+        {/* ================= DIVIDER ================= */}
+        <div className="w-px shrink-0 bg-black" />
+
+        {/* ================= CONTENT ================= */}
+        <div className="min-w-0 flex-1 gap-1.5 sm:ml-5">
+          {/* TITLE */}
+          <h3
+            className="uppercase
+              min-h-[50px]
+              line-clamp-2
+              text-[19px]
+              font-semibold
+              leading-[1.45]
+              tracking-normal
+              text-gray-900
+              sm:text-[21px]
+            "
+          >
+            <a
+              href={a.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors duration-300 hover:text-[#006400]"
+            >
+              {t(a.title)}
+            </a>
+          </h3>
+
+          {/* EXCERPT */}
+          <p
+            className="
+              mt-3
+              line-clamp-2
+              text-[15px]
+              font-normal
+              leading-[1.6]
+              text-gray-500
+              sm:text-[18px]
+            "
+          >
+            {t(a.excerpt)}
+          </p>
+
+          {/* BUTTON */}
+          <a
+            href={a.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-4 inline-flex items-center gap-3"
+          >
+            <span
+              className="
+                flex
+                h-9
+                w-9
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                text-white
+                shadow-md
+                transition-transform
+                duration-300
+                group-hover:scale-110
+              "
+              style={{ backgroundColor: ACCENT }}
+            >
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </span>
+
+            <span
+              className="
+                text-sm
+                font-semibold
+                text-gray-800
+                transition-colors
+                duration-300
+                group-hover:text-[#006400]
+              "
+            >
+              {t("Xem thêm")}
+            </span>
+          </a>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -170,22 +392,78 @@ useEffect(() => {
           opacity: inView ? 1 : 0,
         }}
       >
-        {t("Unifarm – Tri Thức Từ Đồng Ruộng")}
+        {t("Unifarm Hôm Nay")}
       </h2>
 
+      <p
+        className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-600 sm:text-lg"
+        style={{
+          transition: `transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1) 120ms, opacity ${revealMs}ms ease-out 120ms`,
+          transform: inView ? "translateY(0)" : "translateY(30px)",
+          opacity: inView ? 1 : 0,
+        }}
+      >
+        {t("Nơi cập nhật những hoạt động đáng chú ý của Unifarm và những bài viết giúp hiểu sâu hơn về nghiên cứu, sản xuất, công nghệ, thị trường và các mô hình mà Unifarm đang theo đuổi.")}
+      </p>
+
       {/* Mobile — carousel vuốt ngang, thẻ ảnh/chữ gọn hơn thay vì cột ngày
-          tháng to bản xếp chồng dọc 3 lần. */}
+          tháng to bản xếp chồng dọc 3 lần. Tin tức đứng trước, bài viết sau. */}
       <div className="[scrollbar-width:none] -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-1 sm:hidden [&::-webkit-scrollbar]:hidden">
+        {NEWS.map((a, i) => (
+          <div key={`news-${i}`} className="w-[78%] max-w-[280px] shrink-0 snap-start">
+            <MobileArticleCard a={a} t={t} category="Tin tức" />
+          </div>
+        ))}
         {ARTICLES.map((a, i) => (
-          <div key={i} className="w-[78%] max-w-[280px] shrink-0 snap-start">
-            <MobileArticleCard a={a} t={t} />
+          <div key={`article-${i}`} className="w-[78%] max-w-[280px] shrink-0 snap-start">
+            <MobileArticleCard a={a} t={t} category="Bài viết" />
           </div>
         ))}
         <div className="w-px shrink-0" aria-hidden />
       </div>
 
-      {/* ================= CARDS (tablet/desktop) ================= */}
-      <div className="mt-10 hidden gap-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+      {/* ================= TIN TỨC (tablet/desktop) — 2 card, rộng đều để đối xứng với 3 card bài viết bên dưới ================= */}
+      <p
+        className="mt-10 text-xs font-bold uppercase tracking-[0.25em] text-[#006400]/70"
+        style={{
+          opacity: inView ? 1 : 0,
+          transition: `opacity ${revealMs}ms ease-out`,
+        }}
+      >
+        {t("Tin tức")}
+      </p>
+      <div className="mt-4 hidden gap-10 sm:grid sm:grid-cols-2 lg:gap-8">
+        {NEWS.map((a, i) => {
+          const initialScale = i === 1 ? 0.72 : 1.08;
+          const initialY = i === 1 ? -70 : 70;
+
+          return (
+            <ContentCard
+              key={`news-${i}`}
+              a={a}
+              i={i}
+              inView={inView}
+              revealMs={revealMs}
+              isMobile={isMobile}
+              t={t}
+              initialScale={initialScale}
+              initialY={initialY}
+            />
+          );
+        })}
+      </div>
+
+      {/* ================= BÀI VIẾT (tablet/desktop) ================= */}
+      <p
+        className="mt-14 text-xs font-bold uppercase tracking-[0.25em] text-[#006400]/70"
+        style={{
+          opacity: inView ? 1 : 0,
+          transition: `opacity ${revealMs}ms ease-out`,
+        }}
+      >
+        {t("Bài viết")}
+      </p>
+      <div className="mt-4 hidden gap-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         {ARTICLES.map((a, i) => {
           /*
            * CARD 1: 108% -> 100%, đi xuống
@@ -196,186 +474,17 @@ useEffect(() => {
           const initialY = i === 1 ? -70 : 70;
 
           return (
-            <article
-              key={i}
-              style={{
-                opacity: inView ? 1 : 0,
-                transform: inView
-                  ? "translateY(0) scale(1)"
-                  : `translateY(${initialY}px) scale(${initialScale})`,
-                transition: inView
-                  ? `
-                    transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
-                    opacity ${revealMs}ms ease-out
-                  `
-                  : `
-                    transform 0ms,
-                    opacity 0ms
-                  `,
-                transitionDelay: inView
-                  ? `${i * 180}ms`
-                  : "0ms",
-                willChange: "transform, opacity",
-              }}
-            >
-
-              {/* ================= ẢNH ================= */}
-              <a
-                href={a.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block overflow-hidden shadow-lg"
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView
-                    ? "scale(1)"
-                    : `scale(${initialScale})`,
-                  transition: inView
-                    ? `
-                      transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1),
-                      opacity ${revealMs}ms ease-out
-                    `
-                    : "none",
-                  transitionDelay: inView
-                    ? `${i * 180}ms`
-                    : "0ms",
-                }}
-              >
-                <img
-                  src={a.image}
-                  alt={t(a.title)}
-                  className="kb-zoom-alt h-[240px] w-full object-cover sm:h-[300px]"
-                />
-              </a>
-
-              {/* =====================================================
-                  TOÀN BỘ PHẦN DATE + TITLE + EXCERPT + BUTTON
-                  ===================================================== */}
-              <div
-                className="mt-12 flex gap-1.5 sm:mt-10"
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView
-                    ? "translateY(0)"
-                    : "translateY(70px)",
-                  transition: `opacity ${revealMs}ms ease-out, transform ${revealMs}ms cubic-bezier(0.16,1,0.3,1)`,
-                  transitionDelay: inView
-                    ? `${isMobile ? 150 + i * 80 : 900 + i * 250}ms`
-                    : "0ms",
-                }}
-              >
-
-                {/* ================= DATE ================= */}
-                <div className="w-[20%] shrink-0 lg:translate-x-7">
-                  <p className="text-5xl font-extrabold leading-none text-gray-900">
-                    {a.day}
-                  </p>
-
-                  <p className="mt-1 text-xs font-medium text-gray-500 sm:text-sm">
-                    {a.monthYear}
-                  </p>
-                </div>
-
-                {/* ================= DIVIDER ================= */}
-                <div className="w-px shrink-0 bg-black" />
-
-                {/* ================= CONTENT ================= */}
-                <div className="min-w-0 flex-1 gap-1.5 sm:ml-5">
-
-                  {/* TITLE */}
-                  <h3
-                    className="uppercase
-                      min-h-[50px]
-                      line-clamp-2
-                      text-[19px]
-                      font-semibold
-                      leading-[1.45]
-                      tracking-normal
-                      text-gray-900
-                      sm:text-[21px]
-                    "
-                  >
-                    <a
-                      href={a.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transition-colors duration-300 hover:text-[#006400]"
-                    >
-                      {t(a.title)}
-                    </a>
-                  </h3>
-
-                  {/* EXCERPT */}
-                  <p
-                    className="
-                      mt-3
-                      line-clamp-2
-                      text-[15px]
-                      font-normal
-                      leading-[1.6]
-                      text-gray-500
-                      sm:text-[18px]
-                    "
-                  >
-                    {t(a.excerpt)}
-                  </p>
-
-                  {/* BUTTON */}
-                  <a
-                    href={a.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group mt-4 inline-flex items-center gap-3"
-                  >
-                    <span
-                      className="
-                        flex
-                        h-9
-                        w-9
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-full
-                        text-white
-                        shadow-md
-                        transition-transform
-                        duration-300
-                        group-hover:scale-110
-                      "
-                      style={{
-                        backgroundColor: ACCENT,
-                      }}
-                    >
-                      <svg
-                        className="h-4 w-4"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                      >
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                    </span>
-
-                    <span
-                      className="
-                        text-sm
-                        font-semibold
-                        text-gray-800
-                        transition-colors
-                        duration-300
-                        group-hover:text-[#006400]
-                      "
-                    >
-                      {t("Xem thêm")}
-                    </span>
-                  </a>
-
-                </div>
-              </div>
-
-            </article>
+            <ContentCard
+              key={`article-${i}`}
+              a={a}
+              i={i}
+              inView={inView}
+              revealMs={revealMs}
+              isMobile={isMobile}
+              t={t}
+              initialScale={initialScale}
+              initialY={initialY}
+            />
           );
         })}
       </div>

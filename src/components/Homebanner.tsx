@@ -19,25 +19,25 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 const SLIDES = [
    {
     image: "/images/banana/banana-shrub-3289749.jpg",
-    badge: "Hệ sinh thái nông nghiệp công nghệ cao",
-    titleLine1: "CÙNG XÂY DỰNG MỘT NỀN",
-    titleLine2: "NÔNG NGHIỆP TỐT HƠN",
-    desc: "Thành lập từ năm 2009, Unifarm là một trong những hệ sinh thái tiên phong trong lĩnh vực nông nghiệp công nghệ cao tại Việt Nam, phát triển từ nghiên cứu giống, canh tác bền vững, chế biến quy mô lớn đến thị trường.",
+    badge: "UNIFARM",
+    titleLine1: "HỆ SINH THÁI TIÊN PHONG TRONG LĨNH VỰC",
+    titleLine2: "NÔNG NGHIỆP CÔNG NGHỆ CAO",
+    desc: "Thành lập từ năm 2009, Unifarm phát triển hệ sinh thái và các giải pháp nông nghiệp công nghệ cao theo chuỗi khép kín, từ nghiên cứu và sản xuất cây giống, canh tác bền vững trên quy mô lớn, chế biến, chuyển giao công nghệ đến phát triển thị trường.",
   },
   {
     image: "/images/UNIFARM/1787207482427_1582751505492234802_4935324150679931320_939749211a6e5c72f28397e7e138b486.jpg",
-    badge: "Giá trị từ tài nguyên",
-    titleLine1: "GIÁ TRỊ",
-    titleLine2: "BỀN VỮNG",
-    desc: "Mục tiêu của chúng tôi là tạo ra nhiều giá trị hơn từ mỗi đơn vị, đồng thời mang lại giá trị bền vững cho khách hàng, người sản xuất, cộng đồng và môi trường.",
+    badge: "Tiêu chuẩn Unifarm",
+    titleLine1: "MỘT TIÊU CHUẨN SẢN PHẨM",
+    titleLine2: "CHO MỌI THỊ TRƯỜNG",
+    desc: "Vì sức khỏe con người & môi trường.",
   },
 
   {
     image: "/images/UNIFARM/1787218973789_1582751505492234802_4935324150679931320_ae20e008b6b700cead007d04eae29597.jpg",
     badge: "Hợp tác & Đồng hành",
-    titleLine1: "CÙNG XÂY DỰNG NHIỀU",
-    titleLine2: "CÁNH ĐỒNG TỐT HƠN",
-    desc: "Unifarm đồng hành cùng nông dân, hợp tác xã, doanh nghiệp và nhà đầu tư để xây dựng chuỗi giá trị nông nghiệp hiện đại, minh bạch và hiệu quả.",
+    titleLine1: "ĐỒNG HÀNH & PHÁT TRIỂN BỀN VỮNG",
+    titleLine2: "CÙNG NGƯỜI NÔNG DÂN VIỆT NAM",
+    desc: "Chia sẻ giải pháp tổng thể về giống, công nghệ, quy trình và thị trường để cùng người nông dân tạo ra giá trị bền vững.",
   },
 ];
 const ROTATE_MS = 12000;
@@ -46,7 +46,7 @@ const CHAR_STAGGER_MS = 22;
 // 3 kiểu hiệu ứng chữ tiêu đề — mỗi slide 1 kiểu riêng
 const TEXT_STYLES = ["spin", "runin", "swirl"] as const;
 
-const MARQUEE_TEXT = "GROWING A BETTER AGRICULTURE  UNIFARM  VIETNAM  SINCE 2009";
+const MARQUEE_TEXT = "Làm nông nghiệp là yêu đất – nước · Unifarm · Việt Nam · từ năm 2009";
 
 /** Tách chuỗi thành từng ký tự, mỗi ký tự tự chạy animation riêng theo độ trễ so le. */
 function AnimatedChars({
@@ -274,7 +274,7 @@ export default function HomeBanner() {
                 "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.72) 45%, rgba(0,0,0,0.12) 100%)",
             }}
           >
-            {MARQUEE_TEXT}
+            {t(MARQUEE_TEXT)}
           </span>
           ))}
         </div>

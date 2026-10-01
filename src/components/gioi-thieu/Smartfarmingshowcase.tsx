@@ -49,10 +49,8 @@ const TAGS_ROW_1 = ["DỮ LIỆU CẢM BIẾN", "TƯỚI NHỎ GIỌT", "GIS", "
 const TAGS_ROW_2 = ["TRUY XUẤT NGUỒN GỐC", "MRL", "CÁP TREO THU HOẠCH", "CHUỖI LẠNH", "SOP CHUẨN"];
 
 const CHECKLIST = [
-  ["Canh tác dựa trên dữ liệu", "Quản lý dinh dưỡng theo giai đoạn"],
-  ["Tưới tự động hóa tiết kiệm nước", "Kiểm soát sâu bệnh sinh học (IPM)"],
-  ["Giám sát dư lượng nghiêm ngặt", "Thu hoạch giảm tổn thương quả"],
-  ["Chuỗi bảo quản lạnh khép kín", "Đào tạo kỹ năng thực chiến"],
+  ["Sinh học & sức khỏe cây trồng", "Tự động hóa"],
+  ["Dữ liệu & số hóa", "Sử dụng tài nguyên hiệu quả"],
 ];
 
 export default function SmartFarmingShowcase() {
@@ -152,14 +150,14 @@ export default function SmartFarmingShowcase() {
             {t("Công nghệ phục vụ con người")}
           </span>
 
-          <h2 className="uppercase mt-3 text-4xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-5xl lg:text-[42px]">
-            {t("Kết Hợp Công Nghệ Và Con Người, Tạo Nên")}{" "}
-            <span className="text-[#006400]">{t("Năng Suất Vượt Trội")}</span>
+          <h2 className="uppercase mt-3 text-4xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-5xl lg:text-[50px]">
+            {t("Kết Hợp Công Nghệ Và Con Người Để Tạo Ra")}{" "}
+            <span className="text-[#006400]">{t("Nhiều Giá Trị Hơn")}</span>
           </h2>
 
           <p className="mt-5 text-justify text-[20px] leading-relaxed text-gray-500">
             {t(
-              "Chúng tôi không dùng công nghệ để thay thế người nông dân, mà dùng để giúp họ hiểu cây trồng sâu hơn, kiểm soát rủi ro tốt hơn và tạo ra nhiều giá trị hơn trên mỗi cánh đồng."
+              "Unifarm ứng dụng công nghệ để con người hiểu cây trồng tốt hơn, sử dụng tài nguyên hiệu quả hơn, kiểm soát rủi ro tốt hơn và tạo ra nhiều giá trị hơn trong sản xuất nông nghiệp."
             )}
           </p>
 

@@ -94,6 +94,7 @@ export default function ContactSection() {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
       className="relative isolate min-h-[78vh] w-full overflow-hidden"
     >

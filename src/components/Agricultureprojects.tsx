@@ -26,37 +26,37 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: "Nghiên Cứu Và Cung Ứng Giống",
+    title: "Nghiên Cứu & Sản Xuất Giống",
     description:
-      "Từ nghiên cứu, tuyển chọn và nhân giống nuôi cấy mô đến sản xuất quy mô lớn đến đóng gói xuất khẩu và phân phối thị trường quốc tế.",
+      "Nghiên cứu, tuyển chọn, nhân giống và cung ứng các giống cây trồng có giá trị, phù hợp với điều kiện sản xuất và nhu cầu thị trường.",
     image: "/images/UNIFARM/ptn.jpg",
     icon: Microscope,
   },
   {
-    title: "Phát triển Vùng Trồng",
+    title: "Canh Tác Bền Vững Trên Quy Mô Lớn",
     description:
-      "Phát triển theo định hướng sản xuất chuyên nghiệp, chất lượng đồng đều và phù hợp yêu cầu khắt khe của thị trường.",
+      "Phát triển và vận hành các vùng sản xuất quy mô lớn, ứng dụng công nghệ và quy trình canh tác bền vững để tạo ra sản phẩm ổn định về năng suất, chất lượng và tiêu chuẩn.",
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon1.jpg",
     icon: Sprout,
   },
   {
-    title: "Hợp Tác Cùng Nhà Nông",
+    title: "Chuyển Giao Công Nghệ & Liên Kết Sản Xuất",
     description:
-      "Kết nối, hỗ trợ kỹ thuật và chuẩn hóa những vùng sản xuất tốt của Việt Nam ra thị trường.",
+      "Chuyển giao giống, công nghệ, quy trình và tiêu chuẩn đã được kiểm chứng; đồng hành cùng nông dân, hợp tác xã và doanh nghiệp để mở rộng sản xuất.",
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/DSC_9897.jpg",
     icon: Users2,
   },
   {
-    title: "Chế Biến Sâu & Xuất Khẩu",
+    title: "Chế Biến",
     description:
-      "Tối ưu giá trị nông sản bằng công nghệ chế biến sâu, đưa sản phẩm Việt vươn ra quốc tế.",
+      "Phát triển các giải pháp sau thu hoạch, bảo quản và chế biến nhằm giảm tổn thất, nâng cao chất lượng và gia tăng giá trị nông sản.",
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/chuoi-tuoi.jpg",
     icon: Factory,
   },
   {
-    title: "Giải Pháp Công Nghệ Trong Nông Nghiệp",
+    title: "Phát Triển Thị Trường",
     description:
-      "Ứng dụng tự động hóa và giải pháp sinh học thúc đẩy mô hình nông nghiệp tuần hoàn, bền vững.",
+      "Kết nối sản phẩm với khách hàng và thị trường trong nước, quốc tế; đồng thời đưa nhu cầu và phản hồi của thị trường trở lại định hướng giống, sản phẩm và sản xuất.",
     image: "/images/UNIFARM/nha-kinh.jpg",
     icon: Settings2,
   },
@@ -390,7 +390,7 @@ const { ref: bottomRef, inView: bottomInView } =
                 : "translate-x-10 opacity-0",
             ].join(" ")}
             >
-            {t("Chúng tôi kiến tạo chuỗi giá trị nông nghiệp khép kín — từ nghiên cứu giống, phát triển vùng trồng, đến chế biến sâu và số hóa toàn diện, đưa nông sản Việt vươn tầm quốc tế.")}
+            {t("Các lĩnh vực hoạt động của Unifarm được kết nối trong một chuỗi khép kín, cùng hướng đến việc tạo ra những sản phẩm tốt hơn và nhiều giá trị hơn từ nông nghiệp.")}
             </p>
         </div>
 

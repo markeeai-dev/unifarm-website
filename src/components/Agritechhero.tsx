@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import { Leaf, Recycle, Check } from "lucide-react";
+import { Leaf, Heart, Check } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
@@ -65,17 +65,19 @@ const focusReveal = (delay = 0): Variants => ({
 const FEATURES = [
   {
     icon: Leaf,
-    title: "Mục đích cốt lõi",
-    desc: "Unifarm bắt đầu với một câu hỏi đơn giản: Làm thế nào để nông nghiệp Việt Nam có thể cạnh tranh tốt hơn?",
+    title: "Giá trị cốt lõi",
+    desc: "Tiên phong · Sáng tạo · Hợp tác · Nhân văn",
   },
   {
-    icon: Recycle,
-    title: "Nền tảng vận hành",
-    desc: "Kết nối toàn diện với Con người • Dữ liệu • Tiêu chuẩn • Công nghệ làm nền tảng vững chắc.",
+    icon: Heart,
+    title: "Triết lý",
+    desc: "Làm nông nghiệp là yêu Đất – Nước",
   },
 ];
 
-const CHECKLIST = ["Tối ưu hóa từng đơn vị tài nguyên", "Đồng hành cùng nông dân Việt"];
+const FOUNDATION = ["Con người", "Dữ liệu", "Quản trị"];
+
+const CHECKLIST = ["Giống → Canh tác → Công nghệ → Tiêu chuẩn → Thị trường"];
 
 export default function AgriTechHero() {
   const { t } = useLanguage();
@@ -180,21 +182,19 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="inline-flex items-center rounded-full border border-[#006400]/25 bg-[#f2f9ee] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#006400]"
           >
-            {t("nông nghiệp công nghệ cao Unifarm")}
+            {t("Giải pháp nông nghiệp tổng thể")}
           </motion.span>
 
-          {/* Tiêu đề 2 dòng — mờ dần trồi lên */}
+          {/* Tiêu đề 1 hàng — mờ dần trồi lên */}
           <motion.h2
             custom={0.15}
             initial="hidden"
             whileInView="show"
             viewport={VIEWPORT}
             variants={fadeUp}
-            className="uppercase mt-5 text-3xl font-extrabold leading-[1.15] text-[#053d05] sm:text-4xl lg:text-[2.75rem]"
+            className="uppercase mt-5 text-balance text-3xl font-extrabold leading-[1.15] text-[#053d05] sm:text-4xl lg:text-[2.75rem]"
           >
-            {t("Từ một trang trại")}
-            <br />
-            {t("Đến một hệ sinh thái")}
+            {t("Giá trị đến từ sự kết nối")}
           </motion.h2>
 
           {/* Thẻ số liệu + 2 mục nổi bật */}
@@ -241,8 +241,17 @@ export default function AgriTechHero() {
             variants={fadeUp}
             className="mt-6 text-base leading-relaxed text-neutral-600 sm:text-lg"
           >
-            {t("Câu trả lời không nằm ở riêng một cánh đồng hay một công nghệ, mà nằm trong khả năng kết nối khép kín: Nghiên cứu → Giống → Sản xuất → Liên kết → Sau thu hoạch & Chế biến → Thị trường.")}
+            {t("Hiệu quả của nông nghiệp không đến từ một giống tốt, một công nghệ hay một quy trình riêng lẻ, mà từ khả năng kết nối đồng bộ từ giống, canh tác, công nghệ, tiêu chuẩn đến thị trường.")}
           </motion.p>
+          {CHECKLIST.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 text-sm font-bold text-[#053d05] sm:text-base"
+                >
+                  <Check className="h-4 w-4 shrink-0 text-[#006400]" strokeWidth={3} />
+                  {t(item)}
+                </li>
+              ))}
 
           {/* Checklist + Nút CTA */}
           <motion.div
@@ -254,10 +263,11 @@ export default function AgriTechHero() {
             className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center"
           >
             <ul className="flex flex-col gap-2.5">
-              {CHECKLIST.map((item) => (
+              
+              {FOUNDATION.map((item) => (
                 <li
                   key={item}
-                  className="flex items-center gap-2 text-sm font-medium text-[#053d05] sm:text-base"
+                  className="flex items-center gap-2 text-sm font-semibold text-[#053d05] sm:text-base"
                 >
                   <Check className="h-4 w-4 shrink-0 text-[#006400]" strokeWidth={3} />
                   {t(item)}

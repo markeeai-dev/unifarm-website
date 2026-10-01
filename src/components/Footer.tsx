@@ -28,26 +28,24 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 type LinkItem = { label: string; href: string };
 
 const supportLinks: LinkItem[] = [
-  { label: "Tìm kiếm", href: "/search" },
   { label: "Giới thiệu", href: "/gioi-thieu" },
-  { label: "Hỏi đáp", href: "/hoi-dap" },
-  { label: "Chăm sóc khách hàng", href: "/cham-soc-khach-hang" },
-  { label: "Liên hệ", href: "/lien-he" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Dự án & Hợp tác", href: "/du-an-hop-tac" },
+  { label: "Dịch vụ & Giải pháp", href: "/dich-vu" },
+  { label: "Unifarm hôm nay", href: "/" },
+  { label: "Nghề nghiệp", href: "/tuyen-dung" },
 ];
 
 const guideLinks: LinkItem[] = [
-  { label: "Tìm kiếm", href: "/search" },
-  { label: "Giới thiệu", href: "/gioi-thieu" },
-  { label: "Hỏi đáp", href: "/hoi-dap" },
-  { label: "Chăm sóc khách hàng", href: "/cham-soc-khach-hang" },
-  { label: "Liên hệ", href: "/lien-he" },
+  { label: "Hợp tác cùng Unifarm", href: "/du-an-hop-tac#hop-tac" },
+  { label: "Hệ thống phân phối", href: "/he-thong-phan-phoi" },
+  { label: "Liên hệ", href: "/#contact" },
 ];
 
 const socials = [
-  { name: "Facebook", href: "#", path: "M13 22v-8h2.7l.4-3.3H13V8.6c0-.9.3-1.6 1.7-1.6H16V4.1C15.6 4 14.6 4 13.5 4 11.1 4 9.5 5.4 9.5 8.2v2.5H7V14h2.5v8H13Z" },
-  { name: "Twitter", href: "#", path: "M22 5.9c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.6a4.1 4.1 0 0 0 1.3 5.5c-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.6 3.3 4a4.2 4.2 0 0 1-1.9.1 4.1 4.1 0 0 0 3.9 2.9A8.3 8.3 0 0 1 2 18.4a11.6 11.6 0 0 0 6.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.2Z" },
-  { name: "Youtube", href: "#", path: "M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C15.9 4 12 4 12 4h0s-3.9 0-6.7.2c-.4 0-1.3.1-2.1.9-.6.6-.8 2.1-.8 2.1S2.2 9 2.2 10.8v1.4C2.2 14 2.4 15.8 2.4 15.8s.2 1.5.8 2.1c.8.8 1.9.8 2.3.9 1.7.2 7.5.2 7.5.2s3.9 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.6v-1.4c0-1.8-.2-3.6-.2-3.6ZM9.9 14.6V8.9l5.3 2.9-5.3 2.8Z" },
-  { name: "Pinterest", href: "#", path: "M12 2a10 10 0 0 0-3.6 19.3c0-.8 0-1.7.2-2.6l1.4-6s-.3-.7-.3-1.7c0-1.6.9-2.8 2.1-2.8 1 0 1.5.7 1.5 1.6 0 1-.6 2.4-1 3.8-.2 1 .5 1.8 1.5 1.8 1.8 0 3.1-2.3 3.1-5 0-2.1-1.5-3.6-4.1-3.6-3 0-4.8 2.2-4.8 4.5 0 .9.3 1.8.8 2.4.1.1.1.2.1.3l-.3 1.1c0 .2-.1.3-.3.2-1.2-.5-2-2.3-2-3.7 0-3 2.2-5.8 6.3-5.8 3.3 0 5.9 2.4 5.9 5.5 0 3.3-2.1 5.9-4.9 5.9-1 0-1.9-.5-2.2-1.1l-.6 2.3c-.2.9-.8 2-1.2 2.6A10 10 0 1 0 12 2Z" },
+  { name: "Facebook", href: "https://www.facebook.com/Unifarm.SafeFoodForLife", path: "M13 22v-8h2.7l.4-3.3H13V8.6c0-.9.3-1.6 1.7-1.6H16V4.1C15.6 4 14.6 4 13.5 4 11.1 4 9.5 5.4 9.5 8.2v2.5H7V14h2.5v8H13Z" },
+  { name: "Youtube", href: "https://www.youtube.com/@unifarm.safefoodforlifeui2999", path: "M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C15.9 4 12 4 12 4h0s-3.9 0-6.7.2c-.4 0-1.3.1-2.1.9-.6.6-.8 2.1-.8 2.1S2.2 9 2.2 10.8v1.4C2.2 14 2.4 15.8 2.4 15.8s.2 1.5.8 2.1c.8.8 1.9.8 2.3.9 1.7.2 7.5.2 7.5.2s3.9 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.6v-1.4c0-1.8-.2-3.6-.2-3.6ZM9.9 14.6V8.9l5.3 2.9-5.3 2.8Z" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/company/unifarmvn/", path: "M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2C18.5 11.1 17.5 10.1 15.9 10.1C14.9 10.1 14.2 10.6 13.8 11.2V10.3H11.4C11.4 10.6 11.4 18.5 11.4 18.5H13.8V14C13.8 13.7 13.8 13.5 13.9 13.3C14.1 12.8 14.6 12.2 15.4 12.2C16.4 12.2 16.9 12.9 16.9 14.1V18.5H18.5M8.7 9.1C9.5 9.1 10 8.5 10 7.8C10 7.1 9.5 6.5 8.7 6.5C7.9 6.5 7.4 7.1 7.4 7.8C7.4 8.5 7.9 9.1 8.7 9.1M9.9 18.5V10.3H7.5V18.5H9.9Z" },
 ];
 
 function AccordionColumn({
@@ -143,7 +141,7 @@ export default function Footer() {
               {t("Thông tin liên hệ")}
             </h3>
 
-            <a href="/" className="mb-4 inline-flex items-center">
+            <a href="/" className="mb-2 inline-flex items-center">
               <Image
                 src="/images/logo-unifarm.png"
                 alt="Unifarm"
@@ -152,6 +150,12 @@ export default function Footer() {
                 className="h-10 w-auto"
               />
             </a>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#fffacd]">
+              {t("Safe Food For Life")}
+            </p>
+            <p className="mt-1 mb-4 text-sm italic text-white/60">
+              {t("Làm nông nghiệp là yêu Đất – Nước")}
+            </p>
 
             <ul className="space-y-3 text-sm leading-relaxed text-white/70">
               <li>
@@ -189,19 +193,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support */}
-          <AccordionColumn title="Hỗ trợ" links={supportLinks} />
+          {/* Khám phá */}
+          <AccordionColumn title="Khám phá" links={supportLinks} />
 
-          {/* Guide */}
-          <AccordionColumn title="Hướng dẫn" links={guideLinks} />
+          {/* Hợp tác & Kết nối */}
+          <AccordionColumn title="Hợp tác & Kết nối" links={guideLinks} />
 
           {/* Newsletter */}
           <div className="py-4 sm:py-0">
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#fffacd]">
-              {t("Đăng ký bản tin")}
+              {t("Nhận thông tin từ Unifarm")}
             </h3>
             <p className="mb-4 text-sm italic text-[#87cefa]/90">
-              {t("Bạn sẽ là người đầu tiên được biết về: Chương trình khuyến mãi, giảm giá…")}
+              {t("Nhận những cập nhật mới về sản phẩm, nghiên cứu, công nghệ, dự án và hoạt động của Unifarm.")}
             </p>
 
             <form onSubmit={handleSubmit} className="flex overflow-hidden rounded-full bg-white/10 ring-1 ring-white/15 backdrop-blur-sm focus-within:ring-[#87cefa]">
@@ -237,6 +241,8 @@ export default function Footer() {
                 <a
                   key={s.name}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={t(s.name)}
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 ring-1 ring-white/10 transition-all hover:-translate-y-0.5 hover:bg-[#006400] hover:text-[#fffacd] hover:ring-[#006400]"
                 >
@@ -257,8 +263,8 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-white/50 sm:py-8">
           <p>
-            © {t("Bản quyền thuộc về")}{" "}
-            <span className="font-semibold text-[#fffacd]">Unifarm</span>.
+            © <span className="font-semibold text-[#fffacd]">Unifarm</span>.{" "}
+            {t("All rights reserved.")}
           </p>
         </div>
       </div>

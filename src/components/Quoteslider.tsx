@@ -24,33 +24,62 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 type Slide = {
   image: string;
   quote: string;
-  topic: string;
+  author: string;
+  articleTitle: string;
+  link: string;
 };
 
+// LƯU Ý: slide 1, 3, 6 dùng link bài viết thật (tìm thấy trên
+// nongnghiepmoitruong.vn, trùng khớp tiêu đề). Slide 2, 4, 5 vẫn tạm trỏ về
+// "#" — cần đường link bài viết thật cho 3 bài còn lại để thay vào.
 const SLIDES: Slide[] = [
   {
     image: "/images/UNIFARM/2.jpg",
     quote:
-      "Unifarm không cần sở hữu mọi cánh đồng. Một chuỗi giá trị chỉ thực sự bền vững khi người trực tiếp làm ra nông sản có hiệu quả kinh tế và sống tốt hơn.",
-    topic: "Về Chuỗi liên kết",
+      "Nếu có thể góp sức để nâng tầm nông nghiệp và đem lại cuộc sống tốt đẹp hơn cho người nông dân Việt Nam, tôi sẽ không bao giờ ngần ngại.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Ước mơ thuở thiếu thời đến trăn trở nông nghiệp, nông dân",
+    link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/doanh-nhan-pham-quoc-liem-uoc-mo-thuo-thieu-thoi-den-tran-tro-nong-nghiep-nong-dan-d375269.html",
   },
   {
     image: "/images/UNIFARM/1787218973806_1582751505492234802_4935324150679931320_d6fbae39f7d85301ab39d1b72b8fdb82.jpg",
     quote:
-      "Làm nông nghiệp là yêu Đất – Nước. Đất không chỉ để giữ cây mà là một hệ sinh thái sống; bớt lãng phí tài nguyên chính là tạo ra nhiều giá trị hơn trên cùng một mảnh đất.",
-    topic: "Về Triết lý Đất – Nước",
+      "Cùng nhau, chúng ta phải định hướng sản xuất hàng hóa có chất lượng tốt nhất trong ngành của mình, đồng thời cam kết hợp tác lâu dài, ổn định, chân thành với đối tác và khách hàng.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Chuẩn duy nhất, chuẩn cao nhất",
+    link: "#",
   },
   {
     image: "/images/banana-leaf-drops.jpg",
     quote:
-      "Khách hàng không chỉ mua một trái cây, họ mua sự an tâm về quy cách, sản lượng và tính ổn định dài hạn. Ở Unifarm, sự ổn định cũng chính là một sản phẩm.",
-    topic: "Về Sự ổn định & Kỷ luật cung ứng",
+      "Khi người nông dân có thu nhập tốt hơn, doanh nghiệp có năng lực cạnh tranh cao hơn, người tiêu dùng được sử dụng những sản phẩm an toàn hơn và môi trường được bảo vệ tốt hơn, đó mới là thành công thực sự của nông nghiệp.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Từ câu chuyện ngành chuối, nghĩ về tương lai nông nghiệp Việt Nam",
+    link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/tu-cau-chuyen-nganh-chuoi-nghi-ve-tuong-lai-nong-nghiep-viet-nam-d817450.html",
   },
   {
     image: "/images/banana/banana-plantation-aerial.jpg",
     quote:
-      "Mỗi thùng nông sản rời khỏi trang trại phải có khả năng tự kể lại trọn vẹn hành trình của mình — từ lô đất, ngày thu hoạch cho đến bàn tay người đóng gói.",
-    topic: "Về Khả năng truy xuất nguồn gốc",
+      "Ở đâu có thách thức, ở đó có cơ hội. Chìa khóa trong trường hợp này có tên 'liên kết'. Việt Nam cần xây dựng cho bằng được những liên kết bền vững giữa các doanh nghiệp có vùng trồng và thị trường lớn với hàng trăm nghìn nông hộ có diện tích nhỏ.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Chuyện chất lượng sầu riêng – Lo gần nhưng phải liệu xa",
+    link: "#",
+  },
+  {
+    image: "/images/UNIFARM/UNIFARM/hinh-chinh/vuon1.jpg",
+    quote:
+      "Sự cải tiến, sáng tạo, thay đổi phải không được có điểm dừng, đồng thời, phải luôn nhìn nhận bằng thái độ tỉnh thức. Chúng ta luôn sẵn sàng 'bước qua mùa đông để đón nắng xuân'.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Bước qua mùa đông để đón nắng xuân",
+    link: "#",
+  },
+  {
+    image: "/images/UNIFARM/nha-kinh.jpg",
+    quote:
+      "Làm nông nghiệp là yêu Đất - Nước, như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống.",
+    author: "Phạm Quốc Liêm",
+    articleTitle: "Làm nông nghiệp là yêu Đất Nước",
+    link: "https://nongnghiepmoitruong.vn/lam-nong-nghiep-la-yeu-dat-nuoc-d798204.html",
   },
 ];
 
@@ -119,7 +148,7 @@ export default function QuoteSlider() {
       {/* Content */}
       <div className="relative z-20 mx-auto flex h-full max-w-[1500px] flex-col justify-center px-5 py-14 sm:px-8 sm:py-16 lg:px-20">
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#87cefa] sm:text-sm">
-          {t("Góc nhìn về nông nghiệp của lãnh đạo Unifarm")}
+          {t("Nghĩ Về Nghề Nông")}
         </p>
 
         {/* Quote mark */}
@@ -161,9 +190,21 @@ export default function QuoteSlider() {
           <div className="mt-8 flex items-center gap-3">
             <span className="h-8 w-1 shrink-0 rounded-full bg-[#87cefa]" />
             <p className="text-sm font-bold uppercase tracking-wider text-[#fffacd] sm:text-base">
-              {t(SLIDES[index].topic)}
+              {t(SLIDES[index].author)}
             </p>
           </div>
+
+          <a
+            href={SLIDES[index].link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-2.5 inline-flex max-w-3xl items-center gap-1.5 pl-[22px] text-sm text-white/70 transition-colors hover:text-white"
+          >
+            <span className="italic">{t(SLIDES[index].articleTitle)}</span>
+            <span className="font-semibold text-[#87cefa] transition-transform group-hover:translate-x-1">
+              {t("Đọc bài viết →")}
+            </span>
+          </a>
         </div>
 
         {/* Progress dots */}

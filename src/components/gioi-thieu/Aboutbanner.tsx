@@ -133,7 +133,7 @@ function VisionMission() {
   return (
     <div ref={ref} className="relative w-full">
       {/* Ảnh full-bleed 50/50 */}
-      <div className="grid w-full grid-cols-1 sm:grid-cols-2">
+      <div className="relative grid w-full grid-cols-1 sm:grid-cols-2">
         {/* Ảnh trái — Tầm nhìn */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -168,8 +168,8 @@ function VisionMission() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#06301B]/85 via-[#06301B]/25 to-[#06301B]/10" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
 
-          {/* Nội dung chữ phủ lên ảnh */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-9 lg:p-12">
+          {/* Nội dung chữ phủ lên ảnh — đẩy lên 1 xíu (pb lớn hơn) để chừa chỗ cho dải chữ chạy ở đáy */}
+          <div className="absolute inset-0 flex flex-col justify-end p-6 pb-16 sm:p-9 sm:pb-20 lg:p-12 lg:pb-24">
             <motion.span
               initial={{ opacity: 0, y: 14 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
@@ -193,7 +193,7 @@ function VisionMission() {
               transition={badgeTiming(2)}
               className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-[22px]"
             >
-              {t("Hệ sinh thái nông nghiệp công nghệ cao dẫn đầu Việt Nam, vươn tầm thế giới.")}
+              {t("Đến năm 2030, Unifarm trở thành hệ sinh thái khép kín và dẫn đầu về nông nghiệp công nghệ cao theo hướng sinh học, góp phần đưa nông nghiệp Việt Nam vươn tầm thế giới.")}
             </motion.p>
             <motion.span
               initial={{ opacity: 0, scaleX: 0 }}
@@ -238,7 +238,7 @@ function VisionMission() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#06301B]/85 via-[#06301B]/25 to-[#06301B]/10" />
           <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-transparent to-transparent" />
 
-          <div className="absolute inset-0 flex flex-col items-start justify-end p-6 sm:items-end sm:p-9 lg:p-12">
+          <div className="absolute inset-0 flex flex-col items-start justify-end p-6 pb-16 sm:items-end sm:p-9 sm:pb-20 lg:p-12 lg:pb-24">
             <motion.span
               initial={{ opacity: 0, y: 14 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
@@ -262,7 +262,7 @@ function VisionMission() {
               transition={badgeTiming(2)}
               className="mt-3 max-w-sm text-sm leading-relaxed text-white/85 sm:text-right sm:text-[22px]"
             >
-              {t("Cung cấp giải pháp nông nghiệp bền vững, vì sức khỏe con người và một hành tinh xanh.")}
+              {t("Cung cấp các sản phẩm từ thiên nhiên và giải pháp nông nghiệp bền vững vì sức khỏe con người và hành tinh xanh.")}
             </motion.p>
             <motion.span
               initial={{ opacity: 0, scaleX: 0 }}
@@ -273,6 +273,25 @@ function VisionMission() {
             />
           </div>
         </motion.div>
+
+        {/* Slogan chạy chữ — đè lên đáy của 2 ảnh, liền mạch không đứt khoảng,
+            cùng kỹ thuật với dòng chữ chạy ở Banner đầu trang (Homebanner) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 overflow-hidden bg-gradient-to-t from-black/60 via-black/25 to-transparent py-3 sm:py-4"
+        >
+          <div className="slogan-marquee-track flex w-max items-center whitespace-nowrap">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span
+                key={i}
+                className="mx-3 inline-flex items-center text-base font-extrabold uppercase tracking-[0.22em] text-[#FFFACD] sm:mx-4 sm:text-xl md:text-2xl"
+              >
+                {t("Safe Food For Life")}
+                <span className="ml-3 h-1 w-1 shrink-0 rounded-full bg-[#FFFACD]/60 sm:ml-4" />
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Ảnh tròn ở giữa, chèn đè lên đường nối giữa 2 ảnh */}
@@ -321,6 +340,25 @@ function VisionMission() {
           style={{ borderColor: "#B7FF6B" }}
         />
       </motion.div>
+
+      <style jsx>{`
+        .slogan-marquee-track {
+          animation: slogan-marquee-scroll 20s linear infinite;
+        }
+        @keyframes slogan-marquee-scroll {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .slogan-marquee-track {
+            animation: none;
+          }
+        }
+      `}</style>
     </div>
   );
 }

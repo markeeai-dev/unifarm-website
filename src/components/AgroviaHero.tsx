@@ -17,29 +17,29 @@ const NAV_LINKS = ['Trang chủ', 'Về chúng tôi', 'Giải pháp', 'Nhà đ�
 
 const SLIDES = [
   {
-    title: 'Nghiên cứu & Giống cây trồng',
+    title: 'Bắt đầu từ thị trường',
     subhead:
-      'Tìm kiếm, tuyển chọn, thử nghiệm và phát triển những bộ giống có khả năng thích nghi và tạo giá trị cao trong điều kiện sản xuất thực tế.',
+      'Hiểu nhu cầu của khách hàng và thị trường để xác định sản phẩm và tiêu chuẩn cần đáp ứng.',
   },
   {
-    title: 'Sản xuất quy mô lớn',
+    title: 'Phát triển giải pháp',
     subhead:
-      'Trang trại là nơi thử nghiệm công nghệ, chuẩn hóa quy trình, đào tạo con người, thu thập dữ liệu và kiểm chứng ý tưởng trước khi nhân rộng.',
+      'Kết hợp giống, công nghệ, quy trình và tiêu chuẩn để phát triển giải pháp phù hợp.',
   },
   {
-    title: 'Liên kết sản xuất',
+    title: 'Kiểm chứng trong thực tế',
     subhead:
-      'Chuẩn hóa và chuyển giao những quy trình đã kiểm chứng thành công cho các hợp tác xã, doanh nghiệp và nông dân liên kết.',
+      'Đưa giải pháp vào sản xuất thực tế để đo lường và hoàn thiện.',
   },
   {
-    title: 'Sau thu hoạch & Chế biến',
+    title: 'Chuẩn hóa & Nhân rộng',
     subhead:
-      'Xử lý, đóng gói, kiểm soát chuỗi lạnh và chế biến chuyên sâu nhằm giữ trọn giá trị nông sản và đáp ứng tiêu chuẩn khắt khe của thị trường.',
+      'Chuẩn hóa những gì đã được kiểm chứng để có thể chuyển giao và nhân rộng.',
   },
   {
-    title: 'Tiếp nhận ý kiến thị trường',
+    title: 'Trở lại thị trường',
     subhead:
-      'Lấy phản hồi và tiêu chuẩn kỹ thuật từ thị trường quay trở lại định hướng quy trình thu hoạch, canh tác, chọn giống và nghiên cứu.',
+      'Đưa sản phẩm ra thị trường và dùng phản hồi mới làm đầu vào cho vòng cải tiến tiếp theo.',
   },
 ];
 
@@ -166,7 +166,7 @@ export default function AgroviaHero() {
 
       {/* ---------------- HERO TEXT ---------------- */}
       <div className="relative z-10 flex flex-1 items-end px-7 pb-10 sm:px-14 sm:pb-36 lg:pl-80 lg:pr-20">
-        <div className="max-w-[680px] lg:max-w-[780px]">
+        <div className="max-w-[680px] lg:max-w-[800px]">
           <div className="relative min-h-[250px] animate-rise-in opacity-0 sm:min-h-[220px] lg:min-h-[280px] [animation-delay:.25s]">
             {SLIDES.map((s, i) => (
               <div
