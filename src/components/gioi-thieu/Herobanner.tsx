@@ -141,7 +141,7 @@ export default function HeroBanner() {
             >
               <Leaf className="h-3 w-3" strokeWidth={2.5} />
             </span>
-            Unifarm • Vietnam • Since 2009
+            {t("Từ năm 2009")}
           </div>
 
           {/* Tên thương hiệu */}
@@ -169,13 +169,13 @@ export default function HeroBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            {t("TỪ MỘT TRANG TRẠI ĐẾN MỘT HỆ SINH THÁI")}
+            {t("TỪ MỘT TRANG TRẠI")}
             {/* Xuống dòng cứng chỉ áp dụng từ sm trở lên — trên mobile để
                 chữ tự ngắt dòng theo `text-balance`, tránh cảnh mỗi câu dài
                 tràn xuống tạo 1 từ mồ côi đứng riêng 1 dòng như trước. */}
             <br className="hidden sm:block" />{" "}
             <span style={{ color: COLORS.accent }}>
-              {t("HỆ SINH THÁI NÔNG NGHIỆP CÔNG NGHỆ CAO BỀN VỮNG")}
+              {t("ĐẾN MỘT HỆ SINH THÁI")}
             </span>
           </p>
 
@@ -227,7 +227,7 @@ export default function HeroBanner() {
               {/* Màu hover kéo từ trái sang phải */}
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                {t("Hệ sinh thái Unifarm")}
+                {t("Tìm hiểu về Unifarm")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
@@ -244,7 +244,7 @@ export default function HeroBanner() {
               {/* Vệt sáng tự chạy */}
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-                {t("Liên hệ hợp tác")}
+                {t("Hợp tác cùng Unifarm")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"

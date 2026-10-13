@@ -46,6 +46,11 @@ export type Product = {
   description: string;
   specs: SpecField[];
   commitments: string[];
+  origin: string;
+  season: string;
+  packaging: string;
+  storage: string;
+  supply_status: string;
   translations: ContentTranslations | null;
   sort_order: number;
   created_at: string;

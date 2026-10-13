@@ -221,7 +221,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-28"
+      className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_trang.png')] bg-repeat py-20 sm:py-28"
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap');
@@ -442,7 +442,7 @@ export default function TimelineJourney({ milestones }: { milestones: TimelineMi
                 "opacity 1000ms ease-out 120ms, transform 1000ms cubic-bezier(0.16,1,0.3,1) 120ms",
             }}
           >
-            {t("Hành trình kiến tạo Unifarm")}
+            {t("Hành trình Unifarm")}
           </h2>
 
           <p

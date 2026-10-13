@@ -42,12 +42,10 @@ export default function ApplyFinalCTA() {
             {t("Sẵn sàng chưa?")}
           </p>
           <h2 className="uppercase mt-4 text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
-            {t("Bắt đầu hành trình từ Intern đến Senior của bạn ngay hôm nay")}
+            {t("Bắt đầu hành trình của bạn tại Unifarm")}
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/65">
-            {t(
-              "Chỉ mất vài phút để nộp hồ sơ — đội ngũ tuyển dụng của Unifarm sẽ phản hồi bạn trong vòng 3 ngày làm việc."
-            )}
+            {t("Chọn một vị trí phù hợp và gửi hồ sơ cho chúng tôi.")}
           </p>
           <a
             href="mailto:tuyendung@unifarm.com?subject=%E1%BB%A8ng%20tuy%E1%BB%83n%20t%E1%BA%A1i%20Unifarm"

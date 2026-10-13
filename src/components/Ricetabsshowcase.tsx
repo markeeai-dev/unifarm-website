@@ -26,15 +26,6 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const ACCENT = "#87cefa";
 
-function ShieldCheckIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function FlaskIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -75,113 +66,61 @@ function QrCodeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
 
 const TABS = [
   {
-    id: "tieu-chuan-nong-trai",
-    tabLabel: "Hệ Thống Tiêu Chuẩn Nông Trại",
-    title: "Vùng Canh Tác Công Nghệ Cao Chuẩn GlobalGAP",
-    image: "/images/UNIFARM/1787207482450_1582751505492234802_4935324150679931320_0794621ead9929dd3c30a18993f1671e.jpg",
-    icon: ShieldCheckIcon,
-    items: [
-      {
-        lead: "Quy mô hơn 400 ha tại An Thái (Bình Dương)",
-        text: "Vùng sản xuất tập trung khép kín, được cách ly an toàn với môi trường ô nhiễm bên ngoài.",
-      },
-      {
-        lead: "Hạ tầng tự động hóa",
-        text: "Ứng dụng công nghệ tưới bù áp tự động và mạng lưới nhà kính hiện đại, chuyển giao kỹ thuật trực tiếp từ các chuyên gia Philippines và Israel.",
-      },
-      {
-        lead: "Chứng nhận Quốc tế",
-        text: "Đạt chuẩn GlobalGAP và VietGAP toàn diện, trực tiếp đáp ứng tiêu chuẩn kiểm dịch và chất lượng của các thị trường khó tính như Nhật Bản và Hàn Quốc.",
-      },
-    ],
-    cta: "Liên hệ xem hồ sơ chứng nhận",
-  },
-  {
-    id: "kiem-dinh-du-luong",
-    tabLabel: "Quản Lý Dư Lượng (MRL)",
-    title: "Kiểm Soát 100% An Toàn & Không Dư Lượng",
+    id: "kiem-soat-du-luong",
+    tabLabel: "Kiểm Soát Dư Lượng",
+    title: "Kiểm Soát Từ Đầu Vào",
     image: "/images/UNIFARM/2.jpg",
     icon: FlaskIcon,
+    kind: "steps" as const,
     items: [
       {
-        lead: "Bảo vệ sinh học",
-        text: "Tối ưu hóa thiên địch (sử dụng kiến vàng, bẫy sinh học) để diệt côn trùng, hạn chế tối đa việc can thiệp hóa chất nông nghiệp.",
+        lead: "01 · Đầu vào",
+        text: "Kiểm soát danh mục vật tư và thuốc BVTV theo cây trồng và yêu cầu của thị trường đích.",
       },
       {
-        lead: "Thời gian cách ly tuyệt đối",
-        text: "Quy trình bón phân và chăm sóc tuân thủ thời gian cách ly nghiêm ngặt trước kỳ thu hoạch.",
+        lead: "02 · Trong sản xuất",
+        text: "Ghi nhận việc sử dụng vật tư; tăng cường giải pháp sinh học và quản lý dịch hại tổng hợp nhằm giảm phụ thuộc vào hóa chất.",
       },
       {
-        lead: "Kiểm nghiệm độc lập",
-        text: "Lấy mẫu định kỳ xét nghiệm hàng trăm hoạt chất BVTV và chỉ số kim loại nặng, cam kết 0% dư lượng cấm khi ra thị trường.",
+        lead: "03 · Trước thu hoạch",
+        text: "Kiểm soát thời gian cách ly và đối chiếu giới hạn dư lượng theo yêu cầu của thị trường.",
+      },
+      {
+        lead: "04 · Kiểm nghiệm",
+        text: "Thực hiện kiểm nghiệm dư lượng theo yêu cầu của sản phẩm, khách hàng hoặc thị trường trước khi cung ứng.",
       },
     ],
     cta: "Liên hệ Xem Kết Quả Kiểm Nghiệm Mẫu",
   },
   {
-    id: "quy-trinh-so-che",
-    tabLabel: "Quy Trình Sơ Chế & Đóng Gói",
-    title: "Quy Trình Sơ Chế 4 Giờ Chuẩn Xuất Khẩu",
+    id: "so-che-dong-goi",
+    tabLabel: "Sơ Chế & Đóng Gói",
+    title: "Giữ Chất Lượng Sau Thu Hoạch",
     image: "/images/UNIFARM/DJI_20260805085036_0330_D.JPG",
     icon: PackageIcon,
-    items: [
-      {
-        lead: "Thu hoạch bằng hệ thống cáp treo ròng rọc",
-        text: "Buồng chuối sau khi cắt được treo trên dàn ròng rọc tự động đưa thẳng vào xưởng, loại bỏ 100% rủi ro va đập.",
-      },
-      {
-        lead: "Bể rửa khử khuẩn & xử lý mủ",
-        text: "Rửa sạch bụi bẩn và mủ tự nhiên bằng nguồn nước kiểm soát nhiệt độ và xử lý vi sinh vô trùng.",
-      },
-      {
-        lead: "Quy cách đóng gói xuất khẩu",
-        text: "Phân nải chuẩn kích cỡ, cân định lượng chuẩn xác từng khay/thùng, sử dụng túi thoáng khí và thùng carton 5 lớp chống ẩm chịu lực.",
-      },
-    ],
+    kind: "flow" as const,
+    flow: ["Thu hoạch", "Vận chuyển về nhà đóng gói", "Sơ chế & phân loại", "Đóng gói"],
     cta: "Liên hệ để biết thêm về quy trình",
   },
   {
-    id: "he-thong-kho-lanh",
-    tabLabel: "Bảo Quản Chuỗi Lạnh",
-    title: "Bảo Quản Chuỗi Lạnh Khép Kín Từ Nông Trại",
+    id: "bao-quan-van-chuyen",
+    tabLabel: "Bảo Quản & Vận Chuyển",
+    title: "Kiểm Soát Đến Khi Giao Hàng",
     image: "/images/UNIFARM/16.JPG",
     icon: SnowflakeIcon,
-    items: [
-      {
-        lead: "Quy tắc vàng 4 giờ",
-        text: "Toàn bộ chuối từ lúc cắt tại vườn đến khi hoàn tất đóng gói và đưa vào kho lạnh diễn ra không quá 4 tiếng đồng hồ.",
-      },
-      {
-        lead: "Nhiệt độ bảo quản chuẩn 13°C – 15°C",
-        text: "Kiểm soát độ ẩm và dòng khí lạnh đồng đều, kìm hãm độ chín tự nhiên mà vẫn giữ trọn màu sắc và cấu trúc tươi giòn của quả.",
-      },
-      {
-        lead: "Vận chuyển container lạnh chuyên dụng",
-        text: "Kết nối liền mạch từ kho lạnh An Thái đến các hệ thống siêu thị nội địa và cảng biển xuất khẩu.",
-      },
-    ],
+    kind: "flow" as const,
+    flow: ["Sau đóng gói", "Lưu kho", "Vận chuyển", "Giao hàng"],
     cta: "Liên hệ để xem kho lạnh",
   },
   {
     id: "truy-xuat-nguon-goc",
-    tabLabel: "Truy Xuất Nguồn Gốc 2 Chiều",
-    title: "Minh Bạch Xuất Xứ & Mã Số Vùng Trồng (PUC)",
+    tabLabel: "Truy Xuất Nguồn Gốc",
+    title: "Từ Một Thùng Hàng Trở Về Vùng Trồng",
     image: "/images/UNIFARM/20260805_083315.jpg",
     icon: QrCodeIcon,
-    items: [
-      {
-        lead: "Mã số vùng trồng quốc gia (Farm Code)",
-        text: "Mỗi lô hàng đều được cấp mã vùng trồng được Cục Bảo vệ Thực vật và hải quan các nước nhập khẩu cấp phép.",
-      },
-      {
-        lead: "Nhật ký canh tác số hóa",
-        text: "Toàn bộ thông tin từ ngày trổ buồng, bọc nải, ngày thu hoạch và kỹ sư giám sát đều được lưu trữ minh bạch.",
-      },
-      {
-        lead: "Mã QR định danh trên từng thùng hàng",
-        text: "Khách hàng và đối tác chỉ cần quét mã QR để tra cứu đầy đủ nguồn gốc xuất xứ của từng lô sản phẩm.",
-      },
-    ],
+    kind: "flow" as const,
+    flow: ["Mã thùng hàng", "Lô đóng gói", "Ngày thu hoạch / đóng gói", "Vùng trồng", "Hồ sơ sản xuất liên quan"],
+    note: "Thông tin truy xuất được kết nối với hệ thống quản lý sản xuất và đóng gói của Unifarm theo phạm vi dữ liệu áp dụng cho từng sản phẩm.",
     cta: "Liên hệ để xem truy xuất nguồn gốc",
   },
 ];
@@ -247,6 +186,16 @@ export default function RiceTabsShowcase() {
   return (
     <section ref={sectionRef} className="w-full bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto w-full max-w-[1500px]">
+        {/* TIÊU ĐỀ SECTION */}
+        <div className="mb-8 text-center sm:mb-10">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#006400] sm:text-sm">
+            {t("Hệ thống kiểm soát chất lượng")}
+          </p>
+          <h2 className="text-2xl font-extrabold uppercase tracking-wide text-neutral-900 sm:text-3xl lg:text-[38px]">
+            {t("Từ nông trại đến thị trường")}
+          </h2>
+        </div>
+
         {/* TABS — kiểu "hồ sơ file": tab đang mở nổi lên và nối liền với
             khung nội dung màu trắng, các tab còn lại lùi thấp hơn/tối màu
             hơn như đang nằm phía sau trong một tập hồ sơ. */}
@@ -261,7 +210,7 @@ export default function RiceTabsShowcase() {
               opacity: inView ? 1 : 0,
             }}
           >
-            <div className="flex w-full min-w-max items-end gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-5 sm:items-end sm:gap-2">
+            <div className="flex w-full min-w-max items-end gap-1.5 sm:grid sm:min-w-0 sm:grid-cols-4 sm:items-end sm:gap-2">
               {TABS.map((tab, i) => {
                 const isActive = i === activeIndex;
                 return (
@@ -352,19 +301,46 @@ export default function RiceTabsShowcase() {
                 style={{ background: `linear-gradient(90deg, #006400, ${ACCENT})` }}
               />
 
-              <ul className="mt-6 space-y-4">
-                {active.items.map((it, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#006400]/10 text-[#006400]">
-                      <active.icon className="h-3.5 w-3.5" />
-                    </span>
-                    <p className="text-[15px] leading-relaxed text-gray-600">
-                      <span className="font-bold text-neutral-800">{t(it.lead)}: </span>
-                      {t(it.text)}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+              {active.kind === "steps" ? (
+                <ul className="mt-6 space-y-4">
+                  {active.items.map((it, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#006400]/10 text-[#006400]">
+                        <active.icon className="h-3.5 w-3.5" />
+                      </span>
+                      <p className="text-[15px] leading-relaxed text-gray-600">
+                        <span className="font-bold text-neutral-800">{t(it.lead)}: </span>
+                        {t(it.text)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <>
+                  <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-0">
+                    {active.flow.map((stage, i) => (
+                      <div key={stage} className="flex items-center gap-2 sm:gap-0">
+                        <span className="rounded-full border border-[#006400]/20 bg-white px-4 py-2 text-[13px] font-bold text-[#006400] shadow-sm sm:text-sm">
+                          {t(stage)}
+                        </span>
+                        {i < active.flow.length - 1 && (
+                          <span
+                            className="flex shrink-0 items-center justify-center text-[#87cefa] sm:mx-2 sm:rotate-0"
+                            aria-hidden="true"
+                          >
+                            <svg viewBox="0 0 24 24" className="h-4 w-4 rotate-90 sm:rotate-0" fill="none" stroke="currentColor" strokeWidth="2.2">
+                              <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {active.note && (
+                    <p className="mt-5 text-[13px] leading-relaxed text-gray-500">{t(active.note)}</p>
+                  )}
+                </>
+              )}
 
               {/* divider rule between the body copy and the button */}
               <div className="my-7 h-px w-full bg-gray-200" />

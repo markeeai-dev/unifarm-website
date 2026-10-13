@@ -11,6 +11,14 @@ ALTER TABLE IF EXISTS jobs              ADD COLUMN IF NOT EXISTS translations JS
 ALTER TABLE IF EXISTS timeline_milestones ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
 ALTER TABLE IF EXISTS distributors      ADD COLUMN IF NOT EXISTS translations JSONB DEFAULT '{}';
 
+-- Chi tiết sản phẩm bổ sung — dữ liệu thật do admin nhập, không mặc định/
+-- bịa khi trống (trang hiển thị tự ẩn field nếu chưa có dữ liệu).
+ALTER TABLE IF EXISTS products ADD COLUMN IF NOT EXISTS origin TEXT DEFAULT '';
+ALTER TABLE IF EXISTS products ADD COLUMN IF NOT EXISTS season TEXT DEFAULT '';
+ALTER TABLE IF EXISTS products ADD COLUMN IF NOT EXISTS packaging TEXT DEFAULT '';
+ALTER TABLE IF EXISTS products ADD COLUMN IF NOT EXISTS storage TEXT DEFAULT '';
+ALTER TABLE IF EXISTS products ADD COLUMN IF NOT EXISTS supply_status TEXT DEFAULT '';
+
 -- ============================================================
 -- Unifarm — Blog Schema (Neon Postgres)
 -- ============================================================
@@ -69,6 +77,11 @@ CREATE TABLE IF NOT EXISTS products (
   description   TEXT        DEFAULT '',
   specs         JSONB       DEFAULT '[]',
   commitments   JSONB       DEFAULT '[]',
+  origin        TEXT        DEFAULT '',
+  season        TEXT        DEFAULT '',
+  packaging     TEXT        DEFAULT '',
+  storage       TEXT        DEFAULT '',
+  supply_status TEXT        DEFAULT '',
   translations  JSONB       DEFAULT '{}',
   sort_order    INTEGER     DEFAULT 0,
   created_at    TIMESTAMPTZ DEFAULT now(),

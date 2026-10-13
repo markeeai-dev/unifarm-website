@@ -5,16 +5,38 @@ import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 /**
- * NewProductAnnouncement — banner "thông báo sản phẩm mới" cho trang sản phẩm.
- * Bố cục: trái là ảnh trái cây PNG to, phải là nội dung + đếm ngược đến ngày ra mắt.
+ * NewProductAnnouncement — banner "Sắp ra mắt" cho trang sản phẩm.
+ * Bố cục: trái là ảnh/video sản phẩm, phải là nội dung + đếm ngược đến ngày ra mắt.
+ *
+ * Theo yêu cầu của khách hàng, section này LUÔN hiển thị. Nội dung bên dưới
+ * (Dứa MD2) là dữ liệu mẫu/placeholder — không phải sản phẩm sắp ra mắt thật.
+ * Khi có sản phẩm thật sắp ra mắt, thay thông tin trong UPCOMING_PRODUCT; khi
+ * sản phẩm chính thức ra mắt, đưa sản phẩm vào danh sách ở Section 4
+ * (ProductsShowcase/database) rồi cập nhật lại UPCOMING_PRODUCT cho đợt kế tiếp.
  */
 
-const LAUNCH_DATE = new Date('2026-10-01T00:00:00+07:00').getTime();
+type UpcomingProduct = {
+  name: string;
+  valueProp: string;
+  description: string;
+  launchDate: string; // ISO string, vd. '2026-12-01T00:00:00+07:00'
+  image: string;
+  href?: string;
+};
+
+const UPCOMING_PRODUCT: UpcomingProduct | null = {
+  name: 'Dứa MD2 Unifarm',
+  valueProp: 'Sắp ra mắt · Vụ mùa mới',
+  description:
+    'Sản phẩm nông nghiệp mới nhất của Unifarm sắp được giới thiệu đến người tiêu dùng — canh tác theo quy trình khép kín, đảm bảo độ tươi ngon khi đến tay khách hàng.',
+  launchDate: '2026-12-15T00:00:00+07:00',
+  image: '/images/products/dua-vip.png',
+};
 
 type TimeLeft = { days: number; hours: number; mins: number; secs: number };
 
-function getTimeLeft(): TimeLeft {
-  const diff = Math.max(0, LAUNCH_DATE - Date.now());
+function getTimeLeft(launchDate: number): TimeLeft {
+  const diff = Math.max(0, launchDate - Date.now());
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const mins = Math.floor((diff / (1000 * 60)) % 60);
@@ -48,16 +70,18 @@ export default function NewProductAnnouncement() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, mins: 0, secs: 0 });
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const launchDate = UPCOMING_PRODUCT ? new Date(UPCOMING_PRODUCT.launchDate).getTime() : 0;
 
   useEffect(() => {
-    const update = () => setTimeLeft(getTimeLeft());
+    if (!UPCOMING_PRODUCT) return;
+    const update = () => setTimeLeft(getTimeLeft(launchDate));
     const kickoff = setTimeout(update, 0);
     const id = setInterval(update, 1000);
     return () => {
       clearTimeout(kickoff);
       clearInterval(id);
     };
-  }, []);
+  }, [launchDate]);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -76,6 +100,8 @@ export default function NewProductAnnouncement() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  if (!UPCOMING_PRODUCT) return null;
 
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_trang.png')] bg-repeat">
@@ -106,8 +132,8 @@ export default function NewProductAnnouncement() {
           }}
         >
           <Image
-            src="/images/products/dua-vip.png"
-            alt={t('Chuối Unifarm')}
+            src={UPCOMING_PRODUCT.image}
+            alt={t(UPCOMING_PRODUCT.name)}
             width={1280}
             height={961}
             className="h-auto w-[240px] drop-shadow-[0_30px_40px_rgba(0,60,20,0.18)] sm:w-[360px] lg:w-[460px]"
@@ -127,25 +153,28 @@ export default function NewProductAnnouncement() {
             {t('Sản phẩm mới')}
           </p>
           <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-4xl lg:text-[42px]">
-            {t('Thông Báo Sản Phẩm Mới')}
+            {t('Sắp ra mắt')}
           </h2>
 
           <div className="mt-5">
             <p className="text-base font-semibold text-neutral-800 sm:text-lg">
-              {t('Dứa MD2 Unifarm')}
+              {t(UPCOMING_PRODUCT.name)}
             </p>
             <p className="mt-1 inline-flex items-center gap-2 text-sm font-bold text-[#006400] sm:text-base">
               <span className="h-2 w-2 rounded-full bg-[#87cefa]" />
-              {t('Sắp ra mắt · Vụ mùa mới')}
+              {t(UPCOMING_PRODUCT.valueProp)}
             </p>
           </div>
 
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-600 sm:text-base lg:mx-0">
-            {t('Sản phẩm nông nghiệp mới nhất của Unifarm sắp được giới thiệu đến người tiêu dùng — canh tác theo quy trình khép kín, đạt chuẩn VietGAP và GlobalG.A.P, đảm bảo độ tươi ngon khi đến tay khách hàng.')}
+            {t(UPCOMING_PRODUCT.description)}
           </p>
 
           {/* Đếm ngược đến ngày ra mắt */}
-          <div className="mt-7 flex items-center justify-center gap-3 sm:gap-4 lg:justify-start">
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+            {t('Ra mắt sau')}
+          </p>
+          <div className="mt-3 flex items-center justify-center gap-3 sm:gap-4 lg:justify-start">
             {COUNTDOWN_UNITS.map((unit) => (
               <div
                 key={unit.key}
@@ -161,13 +190,31 @@ export default function NewProductAnnouncement() {
             ))}
           </div>
 
-          <button
-            type="button"
-            className="group mt-8 inline-flex items-center gap-2 border-b-2 border-neutral-900 pb-1 text-xs font-bold uppercase tracking-[0.2em] text-neutral-900 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400]"
-          >
-            {t('Tìm hiểu thêm')}
-            <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 lg:justify-start">
+            <a
+              href={UPCOMING_PRODUCT.href || '#products'}
+              className="group inline-flex items-center gap-2 border-b-2 border-neutral-900 pb-1 text-xs font-bold uppercase tracking-[0.2em] text-neutral-900 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400]"
+            >
+              {t('Khám phá sản phẩm')}
+              <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+
+            {/* Sản phẩm thật gần nhất đã có sẵn trên trang — dẫn thẳng tới
+                chi tiết "Dứa (Giống MD2)" trong khi chờ sản phẩm mới ra mắt. */}
+            <a
+              href="#product-273402d5-9176-4983-8df2-9ff6429bcbb9"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.replaceState(null, '', '#product-273402d5-9176-4983-8df2-9ff6429bcbb9');
+                window.dispatchEvent(new HashChangeEvent('hashchange'));
+                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group inline-flex items-center gap-2 border-b-2 border-neutral-900 pb-1 text-xs font-bold uppercase tracking-[0.2em] text-neutral-900 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400]"
+            >
+              {t('Xem hình ảnh sản phẩm')}
+              <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+          </div>
         </div>
       </div>
     </section>

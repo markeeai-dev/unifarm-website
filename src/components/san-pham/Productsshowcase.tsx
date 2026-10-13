@@ -123,7 +123,17 @@ function slugifyFileName(name: string): string {
  * Nhật/Hàn/Trung; chụp ảnh thì chữ hiện đúng y hệt trên mọi ngôn ngữ.
  */
 async function downloadProductPdf(
-  p: { name: string; subtitle: string; description: string; category: Product['category'] },
+  p: {
+    name: string;
+    subtitle: string;
+    description: string;
+    category: Product['category'];
+    origin: string;
+    season: string;
+    packaging: string;
+    storage: string;
+    supply_status: string;
+  },
   specs: { label: string; value: string }[],
   commitments: string[],
   certBadge: string,
@@ -153,9 +163,11 @@ async function downloadProductPdf(
     <div style="font-size:12px;color:#006400;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">${categoryLabel}</div>
     <div style="font-size:26px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">${p.name}</div>
     ${p.subtitle ? `<div style="font-size:14px;color:#555;margin-bottom:10px;">${p.subtitle}</div>` : ''}
-    <div style="font-size:13px;color:#006400;font-weight:700;margin-bottom:16px;">${certBadge}</div>
+    ${certBadge ? `<div style="font-size:13px;color:#006400;font-weight:700;margin-bottom:16px;">${certBadge}</div>` : ''}
     ${plainDescription ? `<div style="font-size:13px;line-height:1.6;color:#333;margin-bottom:20px;">${plainDescription}</div>` : ''}
-    <div style="font-size:14px;font-weight:700;margin-bottom:8px;">${t('Bảng thông số')}</div>
+    ${
+      specs.length
+        ? `<div style="font-size:14px;font-weight:700;margin-bottom:8px;">${t('Bảng thông số')}</div>
     <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;">
       <tr style="background:#f0f7ee;">
         <th style="text-align:left;padding:8px;border:1px solid #ddd;width:40%;">${t('Đặc tính')}</th>
@@ -167,7 +179,20 @@ async function downloadProductPdf(
             `<tr><td style="padding:8px;border:1px solid #ddd;color:#555;">${row.label}</td><td style="padding:8px;border:1px solid #ddd;font-weight:600;">${row.value}</td></tr>`
         )
         .join('')}
-    </table>
+    </table>`
+        : ''
+    }
+    ${
+      p.origin || p.season || p.packaging || p.storage || p.supply_status
+        ? `<table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px;">
+      ${p.origin ? `<tr><td style="padding:6px 8px;color:#555;width:40%;">${t('Xuất xứ / Vùng trồng')}</td><td style="padding:6px 8px;font-weight:600;">${p.origin}</td></tr>` : ''}
+      ${p.season ? `<tr><td style="padding:6px 8px;color:#555;">${t('Mùa vụ')}</td><td style="padding:6px 8px;font-weight:600;">${p.season}</td></tr>` : ''}
+      ${p.packaging ? `<tr><td style="padding:6px 8px;color:#555;">${t('Đóng gói')}</td><td style="padding:6px 8px;font-weight:600;">${p.packaging}</td></tr>` : ''}
+      ${p.storage ? `<tr><td style="padding:6px 8px;color:#555;">${t('Bảo quản')}</td><td style="padding:6px 8px;font-weight:600;">${p.storage}</td></tr>` : ''}
+      ${p.supply_status ? `<tr><td style="padding:6px 8px;color:#555;">${t('Khả năng cung ứng')}</td><td style="padding:6px 8px;font-weight:600;">${p.supply_status}</td></tr>` : ''}
+    </table>`
+        : ''
+    }
     ${
       commitments.length
         ? `<div style="font-size:14px;font-weight:700;margin-bottom:8px;">${t('Cam kết chất lượng')}</div>
@@ -284,6 +309,37 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
   const [addedId, setAddedId] = useState<string | null>(null);
   const [liked, setLiked] = useState<Set<string>>(new Set());
 
+  // Nhận điều hướng từ Section 3 (CategoryShowcase): mục "Chuối tươi" /
+  // "Dứa" đều thuộc nhóm "Trái cây tươi" nên cùng trỏ về category "fresh".
+  // Nhận điều hướng từ Section 5 (NewProductAnnouncement): "#product-<id>"
+  // mở thẳng chi tiết đúng sản phẩm đó (vd. sản phẩm thật gần nhất trong
+  // lúc chờ sản phẩm mới chính thức ra mắt).
+  useEffect(() => {
+    const HASH_TO_CATEGORY: Record<string, string> = {
+      'fresh-banana': 'fresh',
+      'fresh-pineapple': 'fresh',
+      'tissue-culture': 'seedling',
+      processed: 'processed',
+    };
+    const applyHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash.startsWith('product-')) {
+        const id = hash.slice('product-'.length);
+        const product = products.find((p) => p.id === id);
+        if (product) {
+          setActiveCat(product.category);
+          setSelected(product);
+        }
+        return;
+      }
+      const cat = HASH_TO_CATEGORY[hash];
+      if (cat) setActiveCat(cat);
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
+  }, [products]);
+
   // ---- Scroll reveal: toàn bộ khối (tiêu đề, tabs, quick-pick, lưới sản
   // phẩm) mờ dần + trồi lên trong ~4.5s, chạy đúng 1 lần khi cuộn tới.
   const [sectionVisible, setSectionVisible] = useState(false);
@@ -353,7 +409,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
   }
 
   return (
-    <section ref={sectionRef} className="w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat">
+    <section id="products" ref={sectionRef} className="w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat">
       <style>{`
         @keyframes ps-fadeUp {
           from { opacity: 0; transform: translateY(20px); }
@@ -385,10 +441,10 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
         {/* Heading */}
         <div className="mb-8 text-center sm:mb-10">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#006400] sm:text-sm">
-            {t('Thông số & Quy cách thương mại')}
+            {t('Sản phẩm')}
           </p>
           <h2 className="text-2xl font-extrabold uppercase tracking-tight text-neutral-900 sm:text-3xl lg:text-4xl">
-            {t('Danh Mục Cung Ứng Unifarm')}
+            {t('Khám Phá Sản Phẩm Unifarm')}
           </h2>
         </div>
 
@@ -529,6 +585,11 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
           description: tr(s.translations, 'description', s.description),
           specs: tr(s.translations, 'specs', s.specs),
           commitments: tr(s.translations, 'commitments', s.commitments),
+          origin: tr(s.translations, 'origin', s.origin),
+          season: tr(s.translations, 'season', s.season),
+          packaging: tr(s.translations, 'packaging', s.packaging),
+          storage: tr(s.translations, 'storage', s.storage),
+          supply_status: tr(s.translations, 'supply_status', s.supply_status),
         };
         return (
         <div
@@ -573,7 +634,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                   href="/#contact"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#006400] px-6 py-3 text-sm font-bold text-[#fffacd] shadow-md transition-colors duration-300 hover:bg-[#00520a]"
                 >
-                  <PhoneIcon /> {t('Liên hệ báo giá sỉ')}
+                  <PhoneIcon /> {t('Liên hệ mua hàng')}
                 </Link>
                 <button
                   type="button"
@@ -583,7 +644,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                     try {
                       await downloadProductPdf(
                         translated,
-                        getProductSpecs(translated, t),
+                        getProductSpecs(translated),
                         translated.commitments?.length
                           ? translated.commitments
                           : QUALITY_COMMITMENTS.map((c) => t(c.label)),
@@ -604,7 +665,7 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-bold text-neutral-700 transition-colors duration-300 hover:border-[#006400] hover:text-[#006400] disabled:cursor-wait disabled:opacity-60"
                 >
                   <DocumentIcon />
-                  {pdfLoading ? t('Đang tạo tài liệu…') : t('Tải tài liệu sản phẩm (PDF)')}
+                  {pdfLoading ? t('Đang tạo tài liệu…') : t('Tải tài liệu sản phẩm')}
                 </button>
                 <p className="text-center text-[11px] text-neutral-400">{t('Thời gian phản hồi nhanh trong 24h')}</p>
               </div>

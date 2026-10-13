@@ -1,30 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { Minus, Plus } from "lucide-react";
+import { ArrowRight, Minus, Plus } from "lucide-react";
+import Link from "next/link";
 import Reveal from "./Reveal";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FAQS = [
   {
-    q: "Ai có thể ứng tuyển chương trình này?",
-    a: "Chương trình mở cho sinh viên năm 3, năm 4 và người mới tốt nghiệp trong vòng 1 năm. Một số vị trí Fresher/Junior/Senior ưu tiên người đã có kinh nghiệm.",
+    q: "Tôi có thể ứng tuyển những vị trí nào?",
+    a: "Các vị trí đang tuyển được cập nhật tại mục Cơ hội nghề nghiệp. Bạn có thể tìm theo lĩnh vực công việc, địa điểm, kinh nghiệm và yêu cầu của từng vị trí.",
   },
   {
-    q: "Vị trí thực tập có được trả trợ cấp không?",
-    a: "Có. Mọi vị trí thực tập tại Unifarm đều có trợ cấp hàng tháng, mức cụ thể ghi rõ trong từng tin tuyển dụng.",
+    q: "Tôi cần chuẩn bị gì để ứng tuyển?",
+    a: "Hồ sơ và yêu cầu cụ thể được ghi tại từng vị trí. Với hầu hết vị trí, bạn có thể bắt đầu bằng việc gửi CV và thông tin liên hệ.",
   },
   {
-    q: "Làm việc xa nhà thì có được hỗ trợ chỗ ở không?",
-    a: "Các vị trí làm việc tại nhà máy hoặc vùng nguyên liệu (Vĩnh Long, An Giang, Đồng Nai...) được hỗ trợ nhà ở và xe đưa đón theo ca.",
+    q: "Tôi chưa có kinh nghiệm trong nông nghiệp, có thể ứng tuyển không?",
+    a: "Có nhiều công việc trong nông nghiệp cần kiến thức và kỹ năng từ những lĩnh vực khác. Điều quan trọng là yêu cầu cụ thể của từng vị trí và khả năng học hỏi để thích nghi với công việc.",
   },
   {
-    q: "Sau khi thực tập, tôi có cơ hội trở thành nhân viên chính thức không?",
-    a: "Có. Phần lớn thực tập sinh hoàn thành tốt chương trình được đề nghị ký hợp đồng chính thức ở cấp Fresher trở lên.",
+    q: "Unifarm có tuyển sinh viên thực tập và người mới tốt nghiệp không?",
+    a: "Các chương trình và vị trí phù hợp sẽ được công bố theo nhu cầu tuyển dụng từng thời điểm.",
   },
   {
-    q: "Tôi cần chuẩn bị hồ sơ như thế nào để ứng tuyển?",
-    a: "Bạn chỉ cần CV (tiếng Việt hoặc tiếng Anh) gửi qua email hoặc bấm nút Ứng tuyển ngay tại vị trí mong muốn — không cần đơn xin việc theo mẫu.",
+    q: "Làm việc tại nông trường có được hỗ trợ chỗ ở và đi lại không?",
+    a: "Tùy địa điểm và vị trí công việc, Unifarm có thể có các chính sách hỗ trợ khác nhau. Thông tin cụ thể sẽ được trao đổi trong quá trình tuyển dụng.",
+  },
+  {
+    q: "Tôi có thể phát triển nghề nghiệp tại Unifarm như thế nào?",
+    a: "Unifarm định hướng phát triển theo cả con đường quản lý và con đường chuyên môn. Bạn có thể tìm hiểu chi tiết tại trang Nghề nghiệp tại Unifarm.",
   },
 ];
 
@@ -67,6 +72,16 @@ export default function ApplyFAQ() {
               </div>
             );
           })}
+        </Reveal>
+
+        <Reveal delay={0.2} duration={1} className="mt-10 text-center">
+          <Link
+            href="/tuyen-dung/nghe-nghiep"
+            className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#006400] transition-colors hover:text-[#06301B]"
+          >
+            {t("Tìm hiểu con đường nghề nghiệp")}
+            <ArrowRight size={15} />
+          </Link>
         </Reveal>
       </div>
     </section>

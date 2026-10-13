@@ -12,8 +12,6 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
  * Bên dưới là phần giới thiệu chương trình tuyển dụng + lộ trình cấp bậc.
  */
 
-const PATH_STEPS = ["Intern", "Fresher", "Junior", "Middle", "Senior"];
-
 const STATS = [
   { value: "5", label: "Đội ngũ" },
   { value: "7", label: "Cấp bậc" },
@@ -58,8 +56,8 @@ export default function TuyenDungHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            {t("Cùng nhau tạo giá trị -")}{" "}
-            <span className="text-[#FFFACD]">{t("cùng nhau phát triển")}</span>
+            {t("Cùng Unifarm")}{" "}
+            <span className="text-[#FFFACD]">{t("học cách sống cùng cây trồng")}</span>
           </h1>
 
           <p
@@ -67,54 +65,11 @@ export default function TuyenDungHero() {
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
-            {t(
-              "Unifarm là nơi bạn không chỉ tìm một công việc, mà tìm một môi trường để phát triển năng lực, tạo ra giá trị và xây dựng hành trình sự nghiệp của riêng mình."
-            )}
+            {t("Hiểu cây, hiểu nghề và tạo ra những sản phẩm tốt hơn mỗi ngày.")}
           </p>
 
           <div
-            className={`mt-9 w-full max-w-full overflow-x-auto transition-all delay-200 duration-700 ${
-              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-            }`}
-          >
-            <div className="mx-auto flex w-fit items-center gap-1 rounded-[20px] p-3 shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
-              {PATH_STEPS.map((label, i) => (
-                <span
-                  key={label}
-                  className="whitespace-nowrap px-4 py-3 text-sm font-semibold text-white transition-all duration-300 first:rounded-l-[14px] last:rounded-r-[14px] hover:-translate-y-1 hover:scale-105"
-                  style={{
-                    background:
-                      i === 0
-                        ? "#06301B"
-                        : i === 1
-                          ? "#006400"
-                          : i === 2
-                            ? "#8fae3e"
-                            : i === 3
-                              ? "#F5E98A"
-                              : "#FFFACD",
-                    color: i >= 2 ? "#06301B" : "#fff",
-                    fontWeight: i === 0 ? 800 : 600,
-                  }}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <p
-            className={`mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-white/60 transition-all delay-[250ms] duration-700 sm:text-base ${
-              mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-            }`}
-          >
-            {t(
-              "Từ sản xuất, kỹ thuật, kinh doanh đến các bộ phận hỗ trợ – mỗi vị trí đều góp phần tạo nên một Unifarm phát triển bền vững."
-            )}
-          </p>
-
-          <div
-            className={`mt-8 flex flex-col items-center gap-3 transition-all delay-300 duration-700 ${
+            className={`mt-8 flex flex-col items-center gap-3 transition-all delay-200 duration-700 ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >

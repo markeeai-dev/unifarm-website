@@ -12,6 +12,11 @@ const PRODUCT_TRANSLATE_SPEC: EntitySpec = {
   description: { kind: "string" },
   specs: { kind: "object[]", keys: ["label", "value"] },
   commitments: { kind: "string[]" },
+  origin: { kind: "string" },
+  season: { kind: "string" },
+  packaging: { kind: "string" },
+  storage: { kind: "string" },
+  supply_status: { kind: "string" },
 };
 
 export async function GET() {
@@ -37,6 +42,11 @@ export async function POST(req: NextRequest) {
     description,
     specs,
     commitments,
+    origin,
+    season,
+    packaging,
+    storage,
+    supply_status,
     sort_order,
   } = body;
 
@@ -55,18 +65,20 @@ export async function POST(req: NextRequest) {
   }
 
   const translations = await translateEntity(
-    { name, subtitle, standard, description, specs, commitments },
+    { name, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status },
     PRODUCT_TRANSLATE_SPEC
   );
 
   const rows = await sql`
     INSERT INTO products
-      (name, price, category, type, image, gallery, subtitle, standard, description, specs, commitments, translations, sort_order)
+      (name, price, category, type, image, gallery, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status, translations, sort_order)
     VALUES
       (${name}, ${price || 0}, ${category}, ${type || "other"}, ${image || ""},
        ${JSON.stringify(gallery || [])}::jsonb, ${subtitle || ""}, ${standard || ""},
        ${description || ""}, ${JSON.stringify(specs || [])}::jsonb,
-       ${JSON.stringify(commitments || [])}::jsonb, ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
+       ${JSON.stringify(commitments || [])}::jsonb, ${origin || ""}, ${season || ""},
+       ${packaging || ""}, ${storage || ""}, ${supply_status || ""},
+       ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
     RETURNING *
   `;
 

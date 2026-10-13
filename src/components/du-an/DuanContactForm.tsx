@@ -56,7 +56,7 @@ const INITIAL_FORM: FormState = {
 };
 
 const HIGHLIGHTS = [
-  { icon: Sprout, text: "Khảo sát thực địa và tư vấn quy hoạch farm miễn phí" },
+  // { icon: Sprout, text: "Khảo sát thực địa và tư vấn quy hoạch farm miễn phí" },
   { icon: Truck, text: "Đồng hành từ cung ứng giống đến bao tiêu đầu ra" },
   { icon: Handshake, text: "Chuyển giao kỹ thuật SOP và hỗ trợ dài hạn tại vườn" },
 ];
@@ -112,8 +112,8 @@ export default function DuanContactForm() {
       id="hop-tac"
       className="relative w-full overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-20 sm:py-10"
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-6xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.32em]" style={{ color: C.green }}>
             {t("Cùng Unifarm hợp tác phát triển")}
           </p>
@@ -123,9 +123,9 @@ export default function DuanContactForm() {
           >
             {t("Bắt Đầu Dự Án Nông Nghiệp Cùng Unifarm")}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed sm:text-lg" style={{ color: C.fresh }}>
+          <p className="mx-auto mt-5 max-w-6xl text-base leading-relaxed sm:text-lg" style={{ color: C.fresh }}>
             {t(
-              "Gửi thông tin nông trại hoặc nhu cầu hợp tác của bạn, đội ngũ chuyên gia Unifarm sẽ liên hệ tư vấn và khảo sát thực địa trong vòng 24h - 48h làm việc."
+              "Nghiên cứu & sản xuất giống · Canh tác · Chế biến · Chuyển giao công nghệ · Phát triển thị trường · Đầu tư dự án · Khác"
             )}
           </p>
         </div>
@@ -143,7 +143,7 @@ export default function DuanContactForm() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#063B24]/92 via-[#063B24]/55 to-[#063B24]/10" />
             <div className="relative flex h-full flex-col justify-end gap-5 p-8">
               <p className="text-2xl font-extrabold leading-snug text-white">
-                {t("Đồng hành cùng hơn một thập kỷ phát triển nông nghiệp bền vững")}
+                {t("Đồng hành hơn một thập kỷ phát triển nông nghiệp bền vững")}
               </p>
               <ul className="space-y-3.5">
                 {HIGHLIGHTS.map(({ icon: Icon, text }) => (

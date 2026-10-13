@@ -65,36 +65,30 @@ const VN_PROVINCES = [
   "Vĩnh Long",
 ];
 
-type Dimension = "Địa điểm" | "Mức thu nhập" | "Kinh nghiệm" | "Phòng ban";
+type Dimension = "Địa điểm" | "Lĩnh vực công việc" | "Kinh nghiệm" | "Mức thu nhập";
 
 const FILTER_OPTIONS: Record<Dimension, string[]> = {
   "Địa điểm": ["Tất cả", ...VN_PROVINCES],
-  "Mức thu nhập": ["Tất cả", "Dưới 8 triệu", "8 - 12 triệu", "Trên 12 triệu"],
-  "Kinh nghiệm": ["Tất cả", "Không yêu cầu", "Có kinh nghiệm"],
-  "Phòng ban": [
+  "Lĩnh vực công việc": [
     "Tất cả",
-    "Kinh doanh",
-    "Kỹ thuật",
     "Sản xuất",
+    "Kỹ thuật",
     "Chất lượng",
-    "Marketing",
-    "Data",
+    "Khoa học & Công nghệ",
+    "Kinh doanh & Thị trường",
+    "Chuỗi cung ứng",
+    "Tài chính",
+    "Nhân sự",
+    "Công nghệ thông tin",
+    "Khác",
   ],
+  "Kinh nghiệm": ["Tất cả", "Không yêu cầu", "Có kinh nghiệm"],
+  "Mức thu nhập": ["Tất cả", "Dưới 8 triệu", "8 - 12 triệu", "Trên 12 triệu"],
 };
 
 const UNIFARM: { name: string; logo: string } = {
   name: "Unifarm",
   logo: "/images/logo-unifarm.png",
-};
-
-type Level = "Intern" | "Fresher" | "Junior" | "Middle" | "Senior";
-
-const LEVEL_STYLES: Record<Level, { bg: string; text: string }> = {
-  Intern: { bg: "#eaf3e8", text: "#06301B" },
-  Fresher: { bg: "#cfe4cb", text: "#06301B" },
-  Junior: { bg: "#006400", text: "#fff" },
-  Middle: { bg: "#F5E98A", text: "#06301B" },
-  Senior: { bg: "#FFFACD", text: "#06301B" },
 };
 
 const PAGE_SIZE = 6;
@@ -184,7 +178,6 @@ function JobCard({
   onToggleSave: () => void;
 }) {
   const { t, tr } = useLanguage();
-  const level = LEVEL_STYLES[job.level];
   const [daysLeft, setDaysLeft] = useState<number | null>(null);
   const title = tr(job.translations, "title", job.title);
   const dept = tr(job.translations, "dept", job.dept);
@@ -203,14 +196,7 @@ function JobCard({
 
   return (
     <article className="group relative flex h-full flex-col gap-3 border border-gray-100 bg-white p-4 shadow-[0_4px_18px_rgba(15,40,20,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,40,20,0.14)] sm:p-5">
-      <span
-        className="absolute right-0 top-0 rounded-bl-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wide"
-        style={{ backgroundColor: level.bg, color: level.text }}
-      >
-        {job.level}
-      </span>
-
-      <div className="flex items-start gap-3 pr-14 sm:pr-20">
+      <div className="flex items-start gap-3">
         <CompanyLogo />
         <div className="min-w-0 flex-1">
           <h3 className="uppercase min-h-[3rem] text-base font-bold leading-snug text-[#06301B] line-clamp-2">
@@ -326,7 +312,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
         return p.income_bucket === activeValue;
       case "Kinh nghiệm":
         return p.experience === activeValue;
-      case "Phòng ban":
+      case "Lĩnh vực công việc":
         return p.dept === activeValue;
       default:
         return true;
@@ -357,7 +343,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
 
   return (
     <section className="py-14 md:py-5">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8">
         <Reveal className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f2f9ee] text-[#006400]">
@@ -366,7 +352,7 @@ export default function JobListings({ jobs }: { jobs: Job[] }) {
 
             <div className="flex items-center gap-2">
               <h2 className="uppercase text-2xl font-extrabold text-[#06301B] sm:text-4xl">
-                {t("Vị trí đang tuyển gấp")}
+                {t("Vị trí đang tuyển")}
               </h2>
               <Image
                 src="/images/mascot/mascot-duo.png"

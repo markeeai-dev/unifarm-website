@@ -1237,4 +1237,433 @@ export const TRANSLATIONS: Record<string, Partial<Record<Exclude<LocaleCode, "vi
   "Có lỗi xảy ra, vui lòng thử lại.": { en: "Something went wrong, please try again.", ja: "エラーが発生しました。もう一度お試しください。", ko: "오류가 발생했습니다. 다시 시도해 주세요.", "zh-TW": "發生錯誤，請再試一次。" },
   "Không thể kết nối, vui lòng kiểm tra mạng và thử lại.": { en: "Couldn't connect, please check your network and try again.", ja: "接続できませんでした。ネットワークを確認し、もう一度お試しください。", ko: "연결할 수 없습니다. 네트워크를 확인하고 다시 시도해 주세요.", "zh-TW": "無法連線，請檢查網路後再試一次。" },
   "Đang gửi…": { en: "Sending…", ja: "送信中…", ko: "전송 중…", "zh-TW": "傳送中…" },
+
+  /* ============================== BỔ SUNG DỊCH THUẬT — ĐỢT 2026-10 ============================== */
+  // Agrihero (trang chủ) — câu trích dẫn
+  "“Nhiều năm qua, trước lối vào văn phòng của Unifarm luôn có một câu phương châm: ‘Làm nông nghiệp là yêu Đất - Nước’, như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống. Với tôi, đó chính là yêu Đất Nước.”": {
+    en: "“For many years, at the entrance to Unifarm's office there has always been a motto: ‘Farming is loving the Land and Water,’ as a reminder for each of us to protect the Land and Water as our resources and lifeblood, to uphold Vietnamese pride, and to keep a spirit of sharing and service for people and the living environment. To me, that is loving the Homeland.”",
+    ja: "「長年、ユニファームのオフィスの入り口には『農業とは土地と水を愛すること』という標語が掲げられてきました。これは、私たち一人ひとりに、土地と水を資源と命の源として守り、ベトナム人としての誇りを保ち、人と生活環境のために分かち合いと奉仕の精神を持ち続けるよう、思い起こさせるものです。私にとって、それこそが祖国を愛するということです。」",
+    ko: "“수년간 유니팜 사무실 입구에는 늘 ‘농업은 땅과 물을 사랑하는 것이다’라는 좌우명이 걸려 있었습니다. 이는 우리 모두에게 땅과 물을 자원이자 생명줄로서 지키고, 베트남인으로서의 자긍심을 지키며, 사람과 생활 환경을 위해 나눔과 봉사의 정신을 지켜야 함을 일깨워주기 위함입니다. 저에게 그것이 바로 조국을 사랑하는 것입니다.”",
+    "zh-TW": "「多年來，Unifarm辦公室入口處始終掛著一句格言：『務農就是熱愛土地與水』，提醒我們每一個人要珍惜土地與水這份資源與命脈，守護身為越南人的驕傲，並秉持分享與服務的精神，為人類與生活環境盡一份心力。對我而言，那就是熱愛祖國。」",
+  },
+  "Phạm Quốc Liêm": { en: "Phạm Quốc Liêm", ja: "Phạm Quốc Liêm", ko: "Phạm Quốc Liêm", "zh-TW": "Phạm Quốc Liêm" },
+  "Đọc bài “Làm nông nghiệp là yêu Đất Nước”": { en: "Read the article “Farming Is Loving Our Homeland”", ja: "「農業は祖国を愛すること」を読む", ko: "“농업은 조국을 사랑하는 것이다” 기사 읽기", "zh-TW": "閱讀文章「務農就是熱愛祖國」" },
+
+  // ProductDetailPanel & Productsshowcase (sản phẩm)
+  "Chưa có mô tả": { en: "No description yet", ja: "説明はまだありません", ko: "아직 설명이 없습니다", "zh-TW": "尚無描述" },
+  "Xuất xứ / Vùng trồng": { en: "Origin / Growing Region", ja: "原産地／栽培地域", ko: "원산지/재배 지역", "zh-TW": "產地／種植區" },
+  "Bảo quản": { en: "Storage", ja: "保存方法", ko: "보관 방법", "zh-TW": "保存方式" },
+  "Khả năng cung ứng": { en: "Supply Availability", ja: "供給能力", ko: "공급 가능 여부", "zh-TW": "供應狀況" },
+  "Khám Phá Sản Phẩm Unifarm": { en: "Explore Unifarm Products", ja: "ユニファームの製品を見る", ko: "유니팜 제품 둘러보기", "zh-TW": "探索Unifarm產品" },
+  "Liên hệ mua hàng": { en: "Contact to Purchase", ja: "購入のお問い合わせ", ko: "구매 문의", "zh-TW": "聯絡採購" },
+  "Tải tài liệu sản phẩm": { en: "Download Product Datasheet", ja: "製品資料をダウンロード", ko: "제품 자료 다운로드", "zh-TW": "下載產品資料" },
+
+  // Ricetabsshowcase (trang chủ)
+  "Hệ thống kiểm soát chất lượng": { en: "Quality Control System", ja: "品質管理システム", ko: "품질 관리 시스템", "zh-TW": "品質控管系統" },
+  "Từ nông trại đến thị trường": { en: "From Farm to Market", ja: "農場から市場へ", ko: "농장에서 시장까지", "zh-TW": "從農場到市場" },
+
+  // Bandonongsanxanh (dịch vụ)
+  "Unifarm cùng doanh nghiệp, hợp tác xã và nông dân phát triển các vùng sản xuất phù hợp với điều kiện tự nhiên, lợi thế của từng địa phương và nhu cầu thị trường.": { en: "Unifarm works with businesses, cooperatives, and farmers to develop production areas suited to natural conditions, local advantages, and market demand.", ja: "ユニファームは企業、協同組合、農家と共に、自然条件、各地域の強み、市場のニーズに適した生産地域を開発しています。", ko: "유니팜은 기업, 협동조합, 농민과 함께 자연 조건, 지역별 강점, 시장 수요에 맞는 생산 지역을 개발합니다.", "zh-TW": "Unifarm與企業、合作社及農民攜手，依據自然條件、各地優勢與市場需求，開發合適的生產區域。" },
+  "Bấm vào điểm đánh dấu trên bản đồ để xem thông tin vùng sản xuất nông sản xanh.": { en: "Click a marker on the map to view information about the green produce growing region.", ja: "地図上のマーカーをクリックすると、グリーン農産物の生産地域の情報をご覧いただけます。", ko: "지도의 마커를 클릭하면 친환경 농산물 생산 지역 정보를 확인할 수 있습니다.", "zh-TW": "點擊地圖上的標記，即可查看綠色農產品產區資訊。" },
+  "Bản đồ nông sản xanh Unifarm": { en: "Unifarm Green Produce Map", ja: "ユニファーム・グリーン農産物マップ", ko: "유니팜 친환경 농산물 지도", "zh-TW": "Unifarm綠色農產品地圖" },
+  "XEM DỰ ÁN": { en: "VIEW PROJECT", ja: "プロジェクトを見る", ko: "프로젝트 보기", "zh-TW": "查看專案" },
+
+  // DuanBanner (dự án & hợp tác)
+  "Hợp tác & Phát triển": { en: "Partnership & Development", ja: "提携と発展", ko: "협력과 발전", "zh-TW": "合作與發展" },
+  "Cùng tạo ra những": { en: "Together Creating", ja: "共に生み出す", ko: "함께 만들어가는", "zh-TW": "攜手創造" },
+  "sản phẩm tốt hơn": { en: "better products", ja: "より良い製品", ko: "더 나은 제품", "zh-TW": "更好的產品" },
+  "Hợp tác để cùng phát triển": { en: "Partnering to Grow Together", ja: "共に成長するための提携", ko: "함께 성장하기 위한 협력", "zh-TW": "攜手合作，共同成長" },
+  "Unifarm không hướng đến việc sở hữu mọi cánh đồng. Chúng tôi hợp tác cùng người nông dân để tạo ra những sản phẩm và giá trị bền vững, vì cuộc sống của người nông dân, sức khỏe con người và môi trường.": { en: "Unifarm doesn't aim to own every field. We partner with farmers to create sustainable products and value — for farmers' livelihoods, human health, and the environment.", ja: "ユニファームは、すべての農地を所有することを目指しているわけではありません。私たちは農家と提携し、農家の暮らし、人々の健康、そして環境のために、持続可能な製品と価値を生み出します。", ko: "유니팜은 모든 농지를 소유하는 것을 목표로 하지 않습니다. 저희는 농민과 협력하여 농민의 삶, 인류의 건강, 환경을 위한 지속 가능한 제품과 가치를 만들어갑니다.", "zh-TW": "Unifarm並非追求擁有每一塊農地，而是與農民攜手合作，為農民生計、人類健康與環境，共同創造永續的產品與價值。" },
+  "Khám phá các dự án": { en: "Explore Projects", ja: "プロジェクトを見る", ko: "프로젝트 살펴보기", "zh-TW": "探索專案" },
+  "Đề xuất hợp tác": { en: "Propose a Partnership", ja: "提携を提案する", ko: "협력 제안하기", "zh-TW": "提出合作提案" },
+
+  // DuanContactForm (dự án & hợp tác)
+  "Nghiên cứu & sản xuất giống · Canh tác · Chế biến · Chuyển giao công nghệ · Phát triển thị trường · Đầu tư dự án · Khác": { en: "Seed Research & Production · Cultivation · Processing · Technology Transfer · Market Development · Project Investment · Other", ja: "品種の研究・生産・栽培・加工・技術移転・市場開拓・プロジェクト投資・その他", ko: "종자 연구 및 생산 · 재배 · 가공 · 기술 이전 · 시장 개발 · 프로젝트 투자 · 기타", "zh-TW": "種苗研發與生產．耕作．加工．技術轉移．市場開發．專案投資．其他" },
+  "Đồng hành hơn một thập kỷ phát triển nông nghiệp bền vững": { en: "Over a Decade of Partnership in Sustainable Agriculture Development", ja: "持続可能な農業発展に10年以上寄り添って", ko: "지속 가능한 농업 발전과 함께한 10년 이상의 동행", "zh-TW": "攜手逾十年，共同發展永續農業" },
+
+  // DuanNguyenTac (dự án & hợp tác)
+  "NGƯỜI SẢN XUẤT PHẢI CÓ HIỆU QUẢ": { en: "PRODUCERS MUST BE EFFECTIVE", ja: "生産者は成果を出さなければならない", ko: "생산자는 효율적이어야 한다", "zh-TW": "生產者必須講求效益" },
+  "Unifarm chỉ nhân rộng một mô hình khi hiệu quả đã được kiểm chứng trong thực tế.": { en: "Unifarm only scales a model once its effectiveness has been proven in practice.", ja: "ユニファームは、実際の現場で効果が実証されたモデルのみを展開・拡大します。", ko: "유니팜은 실제 현장에서 효과가 검증된 모델만 확장합니다.", "zh-TW": "Unifarm只會在模式的成效經過實際驗證後，才進行推廣複製。" },
+
+  // DuanTruCot (dự án & hợp tác)
+  "Năng lực hợp tác": { en: "Collaborative Capability", ja: "連携力", ko: "협력 역량", "zh-TW": "合作能力" },
+  "Kết nối năng lực trong toàn chuỗi": { en: "Connecting Capabilities Across the Chain", ja: "チェーン全体で連携する力", ko: "전체 체인의 역량을 연결하다", "zh-TW": "串聯全鏈能力" },
+  "Unifarm kết nối các năng lực từ nghiên cứu và sản xuất giống, canh tác bền vững trên quy mô lớn, chế biến, chuyển giao công nghệ đến phát triển thị trường để cùng đối tác xây dựng những dự án có hiệu quả và có khả năng nhân rộng.": { en: "Unifarm connects capabilities from seed research and production, large-scale sustainable farming, and processing, to technology transfer and market development — working with partners to build effective, scalable projects.", ja: "ユニファームは、品種の研究・生産、大規模な持続可能な栽培、加工、技術移転から市場開拓までの力を結びつけ、パートナーと共に効果的かつ拡大可能なプロジェクトを構築します。", ko: "유니팜은 종자 연구 및 생산, 대규모 지속 가능한 재배, 가공, 기술 이전부터 시장 개발에 이르는 역량을 연결하여 파트너와 함께 효과적이고 확장 가능한 프로젝트를 구축합니다.", "zh-TW": "Unifarm串聯種苗研發與生產、大規模永續耕作、加工、技術轉移到市場開發等能力，與夥伴共同打造具成效且可複製推廣的專案。" },
+  "Một chuỗi năng lực xuyên suốt": { en: "An End-to-End Chain of Capability", ja: "一貫した能力の連鎖", ko: "처음부터 끝까지 이어지는 역량 사슬", "zh-TW": "全程貫穿的能力鏈" },
+
+  // Competitivecapability (giới thiệu)
+  "Năng lực cạnh tranh": { en: "Competitive Capability", ja: "競争力", ko: "경쟁력", "zh-TW": "競爭能力" },
+  "Năng lực cạnh tranh từ giải pháp tổng thể": { en: "Competitive Strength Through a Comprehensive Solution", ja: "総合ソリューションから生まれる競争力", ko: "종합 솔루션에서 나오는 경쟁력", "zh-TW": "源於全方位解決方案的競爭力" },
+  "Unifarm kết nối các năng lực từ giống, sản xuất, giải pháp nông nghiệp, chế biến đến thị trường thành một hệ thống hoàn chỉnh, được kiểm chứng trong thực tế và có khả năng nhân rộng.": { en: "Unifarm connects capabilities from seed, production, agricultural solutions, and processing to market into one complete system — proven in practice and ready to scale.", ja: "ユニファームは、品種、生産、農業ソリューション、加工から市場までの力を一つの完全なシステムへと結びつけ、実践の中で実証され、拡大可能な体制を築いています。", ko: "유니팜은 종자, 생산, 농업 솔루션, 가공부터 시장까지의 역량을 하나의 완결된 시스템으로 연결하여 실제로 검증되고 확장 가능하도록 합니다.", "zh-TW": "Unifarm將種苗、生產、農業解決方案、加工到市場的能力，串聯成一套完整系統，經實務驗證且具備推廣擴展的能力。" },
+  "Xuyên suốt vận hành": { en: "Throughout Our Operations", ja: "運営全体を貫く", ko: "운영 전반에 걸쳐", "zh-TW": "貫穿營運全程" },
+  "Giai đoạn": { en: "Stage", ja: "ステージ", ko: "단계", "zh-TW": "階段" },
+  "Chọn giai đoạn": { en: "Select stage", ja: "ステージを選択", ko: "단계 선택", "zh-TW": "選擇階段" },
+  "Hệ thống khép kín & Vòng lặp giá trị": { en: "Closed-Loop System & Value Cycle", ja: "循環型システムと価値のループ", ko: "폐쇄형 시스템과 가치 순환", "zh-TW": "閉環系統與價值循環" },
+  "Tương tác hai chiều giữa Sản xuất ⇄ Giải pháp và phản hồi thị trường quay lại nghiên cứu giống.": { en: "Two-way interaction between Production ⇄ Solutions, with market feedback feeding back into seed research.", ja: "生産⇄ソリューション間の双方向連携と、市場からのフィードバックを品種研究へ還元する仕組み。", ko: "생산 ⇄ 솔루션 간 양방향 상호작용과 시장 피드백이 다시 종자 연구로 이어지는 구조입니다.", "zh-TW": "生產⇄解決方案之間雙向互動，並將市場回饋帶回種苗研發。" },
+  "Sản xuất ⇄ Giải pháp": { en: "Production ⇄ Solutions", ja: "生産⇄ソリューション", ko: "생산 ⇄ 솔루션", "zh-TW": "生產⇄解決方案" },
+  "Phản hồi thị trường": { en: "Market Feedback", ja: "市場からのフィードバック", ko: "시장 피드백", "zh-TW": "市場回饋" },
+
+  // Ecosystemmodel (giới thiệu)
+  "Các đơn vị trong hệ sinh thái phát triển những năng lực chuyên biệt và kết nối với nhau để cùng tạo ra sản phẩm, giải pháp và giá trị cho khách hàng, người sản xuất và đối tác.": { en: "Units within the ecosystem develop specialized capabilities and connect with one another to jointly create products, solutions, and value for customers, producers, and partners.", ja: "エコシステム内の各ユニットは専門的な能力を育み、互いに連携することで、顧客、生産者、パートナーのために製品、ソリューション、価値を共創します。", ko: "생태계 내 각 조직은 전문 역량을 개발하고 서로 연결되어 고객, 생산자, 파트너를 위한 제품, 솔루션, 가치를 함께 창출합니다.", "zh-TW": "生態系統內的各單位發展專業能力並彼此連結，共同為顧客、生產者與合作夥伴創造產品、解決方案與價值。" },
+  "Đầu mối hệ sinh thái": { en: "Ecosystem Hub", ja: "エコシステムの拠点", ko: "생태계 허브", "zh-TW": "生態系統樞紐" },
+  "Unifarm tổng": { en: "Unifarm Group", ja: "ユニファーム本社", ko: "유니팜 본사", "zh-TW": "Unifarm總公司" },
+  "Kết nối các đơn vị thành viên và đơn vị sản xuất": { en: "Connecting Member Companies and Production Units", ja: "グループ会社と生産拠点をつなぐ", ko: "계열사와 생산 조직을 연결", "zh-TW": "連結成員公司與生產單位" },
+  "Các đơn vị thành viên": { en: "Member Companies", ja: "グループ会社", ko: "계열사", "zh-TW": "成員公司" },
+  "Năng lực chuyên biệt trong hệ sinh thái": { en: "Specialized Capabilities in the Ecosystem", ja: "エコシステムにおける専門能力", ko: "생태계 내 전문 역량", "zh-TW": "生態系統中的專業能力" },
+  "Các đơn vị sản xuất Unifarm": { en: "Unifarm Production Units", ja: "ユニファームの生産拠点", ko: "유니팜 생산 조직", "zh-TW": "Unifarm生產單位" },
+  "Mạng lưới cơ sở sản xuất": { en: "Production Facility Network", ja: "生産拠点ネットワーク", ko: "생산시설 네트워크", "zh-TW": "生產設施網絡" },
+  "Kết nối năng lực": { en: "Connecting Capabilities", ja: "能力をつなぐ", ko: "역량 연결", "zh-TW": "連結能力" },
+  "Phối hợp trong chuỗi giá trị": { en: "Coordination Across the Value Chain", ja: "バリューチェーン全体での連携", ko: "가치사슬 전반의 협력", "zh-TW": "價值鏈協同合作" },
+  "Tạo giá trị bền vững": { en: "Creating Sustainable Value", ja: "持続可能な価値の創造", ko: "지속 가능한 가치 창출", "zh-TW": "創造永續價值" },
+
+  // Herobanner (giới thiệu)
+  "Từ năm 2009": { en: "Since 2009", ja: "2009年から", ko: "2009년부터", "zh-TW": "自2009年起" },
+  "TỪ MỘT TRANG TRẠI": { en: "FROM A SINGLE FARM", ja: "一つの農場から", ko: "하나의 농장에서", "zh-TW": "從一座農場" },
+  "ĐẾN MỘT HỆ SINH THÁI": { en: "TO AN ECOSYSTEM", ja: "エコシステムへ", ko: "하나의 생태계로", "zh-TW": "到一個生態系統" },
+
+  // Timelinejourney (giới thiệu)
+  "Hành trình Unifarm": { en: "The Unifarm Journey", ja: "ユニファームの歩み", ko: "유니팜의 여정", "zh-TW": "Unifarm的歷程" },
+
+  // Freshproduceshowcase (sản phẩm)
+  "Chất lượng được xây dựng từ hệ thống": { en: "Quality Built Through a System", ja: "システムから築かれる品質", ko: "시스템에서 구축되는 품질", "zh-TW": "由系統打造的品質" },
+
+  // Newproductannouncement (sản phẩm)
+  "Sắp ra mắt": { en: "Coming Soon", ja: "近日発売", ko: "출시 예정", "zh-TW": "即將推出" },
+  "Ra mắt sau": { en: "Launching In", ja: "発売まで", ko: "출시까지", "zh-TW": "倒數上市" },
+  "Khám phá sản phẩm": { en: "Explore Products", ja: "製品を見る", ko: "제품 살펴보기", "zh-TW": "探索產品" },
+  "Xem hình ảnh sản phẩm": { en: "View Product Images", ja: "製品画像を見る", ko: "제품 이미지 보기", "zh-TW": "查看產品圖片" },
+
+  // Sanphamhero (sản phẩm)
+  "Chuyển đến slide": { en: "Go to slide", ja: "スライドへ移動", ko: "슬라이드로 이동", "zh-TW": "前往投影片" },
+
+  // Tuyển dụng — trang chính
+  "Một công việc, nhiều giá trị": { en: "One Job, Many Values", ja: "一つの仕事、多くの価値", ko: "하나의 일, 다양한 가치", "zh-TW": "一份工作，多重價值" },
+  "Tìm hiểu con đường nghề nghiệp": { en: "Learn About Career Paths", ja: "キャリアパスについて知る", ko: "커리어 경로 알아보기", "zh-TW": "了解職涯發展路徑" },
+  "Bắt đầu hành trình của bạn tại Unifarm": { en: "Start Your Journey at Unifarm", ja: "ユニファームでの旅を始めよう", ko: "유니팜에서의 여정을 시작하세요", "zh-TW": "在Unifarm展開您的旅程" },
+  "Chọn một vị trí phù hợp và gửi hồ sơ cho chúng tôi.": { en: "Choose a suitable position and send us your application.", ja: "ご希望のポジションを選び、応募書類をお送りください。", ko: "적합한 포지션을 선택하여 지원서를 보내주세요.", "zh-TW": "選擇合適的職位，將您的履歷寄給我們。" },
+  "Từ ứng tuyển đến ngày đầu tiên đi làm": { en: "From Application to Your First Day", ja: "応募から入社初日まで", ko: "지원부터 출근 첫날까지", "zh-TW": "從應徵到到職首日" },
+  "Trao đổi với Unifarm": { en: "Talk to Unifarm", ja: "ユニファームとの対話", ko: "유니팜과의 소통", "zh-TW": "與Unifarm交流" },
+  "Bạn còn điều gì muốn biết?": { en: "What Else Would You Like to Know?", ja: "他に知りたいことはありますか？", ko: "더 궁금한 점이 있으신가요?", "zh-TW": "您還想了解什麼？" },
+  "Bạn muốn hiểu thêm về một vị trí, nơi làm việc, môi trường, cơ hội phát triển hay cuộc sống tại nông trường? Hãy gửi câu hỏi cho Unifarm.": { en: "Want to know more about a position, the workplace, the environment, growth opportunities, or life on the farm? Send your question to Unifarm.", ja: "ポジションや職場、環境、成長の機会、農場での暮らしについてもっと知りたいですか？ユニファームにご質問をお送りください。", ko: "특정 직무, 근무지, 환경, 성장 기회 또는 농장에서의 생활에 대해 더 알고 싶으신가요? 유니팜에 질문을 보내주세요.", "zh-TW": "想進一步了解某個職位、工作地點、環境、發展機會或農場生活嗎？歡迎將您的問題寄給Unifarm。" },
+  "Chủ đề": { en: "Topic", ja: "テーマ", ko: "주제", "zh-TW": "主題" },
+  "Họ và tên": { en: "Full Name", ja: "お名前", ko: "성함", "zh-TW": "姓名" },
+  "Nguyễn Văn A": { en: "John Doe", ja: "山田 太郎", ko: "홍길동", "zh-TW": "王小明" },
+  "Email / Số điện thoại": { en: "Email / Phone Number", ja: "メール／電話番号", ko: "이메일/전화번호", "zh-TW": "電子郵件／電話號碼" },
+  "Email hoặc số điện thoại": { en: "Email or phone number", ja: "メールまたは電話番号", ko: "이메일 또는 전화번호", "zh-TW": "電子郵件或電話號碼" },
+  "Câu hỏi của bạn": { en: "Your Question", ja: "ご質問", ko: "질문 내용", "zh-TW": "您的問題" },
+  "Chia sẻ điều bạn muốn biết thêm về Unifarm…": { en: "Share what you'd like to know more about Unifarm…", ja: "ユニファームについてもっと知りたいことをお聞かせください…", ko: "유니팜에 대해 더 알고 싶은 내용을 알려주세요…", "zh-TW": "分享您想進一步了解Unifarm的內容……" },
+  "Gửi câu hỏi": { en: "Send Question", ja: "質問を送信", ko: "질문 보내기", "zh-TW": "送出問題" },
+  "Cảm ơn bạn đã gửi câu hỏi!": { en: "Thank You for Your Question!", ja: "ご質問ありがとうございます！", ko: "질문해 주셔서 감사합니다!", "zh-TW": "感謝您的提問！" },
+  "Unifarm đã nhận được câu hỏi của bạn và sẽ liên hệ lại sớm nhất có thể.": { en: "Unifarm has received your question and will get back to you as soon as possible.", ja: "ユニファームはご質問を受け取りました。できるだけ早くご連絡いたします。", ko: "유니팜이 질문을 접수했습니다. 가능한 한 빨리 답변드리겠습니다.", "zh-TW": "Unifarm已收到您的問題，將盡快與您聯繫。" },
+  "Gửi câu hỏi khác": { en: "Send Another Question", ja: "別の質問を送る", ko: "다른 질문 보내기", "zh-TW": "送出其他問題" },
+  "Cùng Unifarm": { en: "With Unifarm", ja: "ユニファームと共に", ko: "유니팜과 함께", "zh-TW": "與Unifarm" },
+  "học cách sống cùng cây trồng": { en: "learn to live alongside crops", ja: "作物と共に生きることを学ぶ", ko: "작물과 함께 사는 법을 배우다", "zh-TW": "學習與作物共生" },
+  "Hiểu cây, hiểu nghề và tạo ra những sản phẩm tốt hơn mỗi ngày.": { en: "Understand plants, master the craft, and create better products every day.", ja: "作物を理解し、仕事を究め、日々より良い製品を生み出す。", ko: "작물을 이해하고 전문성을 갖추어 매일 더 나은 제품을 만듭니다.", "zh-TW": "了解作物、精通專業，每天創造更好的產品。" },
+
+  // Nghề nghiệp tại Unifarm (tuyen-dung/nghe-nghiep)
+  "Kỹ năng tạo ra thu nhập": { en: "Skills That Create Income", ja: "収入を生み出すスキル", ko: "소득을 만드는 기술", "zh-TW": "創造收入的技能" },
+  "Kỹ năng tốt hơn giúp mỗi người tạo ra nhiều giá trị hơn và có thu nhập tốt hơn.": { en: "Better skills help everyone create more value and earn a better income.", ja: "より優れたスキルは、一人ひとりがより多くの価値を生み出し、より良い収入を得る助けとなります。", ko: "더 나은 기술은 모두가 더 많은 가치를 만들고 더 나은 소득을 얻도록 돕습니다.", "zh-TW": "更好的技能能幫助每個人創造更多價值，獲得更好的收入。" },
+  "Hai Lựa Chọn Phát Triển Tại Unifarm": { en: "Two Development Paths at Unifarm", ja: "ユニファームにおける2つの成長パス", ko: "유니팜에서의 두 가지 성장 경로", "zh-TW": "在Unifarm的兩條發展路徑" },
+  "Dù lựa chọn con đường nào, giỏi nghề và tạo ra giá trị vẫn là nền tảng để phát triển.": { en: "Whichever path you choose, mastering your craft and creating value remain the foundation for growth.", ja: "どちらの道を選んでも、専門性を磨き、価値を生み出すことが成長の土台であることに変わりはありません。", ko: "어떤 길을 선택하든, 전문성을 갖추고 가치를 창출하는 것이 성장의 토대입니다.", "zh-TW": "無論選擇哪條路，精通專業並創造價值，始終是成長的基礎。" },
+  "Giá trị nghề nông": { en: "The Value of Farming as a Profession", ja: "農業という仕事の価値", ko: "농업이라는 직업의 가치", "zh-TW": "務農的職業價值" },
+  "Giỏi nghề nông là giúp ích cho cuộc sống": { en: "Mastering Farming Means Improving Lives", ja: "農業の腕を磨くことは、暮らしに役立つこと", ko: "농업에 능숙해지는 것은 삶에 도움이 되는 것입니다", "zh-TW": "精通農藝，就是造福生活" },
+  "Nông nghiệp hiện đại được tạo nên từ rất nhiều nghề. Mỗi người làm tốt công việc của mình sẽ góp phần tạo nên cây trồng khỏe hơn, sản phẩm tốt hơn và một nền nông nghiệp tốt hơn.": { en: "Modern agriculture is built from many different professions. When each person does their job well, it helps create healthier crops, better products, and a better agriculture overall.", ja: "現代の農業は、多くの職業によって成り立っています。一人ひとりが自分の仕事をしっかり果たすことで、より健康な作物、より良い製品、そしてより良い農業につながります。", ko: "현대 농업은 다양한 직업이 모여 이루어집니다. 각자 자신의 일을 잘 해낼 때 더 건강한 작물, 더 나은 제품, 더 나은 농업으로 이어집니다.", "zh-TW": "現代農業由許多職業共同組成。每個人做好自己的工作，就能共同打造更健康的作物、更好的產品與更優質的農業。" },
+  "Cùng xây dựng một nền nông nghiệp hiện đại, bền vững và có trách nhiệm.": { en: "Building a modern, sustainable, and responsible agriculture — together.", ja: "共に、現代的で持続可能、そして責任ある農業を築く。", ko: "함께, 현대적이고 지속 가능하며 책임 있는 농업을 만들어갑니다.", "zh-TW": "攜手共建現代化、永續且負責任的農業。" },
+  "Nông nghiệp hiện đại cần": { en: "Modern agriculture needs", ja: "現代農業に必要なのは", ko: "현대 농업에 필요한 것은", "zh-TW": "現代農業需要" },
+  "con người hiện đại": { en: "modern people", ja: "現代的な人材", ko: "현대적인 사람들", "zh-TW": "現代化人才" },
+  "Nông nghiệp hôm nay là sự kết hợp của nhiều lĩnh vực:": { en: "Today's agriculture is a combination of many fields:", ja: "今日の農業は、多くの分野が組み合わさったものです：", ko: "오늘날의 농업은 여러 분야가 결합된 것입니다:", "zh-TW": "今日的農業融合了多個領域：" },
+  "Mỗi công việc đòi hỏi kiến thức và tay nghề khác nhau, nhưng tất cả cùng góp phần tạo nên một nền nông nghiệp chuyên nghiệp, hiệu quả và bền vững hơn.": { en: "Each job requires different knowledge and skills, but together they all help build a more professional, effective, and sustainable agriculture.", ja: "それぞれの仕事には異なる知識と技術が求められますが、すべてが合わさることで、より専門的で効果的、そして持続可能な農業が築かれます。", ko: "각 직무는 서로 다른 지식과 기술을 필요로 하지만, 모두가 합쳐져 더 전문적이고 효과적이며 지속 가능한 농업을 만듭니다.", "zh-TW": "每項工作都需要不同的知識與技能，但所有工作共同成就了更專業、更有效率且更永續的農業。" },
+  "Làm việc": { en: "Work", ja: "働く", ko: "일하다", "zh-TW": "工作" },
+  "Giỏi nghề": { en: "Master the Craft", ja: "技を極める", ko: "전문성을 갖추다", "zh-TW": "精通專業" },
+  "Dẫn dắt": { en: "Lead", ja: "導く", ko: "이끌다", "zh-TW": "引領" },
+  "Mô hình đào tạo của Unifarm": { en: "Unifarm's Training Model", ja: "ユニファームの研修モデル", ko: "유니팜의 교육 모델", "zh-TW": "Unifarm的培訓模式" },
+  "Cơ hội cho mọi ngành nghề": { en: "Opportunities for Every Profession", ja: "あらゆる職種にチャンスを", ko: "모든 직군을 위한 기회", "zh-TW": "各行各業皆有機會" },
+  "Không Nhất Thiết Phải Học Nông Nghiệp Để Làm Nông Nghiệp": { en: "You Don't Need an Agriculture Degree to Work in Agriculture", ja: "農業を学んでいなくても、農業で働ける", ko: "농업을 전공하지 않아도 농업 분야에서 일할 수 있습니다", "zh-TW": "不必讀農業，也能從事農業" },
+  "Nông nghiệp hiện đại cần kỹ sư, kỹ thuật viên, người làm công nghệ, dữ liệu, chất lượng, kinh doanh, chuỗi cung ứng và nhiều ngành nghề khác.": { en: "Modern agriculture needs engineers, technicians, technology and data specialists, quality professionals, business, supply chain experts, and many other professions.", ja: "現代農業には、エンジニア、技術者、テクノロジーやデータの専門家、品質管理、営業、サプライチェーンなど、さまざまな職種が必要です。", ko: "현대 농업에는 엔지니어, 기술자, 기술 및 데이터 전문가, 품질 담당자, 영업, 공급망 전문가 등 다양한 직군이 필요합니다.", "zh-TW": "現代農業需要工程師、技術人員、科技與數據人才、品質人員、業務、供應鏈專家及許多其他專業人才。" },
+  "Nhà màng ứng dụng công nghệ cao tại Unifarm": { en: "High-tech greenhouse at Unifarm", ja: "ユニファームの先端技術温室", ko: "유니팜의 첨단 기술 온실", "zh-TW": "Unifarm的高科技溫室" },
+  "Học từ thực tế": { en: "Learning From Practice", ja: "実践から学ぶ", ko: "실전에서 배우다", "zh-TW": "從實務中學習" },
+  "Trường Trong Nông Trại – Nông Trại Trong Trường": { en: "School in the Farm – Farm in the School", ja: "農場の中の学校、学校の中の農場", ko: "농장 속의 학교, 학교 속의 농장", "zh-TW": "農場裡的學校－學校裡的農場" },
+
+  /* ============================== BỔ SUNG DỊCH THUẬT — ĐỢT 2026-10 (PHẦN 2: DỮ LIỆU MẢNG) ============================== */
+  // Ricetabsshowcase (trang chủ)
+  "Kiểm Soát Dư Lượng": { en: "Residue Control", ja: "残留物管理", ko: "잔류물 관리", "zh-TW": "殘留物管控" },
+  "Sơ Chế & Đóng Gói": { en: "Processing & Packaging", ja: "下処理・梱包", ko: "전처리 및 포장", "zh-TW": "初步處理與包裝" },
+  "Bảo Quản & Vận Chuyển": { en: "Storage & Transport", ja: "保管・輸送", ko: "보관 및 운송", "zh-TW": "儲存與運輸" },
+  "Truy Xuất Nguồn Gốc": { en: "Traceability", ja: "トレーサビリティ", ko: "원산지 추적", "zh-TW": "產地溯源" },
+  "Kiểm Soát Từ Đầu Vào": { en: "Control From the Input Stage", ja: "入力段階からの管理", ko: "투입 단계부터의 관리", "zh-TW": "從源頭投入開始管控" },
+  "Giữ Chất Lượng Sau Thu Hoạch": { en: "Preserving Quality After Harvest", ja: "収穫後の品質保持", ko: "수확 후 품질 유지", "zh-TW": "採收後維持品質" },
+  "Kiểm Soát Đến Khi Giao Hàng": { en: "Control Through Delivery", ja: "出荷まで管理", ko: "배송까지 관리", "zh-TW": "管控至交貨為止" },
+  "Từ Một Thùng Hàng Trở Về Vùng Trồng": { en: "From a Single Carton Back to the Growing Region", ja: "一つの箱から産地へ遡る", ko: "한 상자에서 재배지까지 거슬러 올라가기", "zh-TW": "從一箱貨物追溯回種植區" },
+  "Thông tin truy xuất được kết nối với hệ thống quản lý sản xuất và đóng gói của Unifarm theo phạm vi dữ liệu áp dụng cho từng sản phẩm.": { en: "Traceability information is linked to Unifarm's production and packaging management system, within the data scope applicable to each product.", ja: "トレーサビリティ情報は、各製品に適用されるデータ範囲内で、ユニファームの生産・梱包管理システムと連携しています。", ko: "추적 정보는 각 제품에 적용되는 데이터 범위 내에서 유니팜의 생산 및 포장 관리 시스템과 연결되어 있습니다.", "zh-TW": "追溯資訊依各產品適用的數據範圍，與Unifarm的生產與包裝管理系統相連結。" },
+  "01 · Đầu vào": { en: "01 · Input", ja: "01・インプット", ko: "01 · 투입", "zh-TW": "01．投入" },
+  "02 · Trong sản xuất": { en: "02 · During Production", ja: "02・生産中", ko: "02 · 생산 중", "zh-TW": "02．生產中" },
+  "03 · Trước thu hoạch": { en: "03 · Pre-Harvest", ja: "03・収穫前", ko: "03 · 수확 전", "zh-TW": "03．採收前" },
+  "04 · Kiểm nghiệm": { en: "04 · Testing", ja: "04・検査", ko: "04 · 검사", "zh-TW": "04．檢驗" },
+  "Kiểm soát danh mục vật tư và thuốc BVTV theo cây trồng và yêu cầu của thị trường đích.": { en: "Controlling the list of inputs and plant-protection products according to the crop and the requirements of the destination market.", ja: "作物と対象市場の要求に応じて、資材や農薬のリストを管理します。", ko: "작물과 목표 시장의 요구 사항에 따라 자재 및 농약 목록을 관리합니다.", "zh-TW": "依作物種類與目標市場要求，管控投入品與農藥清單。" },
+  "Ghi nhận việc sử dụng vật tư; tăng cường giải pháp sinh học và quản lý dịch hại tổng hợp nhằm giảm phụ thuộc vào hóa chất.": { en: "Recording input usage; strengthening biological solutions and integrated pest management to reduce reliance on chemicals.", ja: "資材の使用状況を記録し、生物学的防除と総合的病害虫管理を強化して化学物質への依存を減らします。", ko: "자재 사용을 기록하고, 생물학적 방제와 종합적 병해충 관리를 강화하여 화학물질 의존도를 낮춥니다.", "zh-TW": "記錄投入品使用情況；加強生物防治與病蟲害綜合管理，以降低對化學品的依賴。" },
+  "Kiểm soát thời gian cách ly và đối chiếu giới hạn dư lượng theo yêu cầu của thị trường.": { en: "Controlling pre-harvest intervals and checking residue limits against market requirements.", ja: "市場の要求に応じて収穫前の隔離期間を管理し、残留限度を照合します。", ko: "시장 요구에 따라 수확 전 격리 기간을 관리하고 잔류 한도를 대조합니다.", "zh-TW": "依市場要求管控採收前安全採收期，並比對殘留限量。" },
+  "Thực hiện kiểm nghiệm dư lượng theo yêu cầu của sản phẩm, khách hàng hoặc thị trường trước khi cung ứng.": { en: "Conducting residue testing as required by the product, customer, or market before supply.", ja: "供給前に、製品・顧客・市場の要求に応じた残留物検査を実施します。", ko: "공급 전 제품, 고객 또는 시장의 요구에 따라 잔류물 검사를 실시합니다.", "zh-TW": "供應前依產品、客戶或市場要求進行殘留檢測。" },
+  "Thu hoạch": { en: "Harvest", ja: "収穫", ko: "수확", "zh-TW": "採收" },
+  "Vận chuyển về nhà đóng gói": { en: "Transport to the Packing House", ja: "梱包施設への輸送", ko: "포장시설로 운송", "zh-TW": "運送至包裝廠" },
+  "Sơ chế & phân loại": { en: "Processing & Sorting", ja: "下処理・選別", ko: "전처리 및 선별", "zh-TW": "初步處理與分級" },
+  "Sau đóng gói": { en: "After Packaging", ja: "梱包後", ko: "포장 후", "zh-TW": "包裝後" },
+  "Lưu kho": { en: "Storage", ja: "保管", ko: "보관", "zh-TW": "入庫儲存" },
+  "Vận chuyển": { en: "Transport", ja: "輸送", ko: "운송", "zh-TW": "運輸" },
+  "Giao hàng": { en: "Delivery", ja: "配送", ko: "배송", "zh-TW": "交貨" },
+  "Mã thùng hàng": { en: "Carton Code", ja: "箱番号", ko: "상자 코드", "zh-TW": "箱號" },
+  "Lô đóng gói": { en: "Packing Batch", ja: "梱包ロット", ko: "포장 로트", "zh-TW": "包裝批號" },
+  "Ngày thu hoạch / đóng gói": { en: "Harvest / Packing Date", ja: "収穫日／梱包日", ko: "수확일/포장일", "zh-TW": "採收／包裝日期" },
+  "Hồ sơ sản xuất liên quan": { en: "Related Production Records", ja: "関連する生産記録", ko: "관련 생산 기록", "zh-TW": "相關生產紀錄" },
+
+  // Bandonongsanxanh (dịch vụ)
+  "Vùng trồng & trang trại": { en: "Growing Areas & Farms", ja: "栽培地域・農場", ko: "재배지 및 농장", "zh-TW": "種植區與農場" },
+  "Chế biến & gia tăng giá trị": { en: "Processing & Value Addition", ja: "加工・付加価値向上", ko: "가공 및 가치 증대", "zh-TW": "加工與加值" },
+  "Dự án phát triển & chuyển giao": { en: "Development & Transfer Projects", ja: "開発・技術移転プロジェクト", ko: "개발 및 이전 프로젝트", "zh-TW": "發展與技術轉移專案" },
+  "VÙNG UNIFARM ĐANG SẢN XUẤT": { en: "UNIFARM PRODUCTION AREAS", ja: "ユニファーム生産エリア", ko: "유니팜 생산 지역", "zh-TW": "UNIFARM生產區" },
+  "VÙNG LIÊN KẾT": { en: "PARTNER AREAS", ja: "提携エリア", ko: "연계 지역", "zh-TW": "合作區" },
+  "VÙNG ĐANG PHÁT TRIỂN": { en: "DEVELOPING AREAS", ja: "開発中エリア", ko: "개발 중인 지역", "zh-TW": "發展中區域" },
+  "Các vùng sản xuất do Unifarm trực tiếp tổ chức hoặc quản lý.": { en: "Production areas directly organized or managed by Unifarm.", ja: "ユニファームが直接組織または管理する生産地域。", ko: "유니팜이 직접 조직하거나 관리하는 생산 지역입니다.", "zh-TW": "由Unifarm直接組織或管理的生產區域。" },
+  "Các vùng Unifarm đang hợp tác cùng doanh nghiệp, hợp tác xã và nông dân.": { en: "Areas where Unifarm partners with businesses, cooperatives, and farmers.", ja: "ユニファームが企業、協同組合、農家と提携している地域。", ko: "유니팜이 기업, 협동조합, 농민과 협력하는 지역입니다.", "zh-TW": "Unifarm與企業、合作社及農民合作的區域。" },
+  "Các khu vực đang khảo sát, thử nghiệm hoặc xây dựng dự án mới.": { en: "Areas currently being surveyed, piloted, or developed for new projects.", ja: "現在調査、試験、または新規プロジェクトを構築中の地域。", ko: "현재 조사, 시험 또는 신규 프로젝트를 구축 중인 지역입니다.", "zh-TW": "目前正在勘查、試驗或建構新專案的區域。" },
+  "Đang sản xuất": { en: "In Production", ja: "生産中", ko: "생산 중", "zh-TW": "生產中" },
+  "Liên kết": { en: "Partnership", ja: "提携", ko: "연계", "zh-TW": "合作" },
+  "Đang phát triển": { en: "Developing", ja: "開発中", ko: "개발 중", "zh-TW": "發展中" },
+
+  // DuanBanner (dự án & hợp tác)
+  "NGƯỜI NÔNG DÂN CÓ HIỆU QUẢ": { en: "FARMERS ACHIEVE EFFICIENCY", ja: "農家が効率を実現する", ko: "농민이 효율성을 실현하다", "zh-TW": "農民獲得效益" },
+  "NGƯỜI TIÊU DÙNG CÓ SẢN PHẨM TỐT": { en: "CONSUMERS GET BETTER PRODUCTS", ja: "消費者が良い製品を得る", ko: "소비자가 좋은 제품을 얻다", "zh-TW": "消費者獲得優質產品" },
+  "ĐẤT & NƯỚC ĐƯỢC GÌN GIỮ": { en: "LAND & WATER ARE PRESERVED", ja: "土地と水が守られる", ko: "땅과 물이 보존되다", "zh-TW": "土地與水資源獲得保護" },
+  "Mô hình hợp tác phải giúp người trực tiếp sản xuất nâng cao năng suất, chất lượng, hiệu quả và thu nhập.": { en: "A partnership model must help direct producers raise productivity, quality, efficiency, and income.", ja: "協力モデルは、直接生産者が生産性、品質、効率、収入を高める助けとなるものでなければなりません。", ko: "협력 모델은 직접 생산자가 생산성, 품질, 효율성, 소득을 높이는 데 도움이 되어야 합니다.", "zh-TW": "合作模式必須幫助第一線生產者提升產量、品質、效益與收入。" },
+  "Cùng tạo ra ngày càng nhiều sản phẩm an toàn, chất lượng và phù hợp với nhu cầu của thị trường": { en: "Together creating more and more safe, quality products suited to market needs", ja: "共に、安全で高品質、市場のニーズに合った製品をますます多く生み出す", ko: "함께 안전하고 품질 좋은, 시장 수요에 맞는 제품을 점점 더 많이 만들어갑니다", "zh-TW": "攜手創造愈來愈多安全、優質且符合市場需求的產品" },
+  "Phát triển sản xuất theo hướng sinh học và bền vững, sử dụng tài nguyên hiệu quả hơn và giảm tác động đến môi trường.": { en: "Developing production in a biological and sustainable direction, using resources more efficiently and reducing environmental impact.", ja: "生物学的かつ持続可能な方向で生産を発展させ、資源をより効率的に活用し、環境への影響を減らします。", ko: "생물학적이고 지속 가능한 방향으로 생산을 발전시켜 자원을 더 효율적으로 사용하고 환경에 미치는 영향을 줄입니다.", "zh-TW": "朝生物科技與永續方向發展生產，更有效運用資源並降低對環境的影響。" },
+
+  // DuanNguyenTac (dự án & hợp tác)
+  "Hiểu bài toán": { en: "Understand the Problem", ja: "課題を理解する", ko: "문제 이해하기", "zh-TW": "理解課題" },
+  "Đánh giá điều kiện": { en: "Assess Conditions", ja: "条件を評価する", ko: "조건 평가하기", "zh-TW": "評估條件" },
+  "Thử nghiệm & kiểm chứng": { en: "Trial & Verification", ja: "試験・検証", ko: "시험 및 검증", "zh-TW": "試驗與驗證" },
+  "Chuẩn hóa & nhân rộng": { en: "Standardize & Scale", ja: "標準化・展開", ko: "표준화 및 확산", "zh-TW": "標準化與推廣" },
+  "Xác định thị trường, sản phẩm, mục tiêu và vai trò của mỗi bên.": { en: "Define the market, product, objectives, and the role of each party.", ja: "市場、製品、目標、そして各当事者の役割を明確にします。", ko: "시장, 제품, 목표 및 각 당사자의 역할을 정의합니다.", "zh-TW": "確立市場、產品、目標及各方角色。" },
+  "Đánh giá đất, nước, khí hậu, hạ tầng, lao động, vốn và năng lực tổ chức sản xuất.": { en: "Assess land, water, climate, infrastructure, labor, capital, and production organization capacity.", ja: "土地、水、気候、インフラ、労働力、資本、生産組織能力を評価します。", ko: "토지, 물, 기후, 인프라, 노동력, 자본 및 생산 조직 역량을 평가합니다.", "zh-TW": "評估土地、水源、氣候、基礎設施、勞動力、資金及生產組織能力。" },
+  "Kiểm chứng năng suất, chất lượng, tỷ lệ đạt chuẩn, chi phí và hiệu quả kinh tế.": { en: "Verify productivity, quality, pass rate, cost, and economic efficiency.", ja: "生産性、品質、基準適合率、コスト、経済効率を検証します。", ko: "생산성, 품질, 기준 충족률, 비용 및 경제적 효율성을 검증합니다.", "zh-TW": "驗證產量、品質、合格率、成本與經濟效益。" },
+  "Hoàn thiện quy trình và mở rộng khi mô hình chứng minh được hiệu quả.": { en: "Finalize the process and scale up once the model proves effective.", ja: "モデルが効果を実証した段階でプロセスを完成させ、拡大します。", ko: "모델이 효과를 입증하면 프로세스를 완성하고 확장합니다.", "zh-TW": "當模式證實有效後，完善流程並擴大推廣。" },
+
+  // DuanTruCot (dự án & hợp tác)
+  "Khu nông nghiệp công nghệ cao Unifarm": { en: "Unifarm High-Tech Agriculture Zone", ja: "ユニファーム先端農業区域", ko: "유니팜 첨단 농업 단지", "zh-TW": "Unifarm高科技農業區" },
+  "Vùng sản xuất nông nghiệp công nghệ cao Unifarm": { en: "Unifarm High-Tech Agricultural Production Area", ja: "ユニファーム先端農業生産地域", ko: "유니팜 첨단 농업 생산 지역", "zh-TW": "Unifarm高科技農業生產區" },
+  "Nông sản chuối tại vùng sản xuất Unifarm": { en: "Bananas at Unifarm's Production Area", ja: "ユニファーム生産地域のバナナ", ko: "유니팜 생산 지역의 바나나", "zh-TW": "Unifarm生產區的香蕉農產品" },
+  "Đội ngũ kỹ thuật Unifarm đồng hành tại vùng sản xuất": { en: "Unifarm's Technical Team on the Ground at the Production Area", ja: "生産地域に寄り添うユニファーム技術チーム", ko: "생산 지역과 함께하는 유니팜 기술팀", "zh-TW": "Unifarm技術團隊駐點生產區" },
+  "Nông sản chuối từ vùng sản xuất Unifarm": { en: "Bananas from Unifarm's Production Area", ja: "ユニファーム生産地域産のバナナ", ko: "유니팜 생산 지역산 바나나", "zh-TW": "來自Unifarm生產區的香蕉農產品" },
+  "Nghiên cứu & Sản xuất giống": { en: "Seed Research & Production", ja: "品種の研究・生産", ko: "종자 연구 및 생산", "zh-TW": "種苗研發與生產" },
+  "Nghiên cứu & sản xuất giống": { en: "Seed Research & Production", ja: "品種の研究・生産", ko: "종자 연구 및 생산", "zh-TW": "種苗研發與生產" },
+  "Canh tác bền vững trên quy mô lớn": { en: "Large-Scale Sustainable Cultivation", ja: "大規模な持続可能な栽培", ko: "대규모 지속 가능한 재배", "zh-TW": "大規模永續耕作" },
+  "Chuyển giao công nghệ": { en: "Technology Transfer", ja: "技術移転", ko: "기술 이전", "zh-TW": "技術轉移" },
+  "Phát triển thị trường": { en: "Market Development", ja: "市場開拓", ko: "시장 개발", "zh-TW": "市場開發" },
+  "Nghiên cứu, tuyển chọn, phát triển và nhân giống để tạo ra nguồn cây giống phù hợp với điều kiện sản xuất, yêu cầu thị trường và thực tế canh tác.": { en: "Researching, selecting, developing, and propagating varieties to create a source of seedlings suited to production conditions, market requirements, and real farming practices.", ja: "生産条件、市場要求、そして実際の栽培実態に適した苗木供給源を生み出すため、品種の研究、選抜、開発、増殖を行います。", ko: "생산 조건, 시장 요구 및 실제 재배 환경에 적합한 묘목 공급원을 만들기 위해 품종을 연구, 선발, 개발 및 번식시킵니다.", "zh-TW": "研究、篩選、開發並繁殖品種，打造符合生產條件、市場需求與實際耕作情況的種苗來源。" },
+  "Các vùng sản xuất là nơi giống, công nghệ và quy trình được triển khai trên quy mô thực tế để đánh giá, hoàn thiện và chuẩn hóa.": { en: "Production areas are where seed varieties, technology, and processes are deployed at real scale for evaluation, refinement, and standardization.", ja: "生産地域は、品種、技術、プロセスを実際の規模で展開し、評価・改善・標準化を行う場です。", ko: "생산 지역은 품종, 기술, 공정이 실제 규모로 적용되어 평가, 개선, 표준화가 이루어지는 곳입니다.", "zh-TW": "生產區是將品種、技術與流程以實際規模推行，進行評估、優化與標準化的場域。" },
+  "Phát triển các giải pháp sau thu hoạch và chế biến nhằm duy trì chất lượng, mở rộng khả năng sử dụng và tạo thêm giá trị từ nông sản.": { en: "Developing post-harvest and processing solutions to maintain quality, expand usability, and add more value from agricultural produce.", ja: "品質を維持し、用途を広げ、農産物からさらなる価値を生み出すため、収穫後・加工ソリューションを開発します。", ko: "품질을 유지하고 활용 가능성을 넓히며 농산물에서 추가 가치를 창출하기 위해 수확 후 및 가공 솔루션을 개발합니다.", "zh-TW": "開發採後與加工解決方案，以維持品質、擴大應用範圍，並為農產品創造更多價值。" },
+  "Những giống, công nghệ, quy trình và mô hình đã được kiểm chứng được chuẩn hóa để chuyển giao và cùng nông dân, hợp tác xã, doanh nghiệp áp dụng trong thực tế.": { en: "Proven varieties, technologies, processes, and models are standardized for transfer, applied in practice together with farmers, cooperatives, and businesses.", ja: "実証済みの品種、技術、プロセス、モデルを標準化して移転し、農家、協同組合、企業と共に実践に適用します。", ko: "검증된 품종, 기술, 공정, 모델을 표준화하여 이전하고, 농민, 협동조합, 기업과 함께 실제로 적용합니다.", "zh-TW": "將經過驗證的品種、技術、流程與模式標準化後進行轉移，與農民、合作社及企業共同落實應用。" },
+  "Unifarm kết nối nhu cầu thị trường với sản xuất để cùng đối tác phát triển sản phẩm, tiêu chuẩn và kế hoạch cung ứng phù hợp.": { en: "Unifarm connects market demand with production to work with partners on developing suitable products, standards, and supply plans.", ja: "ユニファームは市場ニーズと生産を結びつけ、パートナーと共に適切な製品、基準、供給計画を策定します。", ko: "유니팜은 시장 수요와 생산을 연결하여 파트너와 함께 적합한 제품, 기준, 공급 계획을 개발합니다.", "zh-TW": "Unifarm將市場需求與生產相連結，與夥伴共同開發合適的產品、標準與供應計畫。" },
+
+  // Competitivecapability (giới thiệu) — STAGES
+  "Giống & Khoa học cây trồng": { en: "Seed & Plant Science", ja: "品種・作物科学", ko: "품종 및 작물 과학", "zh-TW": "種苗與作物科學" },
+  "Giải pháp nông nghiệp": { en: "Agricultural Solutions", ja: "農業ソリューション", ko: "농업 솔루션", "zh-TW": "農業解決方案" },
+  "Nghiên cứu, tuyển chọn và phát triển giống phù hợp với thực tế sản xuất.": { en: "Researching, selecting, and developing varieties suited to real production conditions.", ja: "実際の生産に適した品種を研究、選抜、開発します。", ko: "실제 생산 현실에 맞는 품종을 연구, 선발, 개발합니다.", "zh-TW": "研究、篩選並開發符合實際生產情況的品種。" },
+  "Tổ chức sản xuất trên quy mô thực tế để kiểm chứng, hoàn thiện và chuẩn hóa giống, công nghệ và quy trình.": { en: "Organizing production at real scale to verify, refine, and standardize varieties, technology, and processes.", ja: "品種、技術、プロセスを検証・改善・標準化するため、実際の規模で生産を組織します。", ko: "품종, 기술, 공정을 검증, 개선, 표준화하기 위해 실제 규모로 생산을 조직합니다.", "zh-TW": "以實際規模組織生產，驗證、優化並標準化品種、技術與流程。" },
+  "Phát triển và ứng dụng công nghệ, giải pháp sinh học, quy trình canh tác, tự động hóa và dữ liệu nhằm nâng cao hiệu quả sản xuất.": { en: "Developing and applying technology, biological solutions, farming processes, automation, and data to improve production efficiency.", ja: "生産効率を高めるため、技術、生物学的ソリューション、栽培プロセス、自動化、データを開発・応用します。", ko: "생산 효율을 높이기 위해 기술, 생물학적 솔루션, 재배 공정, 자동화, 데이터를 개발하고 적용합니다.", "zh-TW": "開發並應用科技、生物解決方案、耕作流程、自動化與數據，以提升生產效益。" },
+  "Hoàn thiện giá trị nông sản thông qua sơ chế, bảo quản, chế biến và phát triển sản phẩm.": { en: "Completing agricultural value through processing, storage, manufacturing, and product development.", ja: "下処理、保管、加工、製品開発を通じて農産物の価値を高めます。", ko: "전처리, 보관, 가공, 제품 개발을 통해 농산물의 가치를 완성합니다.", "zh-TW": "透過初步處理、儲存、加工與產品開發，完善農產品的價值。" },
+  "Kết nối sản phẩm với khách hàng và thị trường, đồng thời đưa yêu cầu của thị trường trở lại quá trình nghiên cứu, phát triển sản phẩm và sản xuất.": { en: "Connecting products with customers and markets, while feeding market requirements back into research, product development, and production.", ja: "製品を顧客と市場に結びつけると同時に、市場の要求を研究・製品開発・生産プロセスへと還元します。", ko: "제품을 고객과 시장에 연결하는 동시에, 시장의 요구를 연구, 제품 개발, 생산 과정으로 다시 반영합니다.", "zh-TW": "將產品與顧客及市場連結，同時將市場需求回饋至研發、產品開發與生產流程。" },
+
+  // Corevalues (giới thiệu)
+  "Dẫn dắt, truyền cảm hứng và kiến tạo đội ngũ.": { en: "Leading, inspiring, and building the team.", ja: "導き、鼓舞し、チームを築く。", ko: "이끌고, 영감을 주며, 팀을 만들어갑니다.", "zh-TW": "引領、激勵並打造團隊。" },
+  "Là nền tảng phát triển và dẫn đầu.": { en: "The foundation for growth and leadership.", ja: "発展と先導の基盤となる。", ko: "성장과 선도의 토대가 됩니다.", "zh-TW": "作為成長與領先的基石。" },
+  "Để đi nhanh và đi xa bền vững.": { en: "To move fast and go far, sustainably.", ja: "速く、そして持続的に遠くまで進むために。", ko: "빠르게, 그리고 지속적으로 멀리 나아가기 위해.", "zh-TW": "為了走得快，也走得遠、走得永續。" },
+  "Từ con người và vì con người.": { en: "From people, for people.", ja: "人から生まれ、人のために。", ko: "사람으로부터, 사람을 위하여.", "zh-TW": "源於人，也為了人。" },
+
+  // Teammembers (giới thiệu) — tên riêng, giữ nguyên ở mọi ngôn ngữ
+  "Nguyễn Thị Lan Anh": { en: "Nguyễn Thị Lan Anh", ja: "Nguyễn Thị Lan Anh", ko: "Nguyễn Thị Lan Anh", "zh-TW": "Nguyễn Thị Lan Anh" },
+  "Trần Minh Hoàng": { en: "Trần Minh Hoàng", ja: "Trần Minh Hoàng", ko: "Trần Minh Hoàng", "zh-TW": "Trần Minh Hoàng" },
+  "Phạm Thị Bích Thu": { en: "Phạm Thị Bích Thu", ja: "Phạm Thị Bích Thu", ko: "Phạm Thị Bích Thu", "zh-TW": "Phạm Thị Bích Thu" },
+  "Lê Anh Đức": { en: "Lê Anh Đức", ja: "Lê Anh Đức", ko: "Lê Anh Đức", "zh-TW": "Lê Anh Đức" },
+  "Vũ Khánh Linh": { en: "Vũ Khánh Linh", ja: "Vũ Khánh Linh", ko: "Vũ Khánh Linh", "zh-TW": "Vũ Khánh Linh" },
+  "Đỗ Hoài Nam": { en: "Đỗ Hoài Nam", ja: "Đỗ Hoài Nam", ko: "Đỗ Hoài Nam", "zh-TW": "Đỗ Hoài Nam" },
+  "Hoàng Thị Diệu Mai": { en: "Hoàng Thị Diệu Mai", ja: "Hoàng Thị Diệu Mai", ko: "Hoàng Thị Diệu Mai", "zh-TW": "Hoàng Thị Diệu Mai" },
+
+  // Freshproduceshowcase (sản phẩm)
+  "Kiểm soát dư lượng": { en: "Residue Control", ja: "残留物管理", ko: "잔류물 관리", "zh-TW": "殘留物管控" },
+  "Từ nguồn giống, quy trình canh tác đến thu hoạch, sơ chế, đóng gói và bảo quản.": { en: "From seed source and farming practices to harvest, processing, packaging, and storage.", ja: "種苗の由来や栽培プロセスから、収穫、下処理、梱包、保管まで。", ko: "종자 출처와 재배 과정부터 수확, 전처리, 포장, 보관까지.", "zh-TW": "從種苗來源、耕作流程到採收、初步處理、包裝與儲存。" },
+  "Mỗi lô hàng có thể truy xuất từ vùng trồng, thời điểm thu hoạch đến đóng gói và giao hàng.": { en: "Every batch can be traced from the growing region and harvest time to packaging and delivery.", ja: "各ロットは、栽培地域や収穫時期から梱包・配送まで追跡可能です。", ko: "각 로트는 재배지와 수확 시점부터 포장과 배송까지 추적할 수 있습니다.", "zh-TW": "每批貨物皆可從種植區、採收時間追溯至包裝與交貨。" },
+  "Quản lý đầu vào, thời gian cách ly và giới hạn dư lượng theo yêu cầu của từng thị trường.": { en: "Managing inputs, pre-harvest intervals, and residue limits according to each market's requirements.", ja: "各市場の要求に応じて、投入資材、隔離期間、残留限度を管理します。", ko: "각 시장의 요구에 따라 투입재, 격리 기간, 잔류 한도를 관리합니다.", "zh-TW": "依各市場要求管理投入品、安全採收期與殘留限量。" },
+  "Kiểm soát quy cách, chất lượng sản phẩm và kế hoạch giao hàng theo yêu cầu của khách hàng.": { en: "Controlling specifications, product quality, and delivery schedules according to customer requirements.", ja: "顧客の要求に応じて、規格、製品品質、配送計画を管理します。", ko: "고객의 요구에 따라 규격, 제품 품질, 배송 계획을 관리합니다.", "zh-TW": "依客戶要求管控規格、產品品質與交貨計畫。" },
+
+  // Newproductannouncement (sản phẩm)
+  "Sản phẩm nông nghiệp mới nhất của Unifarm sắp được giới thiệu đến người tiêu dùng — canh tác theo quy trình khép kín, đảm bảo độ tươi ngon khi đến tay khách hàng.": { en: "Unifarm's newest agricultural product will soon be introduced to consumers — grown through a closed-loop process, ensuring freshness upon reaching customers.", ja: "ユニファーム最新の農産物がまもなく消費者にお披露目されます — 閉じたプロセスで栽培され、お客様に届く際の新鮮さを保証します。", ko: "유니팜의 최신 농산물이 곧 소비자에게 선보일 예정입니다 — 폐쇄형 공정으로 재배되어 고객에게 전달될 때의 신선함을 보장합니다.", "zh-TW": "Unifarm最新農產品即將與消費者見面——採閉環流程栽培，確保送達顧客手中時依然新鮮。" },
+
+  // Sanphamhero (sản phẩm)
+  "CHẤT LƯỢNG": { en: "QUALITY", ja: "品質", ko: "품질", "zh-TW": "品質" },
+  "AN TOÀN": { en: "SAFETY", ja: "安全", ko: "안전", "zh-TW": "安全" },
+  "TƯƠI NGON": { en: "FRESHNESS", ja: "新鮮さ", ko: "신선함", "zh-TW": "新鮮美味" },
+  "SINH HỌC & BỀN VỮNG": { en: "BIOLOGICAL & SUSTAINABLE", ja: "生物学的・持続可能", ko: "생물학적 & 지속 가능", "zh-TW": "生物科技與永續" },
+  "MỘT TIÊU CHUẨN SẢN PHẨM CHO MỌI THỊ TRƯỜNG": { en: "ONE PRODUCT STANDARD FOR EVERY MARKET", ja: "あらゆる市場に通じる一つの製品基準", ko: "모든 시장에 통하는 하나의 제품 기준", "zh-TW": "放諸所有市場皆準的單一產品標準" },
+  "AN TOÀN TỪ NÔNG TRẠI ĐẾN SẢN PHẨM": { en: "SAFETY FROM FARM TO PRODUCT", ja: "農場から製品まで安全", ko: "농장에서 제품까지 안전", "zh-TW": "從農場到產品的安全把關" },
+  "GIỮ TRỌN PHẨM CHẤT TỰ NHIÊN": { en: "PRESERVING FULL NATURAL QUALITY", ja: "自然の品質をそのまま保持", ko: "자연 그대로의 품질 유지", "zh-TW": "完整保留天然品質" },
+  "TỐT HƠN CHO CON NGƯỜI VÀ MÔI TRƯỜNG": { en: "BETTER FOR PEOPLE AND THE ENVIRONMENT", ja: "人と環境により良く", ko: "사람과 환경을 위해 더 나은", "zh-TW": "對人類與環境更友善" },
+  "Chất lượng sản phẩm được xây dựng thống nhất trong toàn hệ thống, dù phục vụ thị trường trong nước hay xuất khẩu.": { en: "Product quality is built consistently across the entire system, whether serving the domestic market or exports.", ja: "製品品質は、国内市場向けでも輸出向けでも、システム全体で一貫して構築されています。", ko: "제품 품질은 내수 시장이든 수출 시장이든 전체 시스템에서 일관되게 구축됩니다.", "zh-TW": "無論服務國內市場或出口，產品品質皆於整個體系中保持一致標準。" },
+  "Kiểm soát đầu vào, quá trình sản xuất và sau thu hoạch, đáp ứng các yêu cầu về an toàn thực phẩm và giới hạn dư lượng của từng thị trường.": { en: "Controlling inputs, the production process, and post-harvest handling, meeting each market's food safety requirements and residue limits.", ja: "投入資材、生産プロセス、収穫後の工程を管理し、各市場の食品安全要件と残留限度に対応します。", ko: "투입재, 생산 공정, 수확 후 과정을 관리하여 각 시장의 식품 안전 요건과 잔류 한도를 충족합니다.", "zh-TW": "管控投入品、生產流程與採後處理，符合各市場的食品安全要求與殘留限量標準。" },
+  "Từ lựa chọn giống, thời điểm thu hoạch đến sơ chế, đóng gói và bảo quản nhằm giữ được chất lượng và đặc tính tự nhiên của sản phẩm.": { en: "From variety selection and harvest timing to processing, packaging, and storage — to preserve the product's quality and natural characteristics.", ja: "品種の選定、収穫時期から、下処理、梱包、保管まで、製品の品質と自然な特性を保持します。", ko: "품종 선택과 수확 시기부터 전처리, 포장, 보관까지 제품의 품질과 자연스러운 특성을 유지합니다.", "zh-TW": "從品種選擇、採收時機到初步處理、包裝與儲存，完整保留產品的品質與天然特性。" },
+  "Tăng cường các giải pháp sinh học, giảm phụ thuộc vào hóa chất và chăm sóc sức khỏe cây trồng, đất và nước trong suốt quá trình sản xuất.": { en: "Strengthening biological solutions, reducing reliance on chemicals, and caring for the health of crops, soil, and water throughout production.", ja: "生物学的ソリューションを強化し、化学物質への依存を減らし、生産全体を通じて作物、土壌、水の健康に配慮します。", ko: "생물학적 솔루션을 강화하고 화학물질 의존도를 줄이며, 생산 전 과정에서 작물, 토양, 물의 건강을 돌봅니다.", "zh-TW": "強化生物解決方案、降低化學品依賴，並於整個生產過程中照護作物、土壤與水資源的健康。" },
+
+  // Applybenefits (tuyển dụng — trang chính)
+  "Cơ hội phát triển": { en: "Growth Opportunities", ja: "成長の機会", ko: "성장 기회", "zh-TW": "成長機會" },
+  "Thu nhập & ghi nhận": { en: "Income & Recognition", ja: "収入と評価", ko: "소득과 인정", "zh-TW": "收入與肯定" },
+  "Môi trường để học & làm thật": { en: "A Real Environment to Learn & Work", ja: "学びと実践の場", ko: "배우고 실전을 경험하는 환경", "zh-TW": "真實學習與實作的環境" },
+  "Đóng góp cho nông nghiệp": { en: "Contributing to Agriculture", ja: "農業への貢献", ko: "농업에 대한 기여", "zh-TW": "為農業貢獻心力" },
+  "Được học từ thực tế, nâng cao năng lực và có cơ hội phát triển theo con đường quản lý hoặc chuyên môn phù hợp với khả năng của mình.": { en: "Learn from real practice, build your capabilities, and grow along a management or specialist path suited to your abilities.", ja: "実践から学び、能力を高め、自分の力に合った管理職または専門職のキャリアパスで成長する機会を得られます。", ko: "실전에서 배우고 역량을 키우며, 자신의 역량에 맞는 관리직 또는 전문직 경로로 성장할 기회를 가질 수 있습니다.", "zh-TW": "從實務中學習、提升能力，並依個人能力選擇管理或專業路線發展。" },
+  "Năng lực, năng suất và giá trị tạo ra là cơ sở để mỗi người được ghi nhận và có thu nhập ngày càng tốt hơn.": { en: "Capability, productivity, and the value you create are the basis for recognition and steadily better income.", ja: "能力、生産性、そして生み出す価値が、一人ひとりが評価され、より良い収入を得るための基盤となります。", ko: "역량, 생산성, 그리고 창출하는 가치가 개개인이 인정받고 점점 더 나은 소득을 얻는 기반이 됩니다.", "zh-TW": "能力、生產力與創造的價值，是每個人獲得肯定並持續提升收入的依據。" },
+  "Làm việc trực tiếp với cây trồng, công nghệ, dữ liệu, chất lượng, sản xuất và thị trường; học từ những vấn đề thực tế mỗi ngày.": { en: "Work directly with crops, technology, data, quality, production, and the market; learning from real issues every day.", ja: "作物、技術、データ、品質、生産、市場と直接向き合い、日々の実際の課題から学びます。", ko: "작물, 기술, 데이터, 품질, 생산, 시장과 직접 일하며 매일 실제 문제로부터 배웁니다.", "zh-TW": "直接與作物、科技、數據、品質、生產及市場共事，每天從實際問題中學習。" },
+  "Mỗi công việc tại Unifarm đều góp phần tạo ra sản phẩm tốt hơn, cách làm nông nghiệp tốt hơn và những giá trị bền vững hơn cho người sản xuất, con người và môi trường.": { en: "Every job at Unifarm helps create better products, better farming practices, and more sustainable value for producers, people, and the environment.", ja: "ユニファームでのすべての仕事は、より良い製品、より良い農業のやり方、そして生産者、人、環境にとってより持続可能な価値を生み出すことに貢献します。", ko: "유니팜의 모든 업무는 더 나은 제품, 더 나은 농업 방식, 그리고 생산자, 사람, 환경을 위한 더 지속 가능한 가치를 만드는 데 기여합니다.", "zh-TW": "在Unifarm的每一份工作，都在為生產者、人類與環境，共同創造更好的產品、更好的農業方式與更永續的價值。" },
+
+  // Applyfaq (tuyển dụng — trang chính)
+  "Tôi có thể ứng tuyển những vị trí nào?": { en: "What positions can I apply for?", ja: "どのポジションに応募できますか？", ko: "어떤 직무에 지원할 수 있나요?", "zh-TW": "我可以應徵哪些職位？" },
+  "Các vị trí đang tuyển được cập nhật tại mục Cơ hội nghề nghiệp. Bạn có thể tìm theo lĩnh vực công việc, địa điểm, kinh nghiệm và yêu cầu của từng vị trí.": { en: "Open positions are updated in the Career Opportunities section. You can search by field, location, experience, and the requirements of each position.", ja: "募集中のポジションは「キャリア機会」セクションで更新されます。職種、勤務地、経験、各ポジションの要件で検索できます。", ko: "채용 중인 포지션은 ‘채용 기회’ 메뉴에서 업데이트됩니다. 직무 분야, 근무지, 경력, 각 포지션의 요건별로 검색할 수 있습니다.", "zh-TW": "職缺資訊於「職涯機會」頁面更新，您可依工作領域、地點、經驗及各職位要求搜尋。" },
+  "Tôi cần chuẩn bị gì để ứng tuyển?": { en: "What do I need to prepare to apply?", ja: "応募のために何を準備すればよいですか？", ko: "지원을 위해 무엇을 준비해야 하나요?", "zh-TW": "應徵前需要準備什麼？" },
+  "Hồ sơ và yêu cầu cụ thể được ghi tại từng vị trí. Với hầu hết vị trí, bạn có thể bắt đầu bằng việc gửi CV và thông tin liên hệ.": { en: "Specific application materials and requirements are listed with each position. For most positions, you can start by sending your CV and contact information.", ja: "必要書類と具体的な要件は各ポジションに記載されています。ほとんどのポジションでは、履歴書と連絡先情報を送ることから始められます。", ko: "필요 서류와 구체적인 요건은 각 포지션에 명시되어 있습니다. 대부분의 포지션은 이력서와 연락처 정보를 보내는 것으로 시작할 수 있습니다.", "zh-TW": "各職位皆載明所需資料與具體要求，多數職位只需先寄出履歷與聯絡方式即可開始。" },
+  "Tôi chưa có kinh nghiệm trong nông nghiệp, có thể ứng tuyển không?": { en: "I don't have experience in agriculture, can I still apply?", ja: "農業の経験がありませんが、応募できますか？", ko: "농업 경험이 없는데 지원할 수 있나요?", "zh-TW": "我沒有農業經驗，可以應徵嗎？" },
+  "Có nhiều công việc trong nông nghiệp cần kiến thức và kỹ năng từ những lĩnh vực khác. Điều quan trọng là yêu cầu cụ thể của từng vị trí và khả năng học hỏi để thích nghi với công việc.": { en: "Many jobs in agriculture require knowledge and skills from other fields. What matters most is each position's specific requirements and your ability to learn and adapt.", ja: "農業分野には、他分野の知識やスキルを必要とする仕事が数多くあります。重要なのは、各ポジションの具体的な要件と、仕事に適応するための学習意欲です。", ko: "농업 분야에는 다른 분야의 지식과 기술이 필요한 직무가 많습니다. 중요한 것은 각 포지션의 구체적인 요건과 업무에 적응하는 학습 능력입니다.", "zh-TW": "農業領域中有許多工作需要其他領域的知識與技能，重要的是各職位的具體要求，以及您的學習適應能力。" },
+  "Unifarm có tuyển sinh viên thực tập và người mới tốt nghiệp không?": { en: "Does Unifarm hire interns and recent graduates?", ja: "ユニファームはインターンや新卒者を採用していますか？", ko: "유니팜은 인턴과 신입 졸업생을 채용하나요?", "zh-TW": "Unifarm是否招募實習生與應屆畢業生？" },
+  "Các chương trình và vị trí phù hợp sẽ được công bố theo nhu cầu tuyển dụng từng thời điểm.": { en: "Suitable programs and positions are announced based on hiring needs at each point in time.", ja: "適切なプログラムやポジションは、その時々の採用ニーズに応じて発表されます。", ko: "적합한 프로그램과 포지션은 시기별 채용 수요에 따라 공지됩니다.", "zh-TW": "相關計畫與職缺將依各時期的招聘需求公告。" },
+  "Làm việc tại nông trường có được hỗ trợ chỗ ở và đi lại không?": { en: "Is housing and transportation support provided for working at the farm?", ja: "農場での勤務には住居や交通のサポートがありますか？", ko: "농장에서 근무 시 숙소와 교통 지원이 있나요?", "zh-TW": "在農場工作是否提供住宿與交通協助？" },
+  "Tùy địa điểm và vị trí công việc, Unifarm có thể có các chính sách hỗ trợ khác nhau. Thông tin cụ thể sẽ được trao đổi trong quá trình tuyển dụng.": { en: "Depending on the location and position, Unifarm may offer different support policies. Specific details will be discussed during the recruitment process.", ja: "勤務地やポジションに応じて、ユニファームは異なる支援制度を設けている場合があります。具体的な内容は採用プロセスの中でご案内します。", ko: "근무지와 직무에 따라 유니팜은 다양한 지원 정책을 운영할 수 있습니다. 구체적인 내용은 채용 과정에서 안내해 드립니다.", "zh-TW": "依地點與職位不同，Unifarm可能提供不同的支援政策，詳細內容將於招聘過程中說明。" },
+  "Tôi có thể phát triển nghề nghiệp tại Unifarm như thế nào?": { en: "How can I develop my career at Unifarm?", ja: "ユニファームでどのようにキャリアを築けますか？", ko: "유니팜에서 어떻게 커리어를 발전시킬 수 있나요?", "zh-TW": "我在Unifarm可以如何發展職涯？" },
+  "Unifarm định hướng phát triển theo cả con đường quản lý và con đường chuyên môn. Bạn có thể tìm hiểu chi tiết tại trang Nghề nghiệp tại Unifarm.": { en: "Unifarm offers development along both a management path and a specialist path. You can learn more on the Careers at Unifarm page.", ja: "ユニファームは管理職ルートと専門職ルートの両方でキャリア開発を支援しています。詳しくは「ユニファームでのキャリア」ページをご覧ください。", ko: "유니팜은 관리직 경로와 전문직 경로 모두로 성장을 지원합니다. 자세한 내용은 ‘유니팜에서의 커리어’ 페이지에서 확인하실 수 있습니다.", "zh-TW": "Unifarm同時提供管理與專業兩條發展路線，詳情請見「在Unifarm的職涯」頁面。" },
+
+  // Applyprocess (tuyển dụng — trang chính)
+  "Trao đổi ban đầu": { en: "Initial Conversation", ja: "初回の対話", ko: "초기 상담", "zh-TW": "初步交流" },
+  "Đánh giá năng lực": { en: "Capability Assessment", ja: "能力評価", ko: "역량 평가", "zh-TW": "能力評估" },
+  "Thống nhất công việc": { en: "Finalizing the Role", ja: "業務内容の合意", ko: "업무 조건 확정", "zh-TW": "確認工作內容" },
+  "Hội nhập": { en: "Onboarding", ja: "オンボーディング", ko: "온보딩", "zh-TW": "融入適應" },
+  "Chọn vị trí phù hợp và gửi hồ sơ trực tiếp trên website hoặc qua kênh tuyển dụng của Unifarm.": { en: "Choose a suitable position and submit your application directly on the website or through Unifarm's recruitment channels.", ja: "ご希望のポジションを選び、ウェブサイトまたはユニファームの採用チャネルから直接応募してください。", ko: "적합한 포지션을 선택하여 웹사이트 또는 유니팜 채용 채널을 통해 직접 지원하세요.", "zh-TW": "選擇合適的職位，直接透過網站或Unifarm招聘管道遞交履歷。" },
+  "Unifarm tìm hiểu về kinh nghiệm, năng lực và mong muốn của ứng viên; đồng thời giúp ứng viên hiểu rõ hơn về công việc và môi trường làm việc.": { en: "Unifarm learns about the candidate's experience, abilities, and expectations, while also helping the candidate better understand the job and work environment.", ja: "ユニファームは候補者の経験、能力、希望を把握すると同時に、業務や職場環境についての理解を深めていただきます。", ko: "유니팜은 지원자의 경험, 역량, 희망 사항을 파악하는 동시에 지원자가 업무와 근무 환경을 더 잘 이해하도록 돕습니다.", "zh-TW": "Unifarm了解應徵者的經驗、能力與期望，同時協助應徵者更深入了解工作內容與職場環境。" },
+  "Tùy từng vị trí, ứng viên có thể được phỏng vấn chuyên môn, thực hành hoặc trải nghiệm công việc thực tế.": { en: "Depending on the position, candidates may undergo a technical interview, a practical test, or hands-on job experience.", ja: "ポジションに応じて、専門面接、実技、または実際の業務体験が行われる場合があります。", ko: "포지션에 따라 전문 면접, 실무 테스트 또는 실제 업무 체험이 진행될 수 있습니다.", "zh-TW": "依職位不同，應徵者可能需接受專業面試、實作測驗或實際工作體驗。" },
+  "Hai bên trao đổi rõ về công việc, trách nhiệm, địa điểm làm việc, thu nhập và các điều kiện liên quan trước khi nhận việc.": { en: "Both sides clearly discuss the job, responsibilities, work location, income, and related conditions before the candidate starts.", ja: "入社前に、業務内容、責任範囲、勤務地、収入、関連条件について双方で明確にすり合わせます。", ko: "입사 전 업무, 책임, 근무지, 소득 및 관련 조건에 대해 양측이 명확히 논의합니다.", "zh-TW": "到職前雙方明確溝通工作內容、職責、工作地點、薪資及相關條件。" },
+  "Làm quen với công việc, đội ngũ, quy trình và các yêu cầu về an toàn để bắt đầu công việc tại Unifarm.": { en: "Getting familiar with the job, the team, processes, and safety requirements to start working at Unifarm.", ja: "ユニファームでの業務を始めるにあたり、仕事、チーム、業務プロセス、安全要件に慣れていただきます。", ko: "유니팜에서 업무를 시작하기 위해 업무, 팀, 프로세스 및 안전 요건에 익숙해집니다.", "zh-TW": "熟悉工作內容、團隊、流程與安全規範，正式展開在Unifarm的工作。" },
+
+  // Feedbackbox (tuyển dụng — trang chính)
+  "Vị trí tuyển dụng": { en: "Job Position", ja: "募集職種", ko: "채용 직무", "zh-TW": "招聘職位" },
+  "Công việc": { en: "Job", ja: "仕事内容", ko: "업무", "zh-TW": "工作內容" },
+  "Nơi làm việc": { en: "Workplace", ja: "勤務地", ko: "근무지", "zh-TW": "工作地點" },
+  "Thu nhập & phúc lợi": { en: "Income & Benefits", ja: "収入・福利厚生", ko: "소득 및 복지", "zh-TW": "收入與福利" },
+
+  // Joblistings (tuyển dụng — trang chính) — tỉnh/thành & lĩnh vực công việc
+  "Hà Nội": { en: "Hanoi", ja: "ハノイ", ko: "하노이", "zh-TW": "河內" },
+  "TP. Hồ Chí Minh": { en: "Ho Chi Minh City", ja: "ホーチミン市", ko: "호찌민시", "zh-TW": "胡志明市" },
+  "Cà Mau": { en: "Ca Mau", ja: "カマウ省", ko: "까마우성", "zh-TW": "金甌省" },
+  "Bắc Ninh": { en: "Bac Ninh", ja: "バクニン省", ko: "박닌성", "zh-TW": "北寧省" },
+  "Thái Nguyên": { en: "Thai Nguyen", ja: "タイグエン省", ko: "타이응우옌성", "zh-TW": "太原省" },
+  "Cần Thơ": { en: "Can Tho", ja: "カントー市", ko: "껀터시", "zh-TW": "芹苴市" },
+  "Cao Bằng": { en: "Cao Bang", ja: "カオバン省", ko: "까오방성", "zh-TW": "高平省" },
+  "Đà Nẵng": { en: "Da Nang", ja: "ダナン市", ko: "다낭시", "zh-TW": "峴港市" },
+  "Đắk Lắk": { en: "Dak Lak", ja: "ダクラク省", ko: "닥락성", "zh-TW": "多樂省" },
+  "Điện Biên": { en: "Dien Bien", ja: "ディエンビエン省", ko: "디엔비엔성", "zh-TW": "奠邊省" },
+  "Đồng Nai": { en: "Dong Nai", ja: "ドンナイ省", ko: "동나이성", "zh-TW": "同奈省" },
+  "Đồng Tháp": { en: "Dong Thap", ja: "ドンタップ省", ko: "동탑성", "zh-TW": "同塔省" },
+  "Hà Tĩnh": { en: "Ha Tinh", ja: "ハティン省", ko: "하띤성", "zh-TW": "河靜省" },
+  "Hải Phòng": { en: "Hai Phong", ja: "ハイフォン市", ko: "하이퐁시", "zh-TW": "海防市" },
+  "Hưng Yên": { en: "Hung Yen", ja: "フンイエン省", ko: "흥옌성", "zh-TW": "興安省" },
+  "Khánh Hòa": { en: "Khanh Hoa", ja: "カインホア省", ko: "카인호아성", "zh-TW": "慶和省" },
+  "Lai Châu": { en: "Lai Chau", ja: "ライチャウ省", ko: "라이쩌우성", "zh-TW": "萊州省" },
+  "Lâm Đồng": { en: "Lam Dong", ja: "ラムドン省", ko: "럼동성", "zh-TW": "林同省" },
+  "Lạng Sơn": { en: "Lang Son", ja: "ランソン省", ko: "랑선성", "zh-TW": "諒山省" },
+  "Lào Cai": { en: "Lao Cai", ja: "ラオカイ省", ko: "라오까이성", "zh-TW": "老街省" },
+  "Nghệ An": { en: "Nghe An", ja: "ゲアン省", ko: "응에안성", "zh-TW": "乂安省" },
+  "Ninh Bình": { en: "Ninh Binh", ja: "ニンビン省", ko: "닌빈성", "zh-TW": "寧平省" },
+  "Phú Thọ": { en: "Phu Tho", ja: "フート省", ko: "푸토성", "zh-TW": "富壽省" },
+  "Quảng Ngãi": { en: "Quang Ngai", ja: "クアンガイ省", ko: "꽝응아이성", "zh-TW": "廣義省" },
+  "Quảng Ninh": { en: "Quang Ninh", ja: "クアンニン省", ko: "꽝닌성", "zh-TW": "廣寧省" },
+  "Quảng Trị": { en: "Quang Tri", ja: "クアンチ省", ko: "꽝찌성", "zh-TW": "廣治省" },
+  "Sơn La": { en: "Son La", ja: "ソンラ省", ko: "선라성", "zh-TW": "山羅省" },
+  "Tây Ninh": { en: "Tay Ninh", ja: "タイニン省", ko: "떠이닌성", "zh-TW": "西寧省" },
+  "Thanh Hóa": { en: "Thanh Hoa", ja: "タインホア省", ko: "타인호아성", "zh-TW": "清化省" },
+  "Huế": { en: "Hue", ja: "フエ市", ko: "후에시", "zh-TW": "順化市" },
+  "Tuyên Quang": { en: "Tuyen Quang", ja: "トゥエンクアン省", ko: "뚜옌꽝성", "zh-TW": "宣光省" },
+  "Vĩnh Long": { en: "Vinh Long", ja: "ヴィンロン省", ko: "빈롱성", "zh-TW": "永隆省" },
+  "Lĩnh vực công việc": { en: "Work Field", ja: "職種分野", ko: "직무 분야", "zh-TW": "工作領域" },
+  "Khoa học & Công nghệ": { en: "Science & Technology", ja: "科学・技術", ko: "과학 및 기술", "zh-TW": "科學與科技" },
+  "Kinh doanh & Thị trường": { en: "Business & Market", ja: "営業・市場", ko: "영업 및 시장", "zh-TW": "業務與市場" },
+  "Chuỗi cung ứng": { en: "Supply Chain", ja: "サプライチェーン", ko: "공급망", "zh-TW": "供應鏈" },
+  "Tài chính": { en: "Finance", ja: "財務", ko: "재무", "zh-TW": "財務" },
+  "Nhân sự": { en: "Human Resources", ja: "人事", ko: "인사", "zh-TW": "人力資源" },
+  "Công nghệ thông tin": { en: "Information Technology", ja: "情報技術", ko: "정보기술", "zh-TW": "資訊科技" },
+
+  // Kynangthunhap (nghe-nghiep)
+  "GIÁ TRỊ": { en: "VALUE", ja: "価値", ko: "가치", "zh-TW": "價值" },
+
+  // Lotrinh (nghe-nghiep)
+  "Làm tốt công việc": { en: "Do the Job Well", ja: "仕事をしっかりこなす", ko: "맡은 일을 잘 해내다", "zh-TW": "把工作做好" },
+  "Dẫn dắt đội nhóm": { en: "Lead the Team", ja: "チームを率いる", ko: "팀을 이끌다", "zh-TW": "帶領團隊" },
+  "Quản lý": { en: "Manage", ja: "マネジメント", ko: "관리", "zh-TW": "管理" },
+  "Lãnh đạo": { en: "Lead", ja: "リーダーシップ", ko: "리더십", "zh-TW": "領導" },
+  "Chuyên gia": { en: "Expert", ja: "専門家", ko: "전문가", "zh-TW": "專家" },
+  "Đào tạo người khác": { en: "Train Others", ja: "他者を育成する", ko: "다른 사람을 육성하다", "zh-TW": "培訓他人" },
+
+  // Nghechuyennghiep (nghe-nghiep)
+  "Người chăm sóc cây hiểu cây, đất và nước.": { en: "A plant caretaker understands plants, soil, and water.", ja: "栽培担当者は、植物・土・水を理解しています。", ko: "작물을 돌보는 사람은 식물, 흙, 물을 이해합니다.", "zh-TW": "照顧作物的人了解植物、土壤與水。" },
+  "Người bán hàng hiểu sản phẩm và tiêu chuẩn.": { en: "A salesperson understands the product and its standards.", ja: "販売担当者は、製品と基準を理解しています。", ko: "판매 담당자는 제품과 기준을 이해합니다.", "zh-TW": "銷售人員了解產品與標準。" },
+  "Người quản lý hiểu công việc, con người và hiệu quả.": { en: "A manager understands the work, the people, and efficiency.", ja: "管理者は、業務、人、そして効率を理解しています。", ko: "관리자는 업무, 사람, 효율성을 이해합니다.", "zh-TW": "管理者了解工作、人員與效率。" },
+  "Dù làm công việc gì, điều quan trọng là hiểu nghề, giỏi nghề và tạo ra giá trị từ công việc mình làm.": { en: "Whatever the job, what matters is understanding your craft, mastering it, and creating value from the work you do.", ja: "どんな仕事であっても、大切なのはその仕事を理解し、極め、自分の仕事から価値を生み出すことです。", ko: "어떤 일을 하든 중요한 것은 그 일을 이해하고, 능숙해지며, 자신이 하는 일에서 가치를 만들어내는 것입니다.", "zh-TW": "無論從事什麼工作，重要的是理解專業、精通專業，並從自己的工作中創造價值。" },
+
+  // Nghenghiepherobanner (nghe-nghiep)
+  "Cây trồng": { en: "Crops", ja: "作物", ko: "작물", "zh-TW": "作物" },
+  "Thị trường": { en: "Market", ja: "市場", ko: "시장", "zh-TW": "市場" },
+
+  // Vongtrontrithuc (nghe-nghiep)
+  "Học từ thực tế tại nông trại.": { en: "Learning from real practice on the farm.", ja: "農場での実践から学ぶ。", ko: "농장에서 실전으로 배우다.", "zh-TW": "在農場中從實務學習。" },
+  "Đưa những bài toán thực tế vào nhà trường.": { en: "Bringing real-world problems into the classroom.", ja: "現場の課題を学校に持ち込む。", ko: "현장의 과제를 학교로 가져오다.", "zh-TW": "將實際問題帶入校園。" },
+  "Đưa tri thức trở lại với người nông dân.": { en: "Bringing knowledge back to farmers.", ja: "知識を農家のもとへ還元する。", ko: "지식을 다시 농민에게 전하다.", "zh-TW": "將知識帶回農民身邊。" },
+
+  // ProductDetailPanel (sản phẩm) — tình trạng cung ứng
+  "Đang cung ứng": { en: "In Supply", ja: "供給中", ko: "공급 중", "zh-TW": "供應中" },
+  "Sắp có hàng": { en: "Coming Soon", ja: "入荷予定", ko: "입고 예정", "zh-TW": "即將到貨" },
+  "Tạm hết hàng": { en: "Temporarily Out of Stock", ja: "一時品切れ", ko: "일시 품절", "zh-TW": "暫時缺貨" },
+
+  // Smartfarminglanding (trang chủ)
+  " triệu+": { en: " million+", ja: " 百万+", ko: " 백만+", "zh-TW": " 百萬+" },
+
+  // Ecosystemmodel (giới thiệu) — tên địa danh
+  "Dầu Tiếng": { en: "Dau Tieng", ja: "ダウティエン", ko: "더우띠엥", "zh-TW": "油鎮" },
+  "Phú Giáo": { en: "Phu Giao", ja: "フザオ", ko: "푸자오", "zh-TW": "富教" },
+  "Đồng Phú": { en: "Dong Phu", ja: "ドンフー", ko: "동푸", "zh-TW": "同富" },
+  "Phước Hòa": { en: "Phuoc Hoa", ja: "フックホア", ko: "푹호아", "zh-TW": "福和" },
+
+  // Categoryshowcase (sản phẩm)
+  "Chuối tươi": { en: "Fresh Banana", ja: "生バナナ", ko: "생바나나", "zh-TW": "新鮮香蕉" },
+  "Dứa": { en: "Pineapple", ja: "パイナップル", ko: "파인애플", "zh-TW": "鳳梨" },
+  "12 sản phẩm": { en: "12 products", ja: "12製品", ko: "제품 12종", "zh-TW": "12項產品" },
+  "Sản phẩm chế biến từ nông sản": { en: "Processed Agricultural Products", ja: "農産物加工製品", ko: "농산물 가공 제품", "zh-TW": "農產加工產品" },
+
+  // DuanTruCot (dự án & hợp tác) — nội dung chi tiết từng trụ cột
+  "BẮT ĐẦU TỪ MỘT GIỐNG PHÙ HỢP": { en: "IT STARTS WITH THE RIGHT VARIETY", ja: "適切な品種から始まる", ko: "적합한 품종에서 시작하다", "zh-TW": "從合適的品種開始" },
+  "Nghiên cứu và tuyển chọn giống phù hợp với điều kiện tự nhiên, mục tiêu canh tác và nhu cầu thị trường.": { en: "Researching and selecting varieties suited to natural conditions, farming goals, and market demand.", ja: "自然条件、栽培目標、市場ニーズに適した品種を研究・選抜します。", ko: "자연 조건, 재배 목표, 시장 수요에 맞는 품종을 연구하고 선발합니다.", "zh-TW": "研究並篩選符合自然條件、耕作目標與市場需求的品種。" },
+  "Phát triển và nhân giống nhằm tạo nguồn cây giống phục vụ sản xuất ổn định và phát triển vùng nguyên liệu.": { en: "Developing and propagating varieties to create a stable seedling source for production and growing-region development.", ja: "安定した生産と原料産地の発展に資する苗木供給源を生み出すため、品種の開発・増殖を行います。", ko: "안정적인 생산과 원료 산지 발전을 위한 묘목 공급원을 만들기 위해 품종을 개발하고 번식시킵니다.", "zh-TW": "開發並繁殖品種，為穩定生產與原料產區發展建立種苗來源。" },
+  "KIỂM CHỨNG TRONG THỰC TẾ SẢN XUẤT": { en: "VERIFIED IN REAL PRODUCTION", ja: "実際の生産で実証", ko: "실제 생산에서 검증", "zh-TW": "於實際生產中驗證" },
+  "Triển khai giống, công nghệ và quy trình canh tác trong điều kiện sản xuất thực tế.": { en: "Deploying varieties, technology, and farming processes under real production conditions.", ja: "実際の生産条件下で品種、技術、栽培プロセスを展開します。", ko: "실제 생산 조건에서 품종, 기술, 재배 공정을 적용합니다.", "zh-TW": "在實際生產條件下導入品種、技術與耕作流程。" },
+  "Theo dõi, đánh giá và hoàn thiện quy trình để hướng đến hiệu quả, tính ổn định và khả năng nhân rộng.": { en: "Monitoring, evaluating, and refining the process toward efficiency, stability, and scalability.", ja: "効率性、安定性、拡大可能性を目指し、プロセスを追跡・評価・改善します。", ko: "효율성, 안정성, 확장 가능성을 목표로 공정을 모니터링, 평가 및 개선합니다.", "zh-TW": "朝向效益、穩定性與可複製推廣的目標，持續追蹤、評估並優化流程。" },
+  "GIỮ VÀ GIA TĂNG GIÁ TRỊ NÔNG SẢN": { en: "PRESERVING AND ADDING VALUE TO PRODUCE", ja: "農産物の価値を守り、高める", ko: "농산물의 가치를 지키고 더하다", "zh-TW": "守護並提升農產品價值" },
+  "Phát triển các giải pháp sau thu hoạch và chế biến phù hợp với đặc tính từng loại nông sản.": { en: "Developing post-harvest and processing solutions suited to the characteristics of each type of produce.", ja: "各農産物の特性に合わせた収穫後・加工ソリューションを開発します。", ko: "각 농산물의 특성에 맞는 수확 후 및 가공 솔루션을 개발합니다.", "zh-TW": "依各類農產品特性，開發合適的採後與加工解決方案。" },
+  "Hướng đến duy trì chất lượng, đa dạng hóa ứng dụng và nâng cao giá trị nông sản trong chuỗi cung ứng.": { en: "Aiming to maintain quality, diversify applications, and raise the value of produce across the supply chain.", ja: "品質の維持、用途の多様化、サプライチェーン全体での農産物価値の向上を目指します。", ko: "품질 유지, 활용 다각화, 공급망 전반의 농산물 가치 향상을 목표로 합니다.", "zh-TW": "致力於維持品質、多元化應用，並提升農產品於供應鏈中的價值。" },
+  "BIẾN KINH NGHIỆM THỰC TẾ THÀNH GIẢI PHÁP CÓ THỂ NHÂN RỘNG": { en: "TURNING REAL EXPERIENCE INTO SCALABLE SOLUTIONS", ja: "実践経験を拡大可能なソリューションへ", ko: "실전 경험을 확장 가능한 솔루션으로", "zh-TW": "將實務經驗轉化為可推廣的解決方案" },
+  "Chuẩn hóa giống, công nghệ, quy trình và mô hình dựa trên kinh nghiệm triển khai thực tế.": { en: "Standardizing varieties, technology, processes, and models based on real-world implementation experience.", ja: "実際の導入経験に基づき、品種、技術、プロセス、モデルを標準化します。", ko: "실제 적용 경험을 바탕으로 품종, 기술, 공정, 모델을 표준화합니다.", "zh-TW": "根據實際落實經驗，標準化品種、技術、流程與模式。" },
+  "Đồng hành cùng nông dân, hợp tác xã và doanh nghiệp trong quá trình tiếp nhận, ứng dụng và phát triển mô hình.": { en: "Accompanying farmers, cooperatives, and businesses through adopting, applying, and developing the model.", ja: "農家、協同組合、企業と共に、モデルの受け入れ、適用、発展のプロセスに寄り添います。", ko: "농민, 협동조합, 기업과 함께 모델의 도입, 적용, 발전 과정을 함께합니다.", "zh-TW": "陪伴農民、合作社與企業，共同經歷模式的採納、應用與發展過程。" },
+  "ĐƯA SẢN PHẨM ĐẾN ĐÚNG THỊ TRƯỜNG": { en: "BRINGING PRODUCTS TO THE RIGHT MARKET", ja: "製品を適切な市場へ", ko: "제품을 올바른 시장으로", "zh-TW": "將產品送達正確的市場" },
+  "Kết nối nhu cầu thị trường với năng lực sản xuất và nguồn cung nông sản.": { en: "Connecting market demand with production capacity and the supply of agricultural produce.", ja: "市場ニーズと生産能力、農産物の供給源を結びつけます。", ko: "시장 수요와 생산 역량, 농산물 공급원을 연결합니다.", "zh-TW": "將市場需求與生產能力及農產品供應相連結。" },
+  "Cùng đối tác định hướng sản phẩm, tiêu chuẩn chất lượng và kế hoạch cung ứng phù hợp với thị trường mục tiêu.": { en: "Working with partners to shape products, quality standards, and supply plans suited to the target market.", ja: "パートナーと共に、目標市場に適した製品、品質基準、供給計画の方向性を定めます。", ko: "파트너와 함께 목표 시장에 맞는 제품, 품질 기준, 공급 계획의 방향을 설정합니다.", "zh-TW": "與夥伴共同規劃符合目標市場的產品方向、品質標準與供應計畫。" },
+  "Nghiên cứu và sản xuất giống": { en: "Seed Research and Production", ja: "品種の研究と生産", ko: "종자 연구 및 생산", "zh-TW": "種苗研究與生產" },
+  "Chế biến và gia tăng giá trị": { en: "Processing and Value Addition", ja: "加工と付加価値向上", ko: "가공 및 가치 증대", "zh-TW": "加工與加值" },
+
+  // Lotrinh (nghe-nghiep)
+  "Chuyên môn": { en: "Specialization", ja: "専門分野", ko: "전문 분야", "zh-TW": "專業領域" },
+
+  // Competitivecapability (giới thiệu) — TAGS
+  "Tiêu chuẩn": { en: "Standards", ja: "基準", ko: "기준", "zh-TW": "標準" },
+  "Truy xuất nguồn gốc": { en: "Traceability", ja: "トレーサビリティ", ko: "원산지 추적", "zh-TW": "產地溯源" },
+  "Định hướng nông nghiệp sinh học và bền vững": { en: "A Biological and Sustainable Agriculture Direction", ja: "生物学的かつ持続可能な農業への方向性", ko: "생물학적이고 지속 가능한 농업 지향", "zh-TW": "朝向生物科技與永續農業發展" },
 };

@@ -15,6 +15,7 @@ import CoreValues from "@/components/gioi-thieu/Corevalues";
 import PhilosophySection from "@/components/gioi-thieu/Philosophysection";
 import StatsSectionPreview from "@/components/gioi-thieu/Statssectionpreview";
 import EarthWaterBannerPreview from "@/components/gioi-thieu/Earthwaterbannerpreview";
+import CompetitiveCapability from "@/components/gioi-thieu/Competitivecapability";
 import EcosystemModel from "@/components/gioi-thieu/Ecosystemmodel";
 import AgriTechPillars from "@/components/gioi-thieu/Agritechpillars";
 import TimelineJourney from "@/components/gioi-thieu/Timelinejourney";
@@ -53,13 +54,14 @@ export default async function GioiThieuPage() {
       {/* <PhilosophySection /> */}
       <TimelineJourney milestones={milestones} />
       
-      <EarthWaterBannerPreview />
-      <StatsSectionPreview />
+      {/* <EarthWaterBannerPreview /> */}
+      <CompetitiveCapability />
+      {/* <StatsSectionPreview /> */}
       
       <EcosystemModel />
       
       {/* <TeamMembers /> */}
-      <AgriTechPillars />
+      {/* <AgriTechPillars /> */}
       {/* <CompanyJourney /> */}
       
 

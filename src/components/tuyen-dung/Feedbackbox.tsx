@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircleHeart, Lock, Send, CheckCircle2 } from "lucide-react";
+import { MessageCircleHeart, Send, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const CATEGORIES = [
-  "Môi trường làm việc",
-  "Phúc lợi",
-  "Quy trình",
-  "Văn hoá",
+  "Vị trí tuyển dụng",
+  "Công việc",
+  "Nơi làm việc",
+  "Thu nhập & phúc lợi",
+  "Cơ hội phát triển",
   "Khác",
 ];
 
@@ -28,6 +29,8 @@ function FloatingIcon({ children }: { children: React.ReactNode }) {
 export default function FeedbackBox() {
   const { t } = useLanguage();
   const [category, setCategory] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -36,14 +39,21 @@ export default function FeedbackBox() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!name.trim() || !contact.trim() || !message.trim()) return;
     setError("");
     setSubmitting(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source: "feedback", category: category || "", message, website }),
+        body: JSON.stringify({
+          source: "contact",
+          name,
+          email: contact,
+          category: category || "",
+          message,
+          website,
+        }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -59,6 +69,8 @@ export default function FeedbackBox() {
   };
 
   const handleReset = () => {
+    setName("");
+    setContact("");
     setMessage("");
     setCategory(null);
     setSubmitted(false);
@@ -84,32 +96,18 @@ export default function FeedbackBox() {
               <FloatingIcon>
                 <MessageCircleHeart size={18} />
               </FloatingIcon>
-              {t("Ý kiến của bạn")}
+              {t("Trao đổi với Unifarm")}
             </p>
 
             <h2 className="mt-2 text-2xl font-extrabold uppercase leading-snug text-white sm:text-3xl lg:text-4xl">
-              {t("Bạn muốn Unifarm tốt hơn ở điều gì?")}
+              {t("Bạn còn điều gì muốn biết?")}
             </h2>
 
-            <p className="mt-4 text-base font-semibold text-white/90">
-              {t("Hãy nói với chúng tôi.")}
-            </p>
-
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-white/70 sm:text-[15px]">
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70 sm:text-[15px]">
               {t(
-                "Mọi góp ý đều được tiếp nhận và bảo mật danh tính. Mỗi góc nhìn là một cơ hội để Unifarm tốt hơn."
+                "Bạn muốn hiểu thêm về một vị trí, nơi làm việc, môi trường, cơ hội phát triển hay cuộc sống tại nông trường? Hãy gửi câu hỏi cho Unifarm."
               )}
             </p>
-
-            <div className="mt-6 inline-flex items-start gap-3 rounded-xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur-sm">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFFACD] text-[#06301B]">
-                <Lock size={14} />
-              </span>
-              <p className="text-xs leading-relaxed text-white/75 sm:text-sm">
-                {t("Đây là nơi tiếp nhận đóng góp trực tiếp về Unifarm từ nhân viên — bạn")}{" "}
-                <span className="font-semibold text-white">{t("không cần")}</span> {t("để lại danh tính.")}
-              </p>
-            </div>
           </motion.div>
 
           {/* Right — form card */}
@@ -148,7 +146,7 @@ export default function FeedbackBox() {
                   />
                   <div>
                     <p className="text-sm font-semibold text-[#06301B]">
-                      {t("Chủ đề góp ý")} <span className="font-normal text-[#06301B]/40">{t("(không bắt buộc)")}</span>
+                      {t("Chủ đề")} <span className="font-normal text-[#06301B]/40">{t("(không bắt buộc)")}</span>
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {CATEGORIES.map((c) => {
@@ -171,9 +169,40 @@ export default function FeedbackBox() {
                     </div>
                   </div>
 
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="feedback-name" className="text-sm font-semibold text-[#06301B]">
+                        {t("Họ và tên")}
+                      </label>
+                      <input
+                        id="feedback-name"
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder={t("Nguyễn Văn A")}
+                        className="mt-2 w-full rounded-xl border border-[#06301B]/15 bg-white p-4 text-sm text-[#06301B] outline-none transition-all duration-200 placeholder:text-[#06301B]/35 focus:border-[#06301B] focus:ring-4 focus:ring-[#06301B]/10 sm:text-[15px]"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="feedback-contact" className="text-sm font-semibold text-[#06301B]">
+                        {t("Email / Số điện thoại")}
+                      </label>
+                      <input
+                        id="feedback-contact"
+                        type="text"
+                        required
+                        value={contact}
+                        onChange={(e) => setContact(e.target.value)}
+                        placeholder={t("Email hoặc số điện thoại")}
+                        className="mt-2 w-full rounded-xl border border-[#06301B]/15 bg-white p-4 text-sm text-[#06301B] outline-none transition-all duration-200 placeholder:text-[#06301B]/35 focus:border-[#06301B] focus:ring-4 focus:ring-[#06301B]/10 sm:text-[15px]"
+                      />
+                    </div>
+                  </div>
+
                   <div>
                     <label htmlFor="feedback-message" className="text-sm font-semibold text-[#06301B]">
-                      {t("Góp ý của bạn")}
+                      {t("Câu hỏi của bạn")}
                     </label>
                     <textarea
                       id="feedback-message"
@@ -181,7 +210,7 @@ export default function FeedbackBox() {
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder={t("Chia sẻ điều bạn nghĩ Unifarm có thể làm tốt hơn…")}
+                      placeholder={t("Chia sẻ điều bạn muốn biết thêm về Unifarm…")}
                       className="mt-2 w-full resize-none rounded-xl border border-[#06301B]/15 bg-white p-4 text-sm leading-relaxed text-[#06301B] outline-none transition-all duration-200 placeholder:text-[#06301B]/35 focus:border-[#06301B] focus:ring-4 focus:ring-[#06301B]/10 sm:text-[15px]"
                     />
                   </div>
@@ -196,7 +225,7 @@ export default function FeedbackBox() {
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#FFFACD] px-6 py-3.5 text-sm font-semibold text-[#06301B] transition-all hover:gap-3 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:gap-2 disabled:hover:scale-100 sm:w-auto sm:px-8"
                   >
                     <Send size={16} />
-                    {submitting ? t("Đang gửi…") : t("Gửi góp ý ẩn danh")}
+                    {submitting ? t("Đang gửi…") : t("Gửi câu hỏi")}
                   </button>
                 </motion.form>
               ) : (
@@ -218,11 +247,11 @@ export default function FeedbackBox() {
                   </motion.span>
 
                   <h3 className="uppercase mt-5 text-lg font-bold text-[#06301B]">
-                    {t("Cảm ơn bạn đã chia sẻ!")}
+                    {t("Cảm ơn bạn đã gửi câu hỏi!")}
                   </h3>
                   <p className="mt-2 max-w-xs text-sm leading-relaxed text-[#06301B]/60">
                     {t(
-                      "Góp ý của bạn đã được ghi nhận ẩn danh. Đây chính là cách Unifarm tốt hơn mỗi ngày."
+                      "Unifarm đã nhận được câu hỏi của bạn và sẽ liên hệ lại sớm nhất có thể."
                     )}
                   </p>
 
@@ -231,7 +260,7 @@ export default function FeedbackBox() {
                     onClick={handleReset}
                     className="mt-6 text-sm font-semibold text-[#006400] transition-colors hover:text-[#06301B] hover:underline underline-offset-4"
                   >
-                    {t("Gửi thêm góp ý khác")}
+                    {t("Gửi câu hỏi khác")}
                   </button>
                 </motion.div>
               )}

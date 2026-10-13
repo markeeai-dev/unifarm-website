@@ -9,7 +9,7 @@ const MODELS = [
   {
     icon: GraduationCap,
     title: "Đưa Học Viên Đến Nông Trại",
-    desc: "Đưa sinh viên, học viên đến nơi các bài toán thực tế đang diễn ra trên cánh đồng.",
+    desc: "Học từ thực tế tại nông trại.",
     color: "#006400",
     glow: "rgba(0,100,0,0.22)",
     image: "/images/UNIFARM/DJI_20260805085036_0330_D.JPG",
@@ -17,7 +17,7 @@ const MODELS = [
   {
     icon: Sprout,
     title: "Đưa Nông Trại Vào Giảng Đường",
-    desc: "Đưa dữ liệu, mẫu vật và bài toán thực tế của farm vào giảng đường, viện nghiên cứu.",
+    desc: "Đưa những bài toán thực tế vào nhà trường.",
     color: "#0B7A0B",
     glow: "rgba(11,122,11,0.22)",
     image: "/images/UNIFARM/16.JPG",
@@ -25,24 +25,42 @@ const MODELS = [
   {
     icon: Users,
     title: "Đưa Tri Thức Về Cộng Đồng",
-    desc: "Đưa giống tốt, kỹ thuật chuẩn và tri thức quản trị trở lại cộng đồng người nông dân.",
+    desc: "Đưa tri thức trở lại với người nông dân.",
     color: "#006400",
     glow: "rgba(0,100,0,0.22)",
     image: "/images/UNIFARM/2.jpg",
   },
 ];
 
+/* Vị trí 3 thẻ dạng tam giác + vòng tròn liên kết ở giữa (chỉ desktop ≥ lg).
+   Toạ độ trừu tượng 0-1000, map sang % khi render — xem cách làm tương tự ở
+   Competitivecapability.tsx (trang Sản phẩm). */
+const TRIANGLE_POS = [
+  { left: 50, top: 27 }, // trên
+  { left: 20, top: 76 }, // dưới trái
+  { left: 80, top: 76 }, // dưới phải
+] as const;
+const CIRCLE_CENTER = { left: 50, top: 60 };
+const CIRCLE_R = 32; // % của chiều rộng container
+
 export default function VongTronTriThuc() {
   const { t } = useLanguage();
   return (
-    <section className="bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <Reveal className="mx-auto max-w-2xl text-center" duration={1}>
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#006400]">
-            {t("Đào tạo & Cộng đồng")}
-          </p>
-          <h2 className="uppercase mt-2 text-2xl font-extrabold leading-snug text-[#06301B] sm:text-3xl lg:text-4xl">
-            {t("Vòng Tròn Tri Thức: Trường – Nông Trại – Làng")}
+    <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16 lg:py-24">
+      <div className="pointer-events-none absolute -left-32 top-0 h-[420px] w-[420px] rounded-full bg-[#FFFACD]/50 blur-[110px]" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[420px] w-[420px] rounded-full bg-[#87CEFA]/15 blur-[110px]" />
+
+      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10">
+        <Reveal className="text-center" duration={1}>
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#006400]/20 bg-white/70 px-4 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#006400] backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#006400]" />
+            {t("Học từ thực tế")}
+          </span>
+          <h2
+            className="uppercase mt-5 whitespace-nowrap font-extrabold leading-snug tracking-tight text-[#06301B]"
+            style={{ fontSize: "clamp(0.68rem, 2.55vw, 2.25rem)" }}
+          >
+            {t("Trường Trong Nông Trại – Nông Trại Trong Trường")}
           </h2>
         </Reveal>
 
@@ -88,11 +106,72 @@ export default function VongTronTriThuc() {
                 ))}
                 <div className="w-px shrink-0" aria-hidden />
               </div>
-              <div className="mt-10 hidden gap-6 sm:grid sm:grid-cols-3 lg:mt-14">
+
+              {/* Tablet — lưới 3 cột như trước. */}
+              <div className="mt-10 hidden gap-6 sm:grid sm:grid-cols-3 lg:hidden">
                 {MODELS.map((m, i) => (
                   <Reveal key={m.title} delay={i * 0.1} duration={1}>
                     {modelCard(m, i)}
                   </Reveal>
+                ))}
+              </div>
+
+              {/* Desktop — 3 thẻ xếp tam giác, vòng tròn tri thức nối giữa. */}
+              <div className="relative mt-16 hidden lg:block" style={{ height: 760 }}>
+                {/* Vòng tròn + đường nối — vẽ trong hệ toạ độ 0-1000, khớp % vị trí thẻ */}
+                <svg viewBox="0 0 1000 1000" className="pointer-events-none absolute inset-0 h-full w-full overflow-visible">
+                  <circle
+                    cx={CIRCLE_CENTER.left * 10}
+                    cy={CIRCLE_CENTER.top * 10}
+                    r={CIRCLE_R * 10}
+                    fill="none"
+                    stroke="#006400"
+                    strokeOpacity={0.18}
+                    strokeWidth={3}
+                    strokeDasharray="10 10"
+                  />
+                  {TRIANGLE_POS.map((p, i) => {
+                    const next = TRIANGLE_POS[(i + 1) % TRIANGLE_POS.length];
+                    return (
+                      <line
+                        key={i}
+                        x1={p.left * 10}
+                        y1={p.top * 10}
+                        x2={next.left * 10}
+                        y2={next.top * 10}
+                        stroke="#0B7A0B"
+                        strokeOpacity={0.22}
+                        strokeWidth={2.5}
+                        strokeDasharray="3 9"
+                        strokeLinecap="round"
+                      />
+                    );
+                  })}
+                </svg>
+
+                {/* Icon vòng tròn ở tâm — biểu tượng "vòng tròn tri thức" */}
+                <div
+                  className="absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: `${CIRCLE_CENTER.left}%`, top: `${CIRCLE_CENTER.top}%` }}
+                >
+                  <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-[#006400]/20 blur-2xl" style={{ width: 90, height: 90, left: -13, top: -13 }} />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_14px_30px_-10px_rgba(0,60,20,0.3)] ring-4 ring-[#fffde7]">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#006400] text-white">
+                      <GraduationCap size={18} strokeWidth={1.8} />
+                    </span>
+                  </div>
+                </div>
+
+                {MODELS.map((m, i) => (
+                  <div
+                    key={m.title}
+                    className="absolute w-[320px] -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${TRIANGLE_POS[i].left}%`, top: `${TRIANGLE_POS[i].top}%` }}
+                  >
+                    <Reveal delay={i * 0.12} duration={1}>
+                      {modelCard(m, i)}
+                    </Reveal>
+                  </div>
                 ))}
               </div>
             </>

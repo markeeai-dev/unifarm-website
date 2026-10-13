@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Info, Image as ImageIcon, FileText, ListChecks, ShieldCheck, Trash2, Plus, Eye } from "lucide-react";
+import { Info, Image as ImageIcon, FileText, ListChecks, ShieldCheck, Trash2, Plus, Eye, MapPin } from "lucide-react";
 import type { Product, SpecField } from "@/lib/db";
 import { SingleImageUploader, GalleryUploader } from "@/components/admin/ImageUploader";
 import RichTextEditor from "@/components/admin/RichTextEditor";
@@ -21,6 +21,11 @@ type FormValues = {
   description: string;
   specs: SpecField[];
   commitments: string;
+  origin: string;
+  season: string;
+  packaging: string;
+  storage: string;
+  supply_status: string;
   sort_order: number;
 };
 
@@ -38,6 +43,11 @@ export default function ProductForm({ product }: { product?: Product }) {
     description: product?.description ?? "",
     specs: product?.specs ?? [],
     commitments: product?.commitments?.join("\n") ?? "",
+    origin: product?.origin ?? "",
+    season: product?.season ?? "",
+    packaging: product?.packaging ?? "",
+    storage: product?.storage ?? "",
+    supply_status: product?.supply_status ?? "",
     sort_order: product?.sort_order ?? 0,
   });
   const [saving, setSaving] = useState(false);
@@ -79,6 +89,11 @@ export default function ProductForm({ product }: { product?: Product }) {
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean),
+        origin: values.origin,
+        season: values.season,
+        packaging: values.packaging,
+        storage: values.storage,
+        supply_status: values.supply_status,
         sort_order: values.sort_order,
       };
 
@@ -129,6 +144,11 @@ export default function ProductForm({ product }: { product?: Product }) {
     commitments: previewCommitments,
     image: values.image,
     gallery: values.gallery,
+    origin: values.origin,
+    season: values.season,
+    packaging: values.packaging,
+    storage: values.storage,
+    supply_status: values.supply_status,
   };
   const previewCategoryLabel = CATEGORIES.find((c) => c.id === values.category)?.label ?? null;
 
@@ -227,6 +247,60 @@ export default function ProductForm({ product }: { product?: Product }) {
           minHeight={260}
           required
         />
+      </Card>
+
+      <Card
+        icon={<MapPin size={18} strokeWidth={2} />}
+        title="Chi tiết bổ sung"
+        hint="Chỉ hiển thị trên trang chi tiết khi có dữ liệu thật — để trống sẽ tự ẩn, không mặc định/bịa nội dung."
+      >
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Field label="Xuất xứ / Vùng trồng">
+            <input
+              value={values.origin}
+              onChange={(e) => set("origin", e.target.value)}
+              placeholder="VD: An Thái, Phú Giáo, Bình Dương"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Mùa vụ">
+            <input
+              value={values.season}
+              onChange={(e) => set("season", e.target.value)}
+              placeholder="VD: Quanh năm / Tháng 3 - Tháng 8"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Đóng gói">
+            <input
+              value={values.packaging}
+              onChange={(e) => set("packaging", e.target.value)}
+              placeholder="VD: Thùng carton 18kg"
+              className={inputClass}
+            />
+          </Field>
+          <Field label="Bảo quản">
+            <input
+              value={values.storage}
+              onChange={(e) => set("storage", e.target.value)}
+              placeholder="VD: 13°C - 15°C, nơi khô ráo"
+              className={inputClass}
+            />
+          </Field>
+        </div>
+        <Field label="Tình trạng cung ứng" hint="Cũng hiển thị dạng nhãn nhỏ trên thẻ sản phẩm">
+          <select
+            value={values.supply_status}
+            onChange={(e) => set("supply_status", e.target.value)}
+            className={inputClass}
+          >
+            <option value="">— Chưa xác định —</option>
+            <option value="Đang cung ứng">Đang cung ứng</option>
+            <option value="Theo mùa vụ">Theo mùa vụ</option>
+            <option value="Sắp có hàng">Sắp có hàng</option>
+            <option value="Tạm hết hàng">Tạm hết hàng</option>
+          </select>
+        </Field>
       </Card>
 
       <Card icon={<ListChecks size={18} strokeWidth={2} />} title="Bảng thông số">

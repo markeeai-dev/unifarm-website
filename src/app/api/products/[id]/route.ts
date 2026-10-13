@@ -12,6 +12,11 @@ const PRODUCT_TRANSLATE_SPEC: EntitySpec = {
   description: { kind: "string" },
   specs: { kind: "object[]", keys: ["label", "value"] },
   commitments: { kind: "string[]" },
+  origin: { kind: "string" },
+  season: { kind: "string" },
+  packaging: { kind: "string" },
+  storage: { kind: "string" },
+  supply_status: { kind: "string" },
 };
 
 export async function GET(
@@ -50,6 +55,11 @@ export async function PATCH(
     description,
     specs,
     commitments,
+    origin,
+    season,
+    packaging,
+    storage,
+    supply_status,
     sort_order,
   } = body;
 
@@ -67,7 +77,7 @@ export async function PATCH(
   }
 
   const translations = await translateEntity(
-    { name, subtitle, standard, description, specs, commitments },
+    { name, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status },
     PRODUCT_TRANSLATE_SPEC
   );
 
@@ -84,6 +94,11 @@ export async function PATCH(
       description = ${description || ""},
       specs = ${JSON.stringify(specs || [])}::jsonb,
       commitments = ${JSON.stringify(commitments || [])}::jsonb,
+      origin = ${origin || ""},
+      season = ${season || ""},
+      packaging = ${packaging || ""},
+      storage = ${storage || ""},
+      supply_status = ${supply_status || ""},
       translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${Number(sort_order) || 0},
       updated_at = now()

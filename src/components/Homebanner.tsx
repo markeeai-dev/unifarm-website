@@ -144,8 +144,8 @@ export default function HomeBanner() {
       </div>
 
       {/* Nội dung — đổi theo từng slide */}
-      <div className="relative z-20 mx-auto flex w-full max-w-[1500px] items-center px-5 py-24 sm:px-8 lg:px-32">
-        <div className="w-full max-w-[720px]">
+      <div className="relative z-20 mx-auto flex w-full max-w-[1600px] items-center px-5 py-24 sm:px-8 lg:px-32">
+        <div className="w-full max-w-[1100px]">
           <div key={index} className={`banner-entrance banner-entrance--${textStyle}`}>
             <span
               className="banner-entrance-item inline-flex items-center rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-sm"

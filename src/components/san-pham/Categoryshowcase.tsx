@@ -30,12 +30,18 @@ type Category = {
 
 const CATEGORIES: Category[] = [
   {
-    id: 'fresh-fruit',
-    title: 'Trái cây tươi',
+    id: 'fresh-banana',
+    title: 'Chuối tươi',
     count: '24 sản phẩm',
-    image:
-      'https://mms.img.susercontent.com/vn-11134513-7r98o-lsv5ridqeobd3f@resize_ss1242x600!@crop_w1242_h600_cT',
+    image: '/images/UNIFARM/UNIFARM/hinh-chinh/chuoi-tuoi.jpg',
     Icon: Cherry,
+  },
+  {
+    id: 'fresh-pineapple',
+    title: 'Dứa',
+    count: '12 sản phẩm',
+    image: '/images/products/dua-1.png',
+    Icon: Wheat,
   },
   {
     id: 'tissue-culture',
@@ -47,19 +53,11 @@ const CATEGORIES: Category[] = [
   },
   {
     id: 'processed',
-    title: 'Sản phẩm chế biến',
+    title: 'Sản phẩm chế biến từ nông sản',
     count: '16 sản phẩm',
     image:
       '/images/products/chuoi-dl.webp',
     Icon: GlassWater,
-  },
-  {
-    id: 'other',
-    title: 'Khác',
-    count: '10 sản phẩm',
-    image:
-      'https://i.ex-cdn.com/danviet.vn/files/content/2026/04/08/dua-212209.jpg',
-    Icon: Wheat,
   },
 ];
 
@@ -130,6 +128,12 @@ function CategoryCard({
   return (
     <a
       href={`#${category.id}`}
+      onClick={(e) => {
+        e.preventDefault();
+        window.history.replaceState(null, '', `#${category.id}`);
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+        document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+      }}
       className="
         group relative block overflow-hidden
         h-[220px] sm:h-[320px] md:h-[420px]

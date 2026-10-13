@@ -21,7 +21,7 @@ const CORE_VALUES = [
   {
     key: "tien-phong",
     title: "Tiên phong",
-    desc: "Luôn đặt chuẩn cao nhất cho tất cả thị trường về an toàn, trung thực, khả năng truy xuất và trách nhiệm.",
+    desc: "Dẫn dắt, truyền cảm hứng và kiến tạo đội ngũ.",
     color: "#2E86C1",
     icon: Compass,
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787241249309_1582751505492234802_4935324150679931320_5796821ad794969b4257804d1d917521.jpg",
@@ -29,7 +29,7 @@ const CORE_VALUES = [
   {
     key: "sang-tao",
     title: "Sáng tạo",
-    desc: "Lấy nhu cầu thị trường để quay lại thiết kế giống, sản phẩm và quy trình sản xuất.",
+    desc: "Là nền tảng phát triển và dẫn đầu.",
     color: "#2E8B57",
     icon: Sparkles,
     image: "/images/UNIFARM/chuoi.jpg",
@@ -37,7 +37,7 @@ const CORE_VALUES = [
   {
     key: "hop-tac",
     title: "Hợp tác",
-    desc: "Hệ sinh thái chỉ bền vững khi khách hàng, doanh nghiệp, người lao động và người sản xuất đều tạo ra giá trị kinh tế.",
+    desc: "Để đi nhanh và đi xa bền vững.",
     color: "#178A80",
     icon: Handshake,
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032314_1582751505492234802_4935324150679931320_4304a0fc22944be026df21ac68e180ec.jpg",
@@ -45,7 +45,7 @@ const CORE_VALUES = [
   {
     key: "nhan-van",
     title: "Nhân văn",
-    desc: "Không ngừng quan sát, thử nghiệm có đối chứng, đo lường và cải tiến liên tục vì con người.",
+    desc: "Từ con người và vì con người.",
     color: "#C9642F",
     icon: HeartHandshake,
     image: "/images/UNIFARM/UNIFARM/hinh-chinh/nhan-van.jpg",

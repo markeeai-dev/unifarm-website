@@ -15,7 +15,7 @@ import { sql, type Job } from "@/lib/db";
 export const metadata: Metadata = {
   title: "Tuyển dụng | Unifarm",
   description:
-    "Gia nhập Unifarm — hệ sinh thái nông nghiệp công nghệ cao. Xem các vị trí đang tuyển, lộ trình phát triển từ Intern đến Senior và quyền lợi khi trở thành một phần của đội ngũ.",
+    "Gia nhập Unifarm — hệ sinh thái nông nghiệp công nghệ cao. Xem các vị trí đang tuyển, quy trình tuyển dụng và quyền lợi khi trở thành một phần của đội ngũ.",
 };
 
 export default async function TuyenDungPage() {

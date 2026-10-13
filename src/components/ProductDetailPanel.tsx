@@ -52,62 +52,55 @@ export const QUALITY_COMMITMENTS = [
 
 type ProductLike = Pick<
   Product,
-  'id' | 'name' | 'subtitle' | 'standard' | 'category' | 'description' | 'specs' | 'commitments' | 'image' | 'gallery'
+  | 'id'
+  | 'name'
+  | 'subtitle'
+  | 'standard'
+  | 'category'
+  | 'description'
+  | 'specs'
+  | 'commitments'
+  | 'image'
+  | 'gallery'
+  | 'origin'
+  | 'season'
+  | 'packaging'
+  | 'storage'
+  | 'supply_status'
 >;
 
-/** Nhãn chứng nhận ngắn theo từng danh mục — dùng `standard` (dữ liệu thật)
- * nếu có, ngược lại rơi về mặc định theo danh mục. */
-export function getCertBadge(p: Pick<Product, 'standard' | 'category'>, t: (text: string) => string = (s) => s) {
-  if (p.standard) return p.standard;
-  switch (p.category) {
-    case 'fresh':
-      return t('Đạt tiêu chuẩn xuất khẩu');
-    case 'seedling':
-      return t('Đạt chuẩn cây giống sạch bệnh');
-    case 'processed':
-      return t('Đạt chuẩn an toàn thực phẩm');
+/** Nhãn tình trạng cung ứng — màu theo ý nghĩa (đang có hàng / theo mùa vụ /
+ * sắp có / tạm hết), chỉ hiển thị khi có dữ liệu thật. */
+export function getSupplyStatusTone(status: string): { bg: string; text: string } {
+  switch (status) {
+    case 'Đang cung ứng':
+      return { bg: '#e8f5e9', text: '#1b6b2e' };
+    case 'Sắp có hàng':
+      return { bg: '#e8f0fe', text: '#1a56b0' };
+    case 'Tạm hết hàng':
+      return { bg: '#fdeaea', text: '#b3261e' };
     default:
-      return t('Đạt tiêu chuẩn chất lượng cao');
+      return { bg: '#fff8e1', text: '#8a6d00' };
   }
 }
 
-/** Bảng thông số kỹ thuật — dùng `specs` (dữ liệu thật) nếu có, ngược lại rơi về
- * bảng mặc định ngắn gọn theo từng nhóm sản phẩm. */
+/** Nhãn chứng nhận/tiêu chuẩn — CHỈ hiển thị khi sản phẩm có `standard` thật
+ * do admin nhập (vd. GlobalG.A.P, VietGAP...). Không bịa mặc định theo danh
+ * mục: không phải sản phẩm nào cũng có cùng một chứng nhận. Trả về chuỗi
+ * rỗng nếu chưa có dữ liệu thật — nơi gọi cần tự ẩn khi rỗng. */
+export function getCertBadge(p: Pick<Product, 'standard' | 'category'>, t: (text: string) => string = (s) => s) {
+  void t;
+  return p.standard || '';
+}
+
+/** Bảng thông số kỹ thuật — CHỈ dùng `specs` thật do admin nhập. Không bịa
+ * thông số mặc định theo danh mục (vd. "Độ ngọt 13-16", "Mùa vụ: Quanh năm"
+ * áp cho mọi sản phẩm) — trả về mảng rỗng nếu chưa có dữ liệu thật, nơi gọi
+ * cần tự ẩn bảng khi rỗng. */
 export function getProductSpecs(
-  p: Pick<Product, 'specs' | 'category' | 'name'>,
-  t: (text: string) => string = (s) => s
+  p: Pick<Product, 'specs'>
 ): { label: string; value: string }[] {
-  if (p.specs && p.specs.length > 0) return p.specs;
-  switch (p.category) {
-    case 'fresh':
-      return [
-        { label: t('Giống'), value: p.name },
-        { label: t('Độ ngọt (Brix)'), value: t('13 - 16') },
-        { label: t('Mùa vụ'), value: t('Quanh năm') },
-        { label: t('Năng suất'), value: t('60 - 70 tấn/hecta') },
-      ];
-    case 'seedling':
-      return [
-        { label: t('Giống'), value: p.name },
-        { label: t('Tỷ lệ sống'), value: t('≥ 95%') },
-        { label: t('Thời gian xuất vườn'), value: t('45 - 60 ngày') },
-        { label: t('Quy mô cung ứng'), value: t('Số lượng lớn theo đơn hàng') },
-      ];
-    case 'processed':
-      return [
-        { label: t('Sản phẩm'), value: p.name },
-        { label: t('Hạn sử dụng'), value: t('12 tháng') },
-        { label: t('Đóng gói'), value: t('Túi/hộp tiêu chuẩn xuất khẩu') },
-        { label: t('Chứng nhận'), value: t('An toàn thực phẩm') },
-      ];
-    default:
-      return [
-        { label: t('Sản phẩm'), value: p.name },
-        { label: t('Xuất xứ'), value: t('Sản xuất trong nước') },
-        { label: t('Bảo hành'), value: t('Theo chính sách nhà cung cấp') },
-        { label: t('Đóng gói'), value: t('Theo quy cách tiêu chuẩn') },
-      ];
-  }
+  return p.specs && p.specs.length > 0 ? p.specs : [];
 }
 
 /** 3 ảnh cho gallery ở bảng chi tiết — dùng `gallery` (ảnh thật) nếu có,
@@ -182,9 +175,11 @@ export function ProductDetailPanel({
       )}
       <h3 className="uppercase text-xl font-extrabold text-neutral-900 sm:text-2xl">{product.name || '—'}</h3>
       {product.subtitle && <p className="mt-1 text-sm font-semibold text-neutral-500">{product.subtitle}</p>}
-      <p className="mb-4 mt-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#006400] sm:text-sm">
-        <ShieldCheckIcon className="h-4 w-4" /> {getCertBadge(product, t)}
-      </p>
+      {getCertBadge(product, t) && (
+        <p className="mb-4 mt-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#006400] sm:text-sm">
+          <ShieldCheckIcon className="h-4 w-4" /> {getCertBadge(product, t)}
+        </p>
+      )}
 
       <div
         className="prose-product mb-5 text-sm leading-relaxed text-neutral-600"
@@ -193,23 +188,74 @@ export function ProductDetailPanel({
 
       <hr className="mb-5 border-neutral-100" />
 
-      <p className="mb-2 text-sm font-bold text-neutral-900">{t('Bảng thông số')}</p>
-      <div className="mb-5 overflow-hidden rounded-lg border border-neutral-200">
-        <table className="w-full table-fixed text-left text-xs sm:text-sm">
-          <tbody>
-            <tr className="bg-[#006400]/5">
-              <th className="w-1/2 px-3 py-2 font-semibold text-neutral-700">{t('Đặc tính')}</th>
-              <th className="px-3 py-2 font-semibold text-neutral-700">{t('Chi tiết sản phẩm')}</th>
-            </tr>
-            {getProductSpecs(product, t).map((row, i) => (
-              <tr key={row.label} className={i % 2 === 0 ? 'bg-white' : 'bg-[#87cefa]/5'}>
-                <td className="px-3 py-2 text-neutral-500">{row.label}</td>
-                <td className="px-3 py-2 font-medium text-neutral-800">{row.value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {(() => {
+        const specRows = getProductSpecs(product);
+        if (specRows.length === 0) return null;
+        return (
+          <>
+            <p className="mb-2 text-sm font-bold text-neutral-900">{t('Bảng thông số')}</p>
+            <div className="mb-5 overflow-hidden rounded-lg border border-neutral-200">
+              <table className="w-full table-fixed text-left text-xs sm:text-sm">
+                <tbody>
+                  <tr className="bg-[#006400]/5">
+                    <th className="w-1/2 px-3 py-2 font-semibold text-neutral-700">{t('Đặc tính')}</th>
+                    <th className="px-3 py-2 font-semibold text-neutral-700">{t('Chi tiết sản phẩm')}</th>
+                  </tr>
+                  {specRows.map((row, i) => (
+                    <tr key={row.label} className={i % 2 === 0 ? 'bg-white' : 'bg-[#87cefa]/5'}>
+                      <td className="px-3 py-2 text-neutral-500">{row.label}</td>
+                      <td className="px-3 py-2 font-medium text-neutral-800">{row.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        );
+      })()}
+
+      {(product.origin || product.season || product.packaging || product.storage || product.supply_status) && (
+        <div className="mb-5 grid grid-cols-1 gap-x-4 gap-y-2.5 rounded-lg border border-neutral-200 p-3.5 text-xs sm:grid-cols-2 sm:text-sm">
+          {product.origin && (
+            <p>
+              <span className="font-semibold text-neutral-700">{t('Xuất xứ / Vùng trồng')}: </span>
+              <span className="text-neutral-600">{product.origin}</span>
+            </p>
+          )}
+          {product.season && (
+            <p>
+              <span className="font-semibold text-neutral-700">{t('Mùa vụ')}: </span>
+              <span className="text-neutral-600">{product.season}</span>
+            </p>
+          )}
+          {product.packaging && (
+            <p>
+              <span className="font-semibold text-neutral-700">{t('Đóng gói')}: </span>
+              <span className="text-neutral-600">{product.packaging}</span>
+            </p>
+          )}
+          {product.storage && (
+            <p>
+              <span className="font-semibold text-neutral-700">{t('Bảo quản')}: </span>
+              <span className="text-neutral-600">{product.storage}</span>
+            </p>
+          )}
+          {product.supply_status && (
+            <p className="sm:col-span-2">
+              <span className="font-semibold text-neutral-700">{t('Khả năng cung ứng')}: </span>
+              <span
+                className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold"
+                style={{
+                  backgroundColor: getSupplyStatusTone(product.supply_status).bg,
+                  color: getSupplyStatusTone(product.supply_status).text,
+                }}
+              >
+                {t(product.supply_status)}
+              </span>
+            </p>
+          )}
+        </div>
+      )}
 
       <p className="mb-3 text-sm font-bold text-neutral-900">{t('Cam kết chất lượng')}</p>
       <div className="mb-6 grid grid-cols-3 gap-3">

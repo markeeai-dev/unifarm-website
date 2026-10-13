@@ -29,7 +29,7 @@ export default function NgheNghiepPage() {
         <KyNangThuNhap />
         <VongTronTriThuc />
         <TimViTri />
-        <NgheNghiepFAQ />
+        {/* <NgheNghiepFAQ /> */}
         <NgheNghiepCTA />
       </main>
       <Footer />

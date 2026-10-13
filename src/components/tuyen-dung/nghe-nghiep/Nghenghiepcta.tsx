@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Leaf } from "lucide-react";
+import { Leaf } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "../Reveal";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
@@ -51,20 +51,8 @@ export default function NgheNghiepCTA() {
             {t("Bắt đầu hành trình")}
           </p>
           <h2 className="uppercase mt-4 text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
-            {t("Grow Something That Matters Cùng Unifarm")}
+            {t("Cùng xây dựng một nền nông nghiệp hiện đại, bền vững và có trách nhiệm.")}
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/70">
-            {t(
-              "Gia nhập đội ngũ để cùng xây dựng một nền nông nghiệp hiện đại, chuyên nghiệp và tử tế."
-            )}
-          </p>
-          <a
-            href="mailto:tuyendung@unifarm.com"
-            className="group mt-8 inline-flex items-center gap-3 rounded-lg bg-[#FFFACD] px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-[#06301B] shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-400 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_16px_40px_rgba(0,0,0,0.32)]"
-          >
-            {t("Nộp Hồ Sơ Ứng Tuyển")}
-            <ArrowRight size={16} className="transition-transform duration-400 group-hover:translate-x-1" />
-          </a>
         </Reveal>
       </div>
     </section>

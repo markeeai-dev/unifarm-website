@@ -11,35 +11,35 @@ const STEPS = [
   {
     icon: FileText,
     title: "Nộp hồ sơ",
-    desc: "Gửi CV qua email hoặc bấm Ứng tuyển ngay tại vị trí bạn quan tâm.",
+    desc: "Chọn vị trí phù hợp và gửi hồ sơ trực tiếp trên website hoặc qua kênh tuyển dụng của Unifarm.",
     color: "#006400",
     glow: "rgba(0,100,0,0.25)",
   },
   {
     icon: MessageCircle,
-    title: "Sàng lọc & phỏng vấn sơ bộ",
-    desc: "Trao đổi nhanh 15-20 phút để hiểu mong muốn và định hướng của bạn.",
+    title: "Trao đổi ban đầu",
+    desc: "Unifarm tìm hiểu về kinh nghiệm, năng lực và mong muốn của ứng viên; đồng thời giúp ứng viên hiểu rõ hơn về công việc và môi trường làm việc.",
     color: "#006400",
     glow: "rgba(0,100,0,0.25)",
   },
   {
     icon: Target,
-    title: "Thử thách thực tế",
-    desc: "Trải nghiệm 3-5 ngày cùng đội ngũ tại nhà máy hoặc vùng nguyên liệu.",
+    title: "Đánh giá năng lực",
+    desc: "Tùy từng vị trí, ứng viên có thể được phỏng vấn chuyên môn, thực hành hoặc trải nghiệm công việc thực tế.",
     color: "#0B7A0B",
     glow: "rgba(11,122,11,0.25)",
   },
   {
     icon: Handshake,
-    title: "Phỏng vấn chuyên sâu & Offer",
-    desc: "Trao đổi cùng quản lý trực tiếp, nhận đề nghị làm việc rõ ràng.",
+    title: "Thống nhất công việc",
+    desc: "Hai bên trao đổi rõ về công việc, trách nhiệm, địa điểm làm việc, thu nhập và các điều kiện liên quan trước khi nhận việc.",
     color: "#006400",
     glow: "rgba(0,100,0,0.25)",
   },
   {
     icon: Rocket,
-    title: "Onboarding & hội nhập",
-    desc: "Được mentor đồng hành trong tuần đầu tiên để bắt nhịp công việc.",
+    title: "Hội nhập",
+    desc: "Làm quen với công việc, đội ngũ, quy trình và các yêu cầu về an toàn để bắt đầu công việc tại Unifarm.",
     color: "#0B7A0B",
     glow: "rgba(11,122,11,0.25)",
   },
@@ -133,15 +133,9 @@ export default function ApplyProcess() {
             />
 
             <h2 className="uppercase text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
-              {t("Quy trình tuyển dụng")}
+              {t("Từ ứng tuyển đến ngày đầu tiên đi làm")}
             </h2>
           </div>
-
-          <p className="mt-3 text-sm leading-relaxed text-white sm:text-base">
-            {t(
-              "5 bước rõ ràng, minh bạch — từ lúc bạn nộp hồ sơ đến ngày đầu tiên đi làm cùng chúng tôi."
-            )}
-          </p>
         </Reveal>
 
         {/* Mobile / tablet — vertical timeline of cards */}

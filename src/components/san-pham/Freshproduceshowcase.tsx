@@ -40,22 +40,22 @@ type Feature = {
 const FEATURES: Feature[] = [
   {
     title: 'Kiểm soát xuyên suốt',
-    desc: 'Từ nguồn giống, kỹ thuật chăm sóc buồng, bao buồng đến thu hoạch và chuỗi lạnh.',
+    desc: 'Từ nguồn giống, quy trình canh tác đến thu hoạch, sơ chế, đóng gói và bảo quản.',
     icon: 'sprout',
   },
   {
-    title: 'Truy xuất nguồn gốc 2 chiều',
-    desc: 'Một thùng hàng phải kể được câu chuyện từ lô vườn, ngày cắt đến nhà đóng gói.',
+    title: 'Truy xuất nguồn gốc',
+    desc: 'Mỗi lô hàng có thể truy xuất từ vùng trồng, thời điểm thu hoạch đến đóng gói và giao hàng.',
     icon: 'search',
   },
   {
-    title: 'Quản lý dư lượng MRL nghiêm ngặt',
-    desc: 'Tuân thủ chính xác yêu cầu dư lượng tối đa cho phép của từng quốc gia nhập khẩu.',
+    title: 'Kiểm soát dư lượng',
+    desc: 'Quản lý đầu vào, thời gian cách ly và giới hạn dư lượng theo yêu cầu của từng thị trường.',
     icon: 'basket',
   },
   {
     title: 'Độ đồng đều & Kỷ luật giao hàng',
-    desc: 'Đảm bảo đúng quy cách kích thước, độ ngọt, trọng lượng thùng và lịch giao hàng.',
+    desc: 'Kiểm soát quy cách, chất lượng sản phẩm và kế hoạch giao hàng theo yêu cầu của khách hàng.',
     icon: 'wheat',
   },
 ];
@@ -135,7 +135,7 @@ function SectionTitle({ visible }: { visible: boolean }) {
         {t('Tiêu chuẩn Unifarm')}
       </p>
       <h2 className="mt-1 text-2xl font-extrabold uppercase tracking-wide text-neutral-900 sm:text-3xl lg:text-[38px]">
-        {t('Chất Lượng Được Xây Dựng Từ Hệ Thống')}
+        {t('Chất lượng được xây dựng từ hệ thống')}
       </h2>
     </div>
   );

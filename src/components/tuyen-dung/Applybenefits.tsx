@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  GraduationCap,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-  Wallet,
   FlaskConical,
+  Sprout,
+  TrendingUp,
+  Wallet,
 } from "lucide-react";
 import Image from "next/image";
 import Reveal from "./Reveal";
@@ -24,46 +22,32 @@ type Benefit = {
 
 const BENEFITS: Benefit[] = [
   {
-    icon: Wallet,
-    title: "Lương thưởng cạnh tranh",
-    desc: "Thu nhập rõ ràng theo năng lực, thưởng KPI minh bạch mỗi quý.",
+    icon: TrendingUp,
+    title: "Cơ hội phát triển",
+    desc: "Được học từ thực tế, nâng cao năng lực và có cơ hội phát triển theo con đường quản lý hoặc chuyên môn phù hợp với khả năng của mình.",
     color: "#006400",
     glow: "rgba(0,100,0,0.22)",
   },
   {
-    icon: TrendingUp,
-    title: "Lộ trình thăng tiến rõ ràng",
-    desc: "Từ Intern lên Senior theo đúng năng lực — không giới hạn thời gian cứng nhắc, trung bình 18-24 tháng để bước lên một cấp bậc mới.",
-    stat: { value: "18-24", label: "tháng / cấp bậc" },
-    featured: true,
-  },
-  {
-    icon: GraduationCap,
-    title: "Đào tạo 1-1 cùng chuyên gia",
-    desc: "Mentor đồng hành xuyên suốt, hướng dẫn sát từng đầu việc thực tế.",
+    icon: Wallet,
+    title: "Thu nhập & ghi nhận",
+    desc: "Năng lực, năng suất và giá trị tạo ra là cơ sở để mỗi người được ghi nhận và có thu nhập ngày càng tốt hơn.",
     color: "#0B7A0B",
     glow: "rgba(11,122,11,0.22)",
   },
   {
     icon: FlaskConical,
-    title: "Trải nghiệm thực chiến",
-    desc: "Tham gia trực tiếp vào sản xuất, R&D và vùng nguyên liệu.",
+    title: "Môi trường để học & làm thật",
+    desc: "Làm việc trực tiếp với cây trồng, công nghệ, dữ liệu, chất lượng, sản xuất và thị trường; học từ những vấn đề thực tế mỗi ngày.",
     color: "#006400",
     glow: "rgba(0,100,0,0.22)",
   },
   {
-    icon: Users,
-    title: "Môi trường trẻ, cởi mở",
-    desc: "Văn hoá phẳng, ý tưởng của bạn được lắng nghe ngay từ ngày đầu.",
+    icon: Sprout,
+    title: "Đóng góp cho nông nghiệp",
+    desc: "Mỗi công việc tại Unifarm đều góp phần tạo ra sản phẩm tốt hơn, cách làm nông nghiệp tốt hơn và những giá trị bền vững hơn cho người sản xuất, con người và môi trường.",
     color: "#0B7A0B",
     glow: "rgba(11,122,11,0.22)",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Bảo hiểm & phúc lợi đầy đủ",
-    desc: "BHXH đầy đủ, khám sức khoẻ định kỳ, du lịch công ty hằng năm.",
-    stat: { value: "100%", label: "BHXH & khám sức khoẻ" },
-    featured: true,
   },
 ];
 
@@ -160,7 +144,7 @@ export default function ApplyBenefits() {
             />
           </div>
           <h2 className="uppercase mt-3 text-2xl font-extrabold text-[#06301B] sm:text-3xl md:text-4xl">
-            {t("Quyền lợi khi bạn gia nhập đội ngũ")}
+            {t("Một công việc, nhiều giá trị")}
           </h2>
         </Reveal>
 

@@ -121,9 +121,11 @@ function ProductCard({
           </p>
         )}
         {snippet && <p className="line-clamp-2 text-xs leading-relaxed text-gray-400">{snippet}</p>}
-        <p className="flex items-center gap-1 text-[11px] font-semibold text-[#006400]/80">
-          <ShieldCheck size={12} /> {getCertBadge(product)}
-        </p>
+        {getCertBadge(product) && (
+          <p className="flex items-center gap-1 text-[11px] font-semibold text-[#006400]/80">
+            <ShieldCheck size={12} /> {getCertBadge(product)}
+          </p>
+        )}
         <p className="mt-1 text-sm font-extrabold text-[#006400]">{formatPrice(product.price)}</p>
       </div>
     </div>

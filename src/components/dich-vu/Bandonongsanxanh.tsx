@@ -299,7 +299,7 @@ export default function BanDoNongSanXanh() {
             initial={reduce ? false : { opacity: 0, y: 26 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.4, ease: EASE }}
-            className="mx-auto mt-4 max-w-2xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-5xl"
+            className="mx-auto mt-4 max-w-4xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-5xl"
             style={{ color: C.forest }}
           >
             {t("Bản đồ nông sản xanh Việt Nam")}
@@ -311,16 +311,16 @@ export default function BanDoNongSanXanh() {
             className="mx-auto mt-3 max-w-lg text-sm sm:text-base"
             style={{ color: C.fresh }}
           >
-            {t("Kết nối vùng trồng – công nghệ – chế biến – thị trường")}
+            {t("Unifarm cùng doanh nghiệp, hợp tác xã và nông dân phát triển các vùng sản xuất phù hợp với điều kiện tự nhiên, lợi thế của từng địa phương và nhu cầu thị trường.")}
           </motion.p>
         </div>
 
         {/* Thống kê nhanh — số chạy từ 0 lên khi cuộn tới */}
-        <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-4 sm:mt-12">
+        {/* <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-4 sm:mt-12">
           {STATS.map((s, i) => (
             <StatFloating key={s.label} stat={s} inView={inView} reduce={!!reduce} delay={1100 + i * 300} />
           ))}
-        </div>
+        </div> */}
 
         {/* Bản đồ (trái) + Chi tiết (phải) — xuất hiện sau cùng, chậm và sang */}
         <motion.div
@@ -352,11 +352,7 @@ export default function BanDoNongSanXanh() {
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.45, ease: EASE }}
               >
-                <DetailPanel
-                  region={selectedRegion}
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                />
+                <DetailPanel region={selectedRegion} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -618,153 +614,571 @@ function Marker({
 /* Panel chi tiết (phải) — 3 nhóm nội dung của vùng đang chọn           */
 /* ------------------------------------------------------------------ */
 
+
+
+// function DetailPanel({
+//   region,
+// }: {
+//   region: Region | null;
+// }) {
+//   const { t } = useLanguage();
+//   const [activeTab, setActiveTab] = useState(0);
+
+//   const tabs = [
+//     {
+//       id: "production",
+//       label: "Vùng Unifarm đang sản xuất",
+//       description:
+//         "Các vùng sản xuất do Unifarm trực tiếp tổ chức hoặc quản lý.",
+//       color: C.green,
+//       background: `${C.green}0D`,
+//       sectionKeywords: ["vùng trồng", "trang trại"],
+//     },
+//     {
+//       id: "linked",
+//       label: "Vùng liên kết",
+//       description:
+//         "Các vùng Unifarm đang hợp tác cùng doanh nghiệp, hợp tác xã và nông dân.",
+//       color: C.blue,
+//       background: `${C.blue}12`,
+//       sectionKeywords: ["liên kết", "chế biến", "gia tăng giá trị"],
+//     },
+//     {
+//       id: "developing",
+//       label: "Vùng đang phát triển",
+//       description:
+//         "Các khu vực đang khảo sát, thử nghiệm hoặc xây dựng dự án mới.",
+//       color: "#C58A18",
+//       background: "#C58A1812",
+//       sectionKeywords: ["phát triển", "chuyển giao"],
+//     },
+//   ];
+
+//   if (!region) {
+//     return (
+//       <div
+//         className="flex min-h-[240px] items-center justify-center border p-8 text-center"
+//         style={{
+//           borderColor: `${C.forest}18`,
+//           background: C.warm,
+//         }}
+//       >
+//         <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
+//           {t("Bấm vào điểm đánh dấu trên bản đồ để xem thông tin vùng sản xuất nông sản xanh.")}
+//         </p>
+//       </div>
+//     );
+//   }
+
+//   const tab = tabs[activeTab];
+
+//   const projects = region.sections
+//     .filter((section) =>
+//       tab.sectionKeywords.some((keyword) =>
+//         section.title.toLowerCase().includes(keyword)
+//       )
+//     )
+//     .flatMap((section) =>
+//       section.items.map((item) => ({
+//         ...item,
+//         sectionTitle: section.title,
+//       }))
+//     );
+
+//   function getField(fields: Field[], keywords: string[]) {
+//     return fields.find((field) =>
+//       keywords.some((keyword) =>
+//         field.label.toLowerCase().includes(keyword)
+//       )
+//     )?.value;
+//   }
+
+//   if (region.comingSoon) {
+//     return (
+//       <div
+//         className="border p-6 sm:p-8"
+//         style={{
+//           borderColor: `${C.forest}18`,
+//           background: C.warm,
+//         }}
+//       >
+//         <p
+//           className="text-xs font-bold uppercase tracking-[0.2em]"
+//           style={{ color: C.green }}
+//         >
+//           {t(region.name)}
+//         </p>
+
+//         <h3
+//           className="mt-3 text-2xl font-extrabold leading-tight"
+//           style={{ color: C.forest }}
+//         >
+//           {t("Đang khảo sát & mở rộng vùng dự án")}
+//         </h3>
+
+//         <p className="mt-3 text-sm leading-7 text-neutral-600">
+//           {t(
+//             "Unifarm đang khảo sát và phát triển vùng nguyên liệu tại khu vực này. Thông tin dự án cụ thể sẽ được cập nhật khi có dữ liệu chính thức."
+//           )}
+//         </p>
+
+//         <a
+//           href="https://unifarm.com.vn/"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-white transition-opacity hover:opacity-80"
+//           style={{ background: C.green }}
+//         >
+//           {t("Xem dự án")}
+//           <ArrowRight className="h-4 w-4" />
+//         </a>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div
+//       className="border p-5 sm:p-7 lg:p-8"
+//       style={{
+//         borderColor: `${C.forest}18`,
+//         background: C.warm,
+//       }}
+//     >
+//       {/* Tiêu đề */}
+//       <div
+//         className="border-b pb-5"
+//         style={{ borderColor: `${C.forest}14` }}
+//       >
+//         <p
+//           className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em]"
+//           style={{ color: C.green }}
+//         >
+//           <MapPin className="h-4 w-4" style={{ color: C.blue }} />
+//           {t(region.name)}
+//         </p>
+
+//         <h3
+//           className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl"
+//           style={{ color: C.forest }}
+//         >
+//           {t("Bản đồ nông sản xanh Unifarm")}
+//         </h3>
+
+//         <p className="mt-3 text-sm leading-7 text-neutral-600">
+//           {t(
+//             "Unifarm cùng doanh nghiệp, hợp tác xã và nông dân phát triển các vùng sản xuất phù hợp với điều kiện tự nhiên, lợi thế của từng địa phương và nhu cầu thị trường."
+//           )}
+//         </p>
+//       </div>
+
+//       {/* 3 tab */}
+//       <div
+//         className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-3"
+//         role="tablist"
+//         aria-label="Nhóm vùng sản xuất Unifarm"
+//       >
+//         {tabs.map((item, index) => {
+//           const isActive = activeTab === index;
+
+//           return (
+//             <button
+//               key={item.id}
+//               type="button"
+//               role="tab"
+//               aria-selected={isActive}
+//               onClick={() => setActiveTab(index)}
+//               className="flex min-h-[76px] items-center gap-3 rounded-xl border p-3 text-left transition-all duration-200 sm:flex-col sm:items-start sm:justify-center sm:p-4"
+//               style={{
+//                 borderColor: isActive
+//                   ? item.color
+//                   : `${C.forest}18`,
+//                 background: isActive
+//                   ? item.background
+//                   : "#FFFFFF",
+//                 boxShadow: isActive
+//                   ? `inset 0 0 0 1px ${item.color}35`
+//                   : "none",
+//               }}
+//             >
+//               <span
+//                 className="h-3 w-3 shrink-0 rounded-full"
+//                 style={{ background: item.color }}
+//               />
+
+//               <span
+//                 className="text-xs font-extrabold leading-5"
+//                 style={{
+//                   color: isActive ? item.color : C.forest,
+//                 }}
+//               >
+//                 {t(item.label)}
+//               </span>
+//             </button>
+//           );
+//         })}
+//       </div>
+
+//       {/* Nội dung tab được chọn */}
+//       <div className="mt-5">
+//         <div
+//           className="rounded-xl border p-4 sm:p-5"
+//           style={{
+//             borderColor: `${tab.color}35`,
+//             background: tab.background,
+//           }}
+//         >
+//           <h4
+//             className="text-sm font-extrabold uppercase leading-6 tracking-wide"
+//             style={{ color: tab.color }}
+//           >
+//             {t(tab.label)}
+//           </h4>
+
+//           <p className="mt-2 text-sm leading-6 text-neutral-600">
+//             {t(tab.description)}
+//           </p>
+//         </div>
+
+//         {projects.length > 0 ? (
+//           <div className="mt-4 space-y-3">
+//             {projects.map((project, index) => {
+//               const product =
+//                 getField(project.fields, [
+//                   "giống chủ lực",
+//                   "sản phẩm",
+//                   "phân loại",
+//                 ]) ??
+//                 (project.name.toLowerCase().includes("chuối")
+//                   ? "Chuối cấy mô"
+//                   : undefined);
+
+//               const scale = getField(project.fields, ["quy mô"]);
+//               const location = getField(project.fields, ["địa điểm"]);
+//               const model = getField(project.fields, [
+//                 "mô hình",
+//                 "hình thức",
+//               ]);
+
+//               return (
+//                 <article
+//                   key={`${project.name}-${index}`}
+//                   className="overflow-hidden rounded-xl border"
+//                   style={{
+//                     borderColor: `${tab.color}25`,
+//                     background: "#FFFFFF",
+//                   }}
+//                 >
+//                   <div
+//                     className="flex items-start gap-3 border-b p-4"
+//                     style={{
+//                       borderColor: `${tab.color}20`,
+//                       background: tab.background,
+//                     }}
+//                   >
+//                     <span
+//                       className="mt-1.5 h-3 w-3 shrink-0 rounded-full"
+//                       style={{ background: tab.color }}
+//                     />
+
+//                     <h5
+//                       className="text-sm font-extrabold leading-6 sm:text-base"
+//                       style={{ color: C.forest }}
+//                     >
+//                       {t(project.name)}
+//                     </h5>
+//                   </div>
+
+//                   <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+//                     {product && (
+//                       <div>
+//                         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+//                           {t("Sản phẩm")}
+//                         </p>
+//                         <p className="mt-1 text-sm leading-6 text-neutral-700">
+//                           {t(product)}
+//                         </p>
+//                       </div>
+//                     )}
+
+//                     {scale && (
+//                       <div>
+//                         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+//                           {t("Quy mô")}
+//                         </p>
+//                         <p
+//                           className="mt-1 text-sm font-extrabold"
+//                           style={{ color: tab.color }}
+//                         >
+//                           {t(scale)}
+//                         </p>
+//                       </div>
+//                     )}
+
+//                     {location && (
+//                       <div className="sm:col-span-2">
+//                         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+//                           {t("Địa điểm")}
+//                         </p>
+//                         <p className="mt-1 text-sm leading-6 text-neutral-700">
+//                           {t(location)}
+//                         </p>
+//                       </div>
+//                     )}
+
+//                     {model && (
+//                       <div className="sm:col-span-2">
+//                         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+//                           {t("Hình thức")}
+//                         </p>
+//                         <p className="mt-1 text-sm leading-6 text-neutral-700">
+//                           {t(model)}
+//                         </p>
+//                       </div>
+//                     )}
+
+//                     {project.fields
+//                       .filter(
+//                         (field) =>
+//                           ![
+//                             "quy mô",
+//                             "địa điểm",
+//                             "mô hình",
+//                             "hình thức",
+//                             "giống chủ lực",
+//                             "sản phẩm",
+//                             "phân loại",
+//                           ].some((keyword) =>
+//                             field.label.toLowerCase().includes(keyword)
+//                           )
+//                       )
+//                       .map((field) => (
+//                         <div
+//                           key={`${project.name}-${field.label}`}
+//                           className="sm:col-span-2"
+//                         >
+//                           <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+//                             {t(field.label)}
+//                           </p>
+//                           <p className="mt-1 text-sm leading-6 text-neutral-700">
+//                             {t(field.value)}
+//                           </p>
+//                         </div>
+//                       ))}
+//                   </div>
+//                 </article>
+//               );
+//             })}
+//           </div>
+//         ) : (
+//           <div
+//             className="mt-4 rounded-xl border border-dashed p-5 text-sm leading-6 text-neutral-500"
+//             style={{ borderColor: `${tab.color}50` }}
+//           >
+//             {t(
+//               "Thông tin dự án thuộc nhóm này sẽ được cập nhật khi có dữ liệu chính thức."
+//             )}
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Nút ở cuối tab */}
+//       <div
+//         className="mt-6 border-t pt-5"
+//         style={{ borderColor: `${C.forest}14` }}
+//       >
+//         <a
+//           href="https://unifarm.com.vn/"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="group inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:gap-3 sm:w-auto"
+//           style={{
+//             background: C.green,
+//             boxShadow: `0 8px 20px ${C.green}20`,
+//           }}
+//         >
+//           {t("Xem dự án")}
+//           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+//         </a>
+//       </div>
+//     </div>
+//   );
+// }
+
 function DetailPanel({
   region,
-  activeTab,
-  onTabChange,
 }: {
   region: Region | null;
-  activeTab: number;
-  onTabChange: (i: number) => void;
 }) {
   const { t } = useLanguage();
+
+  const statusItems = [
+    {
+      number: "01",
+      title: "VÙNG UNIFARM ĐANG SẢN XUẤT",
+      description:
+        "Các vùng sản xuất do Unifarm trực tiếp tổ chức hoặc quản lý.",
+      color: C.green,
+      bg: `${C.green}0D`,
+    },
+    {
+      number: "02",
+      title: "VÙNG LIÊN KẾT",
+      description:
+        "Các vùng Unifarm đang hợp tác cùng doanh nghiệp, hợp tác xã và nông dân.",
+      color: C.blue,
+      bg: `${C.blue}12`,
+    },
+    {
+      number: "03",
+      title: "VÙNG ĐANG PHÁT TRIỂN",
+      description:
+        "Các khu vực đang khảo sát, thử nghiệm hoặc xây dựng dự án mới.",
+      color: "#C58A18",
+      bg: "#C58A1812",
+    },
+  ];
 
   if (!region) {
     return (
       <div
         className="flex h-full min-h-[240px] items-center justify-center border p-8 text-center"
-        style={{ borderColor: `${C.forest}18`, background: `${C.warm}` }}
+        style={{
+          borderColor: `${C.forest}18`,
+          background: C.warm,
+        }}
       >
-        <p className="max-w-xs text-sm text-neutral-400">
-          {t("Bấm vào điểm đánh dấu trên bản đồ để xem chi tiết vùng dự án.")}
-        </p>
-      </div>
-    );
-  }
-
-  if (region.comingSoon) {
-    return (
-      <div className="border p-6 sm:p-8" style={{ borderColor: `${C.forest}18`, background: C.warm }}>
-        <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.green }}>
-          <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
-          {t(region.name)}
-        </p>
-        <p className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl" style={{ color: C.forest }}>
-          {t("Đang khảo sát & mở rộng vùng dự án")}
-        </p>
-        <p className="mt-3 max-w-sm text-sm leading-relaxed text-neutral-500">
+        <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
           {t(
-            "Unifarm đang khảo sát và mở rộng vùng nguyên liệu tại khu vực này. Thông tin dự án cụ thể sẽ được cập nhật khi triển khai chính thức."
+            "Bấm vào điểm đánh dấu trên bản đồ để xem thông tin vùng sản xuất nông sản xanh."
           )}
         </p>
-        <button
-          type="button"
-          className="group mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] transition-all hover:gap-3"
-          style={{ color: C.green }}
-        >
-          {t("Liên hệ tìm hiểu thêm")}
-          <ArrowRight className="h-3.5 w-3.5" />
-        </button>
       </div>
     );
   }
-
-  const section = region.sections[activeTab] ?? region.sections[0];
 
   return (
-    <div className="border p-6 sm:p-8" style={{ borderColor: `${C.forest}18`, background: C.warm }}>
-      <div className="flex flex-wrap items-baseline justify-between gap-3 border-b pb-5" style={{ borderColor: `${C.forest}14` }}>
-        <div>
-          <p className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em]" style={{ color: C.green }}>
-            <MapPin className="h-3.5 w-3.5" style={{ color: C.blue }} />
-            {t(region.name)}
-          </p>
-          <p className="mt-1 text-3xl font-extrabold leading-none sm:text-4xl" style={{ color: C.forest }}>
-            {region.totalHa} <span className="text-base font-bold">HA</span>
-          </p>
-        </div>
-        <p className="text-sm font-semibold text-neutral-400">
-          {totalProjects(region).toString().padStart(2, "0")} {t("dự án đang triển khai")}
+    <div
+      className="border p-5 sm:p-7 lg:p-8"
+      style={{
+        borderColor: `${C.forest}18`,
+        background: C.warm,
+      }}
+    >
+      {/* Tiêu đề khu vực */}
+      <div
+        className="border-b pb-5"
+        style={{ borderColor: `${C.forest}14` }}
+      >
+        <p
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em]"
+          style={{ color: C.green }}
+        >
+          <MapPin
+            className="h-4 w-4"
+            style={{ color: C.blue }}
+          />
+          {t(region.name)}
+        </p>
+
+        <h3
+          className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl"
+          style={{ color: C.forest }}
+        >
+          {t("Bản đồ nông sản xanh Unifarm")}
+        </h3>
+
+        <p className="mt-3 text-sm leading-7 text-neutral-600">
+          {t(
+            "Unifarm cùng doanh nghiệp, hợp tác xã và nông dân phát triển các vùng sản xuất phù hợp với điều kiện tự nhiên, lợi thế của từng địa phương và nhu cầu thị trường."
+          )}
         </p>
       </div>
 
-      {/* 3 tab — rút gọn nội dung dài thành từng nhóm riêng */}
-      <div className="mt-6 flex gap-1.5 border-b" style={{ borderColor: `${C.forest}14` }}>
-        {region.sections.map((s, i) => {
-          const isActive = i === activeTab;
-          return (
-            <button
-              key={s.title}
-              type="button"
-              onClick={() => onTabChange(i)}
-              className="relative flex-1 whitespace-nowrap px-1.5 py-2.5 text-center text-[11px] font-bold uppercase tracking-wide transition-colors sm:flex-initial sm:px-3.5 sm:text-sm"
-              style={{ color: isActive ? C.forest : "#9ca3af" }}
+      {/* Ba trạng thái vùng sản xuất */}
+      <div className="mt-5 space-y-3">
+        {statusItems.map((item) => (
+          <div
+            key={item.number}
+            className="flex gap-3 rounded-xl border p-4 transition-all duration-300 hover:-translate-y-0.5"
+            style={{
+              borderColor: `${item.color}25`,
+              background: item.bg,
+            }}
+          >
+            <div
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-extrabold"
+              style={{
+                background: `${item.color}18`,
+                color: item.color,
+              }}
             >
-              <span className="mr-1" style={{ color: C.soft }}>
-                {i + 1}.
-              </span>
-              {t(s.short)}
-              <span
-                className="absolute inset-x-3 -bottom-px h-[2px] rounded-full transition-opacity duration-300"
-                style={{ background: C.green, opacity: isActive ? 1 : 0 }}
-              />
-            </button>
-          );
-        })}
+              {item.number}
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <h4
+                className="text-xs font-extrabold leading-5 tracking-wide sm:text-sm"
+                style={{ color: C.forest }}
+              >
+                {t(item.title)}
+              </h4>
+
+              <p className="mt-1.5 text-sm leading-6 text-neutral-600">
+                {t(item.description)}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${region.id}-${activeTab}`}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.35, ease: EASE }}
-          className="mt-6"
-        >
-          {section.subtitle && (
-            <p className="mb-3 text-xs font-semibold italic text-neutral-400">{t(section.subtitle)}</p>
-          )}
-
-          <div className="divide-y" style={{ borderColor: `${C.forest}0f` }}>
-            {section.items.map((item, ii) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.08 + ii * 0.08, ease: EASE }}
-                className="py-4 first:pt-0"
-              >
-                <p className="text-[15px] font-bold" style={{ color: C.ink }}>
-                  {t(item.name)}
-                </p>
-                <dl className="mt-2 space-y-1.5">
-                  {item.fields.map((f) => (
-                    <div key={f.label} className="flex flex-wrap gap-x-1.5 text-sm leading-relaxed">
-                      <dt className="shrink-0 font-bold" style={{ color: C.fresh }}>
-                        {t(f.label)}:
-                      </dt>
-                      <dd className="text-neutral-600">{t(f.value)}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      <button
-        type="button"
-        className="group mt-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] transition-all hover:gap-3"
-        style={{ color: C.green }}
+      {/* Chú thích ký hiệu */}
+      <div
+        className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t pt-4"
+        style={{ borderColor: `${C.forest}14` }}
       >
-        {t("Liên hệ tìm hiểu thêm")}
-        <ArrowRight className="h-3.5 w-3.5" />
-      </button>
+        {statusItems.map((item) => (
+          <div
+            key={item.number}
+            className="inline-flex items-center gap-2 text-xs text-neutral-500"
+          >
+            <span
+              className="h-2.5 w-2.5 rounded-full"
+              style={{ background: item.color }}
+            />
+            {t(
+              item.number === "01"
+                ? "Đang sản xuất"
+                : item.number === "02"
+                  ? "Liên kết"
+                  : "Đang phát triển"
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Nút xem dự án */}
+      <div
+        className="mt-6 border-t pt-5"
+        style={{ borderColor: `${C.forest}14` }}
+      >
+        <a
+          href="https://unifarm.com.vn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:w-auto"
+          style={{
+            background: C.green,
+            boxShadow: `0 6px 18px ${C.green}20`,
+          }}
+        >
+          {t("XEM DỰ ÁN")}
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+        </a>
+      </div>
     </div>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Thống kê nổi — số chạy từ 0 lên đúng giá trị khi cuộn tới, font số   */

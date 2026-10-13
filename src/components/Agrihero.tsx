@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/LanguageProvider';
 
 type SlotImage = {
@@ -28,13 +29,6 @@ const INITIAL_SLOTS: SlotImage[] = [
     alt: 'Vùng trồng nông nghiệp công nghệ cao nhìn từ trên cao',
   },
 ];
-
-const CHECKLIST_ITEMS = [
-  'Tạo ra nhiều giá trị hơn từ cùng một diện tích đất',
-  'Tiết kiệm nước, giảm phân thuốc hóa học, tận dụng phụ phẩm',
-  'Nâng cao tay nghề, năng suất và thu nhập cho người lao động',
-];
-
 
 /** Kích hoạt hiệu ứng khi phần tử cuộn vào khung nhìn (chỉ 1 lần). */
 function useInView<T extends HTMLElement>(threshold = 0.2) {
@@ -67,84 +61,6 @@ function useInView<T extends HTMLElement>(threshold = 0.2) {
   }, [threshold]);
 
   return [ref, inView] as const;
-}
-
-function CheckIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <circle cx="9" cy="9" r="9" className="agrihero-check-bg" />
-      <path
-        d="M5 9.2l2.4 2.4L13 6"
-        stroke="#fff"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-type StatRingProps = {
-  percent: number;
-  label: string;
-  delay: number;
-  inView: boolean;
-  tone: 'green' | 'blue';
-};
-
-function StatRing({ percent, label, delay, inView, tone }: StatRingProps) {
-  const radius = 34;
-  const circumference = 2 * Math.PI * radius;
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    let frame: number;
-    const timeout = window.setTimeout(() => {
-      const duration = 1300;
-      const start = performance.now();
-
-      const tick = (now: number) => {
-        const progress = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        setValue(Math.round(eased * percent));
-        if (progress < 1) frame = requestAnimationFrame(tick);
-      };
-
-      frame = requestAnimationFrame(tick);
-    }, delay);
-
-    return () => {
-      window.clearTimeout(timeout);
-      cancelAnimationFrame(frame);
-    };
-  }, [inView, percent, delay]);
-
-  const offset = circumference - (value / 100) * circumference;
-
-  return (
-    <div
-      className="agrihero-stat-ring"
-      data-inview={inView}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="agrihero-stat-circle-wrap">
-        <svg viewBox="0 0 80 80" width="80" height="80">
-          <circle cx="40" cy="40" r={radius} className="agrihero-stat-track" />
-          <circle
-            cx="40"
-            cy="40"
-            r={radius}
-            className={`agrihero-stat-progress ${tone === 'blue' ? 'agrihero-stat-progress-blue' : ''}`}
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-          />
-        </svg>
-        <span className="agrihero-stat-percent">{value}%</span>
-      </div>
-      <p className="agrihero-stat-label">{label}</p>
-    </div>
-  );
 }
 
 export default function AgricultureHero() {
@@ -227,39 +143,23 @@ export default function AgricultureHero() {
         <div ref={contentRef} className="agrihero-content-col" data-inview={contentInView}>
           <span className="agrihero-eyebrow">{t("Triết lý Unifarm")}</span>
 
-          <h2 className="agrihero-heading uppercase">{t("Đất - Nước – Con Người - Giá Trị.")}</h2>
+          <h2 className="agrihero-heading uppercase">{t("Làm nông nghiệp là yêu Đất – Nước")}</h2>
 
-          <p className="agrihero-paragraph">
-            {t("Làm nông nghiệp là yêu Đất – Nước. Chúng tôi hướng tới tạo ra nhiều giá trị hơn trong khi sử dụng tài nguyên hiệu quả hơn, giảm tổn thất và giúp người làm nông nghiệp có cuộc sống tốt hơn.")}
+          <p className="agrihero-paragraph agrihero-quote">
+            {t("“Nhiều năm qua, trước lối vào văn phòng của Unifarm luôn có một câu phương châm: ‘Làm nông nghiệp là yêu Đất - Nước’, như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống. Với tôi, đó chính là yêu Đất Nước.”")}
           </p>
 
-          {/* Danh sách check-mark và 2 vòng thống kê nằm cùng một hàng */}
-          <div className="agrihero-bottom-row">
-            <ul className="agrihero-checklist">
-              {CHECKLIST_ITEMS.map((item, i) => (
-                <li key={item} style={{ transitionDelay: `${2200 + i * 220}ms` }}>
-                  <CheckIcon />
-                  <span>{t(item)}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="agrihero-stats">
-              <StatRing
-                percent={80}
-                label={t('Giảm Lãng Phí –\nTăng Giá Trị')}
-                delay={3000}
-                inView={contentInView}
-                tone="green"
-              />
-              <StatRing
-                percent={100}
-                label={t('Tuân thủ tiêu chuẩn\nan toàn & MRL')}
-                delay={3300}
-                inView={contentInView}
-                tone="blue"
-              />
-            </div>
+          <div className="agrihero-attribution">
+            <span className="agrihero-attribution-name">{t("Phạm Quốc Liêm")}</span>
+            <a
+              href="https://nongnghiepmoitruong.vn/lam-nong-nghiep-la-yeu-dat-nuoc-d798204.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="agrihero-article-btn"
+            >
+              {t("Đọc bài “Làm nông nghiệp là yêu Đất Nước”")}
+              <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+            </a>
           </div>
         </div>
       </div>
@@ -595,107 +495,56 @@ export default function AgricultureHero() {
           transition-delay: 1.8s;
         }
 
-        .agrihero-bottom-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 36px;
+        .agrihero-quote {
+          font-style: italic;
         }
 
-        .agrihero-checklist {
-          list-style: none;
-          margin: 0;
-          padding: 0;
+        .agrihero-attribution {
           display: flex;
           flex-direction: column;
-          gap: 14px;
-          flex: 1 1 260px;
-        }
-        .agrihero-checklist li {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-weight: 600;
-          font-size: 17px;
-          color: var(--agrihero-green-ink);
-          opacity: 0;
-          transform: translateX(-18px);
-          transition:
-          opacity 1s ease,
-          transform 1s cubic-bezier(0.16, 0.8, 0.24, 1);
-        }
-        .agrihero-content-col[data-inview='true'] .agrihero-checklist li {
-          opacity: 1;
-          transform: translateX(0);
-        }
-        .agrihero-check-bg {
-          fill: var(--agrihero-yellow-deep);
-        }
-
-        .agrihero-stats {
-          display: flex;
-          align-items: flex-start;
-          gap: 28px;
-          flex: 0 0 auto;
-        }
-
-        .agrihero-stat-ring {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
           gap: 8px;
           opacity: 0;
           transform: translateY(16px);
           transition:
           opacity 1s ease,
           transform 1s cubic-bezier(0.16, 0.8, 0.24, 1);
+          transition-delay: 2.2s;
         }
-        .agrihero-stat-ring[data-inview='true'] {
+        .agrihero-content-col[data-inview='true'] .agrihero-attribution {
           opacity: 1;
           transform: translateY(0);
         }
-
-        .agrihero-stat-circle-wrap {
-          position: relative;
-          width: 80px;
-          height: 80px;
+        .agrihero-attribution-name {
+          font-weight: 800;
+          font-size: 16px;
+          letter-spacing: 0.04em;
+          color: var(--agrihero-green-deep);
         }
-        .agrihero-stat-track {
-          fill: none;
-          stroke: rgba(0, 100, 0, 0.12);
-          stroke-width: 6;
-        }
-        .agrihero-stat-progress {
-          fill: none;
-          stroke: var(--agrihero-green-deep);
-          stroke-width: 6;
-          stroke-linecap: round;
-          transform: rotate(-90deg);
-          transform-origin: 50% 50%;
-          transition: stroke-dashoffset 0.1s linear;
-        }
-        .agrihero-stat-progress-blue {
-          stroke: var(--agrihero-blue-light);
-        }
-        .agrihero-stat-percent {
-          position: absolute;
-          inset: 0;
-          display: flex;
+        .agrihero-article-btn {
+          display: inline-flex;
           align-items: center;
-          justify-content: center;
-          font-family: var(--font-display), serif;
-          font-weight: 600;
-          font-size: 18px;
-          color: var(--agrihero-green-ink);
-        }
-        .agrihero-stat-label {
-          text-align: center;
+          gap: 8px;
+          margin-top: 6px;
+          padding: 12px 22px;
+          border-radius: 999px;
+          border: 2px solid var(--agrihero-green-deep);
+          font-weight: 700;
           font-size: 14px;
-          font-weight: 600;
-          line-height: 1.35;
-          color: #4a5a4b;
-          white-space: pre-line;
+          color: var(--agrihero-green-deep);
+          width: fit-content;
+          transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .agrihero-article-btn:hover {
+          background: var(--agrihero-green-deep);
+          color: #fff;
+          transform: translateY(-2px);
+          box-shadow: 0 14px 30px -12px rgba(0,100,0,0.5);
+        }
+        .agrihero-article-btn svg {
+          transition: transform 0.3s ease;
+        }
+        .agrihero-article-btn:hover svg {
+          transform: translateX(3px);
         }
 
         /* ---------- Responsive theo mốc px cố định ---------- */
@@ -709,41 +558,14 @@ export default function AgricultureHero() {
           .agrihero-paragraph {
             text-align: left;
           }
-          .agrihero-bottom-row {
-            justify-content: center;
+          .agrihero-attribution {
+            align-items: center;
           }
         }
 
         @media (max-width: 640px) {
           .agrihero-section {
             padding: 64px 20px;
-          }
-          .agrihero-bottom-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 28px;
-          }
-          .agrihero-checklist li {
-            align-items: flex-start;
-          }
-          .agrihero-checklist li svg {
-            margin-top: 3px;
-          }
-          .agrihero-stats {
-            align-self: stretch;
-            width: 100%;
-            justify-content: space-between;
-            gap: 16px;
-          }
-          .agrihero-stat-ring {
-            flex: 1 1 0;
-            max-width: 170px;
-          }
-        }
-
-        @media (max-width: 400px) {
-          .agrihero-stats {
-            gap: 20px;
           }
         }
 
@@ -756,12 +578,11 @@ export default function AgricultureHero() {
           .agrihero-small-img,
           .agrihero-small-circle-top,
           .agrihero-small-circle-bottom,
-          .agrihero-stat-ring,
           .agrihero-ring-decor,
           .agrihero-eyebrow,
           .agrihero-heading,
           .agrihero-paragraph,
-          .agrihero-checklist li {
+          .agrihero-attribution {
             transition: none !important;
             animation: none !important;
             opacity: 1 !important;

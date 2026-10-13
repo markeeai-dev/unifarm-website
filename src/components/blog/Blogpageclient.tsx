@@ -532,7 +532,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
       </section>
 
       {/* ═══════ CTA ═══════ */}
-      <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16">
+      {/* <section className="relative overflow-hidden bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-16">
         <Particles count={14} light seed={5} />
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
           <div
@@ -619,7 +619,7 @@ export default function BlogPageClient({ posts }: { posts: BlogPost[] }) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

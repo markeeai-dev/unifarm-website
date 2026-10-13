@@ -25,9 +25,9 @@ const POSTER = "/video-posters/unripe-green-bananas-on-tree.jpg";
 const WEBP_LOOP = "/video-loops/unripe-green-bananas-on-tree.webp";
 
 const STATS = [
-  { value: "1.694+ ha", label: "Tổng diện tích vùng trồng lõi" },
-  { value: "100%", label: "Chuẩn VietGAP / GlobalG.A.P định hướng xuất khẩu" },
-  { value: "15+ năm", label: "Kinh nghiệm nghiên cứu, chuẩn hóa và chuyển giao" },
+  { value: "NGƯỜI NÔNG DÂN CÓ HIỆU QUẢ", label: "Mô hình hợp tác phải giúp người trực tiếp sản xuất nâng cao năng suất, chất lượng, hiệu quả và thu nhập." },
+  { value: "NGƯỜI TIÊU DÙNG CÓ SẢN PHẨM TỐT", label: "Cùng tạo ra ngày càng nhiều sản phẩm an toàn, chất lượng và phù hợp với nhu cầu của thị trường" },
+  { value: "ĐẤT & NƯỚC ĐƯỢC GÌN GIỮ", label: "Phát triển sản xuất theo hướng sinh học và bền vững, sử dụng tài nguyên hiệu quả hơn và giảm tác động đến môi trường." },
 ];
 
 const COLORS = {
@@ -114,7 +114,7 @@ export default function DuanBanner() {
 
       {/* NỘI DUNG — neo sát đáy banner */}
       <div className="absolute inset-x-0 bottom-0 z-10 mx-auto flex w-full max-w-8xl px-4 pb-32 sm:px-6 lg:px-40">
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-3xl">
           {/* eyebrow badge */}
           <div
             className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm transition-all duration-700 ${
@@ -132,7 +132,7 @@ export default function DuanBanner() {
             >
               <Leaf className="h-3 w-3" strokeWidth={2.5} />
             </span>
-            {t("Hạ tầng & Dự án Unifarm")}
+            {t("Hợp tác & Phát triển")}
           </div>
 
           {/* Tiêu đề chính */}
@@ -142,8 +142,8 @@ export default function DuanBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            {t("Hệ thống nông trường công nghệ cao")}{" "}
-            <span style={{ color: COLORS.accent }}>{t("& chuỗi giá trị khép kín")}</span>
+            {t("Cùng tạo ra những")}{" "}
+            <span style={{ color: COLORS.accent }}>{t("sản phẩm tốt hơn")}</span>
           </h1>
 
           {/* Tagline */}
@@ -153,7 +153,7 @@ export default function DuanBanner() {
             }`}
             style={{ textShadow: TEXT_SHADOW }}
           >
-            &ldquo;{t("Unifarm không cần sở hữu mọi cánh đồng. Chúng tôi cùng bạn xây dựng nhiều cánh đồng tốt hơn.")}&rdquo;
+            &ldquo;{t("Hợp tác để cùng phát triển")}&rdquo;
           </p>
 
           {/* Mô tả */}
@@ -164,7 +164,7 @@ export default function DuanBanner() {
             style={{ textShadow: TEXT_SHADOW }}
           >
             {t(
-              "Kết nối đồng bộ từ vùng trồng tập trung quy mô 1.694+ ha, ứng dụng công nghệ Sinh học – Tự động hóa – Số hóa, các tổ hợp chế biến sâu sau thu hoạch đến dịch vụ chuyển giao kỹ thuật thực chiến cho nhà nông."
+              "Unifarm không hướng đến việc sở hữu mọi cánh đồng. Chúng tôi hợp tác cùng người nông dân để tạo ra những sản phẩm và giá trị bền vững, vì cuộc sống của người nông dân, sức khỏe con người và môi trường."
             )}
           </p>
 
@@ -211,7 +211,7 @@ export default function DuanBanner() {
               {/* Màu hover kéo từ trái sang phải */}
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-white">
-                {t("Khám phá dự án")}
+                {t("Khám phá các dự án")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 transition-all duration-500 ease-in-out group-hover:translate-x-1"
@@ -228,7 +228,7 @@ export default function DuanBanner() {
               {/* Vệt sáng tự chạy */}
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
               <span className="relative z-10 transition-colors duration-500 group-hover:text-[#06301B]">
-                {t("Liên hệ hợp tác")}
+                {t("Đề xuất hợp tác")}
               </span>
               <ArrowRight
                 className="relative z-10 h-4 w-4 text-white transition-all duration-500 ease-in-out group-hover:translate-x-1 group-hover:text-[#06301B]"

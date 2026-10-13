@@ -1,25 +1,10 @@
 "use client";
-
-/**
- * DuanTruCot — Section 2 của trang "Dự Án & Hợp Tác" (id="tru-cot")
- * ------------------------------------------------------------------
- * 3 tab chuyển đổi mượt mô tả 3 trụ cột: Vùng Trồng & Nông Trường /
- * Chế Biến & Công Nghệ / Dịch Vụ & Chuyển Giao. Mỗi tab có một ảnh thật
- * Unifarm minh hoạ riêng ở panel bên trái (crossfade kiểu "Ken Burns"),
- * card nội dung bên phải được nâng cấp lên ngôn ngữ thị giác cao cấp
- * (card trắng nổi khối + viền sáng khi hover) đồng bộ với các trang
- * mới khác trên site.
- */
-
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VIEWPORT = { once: false, amount: 0.2 } as const;
-
 const C = {
   forest: "#063B24",
   green: "#006400",
@@ -48,133 +33,77 @@ type TabData = {
 
 const TABS: TabData[] = [
   {
-    id: "vung-trong",
-    label: "Vùng Trồng & Nông Trường",
+    id: "giong",
+    label: "Nghiên cứu & Sản xuất giống",
     description:
-      "Hệ thống nông trường quy mô lớn được quy hoạch khép kín, ứng dụng công nghệ điều khiển tự động hóa từ Israel và tiêu chuẩn canh tác sạch chuẩn xuất khẩu.",
+      "Nghiên cứu, tuyển chọn, phát triển và nhân giống để tạo ra nguồn cây giống phù hợp với điều kiện sản xuất, yêu cầu thị trường và thực tế canh tác.",
     cards: [
       {
-        title: "Trung Tâm Nghiên Cứu R&D & Nông Trường An Thái",
-        meta: {
-          label: "Quy mô & vị trí",
-          value: "500 ha – Xã An Thái, Huyện Phú Giáo, Tỉnh Bình Dương (Thành lập từ 06/2009)",
-        },
+        title: "BẮT ĐẦU TỪ MỘT GIỐNG PHÙ HỢP",
         bullets: [
-          "Trung tâm công nghệ cao đa lĩnh vực: Sinh học – Tự động hóa – Số hóa.",
-          "Làm chủ công nghệ nhân giống vô tính cấy mô và mạng lưới nhà kính sinh học.",
-          "Ứng dụng hệ thống tưới nhỏ giọt bù áp và phần mềm điều khiển trung tâm Israel.",
-          "Vùng sản xuất cách ly an toàn sinh học, chuẩn GlobalG.A.P và VietGAP.",
-          "Cây trồng: Chuối cấy mô, dưa lưới nhà kính, cây ăn trái tuyển chọn.",
+          "Nghiên cứu và tuyển chọn giống phù hợp với điều kiện tự nhiên, mục tiêu canh tác và nhu cầu thị trường.",
+          "Phát triển và nhân giống nhằm tạo nguồn cây giống phục vụ sản xuất ổn định và phát triển vùng nguyên liệu.",
         ],
       },
+    ],
+  },
+  {
+    id: "canh-tac",
+    label: "Canh tác bền vững trên quy mô lớn",
+    description:
+      "Các vùng sản xuất là nơi giống, công nghệ và quy trình được triển khai trên quy mô thực tế để đánh giá, hoàn thiện và chuẩn hóa.",
+    cards: [
       {
-        title: "Vùng Chuyên Canh Chuối Xuất Khẩu Dầu Tiếng",
-        meta: {
-          label: "Quy mô & vị trí",
-          value:
-            "~1.200 ha (Bao gồm phân khu Thanh An 1.000 ha và Minh Tân 194,47 ha) – Huyện Dầu Tiếng, Bình Dương",
-        },
+        title: "KIỂM CHỨNG TRONG THỰC TẾ SẢN XUẤT",
         bullets: [
-          "Mô hình liên kết quy mô lớn giữa Unifarm và Công ty TNHH MTV Cao su Dầu Tiếng.",
-          "Giống chủ lực: Chuối già Nam Mỹ / Cavendish (AAA) nuôi cấy mô chất lượng cao.",
-          "Hệ thống cáp tải thu hoạch ròng rọc đưa buồng chuối từ vườn về nhà đóng gói, loại bỏ 100% rủi ro va đập, dập thâm quả.",
-          "Nhà đóng gói chuẩn quốc tế: Bể rửa khử khuẩn nhiệt độ kiểm soát và quy cách đóng thùng carton 5 lớp chịu lực.",
-        ],
-      },
-      {
-        title: "Vùng Nông Nghiệp Công Nghệ Cao Lâm Hà (Lâm Đồng)",
-        meta: {
-          label: "Vị trí",
-          value: "Huyện Lâm Hà, Tỉnh Lâm Đồng (Khu vực Tây Nguyên)",
-        },
-        bullets: [
-          "Vùng sản xuất nông nghiệp công nghệ cao thích ứng với điều kiện khí hậu và thổ nhưỡng cao nguyên.",
-          "Ứng dụng công nghệ tưới tiết kiệm, kiểm soát dinh dưỡng chính xác theo từng giai đoạn sinh trưởng.",
-          "Canh tác theo quy trình chuẩn SOP của Unifarm, định hướng phát triển chuỗi giá trị nông sản bền vững.",
+          "Triển khai giống, công nghệ và quy trình canh tác trong điều kiện sản xuất thực tế.",
+          "Theo dõi, đánh giá và hoàn thiện quy trình để hướng đến hiệu quả, tính ổn định và khả năng nhân rộng.",
         ],
       },
     ],
   },
   {
     id: "che-bien",
-    label: "Chế Biến & Công Nghệ",
+    label: "Chế biến",
     description:
-      "Hiện thực hóa triết lý Waste-to-Value: Tối ưu hóa từng đơn vị tài nguyên, hạn chế thất thoát sau thu hoạch và nâng cao giá trị dược tính sinh học của nông sản Việt.",
+      "Phát triển các giải pháp sau thu hoạch và chế biến nhằm duy trì chất lượng, mở rộng khả năng sử dụng và tạo thêm giá trị từ nông sản.",
     cards: [
       {
-        title: "Dự Án Tinh Bột Kháng Chuối Xanh",
-        meta: { label: "Phân loại", value: "Sản phẩm chế biến sâu giá trị cao từ nguồn chuối xanh." },
+        title: "GIỮ VÀ GIA TĂNG GIÁ TRỊ NÔNG SẢN",
         bullets: [
-          "Hàm lượng chất kháng tiêu sinh học đạt chuẩn (10g/100g), hỗ trợ nuôi dưỡng hệ vi sinh đường ruột và sức khỏe.",
-          "Nâng cao giá trị thương phẩm cho trái chuối xanh, gia tăng hiệu quả kinh tế trên cùng một diện tích canh tác.",
-          "Cung ứng nguyên liệu sạch cho ngành thực phẩm dinh dưỡng và dược phẩm sinh học.",
-        ],
-      },
-      {
-        title: "Tổ Hợp Cấp Đông Nhanh IQF Chuẩn Xuất Khẩu",
-        meta: { label: "Ứng dụng", value: "Bảo quản nông sản tươi ngay sau thu hoạch." },
-        bullets: [
-          "Công nghệ làm lạnh siêu tốc giữ trọn vẹn 100% cấu trúc tế bào, màu sắc và hàm lượng dinh dưỡng tự nhiên.",
-          "Kéo dài thời hạn bảo quản mà hoàn toàn không sử dụng hóa chất.",
-          "Danh mục chế biến đa dạng: Chuối, Dứa MD2, Dưa lưới, Xoài, Chanh dây, Thanh long, Dưa hấu.",
-          "Đáp ứng tiêu chuẩn kỹ thuật kiểm dịch của các thị trường xuất khẩu xa.",
-        ],
-      },
-      {
-        title: "Chế Biến Gia Tăng Giá Trị & Khép Kín Chuỗi Cung Ứng",
-        bullets: [
-          "Đa dạng hóa các dòng sản phẩm: Chuối sấy dẻo công nghệ mặt trời Tropitaste, chuối sấy giòn, Puree trái cây nguyên chất.",
-          "Giải quyết triệt để bài toán nông sản dạt/loại 2, biến phế phẩm thành nguồn thu kinh tế ổn định.",
-          "Sẵn sàng chuyển giao công nghệ và hợp tác gia công đóng gói theo đơn đặt hàng lớn.",
+          "Phát triển các giải pháp sau thu hoạch và chế biến phù hợp với đặc tính từng loại nông sản.",
+          "Hướng đến duy trì chất lượng, đa dạng hóa ứng dụng và nâng cao giá trị nông sản trong chuỗi cung ứng.",
         ],
       },
     ],
   },
   {
-    id: "dich-vu",
-    label: "Dịch Vụ & Chuyển Giao",
+    id: "chuyen-giao",
+    label: "Chuyển giao công nghệ",
     description:
-      "Đồng hành cùng nông dân, hợp tác xã và doanh nghiệp từ khảo sát, cung ứng đầu vào, chuyển giao kỹ thuật đến trải nghiệm thực tế.",
+      "Những giống, công nghệ, quy trình và mô hình đã được kiểm chứng được chuẩn hóa để chuyển giao và cùng nông dân, hợp tác xã, doanh nghiệp áp dụng trong thực tế.",
     cards: [
       {
-        title: "01. Tư Vấn Quy Hoạch & Vận Hành Farm",
+        title:
+          "BIẾN KINH NGHIỆM THỰC TẾ THÀNH GIẢI PHÁP CÓ THỂ NHÂN RỘNG",
         bullets: [
-          "Đánh giá hiện trạng: Đất, nguồn nước, khí hậu, hạ tầng và địa hình khu đất.",
-          "Tư vấn thiết kế tổng thể trang trại tập trung, tối ưu hóa hệ sinh thái theo từng vùng.",
-          "Xây dựng định mức đầu tư tài chính, bài toán dòng tiền và quy trình vận hành chuẩn VietGAP/GlobalG.A.P.",
+          "Chuẩn hóa giống, công nghệ, quy trình và mô hình dựa trên kinh nghiệm triển khai thực tế.",
+          "Đồng hành cùng nông dân, hợp tác xã và doanh nghiệp trong quá trình tiếp nhận, ứng dụng và phát triển mô hình.",
         ],
       },
+    ],
+  },
+  {
+    id: "thi-truong",
+    label: "Phát triển thị trường",
+    description:
+      "Unifarm kết nối nhu cầu thị trường với sản xuất để cùng đối tác phát triển sản phẩm, tiêu chuẩn và kế hoạch cung ứng phù hợp.",
+    cards: [
       {
-        title: "02. Cung Ứng Giống & Vật Tư Chuẩn Hóa",
+        title: "ĐƯA SẢN PHẨM ĐẾN ĐÚNG THỊ TRƯỜNG",
         bullets: [
-          "Cung ứng nguồn giống cây trồng nuôi cấy mô thuần chủng: Giống chuối VIP 126 kháng bệnh, giống ổi Đài Loan, dứa MD2.",
-          "Cung cấp thiết bị tưới nhỏ giọt bù áp, trạm lọc tự động và hệ thống cảm biến môi trường.",
-          "Cung cấp phân bón hữu cơ vi sinh, chế phẩm sinh học an toàn bảo vệ sức khỏe đất và rễ.",
-        ],
-      },
-      {
-        title: "03. Chuyển Giao Quy Trình Canh Tác (SOP)",
-        steps: [
-          {
-            title: "Tiếp nhận & Nghiên cứu",
-            desc: "Thử nghiệm công nghệ tiên tiến (Israel, Nhật Bản, Đài Loan) tại nông trường Unifarm.",
-          },
-          {
-            title: "Nội địa hóa quy trình",
-            desc: "Tối ưu hóa SOP cho phù hợp khí hậu và năng lực lao động địa phương.",
-          },
-          {
-            title: "Chuyển giao & Đồng hành",
-            desc: "Đào tạo tay nghề trực tiếp tại vườn và hỗ trợ kỹ thuật suốt chu kỳ mùa vụ.",
-          },
-        ],
-      },
-      {
-        title: "04. Du Lịch Trải Nghiệm & Mô Hình School in Farm",
-        bullets: [
-          "Tham quan thực tế mô hình trang trại công nghệ cao: Nhà kính sinh học, hệ thống tưới tự động, cáp treo thu hoạch.",
-          "Trải nghiệm quy trình sản xuất, thu hoạch và đóng gói chuẩn xuất khẩu.",
-          "Thực hiện mô hình School in Farm: Đưa sinh viên, học viên, chuyên gia đến học hỏi và nghiên cứu giải quyết bài toán thực tế ngoài đồng ruộng.",
+          "Kết nối nhu cầu thị trường với năng lực sản xuất và nguồn cung nông sản.",
+          "Cùng đối tác định hướng sản phẩm, tiêu chuẩn chất lượng và kế hoạch cung ứng phù hợp với thị trường mục tiêu.",
         ],
       },
     ],
@@ -182,20 +111,30 @@ const TABS: TabData[] = [
 ];
 
 const TAB_IMAGES: Record<string, { src: string; alt: string; tag: string }> = {
-  "vung-trong": {
+  giong: {
     src: "/images/UNIFARM/16.JPG",
-    alt: "Nông trường Unifarm nhìn từ trên cao với hệ thống nhà kính và vùng trồng chuối quy hoạch khép kín",
-    tag: "500+ ha vùng trồng công nghệ cao",
+    alt: "Khu nông nghiệp công nghệ cao Unifarm",
+    tag: "Nghiên cứu và sản xuất giống",
+  },
+  "canh-tac": {
+    src: "/images/UNIFARM/16.JPG",
+    alt: "Vùng sản xuất nông nghiệp công nghệ cao Unifarm",
+    tag: "Canh tác bền vững trên quy mô lớn",
   },
   "che-bien": {
     src: "/images/UNIFARM/buong-chuoi.jpg",
-    alt: "Vườn chuối Unifarm trước thu hoạch, buồng chuối được bao bọc bảo vệ theo quy trình chuẩn",
-    tag: "Waste-to-Value: tối ưu từng đơn vị tài nguyên",
+    alt: "Nông sản chuối tại vùng sản xuất Unifarm",
+    tag: "Chế biến và gia tăng giá trị",
   },
-  "dich-vu": {
+  "chuyen-giao": {
     src: "/images/UNIFARM/UNIFARM/hinh-chinh/1787655032405_1582751505492234802_4935324150679931320_4d390c1e5cd8777f2674a00dd1340dc7.jpg",
-    alt: "Đội ngũ kỹ thuật Unifarm đồng hành cùng nông dân tại vườn chuối",
-    tag: "Đồng hành từ khảo sát đến chuyển giao",
+    alt: "Đội ngũ kỹ thuật Unifarm đồng hành tại vùng sản xuất",
+    tag: "Chuyển giao công nghệ",
+  },
+  "thi-truong": {
+    src: "/images/UNIFARM/buong-chuoi.jpg",
+    alt: "Nông sản chuối từ vùng sản xuất Unifarm",
+    tag: "Phát triển thị trường",
   },
 };
 
@@ -211,7 +150,7 @@ export default function DuanTruCot() {
       id="tru-cot"
       className="relative w-full overflow-visible bg-[#fffde7] bg-[url('/images/nen_vang.jpg')] bg-repeat py-14 sm:overflow-hidden sm:py-28"
     >
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
         {/* Header */}
         <motion.p
           initial={reduce ? false : { opacity: 0, y: 18 }}
@@ -221,17 +160,18 @@ export default function DuanTruCot() {
           className="text-xs font-bold uppercase tracking-[0.32em]"
           style={{ color: C.green }}
         >
-          {t("Ba trụ cột hạ tầng Unifarm")}
+          {t("Năng lực hợp tác")}
         </motion.p>
+
         <motion.h2
           initial={reduce ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-          className="mt-4 max-w-3xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl"
+          className="mt-4 max-w-5xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl"
           style={{ color: C.forest }}
         >
-          {t("Vùng trồng · Chế biến · Chuyển giao")}
+          {t("Kết nối năng lực trong toàn chuỗi")}
         </motion.h2>
         <motion.div
           initial={reduce ? false : { scaleX: 0 }}
@@ -242,207 +182,173 @@ export default function DuanTruCot() {
           style={{ background: C.green }}
         />
 
-        {/* Tab bar — mobile: dải pill cuộn ngang, nền xanh trượt mượt theo
-            tab đang chọn (kiểu segmented control cao cấp hơn gạch chân
-            phẳng). "Dính" lại ngay dưới thanh nav khi cuộn xuống đọc nội
-            dung, để đổi tab không phải cuộn lên lại từ đầu — tự hết dính
-            khi cuộn qua khỏi section này (giới hạn trong khối cha, không
-            đụng section khác). Từ sm trở lên giữ nguyên kiểu gạch chân +
-            tự xuống dòng, nằm yên tại chỗ như cũ, không đổi gì. */}
-        <div className="sticky top-[64px] z-30 -mx-5 mt-6 bg-[#fffde7] px-5 pb-2 pt-1 shadow-[0_10px_16px_-14px_rgba(6,59,36,0.35)] sm:relative sm:top-auto sm:z-auto sm:mx-0 sm:mt-10 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:shadow-none">
-          <div
-            className="flex flex-nowrap gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:gap-2 sm:overflow-visible sm:border-b sm:pb-0"
-            style={{ borderColor: `${C.forest}18` }}
-            role="tablist"
-            aria-label={t("Ba trụ cột hạ tầng Unifarm")}
-          >
-            {TABS.map((tabItem, i) => {
-              const isActive = i === activeTab;
-              return (
-                <button
-                  key={tabItem.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveTab(i)}
-                  className={`relative shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-xs font-bold uppercase tracking-wide ring-1 transition-colors sm:rounded-none sm:bg-transparent sm:px-5 sm:py-3 sm:text-sm sm:ring-0 ${
-                    isActive
-                      ? "text-white ring-transparent sm:text-[#063B24]"
-                      : "bg-white/70 text-[#063B24] ring-[#063B24]/15 sm:bg-transparent sm:text-[#9ca3af]"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="truCotTabPillMobile"
-                      className="absolute inset-0 rounded-full shadow-[0_6px_16px_-4px_rgba(6,59,36,0.55)] sm:hidden"
-                      style={{ background: C.green }}
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                  <span
-                    className={`relative mr-1.5 sm:!text-[#8FBF72] ${
-                      isActive ? "text-[#FFFACD]" : "text-[#8FBF72]"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="relative">{t(tabItem.label)}</span>
-                  {isActive && (
-                    <motion.span
-                      layoutId="truCotTabIndicator"
-                      className="absolute inset-x-2 -bottom-px hidden h-[3px] rounded-full sm:block"
-                      style={{ background: C.green }}
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          {/* gợi ý còn tab bị cắt ở mép phải, chỉ trên mobile */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fffde7] to-transparent sm:hidden"
-          />
-        </div>
+        <motion.p
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
+          className="mt-6 max-w-4xl text-sm leading-7 text-neutral-600 sm:text-base"
+        >
+          {t(
+            "Unifarm kết nối các năng lực từ nghiên cứu và sản xuất giống, canh tác bền vững trên quy mô lớn, chế biến, chuyển giao công nghệ đến phát triển thị trường để cùng đối tác xây dựng những dự án có hiệu quả và có khả năng nhân rộng."
+          )}
+        </motion.p>
 
-        {/* Tab content: ảnh minh hoạ (trái) + nội dung (phải) */}
-        <div className="mt-6 grid grid-cols-1 gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-          {/* Image panel */}
-          <div className="lg:sticky lg:top-28 lg:self-start">
+        {/* Một khối năng lực duy nhất: ảnh bên trái, 5 mục lựa chọn bên phải */}
+        <div className="mt-6 grid grid-cols-1 items-stretch gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-2 lg:gap-8">
+          {/* Ảnh bên trái */}
+          <div className="relative min-h-[280px] overflow-hidden rounded-3xl shadow-[0_30px_70px_-25px_rgba(6,59,36,0.35)] sm:min-h-[360px] lg:min-h-0 lg:h-full lg:self-stretch">
             <div
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-25px_rgba(6,59,36,0.45)] sm:aspect-[16/10] lg:aspect-[4/5]"
+              className="relative h-[280px] w-full sm:h-[360px] lg:h-full lg:min-h-[500px]"
               style={{ background: C.forest }}
             >
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={image.src}
-                  initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.12 }}
+                  key={image.src + tab.id}
+                  initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.04 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.9, ease: EASE }}
+                  exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.45, ease: EASE }}
                   className="absolute inset-0"
                 >
                   <Image
                     src={image.src}
                     alt={t(image.alt)}
                     fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover"
                     priority={activeTab === 0}
                   />
                 </motion.div>
               </AnimatePresence>
 
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
 
-              {/* <motion.div
-                key={`${image.tag}-caption`}
-                initial={reduce ? false : { opacity: 0, y: 14 }}
+              <motion.div
+                key={image.tag}
+                initial={reduce ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
-                className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-6 sm:p-7"
+                transition={{ duration: 0.3, ease: EASE }}
+                className="absolute inset-x-0 bottom-0 p-4 sm:p-6"
               >
                 <span
-                  className="w-fit rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
-                  style={{ background: `${C.green}` }}
+                  className="inline-flex rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white"
+                  style={{ background: C.green }}
                 >
-                  {String(activeTab + 1).padStart(2, "0")} / {String(TABS.length).padStart(2, "0")}
+                  {String(activeTab + 1).padStart(2, "0")} / 05
                 </span>
-                <p className="text-lg font-extrabold leading-snug text-white sm:text-xl">
-                  {image.tag}
-                </p>
-              </motion.div> */}
+
+                <h3 className="mt-2.5 max-w-xl text-lg font-extrabold uppercase leading-snug text-white sm:text-xl">
+                  {t(tab.cards[0].title)}
+                </h3>
+              </motion.div>
             </div>
           </div>
 
-          {/* Content cards */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={tab.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.45, ease: EASE }}
-            >
-              <p className="max-w-3xl text-base font-semibold leading-relaxed" style={{ color: C.fresh }}>
-                {t(tab.description)}
-              </p>
+          {/* 5 mục có chiều cao đồng đều */}
+          <div className="grid grid-rows-5 gap-2.5 lg:min-h-[500px]">
+            {TABS.map((tabItem, i) => {
+              const isActive = i === activeTab;
 
-              <div
-                className={`mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:gap-5 ${
-                  tab.cards.length === 4 ? "sm:grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-3"
-                }`}
-              >
-                {tab.cards.map((card, ci) => (
-                  <motion.div
-                    key={card.title}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.08 + ci * 0.08, ease: EASE }}
-                    className="group relative flex flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[0_2px_14px_rgba(6,59,36,0.07)] ring-1 ring-[#063B24]/[0.06] transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-12px_rgba(6,59,36,0.22)] sm:p-6"
+              return (
+                <motion.button
+                  key={tabItem.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(i)}
+                  whileTap={{ scale: 0.99 }}
+                  className={`group relative flex min-h-[88px] w-full items-center gap-3 overflow-hidden rounded-2xl border p-3.5 text-left transition-all duration-300 sm:min-h-[96px] sm:p-4 lg:min-h-0 ${
+                    isActive
+                      ? "border-[#006400]/40 bg-[#063B24] text-white shadow-[0_16px_35px_-18px_rgba(6,59,36,0.6)]"
+                      : "border-[#063B24]/10 bg-white/85 text-[#12210F] hover:border-[#006400]/30 hover:bg-white hover:shadow-md"
+                  }`}
+                >
+                  <span
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-extrabold ${
+                      isActive
+                        ? "bg-white/15 text-[#FFFACD]"
+                        : "bg-[#006400]/[0.08] text-[#006400]"
+                    }`}
                   >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-xs font-extrabold uppercase leading-snug sm:text-sm">
+                      {t(tabItem.label)}
+                    </span>
+
                     <span
-                      aria-hidden
-                      className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
-                      style={{ background: C.green }}
-                    />
-
-                    <h3
-                      className="uppercase text-lg font-extrabold leading-snug"
-                      style={{ color: C.forest }}
+                      className={`mt-1 block line-clamp-2 text-[11px] leading-relaxed sm:text-xs ${
+                        isActive ? "text-white/80" : "text-neutral-500"
+                      }`}
                     >
-                      {t(card.title)}
-                    </h3>
+                      {t(tabItem.description)}
+                    </span>
+                  </span>
 
-                    {card.meta && (
-                      <p className="mt-3 text-sm leading-relaxed">
-                        <span className="font-bold uppercase tracking-wide" style={{ color: C.ink }}>
-                          {t(card.meta.label)}:
-                        </span>{" "}
-                        <span className="text-neutral-600">{t(card.meta.value)}</span>
-                      </p>
-                    )}
+                  <span
+                    className={`ml-auto shrink-0 text-lg transition-transform ${
+                      isActive
+                        ? "translate-x-0 text-[#FFFACD]"
+                        : "-translate-x-1 text-[#006400]/55 group-hover:translate-x-0"
+                    }`}
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
 
-                    {card.bullets && (
-                      <ul className="mt-4 space-y-2.5">
-                        {card.bullets.map((b) => (
-                          <li key={b} className="flex gap-2.5 text-sm leading-relaxed text-neutral-600">
-                            <span
-                              className="mt-2 h-1 w-1 shrink-0 rounded-full"
-                              style={{ background: C.blue }}
-                            />
-                            {t(b)}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {card.steps && (
-                      <div className="mt-4 space-y-4 border-l pl-4" style={{ borderColor: `${C.forest}18` }}>
-                        {card.steps.map((s, si) => (
-                          <div key={s.title} className="flex gap-3">
-                            <CheckCircle2
-                              className="mt-0.5 h-4 w-4 shrink-0"
-                              style={{ color: C.green }}
-                            />
-                            <div>
-                              <p className="text-sm font-bold" style={{ color: C.ink }}>
-                                {String(si + 1).padStart(2, "0")}. {t(s.title)}
-                              </p>
-                              <p className="mt-1 text-sm leading-relaxed text-neutral-600">{t(s.desc)}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                  {isActive && (
+                    <motion.span
+                      layoutId="truCotActiveItem"
+                      className="absolute inset-y-2.5 left-0 w-1 rounded-r-full"
+                      style={{ background: C.soft }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+
+        {/* Chuỗi năng lực liên kết xuyên suốt */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mt-10 rounded-2xl border p-5 sm:mt-14 sm:p-7"
+          style={{ borderColor: `${C.green}25`, background: "rgba(255,255,255,0.7)" }}
+        >
+          <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: C.green }}>
+            {t("Một chuỗi năng lực xuyên suốt")}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+            {[
+              "Nghiên cứu & sản xuất giống",
+              "Canh tác bền vững trên quy mô lớn",
+              "Chế biến",
+              "Chuyển giao công nghệ",
+              "Phát triển thị trường",
+            ].map((item, index, items) => (
+              <div key={item} className="flex items-center gap-3">
+                <span
+                  className="rounded-full px-3 py-2 text-xs font-bold leading-relaxed sm:px-4 sm:text-sm"
+                  style={{ color: C.forest, background: `${C.green}0D`, border: `1px solid ${C.green}25` }}
+                >
+                  {t(item)}
+                </span>
+                {index < items.length - 1 && (
+                  <span aria-hidden="true" className="text-lg font-semibold" style={{ color: C.fresh }}>
+                    →
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+        </div>
     </section>
   );
 }

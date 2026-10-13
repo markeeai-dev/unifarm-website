@@ -25,23 +25,23 @@ const C = {
 const STEPS = [
   {
     number: "01",
-    vi: "Thử nghiệm",
-    desc: "Triển khai mô hình quy mô nhỏ tại nông trường Unifarm để kiểm tra tính khả thi kỹ thuật và hiệu quả kinh tế.",
+    vi: "Hiểu bài toán",
+    desc: "Xác định thị trường, sản phẩm, mục tiêu và vai trò của mỗi bên.",
   },
   {
     number: "02",
-    vi: "Kiểm chứng",
-    desc: "Đối chiếu kết quả qua nhiều vụ mùa, nhiều điều kiện khí hậu và thổ nhưỡng trước khi nhân rộng.",
+    vi: "Đánh giá điều kiện",
+    desc: "Đánh giá đất, nước, khí hậu, hạ tầng, lao động, vốn và năng lực tổ chức sản xuất.",
   },
   {
     number: "03",
-    vi: "Chuẩn hóa",
-    desc: "Đóng gói quy trình thành SOP rõ ràng, dễ đào tạo và dễ kiểm soát chất lượng khi chuyển giao.",
+    vi: "Thử nghiệm & kiểm chứng",
+    desc: "Kiểm chứng năng suất, chất lượng, tỷ lệ đạt chuẩn, chi phí và hiệu quả kinh tế.",
   },
   {
     number: "04",
-    vi: "Nhân rộng",
-    desc: "Mở rộng mô hình đã chuẩn hóa tới nhiều vùng trồng và đối tác, bảo đảm hiệu quả bền vững.",
+    vi: "Chuẩn hóa & nhân rộng",
+    desc: "Hoàn thiện quy trình và mở rộng khi mô hình chứng minh được hiệu quả.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function DuanNguyenTac() {
 
   return (
     <section className="relative w-full overflow-hidden bg-white bg-[url('/images/nen_trang.png')] bg-repeat py-16 sm:py-20">
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-10">
         {/* Header gọn: eyebrow + tiêu đề + 1 dòng mô tả */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 18 }}
@@ -64,19 +64,19 @@ export default function DuanNguyenTac() {
             className="text-xs font-bold uppercase tracking-[0.32em]"
             style={{ color: C.green }}
           >
-            The Farmer Must Make Money
+            - NGUYÊN TẮC PHÁT TRIỂN -
           </p>
           <h2
             className="uppercase mt-3 text-2xl font-extrabold leading-[1.15] tracking-tight sm:text-3xl lg:text-4xl"
             style={{ color: C.forest }}
           >
-            {t("Nguyên Tắc Phát Triển")}
+            {t("NGƯỜI SẢN XUẤT PHẢI CÓ HIỆU QUẢ")}
           </h2>
           <p
             className="mt-3 text-sm leading-relaxed sm:text-base"
             style={{ color: C.fresh }}
           >
-            {t("Mọi dự án mở rộng tuân thủ quy trình 4 bước:")}
+            {t("Unifarm chỉ nhân rộng một mô hình khi hiệu quả đã được kiểm chứng trong thực tế.")}
           </p>
         </motion.div>
 
