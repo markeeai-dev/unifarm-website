@@ -145,9 +145,17 @@ export default function AgricultureHero() {
 
           <h2 className="agrihero-heading uppercase">{t("Làm nông nghiệp là yêu Đất – Nước")}</h2>
 
-          <p className="agrihero-paragraph agrihero-quote">
-            {t("“Nhiều năm qua, trước lối vào văn phòng của Unifarm luôn có một câu phương châm: ‘Làm nông nghiệp là yêu Đất - Nước’, như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống. Với tôi, đó chính là yêu Đất Nước.”")}
-          </p>
+<p className="agrihero-paragraph agrihero-quote">
+  {t(
+    "“Nhiều năm qua, trước lối vào văn phòng của Unifarm luôn có một câu phương châm:"
+  )}{" "}
+  <strong className="font-bold not-italic text-[#07583B]">
+    {t("‘Làm nông nghiệp là yêu Đất - Nước’")}
+  </strong>
+  {t(
+    ", như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống. Với tôi, đó chính là yêu Đất Nước.”"
+  )}
+</p>
 
           <div className="agrihero-attribution">
             <span className="agrihero-attribution-name">{t("Phạm Quốc Liêm")}</span>
@@ -186,6 +194,10 @@ export default function AgricultureHero() {
           color: var(--agrihero-green-ink);
         }
 
+        .agrihero-heading {
+            font-weight: 800;
+            color: #07583b;
+          }
         /* ---------- Khối trang trí nền ---------- */
         .agrihero-blob-yellow,
         .agrihero-blob-blue {

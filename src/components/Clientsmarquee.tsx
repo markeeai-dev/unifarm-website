@@ -4,25 +4,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
+// Đối tác chiến lược — chỉ 3 đơn vị thực tế.
 const PARTNERS = [
-  // Thêm logo đối tác thực tế tại đây
-  { name: "Co.opmart", logo: "/images/clients/coopmart.png" },
-  { name: "WinMart", logo: "/images/clients/winmart.png" },
-  { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
-  { name: "AEON", logo: "/images/clients/aeon.png" },
-  { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
-  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
   { name: "DOLE", logo: "/images/clients/dole.png" },
+  { name: "Vietnam Rubber Group", logo: "/images/clients/doi-tac/logo-blip-vn.png" },
+  { name: "DRC", logo: "/images/clients/doi-tac/DRC-Logo.png" },
 ];
 
+// Khách hàng chủ chốt.
 const CLIENTS = [
   { name: "Co.opmart", logo: "/images/clients/coopmart.png" },
-  { name: "WinMart", logo: "/images/clients/winmart.png" },
-  { name: "Big C / GO!", logo: "/images/clients/bigc-go.png" },
+  { name: "Coop Sapporo", logo: "/images/clients/logo-white.svg" },
   { name: "AEON", logo: "/images/clients/aeon.png" },
-  { name: "Bách Hoá Xanh", logo: "/images/clients/bach-hoa-xanh.png" },
-  { name: "MM Mega Market", logo: "/images/clients/mm-mega-market.png" },
-  { name: "DOLE", logo: "/images/clients/dole.png" },
+  { name: "GO!", logo: "/images/clients/logo-sieu-thi-go-compressed.jpg" },
+  { name: "Lotte Mart", logo: "/images/clients/lotte-mart.jpg" },
+  { name: "Shinsegae", logo: "/images/clients/Shinsegae_logo.svg.webp" },
+  { name: "FamilyMart", logo: "/images/clients/FamilyMart_Logo_(2016-).svg.webp" },
+  { name: "GS25", logo: "/images/clients/GS25_bi_(2019).svg" },
+  { name: "7-Eleven", logo: "/images/clients/7-Eleven-Logo.png" },
 ];
 
 type Logo = {
@@ -34,12 +33,21 @@ function LogoMarquee({
   items,
   direction = "left",
   duration = 30,
+  size = "md",
 }: {
   items: Logo[];
   direction?: "left" | "right";
   duration?: number;
+  size?: "md" | "lg";
 }) {
   if (items.length === 0) return null;
+
+  const boxClass =
+    size === "lg"
+      ? "flex h-28 w-32 shrink-0 items-center justify-center px-2 transition-transform duration-300 hover:-translate-y-1 sm:h-40 sm:w-40 sm:px-3"
+      : "flex h-16 w-32 shrink-0 items-center justify-center px-4 transition-transform duration-300 hover:-translate-y-1 sm:h-20 sm:w-44 sm:px-5";
+  const imgClass =
+    size === "lg" ? "h-24 w-full object-contain sm:h-32" : "h-10 w-full object-contain sm:h-12";
 
   return (
     <div
@@ -58,16 +66,13 @@ function LogoMarquee({
         style={{ animationDuration: `${duration}s` }}
       >
         {[...items, ...items].map((item, i) => (
-          <div
-            key={`${item.name}-${i}`}
-            className="flex h-16 w-32 shrink-0 items-center justify-center px-4 transition-transform duration-300 hover:-translate-y-1 sm:h-20 sm:w-44 sm:px-5"
-          >
+          <div key={`${item.name}-${i}`} className={boxClass}>
             <img
               src={item.logo}
               alt={item.name}
               draggable={false}
               loading="lazy"
-              className="h-10 w-full object-contain sm:h-12"
+              className={imgClass}
             />
           </div>
         ))}
@@ -134,24 +139,24 @@ export default function ClientsMarquee() {
         </div>
 
         <div className="flex flex-col gap-10 sm:gap-14">
-          {/* ĐỐI TÁC */}
-          {PARTNERS.length > 0 && (
-            <div className="w-full">
+          {/* KHÁCH HÀNG */}
+          <div className="w-full">
+            {CLIENTS.length > 0 && (
               <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
-                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
-                <h3 className="text-lg font-bold uppercase tracking-wider text-[#006400] sm:text-xl">
-                  {t("Đối tác")}
+                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
+                <h3 className="text-lg font-bold uppercase tracking-wider text-[#2582b8] sm:text-xl">
+                  {t("Khách hàng chủ chốt")}
                 </h3>
-                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
+                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
               </div>
+            )}
 
-              <LogoMarquee
-                items={PARTNERS}
-                direction="left"
-                duration={28}
-              />
-            </div>
-          )}
+            <LogoMarquee
+              items={CLIENTS}
+              direction="right"
+              duration={42}
+            />
+          </div>
 
           {/* Đường phân cách */}
           {PARTNERS.length > 0 && (
@@ -164,24 +169,27 @@ export default function ClientsMarquee() {
             />
           )}
 
-          {/* KHÁCH HÀNG */}
-          <div className="w-full">
-            {PARTNERS.length > 0 && (
+          {/* ĐỐI TÁC — chỉ 3 logo nên thu hẹp track lại cho gọn, không kéo full width */}
+          {PARTNERS.length > 0 && (
+            <div className="w-full">
               <div className="mb-5 flex items-center justify-center gap-3 sm:mb-7">
-                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
-                <h3 className="text-lg font-bold uppercase tracking-wider text-[#2582b8] sm:text-xl">
-                  {t("Khách hàng")}
+                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
+                <h3 className="text-lg font-bold uppercase tracking-wider text-[#006400] sm:text-xl">
+                  {t("Đối tác chiến lược")}
                 </h3>
-                <span className="h-px w-8 bg-[#2582b8]/40 sm:w-12" />
+                <span className="h-px w-8 bg-[#006400]/40 sm:w-12" />
               </div>
-            )}
 
-            <LogoMarquee
-              items={CLIENTS}
-              direction="right"
-              duration={42}
-            />
-          </div>
+              <div className="mx-auto max-w-md sm:max-w-xl">
+                <LogoMarquee
+                  items={PARTNERS}
+                  direction="left"
+                  duration={18}
+                  size="lg"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
