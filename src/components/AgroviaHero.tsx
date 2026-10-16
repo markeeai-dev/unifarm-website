@@ -223,7 +223,7 @@ export default function AgroviaHero() {
                 />
               </svg>
             </button>
-            <button className="rounded-full border border-white/55 bg-transparent px-6 py-3.5 text-[0.92rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:text-ink active:translate-y-0 active:scale-[.97]">
+            <button className="rounded-full border border-white/55 bg-transparent px-6 py-3.5 text-[0.92rem] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink hover:shadow-[0_12px_26px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[.97]">
               {t('Đánh Giá Nông Trại')}
             </button>
           </div>

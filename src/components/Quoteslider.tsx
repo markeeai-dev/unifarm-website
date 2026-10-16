@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /**
@@ -25,9 +26,21 @@ type Slide = {
   image: string;
   quote: string;
   author: string;
+  // Ảnh chân dung tác giả (avatar) — để trống thì hiển thị chữ cái đầu
+  // tên làm placeholder. Điền đường dẫn ảnh thật vào đây khi có.
+  avatar?: string;
   articleTitle: string;
   link: string;
 };
+
+function getInitials(name: string) {
+  const words = name.trim().split(/\s+/);
+  const first = words[0]?.[0] ?? "";
+  const last = words.length > 1 ? words[words.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
+
+const AUTHOR_AVATAR = "/images/avatar.jpg";
 
 // LƯU Ý: slide 1, 3, 6 dùng link bài viết thật (tìm thấy trên
 // nongnghiepmoitruong.vn, trùng khớp tiêu đề). Slide 2, 4, 5 vẫn tạm trỏ về
@@ -38,6 +51,7 @@ const SLIDES: Slide[] = [
     quote:
       "Nếu có thể góp sức để nâng tầm nông nghiệp và đem lại cuộc sống tốt đẹp hơn cho người nông dân Việt Nam, tôi sẽ không bao giờ ngần ngại.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Ước mơ thuở thiếu thời đến trăn trở nông nghiệp, nông dân",
     link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/doanh-nhan-pham-quoc-liem-uoc-mo-thuo-thieu-thoi-den-tran-tro-nong-nghiep-nong-dan-d375269.html",
   },
@@ -46,6 +60,7 @@ const SLIDES: Slide[] = [
     quote:
       "Cùng nhau, chúng ta phải định hướng sản xuất hàng hóa có chất lượng tốt nhất trong ngành của mình, đồng thời cam kết hợp tác lâu dài, ổn định, chân thành với đối tác và khách hàng.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Chuẩn duy nhất, chuẩn cao nhất",
     link: "#",
   },
@@ -54,6 +69,7 @@ const SLIDES: Slide[] = [
     quote:
       "Khi người nông dân có thu nhập tốt hơn, doanh nghiệp có năng lực cạnh tranh cao hơn, người tiêu dùng được sử dụng những sản phẩm an toàn hơn và môi trường được bảo vệ tốt hơn, đó mới là thành công thực sự của nông nghiệp.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Từ câu chuyện ngành chuối, nghĩ về tương lai nông nghiệp Việt Nam",
     link: "https://nongnghiepmoitruong.vn/tri-thuc-nong-dan/tu-cau-chuyen-nganh-chuoi-nghi-ve-tuong-lai-nong-nghiep-viet-nam-d817450.html",
   },
@@ -62,6 +78,7 @@ const SLIDES: Slide[] = [
     quote:
       "Ở đâu có thách thức, ở đó có cơ hội. Chìa khóa trong trường hợp này có tên 'liên kết'. Việt Nam cần xây dựng cho bằng được những liên kết bền vững giữa các doanh nghiệp có vùng trồng và thị trường lớn với hàng trăm nghìn nông hộ có diện tích nhỏ.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Chuyện chất lượng sầu riêng – Lo gần nhưng phải liệu xa",
     link: "#",
   },
@@ -70,6 +87,7 @@ const SLIDES: Slide[] = [
     quote:
       "Sự cải tiến, sáng tạo, thay đổi phải không được có điểm dừng, đồng thời, phải luôn nhìn nhận bằng thái độ tỉnh thức. Chúng ta luôn sẵn sàng 'bước qua mùa đông để đón nắng xuân'.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Bước qua mùa đông để đón nắng xuân",
     link: "#",
   },
@@ -78,6 +96,7 @@ const SLIDES: Slide[] = [
     quote:
       "Làm nông nghiệp là yêu Đất - Nước, như để nhắc nhở cho từng con người của chúng tôi về việc phải giữ Đất, Nước như tài nguyên và mạch sống, giữ niềm tự hào Việt Nam, cũng như phải giữ được tinh thần sẻ chia và phụng sự, vì con người và môi trường sống.",
     author: "Phạm Quốc Liêm",
+    avatar: AUTHOR_AVATAR,
     articleTitle: "Làm nông nghiệp là yêu Đất Nước",
     link: "https://nongnghiepmoitruong.vn/lam-nong-nghiep-la-yeu-dat-nuoc-d798204.html",
   },
@@ -188,6 +207,19 @@ export default function QuoteSlider() {
           </div>
 
           <div className="mt-8 flex items-center gap-3">
+            {SLIDES[index].avatar ? (
+              <Image
+                src={SLIDES[index].avatar}
+                alt={SLIDES[index].author}
+                width={80}
+                height={80}
+                className="h-16 w-16 shrink-0 rounded-full border-2 border-[#87cefa]/70 object-cover sm:h-20 sm:w-20"
+              />
+            ) : (
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-[#87cefa]/70 bg-[#00230f] text-lg font-bold text-[#fffacd] sm:h-20 sm:w-20 sm:text-xl">
+                {getInitials(SLIDES[index].author)}
+              </span>
+            )}
             <span className="h-8 w-1 shrink-0 rounded-full bg-[#87cefa]" />
             <p className="text-sm font-bold uppercase tracking-wider text-[#fffacd] sm:text-base">
               {t(SLIDES[index].author)}

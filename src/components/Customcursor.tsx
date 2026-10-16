@@ -5,9 +5,7 @@ import { usePathname } from "next/navigation";
 
 /**
  * CustomCursor — hiệu ứng thêm cho con trỏ chuột thật của máy (không ẩn/thay
- * con trỏ gốc). Một vòng tròn nhỏ "đuổi theo" chuột với độ trễ mượt (nội suy
- * tuyến tính mỗi frame) và kéo dài theo hướng di chuyển khi rê nhanh — tạo
- * cảm giác như một "con chuột thứ 2" bị kéo theo con trỏ thật.
+ * con trỏ gốc). Một vòng tròn nhỏ bám sát chuột tức thì, không độ trễ.
  * - Phồng to + đổi màu khi rê vào link/button để báo hiệu có thể bấm được.
  * - Tự tắt trên thiết bị cảm ứng / không có chuột thật (pointer: fine),
  *   khi người dùng bật "giảm hiệu ứng chuyển động" (prefers-reduced-motion),
@@ -32,17 +30,10 @@ export default function CustomCursor() {
 
     document.documentElement.classList.add("custom-cursor-active");
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
-    let ringAngle = 0;
-    let rafId = 0;
-
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      const transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      dot.style.transform = transform;
+      ring.style.transform = transform;
     };
 
     const onPointerOver = (e: PointerEvent) => {
@@ -54,35 +45,13 @@ export default function CustomCursor() {
       }
     };
 
-    const tick = () => {
-      // Nội suy tuyến tính — vòng tròn "đuổi theo" con trỏ thật một cách mượt, có trễ nhẹ,
-      // giống như một "con chuột thứ 2" bị kéo theo.
-      const prevRingX = ringX;
-      const prevRingY = ringY;
-      ringX += (mouseX - ringX) * 0.16;
-      ringY += (mouseY - ringY) * 0.16;
-
-      // Càng bị kéo nhanh, vòng tròn càng kéo dài theo hướng di chuyển (hiệu ứng "vệt kéo").
-      const dx = ringX - prevRingX;
-      const dy = ringY - prevRingY;
-      const dist = Math.hypot(dx, dy);
-      if (dist > 0.4) ringAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-      const stretch = 1 + Math.min(dist, 22) / 22 * 0.6;
-      const squeeze = 1 / Math.sqrt(stretch);
-
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) rotate(${ringAngle}deg) scale(${stretch}, ${squeeze})`;
-      rafId = requestAnimationFrame(tick);
-    };
-
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("pointerover", onPointerOver, { passive: true });
-    rafId = requestAnimationFrame(tick);
 
     return () => {
       document.documentElement.classList.remove("custom-cursor-active");
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("pointerover", onPointerOver);
-      cancelAnimationFrame(rafId);
     };
   }, [isAdminRoute]);
 

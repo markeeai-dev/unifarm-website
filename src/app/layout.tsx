@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     url: siteConfig.url,
-    images: [{ url: "/images/UNIFARM/DSC00385.jpg", width: 1200, height: 900, alt: siteConfig.name }],
+    images: [{ url: "/images/UNIFARM/nen-web.png", width: 1200, height: 900, alt: siteConfig.name }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: ["/images/UNIFARM/DSC00385.jpg"],
+    images: ["/images/UNIFARM/nen-web.png"],
   },
 };
 
