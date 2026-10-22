@@ -597,7 +597,8 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
           onClick={() => setSelected(null)}
         >
           <div
-            className="relative grid max-h-[92vh] w-full max-w-[1040px] grid-cols-1 gap-8 overflow-y-auto rounded-2xl bg-white p-6 pt-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:grid-cols-[1.15fr_1fr] sm:gap-10 sm:p-9 sm:pt-10"
+            data-lenis-prevent
+            className="relative grid max-h-[92vh] w-full max-w-[1240px] grid-cols-1 gap-8 overflow-y-auto rounded-2xl bg-white p-6 pt-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:grid-cols-[1fr_1.2fr] sm:gap-10 sm:p-9 sm:pt-10"
             style={{ animation: 'ps-fadeUp 380ms cubic-bezier(0.19,1,0.22,1) both' }}
             onClick={(e) => e.stopPropagation()}
           >
