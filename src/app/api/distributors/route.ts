@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -36,15 +37,27 @@ export async function POST(req: NextRequest) {
     sortOrder = Number(maxRows[0].next);
   }
 
-  const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
-
   const rows = await sql`
     INSERT INTO distributors
       (name, province, district, address, hours, phone, translations, sort_order)
     VALUES
-      (${name}, ${province || "Hồ Chí Minh"}, ${district}, ${address}, ${hours || ""}, ${phone || ""}, ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
+      (${name}, ${province || "Hồ Chí Minh"}, ${district}, ${address}, ${hours || ""}, ${phone || ""}, ${JSON.stringify({})}::jsonb, ${sortOrder})
     RETURNING *
   `;
+  const distributor = rows[0];
 
-  return NextResponse.json({ distributor: rows[0] }, { status: 201 });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — tránh bắt admin
+  // chờ cả chục giây gọi API dịch mỗi lần bấm Lưu (xem translate-content.ts).
+  after(async () => {
+    try {
+      const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
+      if (translations) {
+        await sql`UPDATE distributors SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${distributor.id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for distributor", distributor.id, err);
+    }
+  });
+
+  return NextResponse.json({ distributor }, { status: 201 });
 }

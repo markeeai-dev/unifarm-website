@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -38,8 +39,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   let sortOrder = Number(sort_order);
   if (!sortOrder || sortOrder <= 0) sortOrder = Number(current[0].sort_order);
 
-  const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
-
   const rows = await sql`
     UPDATE distributors SET
       name = ${name},
@@ -48,13 +47,27 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       address = ${address},
       hours = ${hours || ""},
       phone = ${phone || ""},
-      translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${sortOrder},
       updated_at = now()
     WHERE id::text = ${id}
     RETURNING *
   `;
-  return NextResponse.json({ distributor: rows[0] });
+  const distributor = rows[0];
+
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — giữ nguyên bản dịch
+  // cũ cho tới khi bản mới dịch xong, tránh bắt admin chờ khi bấm Lưu.
+  after(async () => {
+    try {
+      const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
+      if (translations) {
+        await sql`UPDATE distributors SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for distributor", id, err);
+    }
+  });
+
+  return NextResponse.json({ distributor });
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

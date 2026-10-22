@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -64,11 +65,6 @@ export async function POST(req: NextRequest) {
     sortOrder = Number(rows[0].next);
   }
 
-  const translations = await translateEntity(
-    { name, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status },
-    PRODUCT_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     INSERT INTO products
       (name, price, category, type, image, gallery, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status, translations, sort_order)
@@ -78,9 +74,26 @@ export async function POST(req: NextRequest) {
        ${description || ""}, ${JSON.stringify(specs || [])}::jsonb,
        ${JSON.stringify(commitments || [])}::jsonb, ${origin || ""}, ${season || ""},
        ${packaging || ""}, ${storage || ""}, ${supply_status || ""},
-       ${JSON.stringify(translations || {})}::jsonb, ${sortOrder})
+       ${JSON.stringify({})}::jsonb, ${sortOrder})
     RETURNING *
   `;
+  const product = rows[0];
 
-  return NextResponse.json({ product: rows[0] }, { status: 201 });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — tránh bắt admin
+  // chờ cả chục giây gọi API dịch mỗi lần bấm Lưu (xem translate-content.ts).
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { name, subtitle, standard, description, specs, commitments, origin, season, packaging, storage, supply_status },
+        PRODUCT_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE products SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${product.id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for product", product.id, err);
+    }
+  });
+
+  return NextResponse.json({ product }, { status: 201 });
 }

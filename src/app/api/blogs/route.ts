@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { randomUUID } from "crypto";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
@@ -47,20 +48,32 @@ export async function POST(req: NextRequest) {
 
   const publishedAt = status === "published" ? new Date().toISOString() : null;
 
-  const translations = await translateEntity(
-    { title, excerpt, tag: tag || "Tin tức", content },
-    BLOG_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     INSERT INTO blog_posts
       (slug, title, excerpt, content, tag, cover_image, author, status, is_featured, published_at, translations)
     VALUES
       (${slug}, ${title}, ${excerpt || ""}, ${content || ""}, ${tag || "Tin tức"},
        ${cover_image || ""}, ${author || "Unifarm"}, ${status || "draft"}, ${!!is_featured}, ${publishedAt},
-       ${JSON.stringify(translations || {})}::jsonb)
+       ${JSON.stringify({})}::jsonb)
     RETURNING *
   `;
+  const post = rows[0];
 
-  return NextResponse.json({ post: rows[0] }, { status: 201 });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — tránh bắt admin
+  // chờ cả chục giây gọi API dịch mỗi lần bấm Lưu (xem translate-content.ts).
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { title, excerpt, tag: tag || "Tin tức", content },
+        BLOG_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE blog_posts SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${post.id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for blog post", post.id, err);
+    }
+  });
+
+  return NextResponse.json({ post }, { status: 201 });
 }

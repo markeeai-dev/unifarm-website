@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -62,11 +63,6 @@ export async function PATCH(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const translations = await translateEntity(
-    { caption, partner_title, partner_bullets, stat, bottom, media },
-    TIMELINE_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     UPDATE timeline_milestones SET
       year = ${year},
@@ -78,14 +74,30 @@ export async function PATCH(
       image = ${image || ""},
       media = ${JSON.stringify(media || [])}::jsonb,
       bottom = ${JSON.stringify(bottom || [])}::jsonb,
-      translations = ${JSON.stringify(translations || {})}::jsonb,
       sort_order = ${Number(sort_order) || 0},
       updated_at = now()
     WHERE id::text = ${id}
     RETURNING *
   `;
+  const milestone = rows[0];
 
-  return NextResponse.json({ milestone: rows[0] });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — giữ nguyên bản dịch
+  // cũ cho tới khi bản mới dịch xong, tránh bắt admin chờ khi bấm Lưu.
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { caption, partner_title, partner_bullets, stat, bottom, media },
+        TIMELINE_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE timeline_milestones SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for timeline milestone", id, err);
+    }
+  });
+
+  return NextResponse.json({ milestone });
 }
 
 export async function DELETE(

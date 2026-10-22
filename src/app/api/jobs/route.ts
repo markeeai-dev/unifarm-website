@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -60,11 +61,6 @@ export async function POST(req: NextRequest) {
 
   const tagsArr = Array.isArray(tags) ? tags : [];
 
-  const translations = await translateEntity(
-    { title, dept, income, benefit, tags: tagsArr },
-    JOB_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     INSERT INTO jobs
       (title, level, dept, color, income, income_bucket, location, experience,
@@ -73,9 +69,26 @@ export async function POST(req: NextRequest) {
       (${title}, ${level || "Fresher"}, ${dept}, ${color || "#006400"}, ${income || ""},
        ${income_bucket || "Dưới 8 triệu"}, ${location}, ${experience || "Không yêu cầu"},
        ${headcount || 1}, ${benefit || ""}, ${deadline_date || null},
-       ${JSON.stringify(tagsArr)}::jsonb, ${JSON.stringify(translations || {})}::jsonb, ${status || "active"}, ${sortOrder})
+       ${JSON.stringify(tagsArr)}::jsonb, ${JSON.stringify({})}::jsonb, ${status || "active"}, ${sortOrder})
     RETURNING *
   `;
+  const job = rows[0];
 
-  return NextResponse.json({ job: rows[0] }, { status: 201 });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — tránh bắt admin
+  // chờ cả chục giây gọi API dịch mỗi lần bấm Lưu (xem translate-content.ts).
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { title, dept, income, benefit, tags: tagsArr },
+        JOB_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE jobs SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${job.id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for job", job.id, err);
+    }
+  });
+
+  return NextResponse.json({ job }, { status: 201 });
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -50,11 +51,6 @@ export async function PATCH(
   if (status === "published" && !publishedAt) publishedAt = new Date().toISOString();
   if (status === "draft") publishedAt = null;
 
-  const translations = await translateEntity(
-    { title, excerpt, tag: tag || "Tin tức", content },
-    BLOG_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     UPDATE blog_posts SET
       title = ${title},
@@ -65,13 +61,29 @@ export async function PATCH(
       author = ${author || "Unifarm"},
       status = ${status || "draft"},
       is_featured = ${!!is_featured},
-      published_at = ${publishedAt},
-      translations = ${JSON.stringify(translations || {})}::jsonb
+      published_at = ${publishedAt}
     WHERE id::text = ${id}
     RETURNING *
   `;
+  const post = rows[0];
 
-  return NextResponse.json({ post: rows[0] });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — giữ nguyên bản dịch
+  // cũ cho tới khi bản mới dịch xong, tránh bắt admin chờ khi bấm Lưu.
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { title, excerpt, tag: tag || "Tin tức", content },
+        BLOG_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE blog_posts SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for blog post", id, err);
+    }
+  });
+
+  return NextResponse.json({ post });
 }
 
 export async function DELETE(

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { sql } from "@/lib/db";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import { translateEntity, type EntitySpec } from "@/lib/translate-content";
@@ -79,11 +80,6 @@ export async function PATCH(
 
   const tagsArr = Array.isArray(tags) ? tags : [];
 
-  const translations = await translateEntity(
-    { title, dept, income, benefit, tags: tagsArr },
-    JOB_TRANSLATE_SPEC
-  );
-
   const rows = await sql`
     UPDATE jobs SET
       title = ${title},
@@ -98,15 +94,31 @@ export async function PATCH(
       benefit = ${benefit || ""},
       deadline_date = ${deadline_date || null},
       tags = ${JSON.stringify(tagsArr)}::jsonb,
-      translations = ${JSON.stringify(translations || {})}::jsonb,
       status = ${status || "active"},
       sort_order = ${sortOrder},
       updated_at = now()
     WHERE id::text = ${id}
     RETURNING *
   `;
+  const job = rows[0];
 
-  return NextResponse.json({ job: rows[0] });
+  // Dịch 4 ngôn ngữ chạy NGẦM sau khi đã trả response — giữ nguyên bản dịch
+  // cũ cho tới khi bản mới dịch xong, tránh bắt admin chờ khi bấm Lưu.
+  after(async () => {
+    try {
+      const translations = await translateEntity(
+        { title, dept, income, benefit, tags: tagsArr },
+        JOB_TRANSLATE_SPEC
+      );
+      if (translations) {
+        await sql`UPDATE jobs SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+      }
+    } catch (err) {
+      console.error("Background translateEntity failed for job", id, err);
+    }
+  });
+
+  return NextResponse.json({ job });
 }
 
 export async function DELETE(
