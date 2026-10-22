@@ -8,6 +8,10 @@ import { sql, type BlogPost } from "@/lib/db";
 
 type Params = { params: Promise<{ slug: string }> };
 
+// Bài viết sửa trong admin cần hiện lên trang này mà không phải deploy lại
+// — làm mới dữ liệu tối đa mỗi 60s (giống trang /blog).
+export const revalidate = 60;
+
 async function getPost(slug: string) {
   const rows = (await sql`
     SELECT * FROM blog_posts WHERE slug = ${slug} AND status = 'published'

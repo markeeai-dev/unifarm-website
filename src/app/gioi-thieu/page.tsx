@@ -36,6 +36,10 @@ export const metadata: Metadata = {
     "Hành trình kiến tạo của Unifarm — từ 2009 đến nay: nghiên cứu giống, mở rộng vùng trồng, hợp tác chuyển giao công nghệ và xây dựng hệ sinh thái nông nghiệp bền vững tại Việt Nam.",
 };
 
+// Mốc thời gian thêm/sửa/xoá trong admin cần hiện lên trang này mà không
+// phải deploy lại — làm mới dữ liệu tối đa mỗi 60s (giống trang /blog).
+export const revalidate = 60;
+
 export default async function GioiThieuPage() {
   const milestones = (await sql`
     SELECT * FROM timeline_milestones ORDER BY sort_order ASC, created_at ASC

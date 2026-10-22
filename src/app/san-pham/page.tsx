@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     "Sản phẩm Unifarm: trái cây tươi, cây giống nuôi cấy mô và sản phẩm chế biến đạt tiêu chuẩn xuất khẩu — sản xuất từ vùng trồng công nghệ cao, kiểm soát chất lượng nghiêm ngặt.",
 };
 
+// Sản phẩm thêm/sửa/xoá trong admin cần hiện lên trang này mà không phải
+// deploy lại — làm mới dữ liệu tối đa mỗi 60s (giống trang /blog).
+export const revalidate = 60;
+
 export default async function SanPhamPage() {
   const products = (await sql`
     SELECT * FROM products ORDER BY sort_order ASC, created_at ASC

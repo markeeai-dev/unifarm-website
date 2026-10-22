@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     "Gia nhập Unifarm — hệ sinh thái nông nghiệp công nghệ cao. Xem các vị trí đang tuyển, quy trình tuyển dụng và quyền lợi khi trở thành một phần của đội ngũ.",
 };
 
+// Tin tuyển dụng thêm/sửa/xoá trong admin cần hiện lên trang này mà không
+// phải deploy lại — làm mới dữ liệu tối đa mỗi 60s (giống trang /blog).
+export const revalidate = 60;
+
 export default async function TuyenDungPage() {
   const jobs = (await sql`SELECT * FROM jobs WHERE status = 'active' ORDER BY sort_order ASC, created_at ASC`) as Job[];
 
