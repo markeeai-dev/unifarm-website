@@ -208,13 +208,35 @@ function toSentenceCase(text: string): string {
   return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
-/** Dịch 1 chuỗi (có thể dài, tự động cắt đoạn) sang 1 ngôn ngữ đích. */
+function isUpperFirst(text: string): boolean {
+  const ch = text.charAt(0);
+  return ch === ch.toUpperCase() && ch !== ch.toLowerCase();
+}
+
+function lowerFirst(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+function upperFirst(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+/** Dịch 1 chuỗi (có thể dài, tự động cắt đoạn) sang 1 ngôn ngữ đích.
+ *
+ * Ngay cả khi chữ cái đầu chỉ viết hoa kiểu bình thường (không phải IN HOA
+ * toàn bộ), Google Translate vẫn có thể hiểu sai một số từ tiếng Việt đa
+ * nghĩa đứng đầu câu — đã xác nhận: "Giống ổi Đài Loan" (giống = chủng loại)
+ * bị dịch thành "Like Taiwanese guava" (giống = tương tự) khi viết hoa chữ
+ * "G", nhưng dịch đúng thành "Taiwan guava variety" khi viết thường. Hạ chữ
+ * cái đầu trước khi dịch rồi viết hoa lại ở kết quả — đã kiểm chứng không
+ * ảnh hưởng tới các câu không bị nhập nhằng (kết quả giữ nguyên). */
 async function translateString(text: string, target: string): Promise<string> {
   const trimmed = text.trim();
   if (!trimmed) return text;
 
   const shouting = isShouting(trimmed);
-  const toSend = shouting ? toSentenceCase(trimmed) : trimmed;
+  const capitalized = !shouting && isUpperFirst(trimmed);
+  const toSend = shouting ? toSentenceCase(trimmed) : capitalized ? lowerFirst(trimmed) : trimmed;
 
   const chunks = chunkText(toSend);
   const translatedChunks: string[] = [];
@@ -222,7 +244,9 @@ async function translateString(text: string, target: string): Promise<string> {
     translatedChunks.push(await translateOneChunk(chunk, target));
   }
   const result = translatedChunks.join(" ");
-  return shouting ? result.toUpperCase() : result;
+  if (shouting) return result.toUpperCase();
+  if (capitalized) return upperFirst(result);
+  return result;
 }
 
 /**
