@@ -30,7 +30,11 @@ function protectBrandTerms(text: string): { text: string; placeholders: Map<stri
   PROTECTED_BRAND_TERMS.forEach((term, i) => {
     const re = new RegExp(term, "gi");
     if (re.test(result)) {
-      const placeholder = `Qzxph${i}9`;
+      // Toàn chữ IN HOA — để không phá vỡ việc nhận diện câu IN HOA TOÀN BỘ
+      // (isShouting) hay câu viết hoa đầu (isUpperFirst) ở những tên sản
+      // phẩm có chứa thương hiệu này (vd. nhập sau này dạng "SẦU RIÊNG
+      // UNIFARM" IN HOA hết).
+      const placeholder = `QZXPH${i}9`;
       result = result.replace(re, placeholder);
       placeholders.set(placeholder, term);
     }
