@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ImageOff, Pencil, Trash2, Loader2, ShieldCheck } from "lucide-react";
+import { ImageOff, Pencil, Trash2, Loader2, ShieldCheck, Languages } from "lucide-react";
 import type { Product } from "@/lib/db";
 import { SearchInput, EmptyState } from "@/components/admin/ui";
 import { CATEGORIES, getCertBadge } from "@/components/ProductDetailPanel";
@@ -19,6 +19,12 @@ const TYPE_LABELS: Record<Product["type"], string> = {
 };
 
 const TYPE_OPTIONS: Product["type"][] = ["banana", "pineapple", "melon", "other"];
+const TARGET_LOCALES = ["en", "ja", "ko", "zh-TW"] as const;
+
+function missingLocales(product: Product): string[] {
+  const t = product.translations ?? {};
+  return TARGET_LOCALES.filter((l) => !t[l]);
+}
 
 function formatPrice(price: number) {
   if (!price) return "Chưa có giá";
@@ -60,6 +66,7 @@ function ProductCard({
   };
 
   const snippet = plainSnippet(product.description);
+  const missing = missingLocales(product);
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_22px_50px_-18px_rgba(0,100,0,0.4)]">
@@ -87,6 +94,14 @@ function ProductCard({
         <span className="absolute right-2.5 top-2.5 rounded-full bg-black/55 px-2 py-1 text-[10px] font-bold text-white">
           #{product.sort_order}
         </span>
+        {missing.length > 0 && (
+          <span
+            title={`Thiếu bản dịch: ${missing.join(", ")} — bấm "Dịch bù ngôn ngữ thiếu" ở trên để dịch lại`}
+            className="absolute bottom-2.5 left-2.5 inline-flex items-center gap-1 rounded-full bg-amber-500/90 px-2 py-1 text-[10px] font-bold text-white shadow-sm"
+          >
+            <Languages size={11} /> Thiếu {missing.length} ngôn ngữ
+          </span>
+        )}
 
         {/* Hover actions */}
         <div className="absolute inset-0 flex items-center justify-center gap-2.5 bg-black/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
@@ -137,6 +152,35 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | Product["type"]>("all");
+  const [retranslating, setRetranslating] = useState(false);
+
+  const handleRetranslateMissing = async () => {
+    setRetranslating(true);
+    try {
+      const res = await fetch("/api/admin/products/retranslate", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Lỗi: ${data?.error ?? "không rõ"}`);
+        return;
+      }
+      const refreshed = await fetch("/api/products").then((r) => r.json());
+      if (refreshed?.products) setProducts(refreshed.products);
+
+      const lines = [
+        `Đã đầy đủ sẵn: ${data.alreadyComplete}`,
+        `Dịch bù thành công: ${data.fixed}`,
+        `Vẫn còn thiếu: ${data.stillIncomplete}`,
+      ];
+      if (data.stillIncompleteNames?.length) {
+        lines.push("", "Sản phẩm vẫn thiếu bản dịch (thử lại sau):", ...data.stillIncompleteNames.map((n: string) => `· ${n}`));
+      }
+      alert(lines.join("\n"));
+    } catch {
+      alert("Có lỗi khi gọi dịch bù, thử lại sau.");
+    } finally {
+      setRetranslating(false);
+    }
+  };
 
   const counts = useMemo(() => {
     const map: Record<TabId, number> = { all: products.length, fresh: 0, seedling: 0, processed: 0 };
@@ -190,16 +234,28 @@ export default function ProductsTabs({ products: initialProducts }: { products: 
       {/* Filters */}
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <SearchInput value={search} onChange={setSearch} placeholder="Tìm theo tên sản phẩm…" />
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value as "all" | Product["type"])}
-          className="w-full rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-[#06301B] outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10 sm:w-auto"
-        >
-          <option value="all">Tất cả loại</option>
-          {TYPE_OPTIONS.map((t) => (
-            <option key={t} value={t}>{TYPE_LABELS[t]}</option>
-          ))}
-        </select>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value as "all" | Product["type"])}
+            className="w-full rounded-full border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold text-[#06301B] outline-none focus:border-[#006400] focus:ring-4 focus:ring-[#006400]/10 sm:w-auto"
+          >
+            <option value="all">Tất cả loại</option>
+            {TYPE_OPTIONS.map((t) => (
+              <option key={t} value={t}>{TYPE_LABELS[t]}</option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={handleRetranslateMissing}
+            disabled={retranslating}
+            title="Quét toàn bộ sản phẩm và dịch bù ngôn ngữ nào còn thiếu (do lần lưu trước bị lỗi dịch nền)"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#006400]/20 bg-[#f2f9ee] px-4 py-2.5 text-sm font-bold text-[#006400] transition-colors hover:bg-[#006400]/10 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          >
+            {retranslating ? <Loader2 size={16} className="animate-spin" /> : <Languages size={16} />}
+            {retranslating ? "Đang dịch bù…" : "Dịch bù ngôn ngữ thiếu"}
+          </button>
+        </div>
       </div>
 
       {/* Grid */}

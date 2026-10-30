@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         JOB_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE jobs SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${job.id}`;
+        await sql`UPDATE jobs SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id = ${job.id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for job", job.id, err);

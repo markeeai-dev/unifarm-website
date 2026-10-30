@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
+import { ImageOff } from 'lucide-react';
 import type { Product } from '@/lib/db';
 
 /**
@@ -103,6 +104,37 @@ export function getProductSpecs(
   return p.specs && p.specs.length > 0 ? p.specs : [];
 }
 
+/** Ảnh an toàn: không có `src` (chưa upload) hoặc URL load lỗi (link hỏng/hết hạn)
+ * đều rơi về icon trung tính thay vì để trình duyệt hiện icon ảnh vỡ mặc định. */
+export function ProductImage({
+  src,
+  alt,
+  className = '',
+  iconSize = 28,
+  style,
+}: {
+  src?: string;
+  alt: string;
+  className?: string;
+  iconSize?: number;
+  style?: CSSProperties;
+}) {
+  const [broken, setBroken] = useState(false);
+
+  if (!src || broken) {
+    return (
+      <div className={`flex items-center justify-center ${className}`}>
+        <ImageOff size={iconSize} className="text-neutral-300" />
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} className={className} style={style} onError={() => setBroken(true)} />
+  );
+}
+
 /** 3 ảnh cho gallery ở bảng chi tiết — dùng `gallery` (ảnh thật) nếu có,
  * ngược lại rơi về ảnh chính + 2 góc chụp demo placeholder. */
 export function getGalleryImages(p: Pick<Product, 'gallery' | 'image' | 'id'>): string[] {
@@ -121,13 +153,13 @@ export function ProductGallery({ product }: { product: Pick<Product, 'gallery' |
   return (
     <div className="flex w-full flex-col items-center gap-3">
       <div className="aspect-[16/11] w-full overflow-hidden rounded-xl border border-neutral-100 bg-gradient-to-b from-[#fffacd]/30 to-[#87cefa]/10 p-5 shadow-inner sm:p-6">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <ProductImage
           key={active}
           src={active}
           alt={product.name}
           className="h-full w-full object-contain"
           style={{ animation: 'ps-fadeUp 320ms ease-out both' }}
+          iconSize={40}
         />
       </div>
       <div className="flex items-center gap-3">
@@ -143,8 +175,7 @@ export function ProductGallery({ product }: { product: Pick<Product, 'gallery' |
                 : 'border-neutral-200 opacity-70 hover:border-[#87cefa] hover:opacity-100'
             }`}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" className="h-full w-full object-contain" />
+            <ProductImage src={src} alt="" className="h-full w-full object-contain" iconSize={18} />
           </button>
         ))}
       </div>

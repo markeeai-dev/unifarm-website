@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,6 +9,7 @@ import {
   CATEGORIES,
   ProductDetailPanel,
   ProductGallery,
+  ProductImage,
   getCertBadge,
   getProductSpecs,
   QUALITY_COMMITMENTS,
@@ -514,10 +514,11 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                   >
                     {/* Ảnh PNG nền trong suốt — không còn khung màu phía sau */}
                     <div className="mx-auto flex h-32 items-center justify-center sm:h-40">
-                      <img
+                      <ProductImage
                         src={p.image}
                         alt={name}
                         className="max-h-full w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                        iconSize={40}
                       />
                     </div>
 

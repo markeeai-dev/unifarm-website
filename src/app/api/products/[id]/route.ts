@@ -111,7 +111,9 @@ export async function PATCH(
         PRODUCT_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE products SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+        // Merge (không ghi đè) — nếu 1 ngôn ngữ lỗi lần này, bản dịch cũ của
+        // ngôn ngữ đó (lần lưu trước) vẫn được giữ thay vì mất trắng.
+        await sql`UPDATE products SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for product", id, err);

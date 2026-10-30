@@ -4,27 +4,34 @@ type TargetLocale = Exclude<LocaleCode, "vi">;
 
 const TARGET_LOCALES: TargetLocale[] = ["en", "ja", "ko", "zh-TW"];
 
-/** Mã ngôn ngữ đích theo đúng chuẩn MyMemory (langpair=vi|xx). */
-const MYMEMORY_LANG_CODE: Record<TargetLocale, string> = {
+/** Mã ngôn ngữ đích theo đúng chuẩn Google Translate. */
+const GOOGLE_LANG_CODE: Record<TargetLocale, string> = {
   en: "en",
   ja: "ja",
   ko: "ko",
   "zh-TW": "zh-TW",
 };
 
-/** MyMemory giới hạn ~500 byte UTF-8 mỗi lượt gọi — cắt an toàn dưới mốc này. */
-const MAX_CHUNK_BYTES = 450;
-/** Khoảng cách tối thiểu giữa 2 lượt gọi MyMemory BẤT KỲ (toàn cục, không
- * theo từng ngôn ngữ) — tránh gửi dồn dập nhiều request cùng lúc (4 ngôn
- * ngữ đích) khiến MyMemory trả 429. */
-const REQUEST_GAP_MS = 350;
-const MAX_RETRIES = 4;
+/** Endpoint dịch miễn phí của Google Translate (không cần API key/thẻ thanh
+ * toán — dùng chung cơ chế với trang translate.google.com) — chất lượng dịch
+ * tốt hơn hẳn MyMemory, đặc biệt với tiếng Trung phồn thể (zh-TW). Không phải
+ * API chính thức có SLA nên vẫn giữ hàng đợi + retry bên dưới để chịu được
+ * lỗi/giới hạn tốc độ tạm thời. */
+const GOOGLE_ENDPOINT = "https://translate.googleapis.com/translate_a/single";
+
+/** Giữ chunk vừa phải để URL (GET) không quá dài — Google không giới hạn
+ * ngặt như MyMemory (450 byte) nhưng vẫn cắt an toàn. */
+const MAX_CHUNK_BYTES = 1800;
+/** Khoảng cách tối thiểu giữa 2 lượt gọi BẤT KỲ (toàn cục, không theo từng
+ * ngôn ngữ) — tránh gửi dồn dập nhiều request cùng lúc (4 ngôn ngữ đích)
+ * khiến endpoint tạm thời chặn (429). */
+const REQUEST_GAP_MS = 400;
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/** Hàng đợi toàn cục — nối đuôi mọi lượt gọi MyMemory thành 1 chuỗi tuần
+/** Hàng đợi toàn cục — nối đuôi mọi lượt gọi dịch thành 1 chuỗi tuần
  * tự duy nhất, cách nhau tối thiểu REQUEST_GAP_MS, dù có nhiều Promise.all
  * đang chạy song song ở phía gọi. */
 let requestQueue: Promise<void> = Promise.resolve();
@@ -90,53 +97,100 @@ function decodeEntities(s: string): string {
     .replace(/&gt;/g, ">");
 }
 
-async function myMemoryTranslateOneAttempt(text: string, target: string): Promise<string> {
-  const email = process.env.MYMEMORY_EMAIL;
+async function googleTranslateOneAttempt(text: string, target: string): Promise<string> {
   const params = new URLSearchParams({
+    client: "gtx",
+    sl: "vi",
+    tl: target,
+    dt: "t",
     q: text,
-    langpair: `vi|${target}`,
   });
-  if (email) params.set("de", email);
 
-  const res = await fetch(`https://api.mymemory.translated.net/get?${params.toString()}`);
+  const res = await fetch(`${GOOGLE_ENDPOINT}?${params.toString()}`);
   if (res.status === 429) {
-    const err = new Error("MyMemory API error 429") as Error & { status?: number };
+    const err = new Error("Google Translate error 429") as Error & { status?: number };
     err.status = 429;
     throw err;
   }
   if (!res.ok) {
-    throw new Error(`MyMemory API error ${res.status}`);
+    throw new Error(`Google Translate error ${res.status}`);
   }
   const data = await res.json();
-  const translated = data?.responseData?.translatedText;
-  if (typeof translated !== "string" || !translated) {
-    throw new Error(`Unexpected MyMemory response: ${JSON.stringify(data).slice(0, 200)}`);
+  // Dạng trả về: [[[ "translated chunk", "original chunk", null, null, ... ], ...], null, "vi", ...]
+  const segments = data?.[0];
+  if (!Array.isArray(segments)) {
+    throw new Error(`Unexpected Google Translate response: ${JSON.stringify(data).slice(0, 200)}`);
   }
-  // "MYMEMORY WARNING..." xuất hiện khi vượt hạn mức ngày — coi như lỗi.
-  if (translated.startsWith("MYMEMORY WARNING")) {
-    throw new Error(translated);
+  const translated = segments.map((seg: unknown[]) => seg?.[0] ?? "").join("");
+  if (!translated) {
+    throw new Error(`Empty Google Translate response: ${JSON.stringify(data).slice(0, 200)}`);
   }
   return decodeEntities(translated);
 }
 
-/** Gọi MyMemory qua hàng đợi toàn cục (1 request tại 1 thời điểm), tự
- * retry với backoff tăng dần khi bị 429 (dồn dập request). */
-async function myMemoryTranslateOne(text: string, target: string): Promise<string> {
+/** Gọi Google Translate qua hàng đợi toàn cục (1 request tại 1 thời điểm),
+ * tự retry (ngắn) khi bị chặn tạm thời (429) — nếu vẫn lỗi thì để nơi gọi
+ * rơi sang MyMemory (xem `translateOneChunk`) thay vì chờ lâu ở đây. */
+const GOOGLE_RETRIES = 0;
+async function googleTranslateOne(text: string, target: string): Promise<string> {
   let lastErr: unknown;
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+  for (let attempt = 0; attempt <= GOOGLE_RETRIES; attempt++) {
     try {
-      return await enqueueRequest(() => myMemoryTranslateOneAttempt(text, target));
+      return await enqueueRequest(() => googleTranslateOneAttempt(text, target));
     } catch (err) {
       lastErr = err;
       const status = (err as { status?: number })?.status;
-      if (status === 429 && attempt < MAX_RETRIES) {
-        await sleep(1500 * Math.pow(2, attempt)); // 1.5s, 3s, 6s, 12s
+      if (status === 429 && attempt < GOOGLE_RETRIES) {
+        await sleep(1500);
         continue;
       }
       throw err;
     }
   }
   throw lastErr;
+}
+
+/** MyMemory — dự phòng khi Google Translate tạm thời bị chặn (429 kéo dài).
+ * Chất lượng kém hơn Google với một số ngôn ngữ (vd. zh-TW) nhưng không bị
+ * chặn theo IP như endpoint Google không chính thức, nên dùng làm lưới an
+ * toàn để không phải chờ Google tự gỡ chặn mới dịch tiếp được. */
+async function myMemoryTranslateOneAttempt(text: string, target: string): Promise<string> {
+  const email = process.env.MYMEMORY_EMAIL;
+  const params = new URLSearchParams({ q: text, langpair: `vi|${target}` });
+  if (email) params.set("de", email);
+
+  const res = await fetch(`https://api.mymemory.translated.net/get?${params.toString()}`);
+  if (!res.ok) throw new Error(`MyMemory error ${res.status}`);
+  const data = await res.json();
+  const translated = data?.responseData?.translatedText;
+  if (typeof translated !== "string" || !translated || translated.startsWith("MYMEMORY WARNING")) {
+    throw new Error(`MyMemory unusable response: ${JSON.stringify(data).slice(0, 200)}`);
+  }
+  return decodeEntities(translated);
+}
+
+async function myMemoryTranslateOne(text: string, target: string): Promise<string> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= 2; attempt++) {
+    try {
+      return await enqueueRequest(() => myMemoryTranslateOneAttempt(text, target));
+    } catch (err) {
+      lastErr = err;
+      await sleep(800 * (attempt + 1));
+    }
+  }
+  throw lastErr;
+}
+
+/** Dịch 1 đoạn ngắn: ưu tiên Google (chất lượng cao hơn), tự động rơi sang
+ * MyMemory nếu Google đang tạm bị chặn/lỗi — không bao giờ chờ Google quá
+ * lâu trước khi có kết quả dịch. */
+async function translateOneChunk(text: string, target: string): Promise<string> {
+  try {
+    return await googleTranslateOne(text, target);
+  } catch {
+    return await myMemoryTranslateOne(text, target);
+  }
 }
 
 /** Dịch 1 chuỗi (có thể dài, tự động cắt đoạn) sang 1 ngôn ngữ đích. */
@@ -147,7 +201,7 @@ async function translateString(text: string, target: string): Promise<string> {
   const chunks = chunkText(trimmed);
   const translatedChunks: string[] = [];
   for (const chunk of chunks) {
-    translatedChunks.push(await myMemoryTranslateOne(chunk, target));
+    translatedChunks.push(await translateOneChunk(chunk, target));
   }
   return translatedChunks.join(" ");
 }
@@ -157,7 +211,7 @@ async function translateString(text: string, target: string): Promise<string> {
  * không lồng sâu) — tách theo từng khối, bỏ thẻ inline bên trong (b/i/a...)
  * để lấy chữ thuần rồi dịch, sau đó bọc lại đúng thẻ khối gốc. Định dạng
  * inline (đậm/nghiêng/link) trong bản dịch sẽ mất, nhưng cấu trúc đoạn/tiêu
- * đề vẫn giữ nguyên — đánh đổi hợp lý vì MyMemory không hỗ trợ dịch HTML.
+ * đề vẫn giữ nguyên — đánh đổi hợp lý vì endpoint dịch dạng text không hỗ trợ dịch HTML.
  */
 async function translateHtmlBlocks(html: string, target: string): Promise<string> {
   const blockRe = /<(p|h[1-6]|li|blockquote)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
@@ -281,17 +335,22 @@ function applyLeaves(target: Record<string, unknown>, plan: Leaf[], translated: 
 /**
  * Dịch một bản ghi admin (sản phẩm / tin tuyển dụng / mốc timeline /
  * cửa hàng / bài blog) sang 4 ngôn ngữ đích, theo `spec` mô tả field nào
- * cần dịch và kiểu dữ liệu của nó. Dùng MyMemory (miễn phí, không cần
- * API key/thẻ thanh toán — https://mymemory.translated.net).
+ * cần dịch và kiểu dữ liệu của nó. Dùng endpoint dịch miễn phí của Google
+ * Translate (không cần API key/thẻ thanh toán).
  *
- * Trả về `null` nếu KHÔNG có nội dung nào để dịch, hoặc nếu gọi API thất
- * bại (mạng, hết hạn mức ngày...) — KHÔNG throw, để thao tác lưu nội dung
- * gốc tiếng Việt trong route admin luôn thành công dù dịch tự động lỗi.
+ * Mỗi ngôn ngữ đích được dịch và bắt lỗi ĐỘC LẬP (Promise.allSettled) — một
+ * ngôn ngữ lỗi (hết hạn mức ngày, mạng chập chờn...) không còn kéo theo 3
+ * ngôn ngữ còn lại mất trắng như trước (Promise.all cũ: 1 lỗi -> cả 4 đều
+ * null). Trả về object chỉ gồm những ngôn ngữ dịch THÀNH CÔNG; nơi gọi cần
+ * merge (không ghi đè) vào `translations` hiện có trong DB để không mất các
+ * ngôn ngữ đã dịch ở lần lưu trước. Trả về `null` chỉ khi KHÔNG có nội dung
+ * nào để dịch, hoặc CẢ 4 ngôn ngữ đều lỗi — không throw, để thao tác lưu nội
+ * dung gốc tiếng Việt trong route admin luôn thành công dù dịch tự động lỗi.
  */
 export async function translateEntity(
   record: Record<string, unknown>,
   spec: EntitySpec
-): Promise<Record<TargetLocale, Record<string, unknown>> | null> {
+): Promise<Partial<Record<TargetLocale, Record<string, unknown>>> | null> {
   const htmlFields = Object.entries(spec).filter(([, s]) => s.kind === "html").map(([f]) => f);
   const plainSpec: EntitySpec = Object.fromEntries(
     Object.entries(spec).filter(([, s]) => s.kind !== "html")
@@ -300,42 +359,45 @@ export async function translateEntity(
   const { texts, plan } = extractLeaves(record, plainSpec);
   if (texts.length === 0 && htmlFields.length === 0) return null;
 
-  const result = {} as Record<TargetLocale, Record<string, unknown>>;
+  // Dịch tuần tự trong cùng 1 ngôn ngữ (mỗi lượt gọi chỉ dịch 1 chuỗi —
+  // endpoint không hỗ trợ dịch theo lô), nhưng chạy song song giữa 4
+  // ngôn ngữ đích để không quá chậm. `allSettled` để 1 ngôn ngữ lỗi không
+  // làm rớt kết quả của 3 ngôn ngữ còn lại.
+  const settled = await Promise.allSettled(
+    TARGET_LOCALES.map(async (locale) => {
+      const target = GOOGLE_LANG_CODE[locale];
 
-  try {
-    // Dịch tuần tự trong cùng 1 ngôn ngữ (mỗi lượt gọi chỉ dịch 1 chuỗi —
-    // MyMemory không hỗ trợ dịch theo lô), nhưng chạy song song giữa 4
-    // ngôn ngữ đích để không quá chậm.
-    await Promise.all(
-      TARGET_LOCALES.map(async (locale) => {
-        const target = MYMEMORY_LANG_CODE[locale];
+      const translatedPlain: string[] = [];
+      for (const text of texts) {
+        translatedPlain.push(await translateString(text, target));
+      }
 
-        const translatedPlain: string[] = [];
-        for (const text of texts) {
-          translatedPlain.push(await translateString(text, target));
-        }
+      const translatedHtml: string[] = [];
+      for (const field of htmlFields) {
+        const html = record[field];
+        translatedHtml.push(
+          typeof html === "string" && html.trim() ? await translateHtmlBlocks(html, target) : ""
+        );
+      }
 
-        const translatedHtml: string[] = [];
-        for (const field of htmlFields) {
-          const html = record[field];
-          translatedHtml.push(
-            typeof html === "string" && html.trim() ? await translateHtmlBlocks(html, target) : ""
-          );
-        }
+      const rebuilt = cloneForRebuild(record, plainSpec);
+      applyLeaves(rebuilt, plan, translatedPlain);
+      htmlFields.forEach((field, i) => {
+        if (translatedHtml[i]) rebuilt[field] = translatedHtml[i];
+      });
 
-        const rebuilt = cloneForRebuild(record, plainSpec);
-        applyLeaves(rebuilt, plan, translatedPlain);
-        htmlFields.forEach((field, i) => {
-          if (translatedHtml[i]) rebuilt[field] = translatedHtml[i];
-        });
+      return { locale, rebuilt };
+    })
+  );
 
-        result[locale] = rebuilt;
-      })
-    );
-  } catch (err) {
-    console.error("translateEntity: MyMemory call failed, skipping auto-translation:", err);
-    return null;
+  const result: Partial<Record<TargetLocale, Record<string, unknown>>> = {};
+  for (const outcome of settled) {
+    if (outcome.status === "fulfilled") {
+      result[outcome.value.locale] = outcome.value.rebuilt;
+    } else {
+      console.error("translateEntity: Google Translate call failed for one locale, skipping it:", outcome.reason);
+    }
   }
 
-  return result;
+  return Object.keys(result).length > 0 ? result : null;
 }

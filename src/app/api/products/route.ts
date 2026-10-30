@@ -88,7 +88,9 @@ export async function POST(req: NextRequest) {
         PRODUCT_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE products SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${product.id}`;
+        // Merge (không ghi đè) — nếu sau này 1 ngôn ngữ lỗi, các ngôn ngữ đã
+        // dịch thành công ở lần lưu trước đó trong `translations` vẫn giữ nguyên.
+        await sql`UPDATE products SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id = ${product.id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for product", product.id, err);

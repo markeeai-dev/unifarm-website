@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     try {
       const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
       if (translations) {
-        await sql`UPDATE distributors SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${distributor.id}`;
+        await sql`UPDATE distributors SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id = ${distributor.id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for distributor", distributor.id, err);

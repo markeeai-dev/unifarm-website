@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
         TIMELINE_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE timeline_milestones SET translations = ${JSON.stringify(translations)}::jsonb WHERE id = ${milestone.id}`;
+        await sql`UPDATE timeline_milestones SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id = ${milestone.id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for timeline milestone", milestone.id, err);

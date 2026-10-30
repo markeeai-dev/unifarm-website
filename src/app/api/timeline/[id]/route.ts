@@ -90,7 +90,7 @@ export async function PATCH(
         TIMELINE_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE timeline_milestones SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+        await sql`UPDATE timeline_milestones SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for timeline milestone", id, err);

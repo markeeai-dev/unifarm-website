@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { put, del } from "@vercel/blob";
 import { isAdminAuthed } from "@/lib/admin-auth";
-import { sql } from "@/lib/db";
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
 const MAX_VIDEO_BYTES = 20 * 1024 * 1024; // 20MB
@@ -31,19 +31,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const [row] = (await sql`
-    INSERT INTO media (filename, mime_type, data, size_bytes)
-    VALUES (${file.name}, ${file.type}, ${buffer}, ${file.size})
-    RETURNING id
-  `) as { id: string }[];
+  // Lưu vào Vercel Blob Storage (có CDN riêng) thay vì nhét file nhị phân
+  // vào Postgres — tránh tốn hạn mức "network transfer" của database mỗi
+  // khi có người xem ảnh (xem ghi chú trong /api/media/[id]/route.ts).
+  const blob = await put(`products/${Date.now()}-${file.name}`, file, {
+    access: "public",
+    addRandomSuffix: true,
+    token: process.env.MEDIA_READ_WRITE_TOKEN,
+  });
 
   return NextResponse.json({
     ok: true,
-    id: row.id,
     filename: file.name,
-    url: `/api/media/${row.id}`,
+    url: blob.url,
   });
 }
 
@@ -51,10 +51,10 @@ export async function DELETE(req: NextRequest) {
   if (!(await isAdminAuthed())) {
     return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
-  const id = req.nextUrl.searchParams.get("id");
-  if (!id) {
-    return NextResponse.json({ ok: false, message: "Thiếu id" }, { status: 400 });
+  const url = req.nextUrl.searchParams.get("url");
+  if (!url) {
+    return NextResponse.json({ ok: false, message: "Thiếu url" }, { status: 400 });
   }
-  await sql`DELETE FROM media WHERE id = ${id}`;
+  await del(url, { token: process.env.MEDIA_READ_WRITE_TOKEN });
   return NextResponse.json({ ok: true });
 }

@@ -76,7 +76,7 @@ export async function PATCH(
         BLOG_TRANSLATE_SPEC
       );
       if (translations) {
-        await sql`UPDATE blog_posts SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+        await sql`UPDATE blog_posts SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for blog post", id, err);

@@ -60,7 +60,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     try {
       const translations = await translateEntity({ name }, DISTRIBUTOR_TRANSLATE_SPEC);
       if (translations) {
-        await sql`UPDATE distributors SET translations = ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
+        await sql`UPDATE distributors SET translations = COALESCE(translations, '{}'::jsonb) || ${JSON.stringify(translations)}::jsonb WHERE id::text = ${id}`;
       }
     } catch (err) {
       console.error("Background translateEntity failed for distributor", id, err);
