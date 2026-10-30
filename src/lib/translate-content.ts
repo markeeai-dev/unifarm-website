@@ -4,6 +4,19 @@ type TargetLocale = Exclude<LocaleCode, "vi">;
 
 const TARGET_LOCALES: TargetLocale[] = ["en", "ja", "ko", "zh-TW"];
 
+/** Một vài từ đứng MỘT MÌNH (không kèm từ nào khác) không đủ ngữ cảnh để
+ * Google Translate chọn đúng nghĩa — đã xác nhận 2 trường hợp thật trong dữ
+ * liệu: "Giống" (nhãn cột bảng thông số) luôn ra "Alike" (tương tự) thay vì
+ * "Variety" (chủng loại); "Cavendish" (tên giống chuối) ra tiếng Hàn thành
+ * "씹는 담배" (thuốc lá nhai, trùng tên một nhãn hiệu thuốc lá) thay vì phiên
+ * âm "캐번디시". Dịch cứng các trường hợp đã xác minh thay vì gọi API —
+ * không cần khai đủ cả 4 ngôn ngữ, ngôn ngữ nào không khai vẫn dịch bình
+ * thường qua API. */
+const KNOWN_TERM_OVERRIDES: Record<string, Partial<Record<TargetLocale, string>>> = {
+  "giống": { en: "Variety", ja: "品種", ko: "품종", "zh-TW": "品種" },
+  "cavendish": { ko: "캐번디시" },
+};
+
 /** Mã ngôn ngữ đích theo đúng chuẩn Google Translate. */
 const GOOGLE_LANG_CODE: Record<TargetLocale, string> = {
   en: "en",
@@ -233,6 +246,10 @@ function upperFirst(text: string): string {
 async function translateString(text: string, target: string): Promise<string> {
   const trimmed = text.trim();
   if (!trimmed) return text;
+
+  const overrideKey = trimmed.toLowerCase().replace(/[:：]\s*$/, "");
+  const override = KNOWN_TERM_OVERRIDES[overrideKey]?.[target as TargetLocale];
+  if (override) return override;
 
   const shouting = isShouting(trimmed);
   const capitalized = !shouting && isUpperFirst(trimmed);
