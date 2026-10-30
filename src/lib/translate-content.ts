@@ -193,17 +193,36 @@ async function translateOneChunk(text: string, target: string): Promise<string> 
   }
 }
 
+/** Chữ IN HOA TOÀN BỘ (vd. "CÂY GIỐNG CHUỐI CẤY MÔ") khiến Google Translate
+ * dịch sai nghĩa một số từ (đã xác nhận: "CẤY MÔ" ra "tissue" (khăn giấy)
+ * thay vì "tissue culture" (nuôi cấy mô) khi gửi nguyên văn IN HOA, nhưng
+ * dịch đúng khi gửi dạng chữ thường/hoa đầu câu). Phát hiện và chuẩn hoá
+ * case trước khi gửi đi, giữ lại dạng IN HOA ở kết quả để khớp văn phong gốc. */
+function isShouting(text: string): boolean {
+  const letters = text.replace(/[^\p{L}]/gu, "");
+  return letters.length >= 3 && letters === letters.toUpperCase() && letters !== letters.toLowerCase();
+}
+
+function toSentenceCase(text: string): string {
+  const lower = text.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
 /** Dịch 1 chuỗi (có thể dài, tự động cắt đoạn) sang 1 ngôn ngữ đích. */
 async function translateString(text: string, target: string): Promise<string> {
   const trimmed = text.trim();
   if (!trimmed) return text;
 
-  const chunks = chunkText(trimmed);
+  const shouting = isShouting(trimmed);
+  const toSend = shouting ? toSentenceCase(trimmed) : trimmed;
+
+  const chunks = chunkText(toSend);
   const translatedChunks: string[] = [];
   for (const chunk of chunks) {
     translatedChunks.push(await translateOneChunk(chunk, target));
   }
-  return translatedChunks.join(" ");
+  const result = translatedChunks.join(" ");
+  return shouting ? result.toUpperCase() : result;
 }
 
 /**
