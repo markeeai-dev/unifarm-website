@@ -17,6 +17,35 @@ const KNOWN_TERM_OVERRIDES: Record<string, Partial<Record<TargetLocale, string>>
   "cavendish": { ko: "캐번디시" },
 };
 
+/** Tên thương hiệu KHÔNG BAO GIỜ được dịch sang nghĩa đen — đã xác nhận
+ * Google Translate thỉnh thoảng dịch "Unifarm" thành "統一農場" (nông trại
+ * thống nhất) tuỳ câu xung quanh, không nhất quán giữa các sản phẩm. Thay
+ * thế bằng placeholder trước khi dịch rồi khôi phục lại nguyên văn sau —
+ * đã kiểm chứng phần còn lại của câu vẫn dịch đúng bình thường. */
+const PROTECTED_BRAND_TERMS = ["Unifarm"];
+
+function protectBrandTerms(text: string): { text: string; placeholders: Map<string, string> } {
+  let result = text;
+  const placeholders = new Map<string, string>();
+  PROTECTED_BRAND_TERMS.forEach((term, i) => {
+    const re = new RegExp(term, "gi");
+    if (re.test(result)) {
+      const placeholder = `Qzxph${i}9`;
+      result = result.replace(re, placeholder);
+      placeholders.set(placeholder, term);
+    }
+  });
+  return { text: result, placeholders };
+}
+
+function restoreBrandTerms(text: string, placeholders: Map<string, string>): string {
+  let result = text;
+  for (const [placeholder, term] of placeholders) {
+    result = result.replace(new RegExp(placeholder, "gi"), term);
+  }
+  return result;
+}
+
 /** Mã ngôn ngữ đích theo đúng chuẩn Google Translate. */
 const GOOGLE_LANG_CODE: Record<TargetLocale, string> = {
   en: "en",
@@ -251,18 +280,22 @@ async function translateString(text: string, target: string): Promise<string> {
   const override = KNOWN_TERM_OVERRIDES[overrideKey]?.[target as TargetLocale];
   if (override) return override;
 
-  const shouting = isShouting(trimmed);
-  const capitalized = !shouting && isUpperFirst(trimmed);
-  const toSend = shouting ? toSentenceCase(trimmed) : capitalized ? lowerFirst(trimmed) : trimmed;
+  const { text: safeText, placeholders } = protectBrandTerms(trimmed);
+
+  const shouting = isShouting(safeText);
+  const capitalized = !shouting && isUpperFirst(safeText);
+  const toSend = shouting ? toSentenceCase(safeText) : capitalized ? lowerFirst(safeText) : safeText;
 
   const chunks = chunkText(toSend);
   const translatedChunks: string[] = [];
   for (const chunk of chunks) {
     translatedChunks.push(await translateOneChunk(chunk, target));
   }
-  const result = translatedChunks.join(" ");
-  if (shouting) return result.toUpperCase();
-  if (capitalized) return upperFirst(result);
+  let result = translatedChunks.join(" ");
+  if (shouting) result = result.toUpperCase();
+  else if (capitalized) result = upperFirst(result);
+
+  if (placeholders.size > 0) result = restoreBrandTerms(result, placeholders);
   return result;
 }
 
