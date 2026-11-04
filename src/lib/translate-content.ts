@@ -312,14 +312,21 @@ async function translateString(text: string, target: string): Promise<string> {
  */
 async function translateHtmlBlocks(html: string, target: string): Promise<string> {
   const blockRe = /<(p|h[1-6]|li|blockquote)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
-  const blocks: { tag: string; attrs: string; inner: string }[] = [];
+  // `before` = bất kỳ nội dung nào nằm TRƯỚC khối này và SAU khối trước đó (vd.
+  // <img>, <figure>, dòng trắng) — đã xác nhận lỗi thật: nội dung xen giữa 2
+  // khối bị ĐÁNH RỚT hoàn toàn ở bản dịch (chỉ phần dư sau khối CUỐI mới được
+  // giữ lại trước đây), khiến ảnh chèn giữa bài biến mất ở mọi ngôn ngữ trừ
+  // tiếng Việt gốc. Giữ nguyên văn `before`, không dịch (thường chỉ là thẻ
+  // HTML không có chữ để dịch).
+  const blocks: { tag: string; attrs: string; inner: string; before: string }[] = [];
   let match: RegExpExecArray | null;
   let lastIndex = 0;
   let matchedAny = false;
 
   while ((match = blockRe.exec(html))) {
     matchedAny = true;
-    blocks.push({ tag: match[1], attrs: match[2], inner: match[3] });
+    const before = html.slice(lastIndex, match.index);
+    blocks.push({ tag: match[1], attrs: match[2], inner: match[3], before });
     lastIndex = blockRe.lastIndex;
   }
 
@@ -335,12 +342,10 @@ async function translateHtmlBlocks(html: string, target: string): Promise<string
   const translatedBlocks: string[] = [];
   for (const block of blocks) {
     const plainInner = block.inner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if (!plainInner) {
-      translatedBlocks.push(`<${block.tag}${block.attrs}>${block.inner}</${block.tag}>`);
-      continue;
-    }
-    const translatedInner = await translateString(plainInner, target);
-    translatedBlocks.push(`<${block.tag}${block.attrs}>${translatedInner}</${block.tag}>`);
+    const blockHtml = !plainInner
+      ? `<${block.tag}${block.attrs}>${block.inner}</${block.tag}>`
+      : `<${block.tag}${block.attrs}>${await translateString(plainInner, target)}</${block.tag}>`;
+    translatedBlocks.push(block.before + blockHtml);
   }
 
   // Phần dư sau khối cuối cùng (thường rỗng/whitespace) — giữ nguyên.
