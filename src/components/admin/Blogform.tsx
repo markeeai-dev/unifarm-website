@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye } from "lucide-react";
 import type { BlogPost } from "@/lib/db";
 import { TAG_OPTIONS } from "@/lib/blog-tags";
 import { SingleImageUploader } from "@/components/admin/ImageUploader";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { Card, Field, FormActions, inputClass } from "@/components/admin/ui";
+import BlogDetailClient from "@/components/blog/Blogdetailclient";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 type FormValues = {
   title: string;
@@ -37,6 +40,28 @@ export default function BlogForm({ post }: { post?: BlogPost }) {
 
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) =>
     setValues((v) => ({ ...v, [key]: value }));
+
+  // Bài giả lập để xem trước — dùng ĐÚNG component hiển thị thật của trang
+  // /blog/[slug] (BlogDetailClient), không viết lại giao diện riêng, nên xem
+  // trước luôn khớp 100% với bài thật khi đăng. Giữ nguyên `translations` cũ
+  // (nếu có) để không hiện lẫn bản dịch cũ với nội dung tiếng Việt vừa sửa.
+  const previewPost: BlogPost = {
+    id: post?.id ?? "preview",
+    slug: post?.slug ?? "xem-truoc",
+    title: values.title || "(Chưa có tiêu đề)",
+    excerpt: values.excerpt,
+    content: values.content || "<p>(Chưa có nội dung)</p>",
+    tag: values.tag,
+    cover_image: values.cover_image,
+    author: values.author || "Unifarm",
+    translations: post?.translations ?? null,
+    status: values.status,
+    is_featured: values.is_featured,
+    view_count: post?.view_count ?? 0,
+    published_at: post?.published_at ?? new Date().toISOString(),
+    created_at: post?.created_at ?? new Date().toISOString(),
+    updated_at: post?.updated_at ?? new Date().toISOString(),
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,6 +185,18 @@ export default function BlogForm({ post }: { post?: BlogPost }) {
           minHeight={320}
           required
         />
+      </Card>
+
+      <Card
+        icon={<Eye size={18} strokeWidth={2} />}
+        title="Xem trước trên website"
+        hint="Đúng giao diện sẽ hiển thị ở trang chi tiết bài viết — kiểm tra kỹ trước khi lưu/đăng để tránh phải sửa lại sau khi lên trang chính."
+      >
+        <div className="max-h-[80vh] overflow-y-auto rounded-xl border border-dashed border-[#06301B]/15 bg-neutral-50">
+          <LanguageProvider>
+            <BlogDetailClient post={previewPost} related={[]} />
+          </LanguageProvider>
+        </div>
       </Card>
 
       {error && <p className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600">{error}</p>}
