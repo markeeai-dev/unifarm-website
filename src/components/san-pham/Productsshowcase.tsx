@@ -519,6 +519,9 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
                         alt={name}
                         className="max-h-full w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-110"
                         iconSize={40}
+                        width={320}
+                        height={320}
+                        sizes="(max-width: 640px) 40vw, (max-width: 1024px) 25vw, 220px"
                       />
                     </div>
 

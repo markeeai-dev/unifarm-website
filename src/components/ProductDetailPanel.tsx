@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type CSSProperties } from 'react';
+import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 import type { Product } from '@/lib/db';
 
@@ -105,19 +106,32 @@ export function getProductSpecs(
 }
 
 /** Ảnh an toàn: không có `src` (chưa upload) hoặc URL load lỗi (link hỏng/hết hạn)
- * đều rơi về icon trung tính thay vì để trình duyệt hiện icon ảnh vỡ mặc định. */
+ * đều rơi về icon trung tính thay vì để trình duyệt hiện icon ảnh vỡ mặc định.
+ * Dùng `next/image` (không phải `<img>` thường) để trình duyệt tự tải bản đã
+ * resize/nén đúng kích thước hiển thị thay vì nguyên file gốc (ảnh admin
+ * upload thường 1-3MB) và tự lazy-load theo vị trí cuộn — quan trọng cho
+ * lưới sản phẩm có hàng chục ảnh. `width`/`height` chỉ là tỉ lệ tham chiếu
+ * cho bộ tối ưu, kích thước hiển thị thật vẫn do `className` quyết định. */
 export function ProductImage({
   src,
   alt,
   className = '',
   iconSize = 28,
   style,
+  width = 480,
+  height = 480,
+  sizes = '220px',
+  priority = false,
 }: {
   src?: string;
   alt: string;
   className?: string;
   iconSize?: number;
   style?: CSSProperties;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  priority?: boolean;
 }) {
   const [broken, setBroken] = useState(false);
 
@@ -130,8 +144,17 @@ export function ProductImage({
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt={alt} className={className} style={style} onError={() => setBroken(true)} />
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      sizes={sizes}
+      priority={priority}
+      className={className}
+      style={style}
+      onError={() => setBroken(true)}
+    />
   );
 }
 
@@ -160,6 +183,10 @@ export function ProductGallery({ product }: { product: Pick<Product, 'gallery' |
           className="h-full w-full object-contain"
           style={{ animation: 'ps-fadeUp 320ms ease-out both' }}
           iconSize={40}
+          width={700}
+          height={500}
+          sizes="(max-width: 640px) 90vw, 560px"
+          priority
         />
       </div>
       <div className="flex items-center gap-3">
@@ -175,7 +202,7 @@ export function ProductGallery({ product }: { product: Pick<Product, 'gallery' |
                 : 'border-neutral-200 opacity-70 hover:border-[#87cefa] hover:opacity-100'
             }`}
           >
-            <ProductImage src={src} alt="" className="h-full w-full object-contain" iconSize={18} />
+            <ProductImage src={src} alt="" className="h-full w-full object-contain" iconSize={18} width={80} height={80} sizes="64px" />
           </button>
         ))}
       </div>
