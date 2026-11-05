@@ -1,10 +1,16 @@
-import { neon } from "@neondatabase/serverless";
+import postgres from "postgres";
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is not set");
 }
 
-export const sql = neon(process.env.DATABASE_URL);
+// Driver PostgreSQL chuẩn (không phải riêng của Neon) — dùng được với bất kỳ
+// PostgreSQL nào (tự host, Neon, RDS...). Giữ nguyên cú pháp gọi dạng tagged
+// template (sql`SELECT ...`) giống hệt driver cũ, nên mọi chỗ gọi `sql` còn
+// lại trong code không cần sửa gì thêm. `ssl: "prefer"` tự thương lượng SSL
+// nếu server hỗ trợ, vẫn kết nối được bình thường nếu server tự host không
+// bật SSL — không cần cấu hình riêng cho từng loại server.
+export const sql = postgres(process.env.DATABASE_URL, { ssl: "prefer" });
 
 /** Bản dịch nội dung admin — khoá ngoài là mã ngôn ngữ đích ("en"|"ja"|"ko"|"zh-TW"),
  * giá trị là các field đã dịch cùng tên với field gốc trên bản ghi (vd.
