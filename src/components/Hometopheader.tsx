@@ -26,7 +26,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
  *  - Logo có hiệu ứng rung lắc nhẹ, lặp định kỳ.
  */
 
-type NavChild = { label: string; href: string };
+type NavChild = { label: string; href: string; external?: boolean };
 type NavItem = { label: string; href: string; children?: NavChild[] };
 
 const NAV_LINKS: NavItem[] = [
@@ -45,7 +45,14 @@ const NAV_LINKS: NavItem[] = [
   // },
   { label: "Sản phẩm", href: "/san-pham" },
   { label: "Hệ thống phân phối", href: "/he-thong-phan-phoi" },
-  { label: "Dự Án & Hợp Tác", href: "/du-an-hop-tac" },
+  {
+    label: "Dự Án & Hợp Tác",
+    href: "/du-an-hop-tac",
+    children: [
+      { label: "Nhà máy chế biến", href: "/du-an-hop-tac/nha-may-che-bien" },
+      { label: "Tinh bột kháng", href: "https://tinh-bot-khang.vercel.app/", external: true },
+    ],
+  },
   // {
   //   label: "Khác",
   //   href: "#",
@@ -136,7 +143,7 @@ export default function HomeTopHeader() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <div className="sticky top-0 z-50 w-full">
+    <div id="site-header" className="sticky top-0 z-50 w-full">
       {/* ===== Thanh điều hướng chính — nổi bật hơn khi cuộn xuống =====
           Không dùng backdrop-blur khi cuộn: filter chạy cùng lúc với scroll trên
           phần tử sticky buộc trình duyệt vẽ lại lớp mờ mỗi khung hình, chính là
@@ -221,6 +228,7 @@ export default function HomeTopHeader() {
                         <Link
                           key={child.label}
                           href={child.href}
+                          {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                           className="nav-dropdown-item group/item relative flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] font-medium leading-snug text-[#06301B]/80 transition-colors duration-200 hover:bg-[#f2f9ee] hover:text-[#006400]"
                         >
                           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#87CEFA] transition-all duration-300 group-hover/item:scale-125 group-hover/item:bg-[#006400]" />
@@ -401,6 +409,7 @@ export default function HomeTopHeader() {
                           <Link
                             key={child.label}
                             href={child.href}
+                            {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                             onClick={() => {
                               setMenuOpen(false);
                               setMobileExpanded(null);

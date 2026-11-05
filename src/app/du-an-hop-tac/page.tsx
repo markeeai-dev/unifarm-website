@@ -4,6 +4,7 @@ import SocialFloat from "@/components/Socialfloat";
 import ScrollToTopButton from "@/components/Scrolltotopbutton";
 import DuanBanner from "@/components/du-an/DuanBanner";
 import DuanTruCot from "@/components/du-an/DuanTruCot";
+import DuanLinhVuc from "@/components/du-an/DuanLinhVuc";
 import DuanNguyenTac from "@/components/du-an/DuanNguyenTac";
 import DuanContactForm from "@/components/du-an/DuanContactForm";
 import Bandonongsanxanh from "@/components/dich-vu/Bandonongsanxanh";
@@ -23,6 +24,7 @@ export default function DuAnHopTacPage() {
 
       <main className="flex-1">
         <DuanTruCot />
+        <DuanLinhVuc />
         <DuanNguyenTac />
         <Bandonongsanxanh />
         <DuanContactForm />

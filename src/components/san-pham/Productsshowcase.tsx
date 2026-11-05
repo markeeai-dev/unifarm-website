@@ -340,6 +340,14 @@ export default function ProductsShowcase({ products }: { products: Product[] }) 
     return () => window.removeEventListener('hashchange', applyHash);
   }, [products]);
 
+  // Nhận điều hướng từ các trang khác (vd. trang Nhà máy chế biến) dạng
+  // "/san-pham?category=processed#products" — query param chọn sẵn tab
+  // category, còn "#products" (id có thật trên section) lo việc cuộn tới.
+  useEffect(() => {
+    const cat = new URLSearchParams(window.location.search).get('category');
+    if (cat && CATEGORIES.some((c) => c.id === cat)) setActiveCat(cat);
+  }, []);
+
   // ---- Scroll reveal: toàn bộ khối (tiêu đề, tabs, quick-pick, lưới sản
   // phẩm) mờ dần + trồi lên trong ~4.5s, chạy đúng 1 lần khi cuộn tới.
   const [sectionVisible, setSectionVisible] = useState(false);
