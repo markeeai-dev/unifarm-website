@@ -7,27 +7,16 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 function FacebookGlyph(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <path
-        d="M14.5 8.5h2V5.8c-.35-.05-1.55-.15-2.96-.15-2.93 0-4.94 1.79-4.94 5.08v2.77H6v3.2h3.6V21h3.3v-4.3h3.16l.5-3.2h-3.66v-2.4c0-.93.26-1.6 1.6-1.6Z"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.01H7.9v-2.93h2.54V9.84c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.48h-1.26c-1.24 0-1.63.78-1.63 1.58v1.9h2.78l-.45 2.93h-2.33V22C18.34 21.23 22 17.08 22 12.06Z" />
     </svg>
   );
 }
 
 function ZaloGlyph(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <path
-        d="M7 8h9l-9 8h9"
-        stroke="currentColor"
-        strokeWidth={2.2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.85 1.47 5.39 3.77 7.04-.17.9-.63 2.33-1.57 3.6a.4.4 0 0 0 .42.62c1.95-.43 3.52-1.3 4.5-1.98A11.6 11.6 0 0 0 12 20c5.52 0 10-4.03 10-9s-4.48-9-10-9Zm-4.55 7.1h3.98c.33 0 .6.27.6.6 0 .18-.08.34-.21.45l-3.14 2.95h2.75c.33 0 .6.27.6.6s-.27.6-.6.6H7.3a.6.6 0 0 1-.41-1.04l3.15-2.96H7.45a.6.6 0 0 1-.6-.6c0-.33.27-.6.6-.6Zm7.2-.1c.9 0 1.63.49 2 1.19v-.5c0-.33.27-.6.6-.6s.6.27.6.6v3.9c0 .33-.27.6-.6.6s-.6-.27-.6-.6v-.1a2.3 2.3 0 0 1-2 1.09 2.54 2.54 0 0 1 0-5.08Zm0 1.2a1.34 1.34 0 1 0 0 2.68 1.34 1.34 0 0 0 0-2.68Z" />
     </svg>
   );
 }
@@ -35,10 +24,7 @@ function ZaloGlyph(props: SVGProps<SVGSVGElement>) {
 function LinkedinGlyph(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <rect x="3" y="3" width="18" height="18" rx="3.2" fill="none" stroke="currentColor" strokeWidth={1.6} />
-      <rect x="6.7" y="10.2" width="2.1" height="7.3" rx="0.4" />
-      <circle cx="7.75" cy="7.1" r="1.35" />
-      <path d="M11.4 17.5v-7.3h2.1v1.05c.55-.78 1.4-1.25 2.5-1.25 1.85 0 3 1.15 3 3.2v4.3h-2.1v-3.9c0-1.05-.55-1.65-1.5-1.65-.95 0-1.6.65-1.6 1.7v3.85h-2.1Z" />
+      <path d="M6.94 5.5a2 2 0 1 1-4.01 0 2 2 0 0 1 4.01 0ZM3.2 8.75h3.5V21H3.2V8.75ZM9.6 8.75H13v1.68h.05c.47-.9 1.63-1.84 3.36-1.84 3.6 0 4.26 2.37 4.26 5.44V21h-3.65v-5.3c0-1.26-.02-2.89-1.76-2.89-1.76 0-2.03 1.37-2.03 2.79V21H9.6V8.75Z" />
     </svg>
   );
 }
@@ -46,9 +32,9 @@ function LinkedinGlyph(props: SVGProps<SVGSVGElement>) {
 function InstagramGlyph(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth={1.7} />
-      <circle cx="12" cy="12" r="4.1" stroke="currentColor" strokeWidth={1.7} />
-      <circle cx="17.1" cy="6.9" r="1.15" fill="currentColor" />
+      <rect x="3" y="3" width="18" height="18" rx="5.2" stroke="currentColor" strokeWidth={1.8} />
+      <circle cx="12" cy="12" r="4.3" stroke="currentColor" strokeWidth={1.8} />
+      <circle cx="17.35" cy="6.65" r="1.25" fill="currentColor" />
     </svg>
   );
 }
@@ -56,16 +42,15 @@ function InstagramGlyph(props: SVGProps<SVGSVGElement>) {
 function TiktokGlyph(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M15.6 3.2c.4 1.9 1.7 3.2 3.7 3.4v2.7c-1.35-.02-2.55-.4-3.65-1.15v5.5c0 3.05-2.15 5.15-5.05 5.15-2.75 0-5-2.05-5-4.95 0-2.85 2.2-4.95 5-4.95.33 0 .65.03.95.09v2.75a2.2 2.2 0 0 0-.95-.21c-1.3 0-2.35 1.02-2.35 2.32 0 1.3 1.05 2.3 2.35 2.3 1.35 0 2.4-1.02 2.4-2.5V3.2h2.63Z" />
+      <path d="M16.6 5.82c-.68-.74-1.06-1.71-1.06-2.82h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.59-1.16-2.59-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7v-6.3a7.72 7.72 0 0 0 4.51 1.45V7.2s-1.88.09-3.45-1.38Z" />
     </svg>
   );
 }
 
 function YoutubeGlyph(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect x="2.5" y="5.5" width="19" height="13" rx="3.5" stroke="currentColor" strokeWidth={1.7} />
-      <path d="M10.2 9.3v5.4l4.7-2.7-4.7-2.7Z" fill="currentColor" />
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12 6.5c1.5 0 5.07.14 6.62.72.9.34 1.6 1.06 1.94 1.97.56 1.56.69 4.81.69 4.81s0 3.26-.69 4.82a3.1 3.1 0 0 1-1.94 1.97c-1.55.58-5.12.71-6.62.71s-5.07-.13-6.62-.71a3.1 3.1 0 0 1-1.94-1.97c-.56-1.56-.69-4.82-.69-4.82s0-3.25.69-4.81A3.1 3.1 0 0 1 5.38 7.2c1.55-.58 5.12-.71 6.62-.71ZM10 9.9v5.2l4.7-2.6-4.7-2.6Z" />
     </svg>
   );
 }
@@ -75,51 +60,41 @@ const CHANNELS = [
     label: "Facebook",
     href: "https://www.facebook.com/Unifarm.SafeFoodForLife",
     icon: FacebookGlyph,
-    bg: "var(--color-forest, #1f5c34)",
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/unifarmvn/",
     icon: LinkedinGlyph,
-    bg: "var(--color-green, #2f7a45)",
   },
   {
     label: "Instagram",
     href: "https://www.instagram.com/unifarm_official1/",
     icon: InstagramGlyph,
-    bg: "var(--color-gold, #f2c230)",
-    dark: true,
   },
   {
     label: "TikTok",
     href: "https://www.tiktok.com/@unifarm.vn",
     icon: TiktokGlyph,
-    bg: "var(--color-forest, #1f5c34)",
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@unifarm.safefoodforlifeui2999",
     icon: YoutubeGlyph,
-    bg: "var(--color-green, #2f7a45)",
   },
   {
     label: "Zalo",
     href: "https://zalo.me",
     icon: ZaloGlyph,
-    bg: "var(--color-gold, #f2c230)",
-    dark: true,
   },
   {
     label: "Email",
     href: "mailto:hi@unifarm.com",
     icon: Mail,
-    bg: "var(--color-forest, #1f5c34)",
   },
   {
     label: "Gọi ngay",
     href: "tel:+840988001002",
     icon: Phone,
-    bg: "var(--color-green, #2f7a45)",
   },
 ];
 
@@ -165,20 +140,21 @@ export default function SocialFloat() {
       }`}
     >
       {/* Socials */}
-      <div className="flex w-36 flex-col items-end sm:w-40">
+      <div className="flex w-auto flex-col items-end gap-1.5">
         {CHANNELS.map((c, i) => (
           <div
             key={c.label}
-            className={`grid w-full transition-all duration-300 ease-out ${
-              open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-            }`}
+            className={`grid w-full ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
             style={{
+              transitionProperty: "grid-template-rows, opacity",
+              transitionDuration: "300ms",
+              transitionTimingFunction: "ease-out",
               transitionDelay: open ? `${i * 45}ms` : `${(CHANNELS.length - 1 - i) * 25}ms`,
             }}
           >
             <div className="min-h-0 overflow-hidden">
-              {/* py-1.5 + pr-1 để scale-110 không bị cắt trên/phải */}
-              <div className="flex justify-end py-1.5 pr-1">
+              {/* py-1 + pr-1 để scale-110 không bị cắt trên/phải */}
+              <div className="flex justify-end py-1 pr-1">
                 <a
                   href={c.href}
                   target={
@@ -192,19 +168,25 @@ export default function SocialFloat() {
                       : "noopener noreferrer"
                   }
                   aria-label={t(c.label)}
-                  className={`social-item group relative flex h-11 w-11 items-center justify-center rounded-full shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 active:scale-95 sm:h-12 sm:w-12 ${
+                  className={`social-item group relative isolate flex h-11 w-11 items-center justify-center overflow-hidden rounded-full text-white shadow-[0_10px_24px_-8px_rgba(6,59,36,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 hover:shadow-[0_16px_30px_-8px_rgba(6,59,36,0.6)] active:scale-95 sm:h-12 sm:w-12 ${
                     open ? "social-wiggle" : ""
                   }`}
                   style={{
-                    background: c.bg,
-                    color: c.dark ? "var(--color-ink, #1a1a1a)" : "#fff",
+                    background: "#063B24",
                     animationDelay: open ? `${i * 0.12}s` : "0s",
                   }}
                 >
-                  <c.icon size={20} strokeWidth={1.8} />
+                  <c.icon size={19} strokeWidth={1.8} className="relative z-10 h-[19px] w-[19px] shrink-0" />
 
-                  {/* Tooltip – nằm trong w-40 nên không bị cắt */}
-                  <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-ink px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-md transition-all duration-300 group-hover:mr-3.5 group-hover:opacity-100">
+                  {/* Tooltip — pill kem/forest đồng bộ badge của site */}
+                  <span
+                    className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold opacity-0 shadow-md transition-all duration-300 group-hover:mr-3.5 group-hover:opacity-100"
+                    style={{
+                      background: "#FFFACD",
+                      color: "#063B24",
+                      border: "1px solid rgba(0,100,0,0.25)",
+                    }}
+                  >
                     {t(c.label)}
                   </span>
                 </a>
@@ -220,26 +202,31 @@ export default function SocialFloat() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? t("Đóng liên hệ") : t("Mở liên hệ")}
         aria-expanded={open}
-        className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-forest,#1f5c34)] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-300 hover:scale-110 sm:h-14 sm:w-14 ${
+        className={`group relative isolate flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full text-white shadow-[0_14px_30px_-10px_rgba(6,59,36,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 sm:h-14 sm:w-14 ${
           open ? "" : "wiggle-btn"
         }`}
+        style={{ background: "#063B24" }}
       >
         {!open && (
-          <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[var(--color-forest,#1f5c34)]/40" />
+          <>
+            <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#FFFACD]/35" />
+            <span className="absolute right-0.5 top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#FFFACD]" />
+          </>
         )}
+        <span className="absolute inset-0 -z-10 origin-bottom-left scale-0 rounded-full bg-white/15 transition-transform duration-500 ease-out group-hover:scale-150" />
 
         {open ? (
           <svg
             viewBox="0 0 24 24"
             fill="none"
-            className="h-6 w-6"
+            className="relative z-10 h-6 w-6"
             stroke="currentColor"
             strokeWidth={2.2}
           >
             <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
           </svg>
         ) : (
-          <MessageCircle size={24} strokeWidth={1.8} />
+          <MessageCircle size={24} strokeWidth={1.8} className="relative z-10" />
         )}
       </button>
 

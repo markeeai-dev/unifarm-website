@@ -136,23 +136,24 @@ export default function NhaMaySanPham() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Link
                     href="/san-pham?category=processed#products"
-                    className="group/btn relative isolate flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-sm font-bold uppercase tracking-wide text-white transition-all duration-300"
+                    className="group/btn relative isolate flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-[13px] font-bold uppercase tracking-wide text-white transition-all duration-300 sm:flex-1 sm:text-sm"
                     style={{ background: C.forest }}
                   >
                     <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover/btn:scale-x-100" />
                     {t("Xem trong danh mục sản phẩm")}
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" strokeWidth={2.5} />
+                    <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover/btn:translate-x-1" strokeWidth={2.5} />
                   </Link>
                   <a
                     href="tel:02743889887"
                     aria-label={t("Gọi hotline Unifarm")}
-                    className="flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-300 hover:bg-[#f2f9ee]"
+                    className="flex h-[50px] w-full shrink-0 items-center justify-center gap-2 rounded-full border-2 text-sm font-bold transition-colors duration-300 hover:bg-[#f2f9ee] sm:w-[50px]"
                     style={{ borderColor: `${C.forest}26`, color: C.forest }}
                   >
-                    <Phone className="h-[18px] w-[18px]" strokeWidth={2.2} />
+                    <Phone className="h-[18px] w-[18px] shrink-0" strokeWidth={2.2} />
+                    <span className="sm:hidden">{t("Gọi ngay")}</span>
                   </a>
                 </div>
               </div>

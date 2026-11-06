@@ -196,10 +196,12 @@ export default function HomeTopHeader() {
               <div key={link.label} className="group relative">
                 <Link
                   href={link.href}
-                  className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-all ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                  className={`inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold hover:bg-[#f2f9ee] hover:text-[#006400] ${
                     isLinkActive(pathname, link.href) ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
                   } ${mounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
                   style={{
+                    transitionProperty: "all",
+                    transitionTimingFunction: "ease-out",
                     transitionDuration: `${NAV_ENTRANCE_DURATION_MS}ms`,
                     transitionDelay: mounted ? `${NAV_ENTRANCE_BASE_MS + i * NAV_ENTRANCE_STAGGER_MS}ms` : "0ms",
                   }}
@@ -366,39 +368,58 @@ export default function HomeTopHeader() {
                    drawer — dàn đều trong khoảng thời gian "sóng" loang ra
                    (850ms) nên mục cuối cùng vừa hiện xong đúng lúc sóng
                    loang tới hết khung menu. */
+                // Đặt cả transition-property/duration/easing/delay qua style
+                // (không trộn chung với class transition-* của Tailwind) —
+                // trộn shorthand/non-shorthand khiến React cảnh báo và có
+                // thể khiến transition không áp dụng ổn định, đặc biệt trên
+                // thiết bị cảm ứng thật (nghi là nguyên nhân link con trong
+                // menu "Dự Án & Hợp Tác" thỉnh thoảng không bấm được).
                 const itemStyle = {
+                  transitionProperty: "opacity, transform",
+                  transitionDuration: "300ms",
+                  transitionTimingFunction: "ease-out",
                   transitionDelay: menuOpen ? `${220 + i * 95}ms` : "0ms",
                 };
                 return link.children ? (
                   <div
                     key={link.label}
-                    className={`transition-[opacity,transform] duration-300 ease-out ${
-                      menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
-                    }`}
+                    className={menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}
                     style={itemStyle}
                   >
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setMobileExpanded((cur) => (cur === link.label ? null : link.label))
-                      }
-                      className={`flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-[15px] font-semibold transition-colors hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                    <div
+                      className={`flex w-full items-center justify-between rounded-xl text-[15px] font-semibold ${
                         active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
                       }`}
                     >
-                      {t(link.label)}
-                      <svg
-                        viewBox="0 0 24 24"
-                        className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${
-                          mobileExpanded === link.label ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex-1 rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
                       >
-                        <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </button>
+                        {t(link.label)}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setMobileExpanded((cur) => (cur === link.label ? null : link.label))
+                        }
+                        aria-label={t("Xem thêm")}
+                        aria-expanded={mobileExpanded === link.label}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors hover:bg-[#f2f9ee] hover:text-[#006400]"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${
+                            mobileExpanded === link.label ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                        >
+                          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
                     <div
                       className={`overflow-hidden transition-all duration-300 ${
                         mobileExpanded === link.label ? "max-h-96" : "max-h-0"
@@ -427,10 +448,10 @@ export default function HomeTopHeader() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`block rounded-xl px-4 py-3.5 text-[15px] font-semibold transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-[#f2f9ee] hover:text-[#006400] ${
+                    className={`block rounded-xl px-4 py-3.5 text-[15px] font-semibold hover:bg-[#f2f9ee] hover:text-[#006400] ${
                       active ? "bg-[#f2f9ee] text-[#006400]" : "text-[#06301B]/80"
                     } ${menuOpen ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
-                    style={itemStyle}
+                    style={{ ...itemStyle, transitionProperty: "opacity, transform, background-color, color" }}
                   >
                     {t(link.label)}
                   </Link>

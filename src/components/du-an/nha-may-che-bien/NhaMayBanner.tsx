@@ -38,7 +38,7 @@ export default function NhaMayBanner() {
 
   return (
     <section
-      className="relative min-h-screen w-full overflow-hidden"
+      className="relative flex min-h-[850px] w-full flex-col overflow-hidden sm:min-h-[920px] lg:min-h-screen"
       aria-label={t("Nhà máy chế biến Unifarm")}
     >
       <Image src={HERO_IMAGE} alt="" fill priority quality={90} sizes="100vw" className="absolute inset-0 object-cover" />
@@ -68,12 +68,16 @@ export default function NhaMayBanner() {
         aria-hidden="true"
       />
 
-      {/* NỘI DUNG — neo sát đáy banner */}
-      <div className="absolute inset-x-0 bottom-0 z-10 mx-auto flex w-full max-w-8xl px-4 pb-96 sm:px-6 lg:px-40">
+      {/* NỘI DUNG — neo sát đáy banner. Dùng mt-auto trong section flex-col
+          thay vì position:absolute+bottom-0, để nếu nội dung cần nhiều chỗ
+          hơn min-height hiện có (vd. trình duyệt zoom to làm tỉ lệ rem/vh
+          lệch nhau), section tự giãn cao thêm thay vì cắt mất phần trên —
+          không bao giờ bị lệch/mất chữ như khi định vị tuyệt đối cứng. */}
+      <div className="relative z-10 mx-auto mt-auto flex w-full max-w-8xl px-4 pb-56 sm:px-6 sm:pb-60 lg:px-40 lg:pb-[clamp(12rem,42.7vh,24rem)]">
         <div className="w-full max-w-3xl">
           {/* eyebrow badge */}
           <div
-            className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm transition-all duration-700 ${
+            className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm transition-all duration-700 lg:mb-[clamp(1.25rem,2.7vh,1.5rem)] lg:py-[clamp(0.2rem,0.67vh,0.375rem)] ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{
@@ -93,7 +97,7 @@ export default function NhaMayBanner() {
 
           {/* Tiêu đề chính */}
           <h1
-            className={`uppercase text-3xl font-extrabold leading-[1.15] tracking-tight text-white transition-all delay-100 duration-700 sm:text-4xl lg:text-5xl ${
+            className={`uppercase text-3xl font-extrabold leading-[1.15] tracking-tight text-white transition-all delay-100 duration-700 sm:text-4xl lg:text-[clamp(2.25rem,5.3vh,3rem)] ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}
@@ -103,7 +107,7 @@ export default function NhaMayBanner() {
 
           {/* Tagline */}
           <p
-            className={`mt-5 text-lg font-semibold italic leading-snug text-white transition-all delay-150 duration-700 sm:text-xl ${
+            className={`mt-5 text-lg font-semibold italic leading-snug text-white transition-all delay-150 duration-700 sm:text-xl lg:mt-[clamp(1rem,2.2vh,1.25rem)] lg:text-[clamp(1rem,2.2vh,1.25rem)] ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}
@@ -113,7 +117,7 @@ export default function NhaMayBanner() {
 
           {/* Mô tả */}
           <p
-            className={`mt-5 text-base leading-relaxed text-white/90 transition-all delay-200 duration-700 sm:text-lg ${
+            className={`mt-5 text-base leading-relaxed text-white/90 transition-all delay-200 duration-700 sm:text-lg lg:mt-[clamp(1rem,2.2vh,1.25rem)] lg:text-[clamp(0.95rem,2vh,1.125rem)] ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
             style={{ textShadow: TEXT_SHADOW }}
@@ -125,13 +129,13 @@ export default function NhaMayBanner() {
 
           {/* Nút hành động */}
           <div
-            className={`mt-9 flex flex-wrap items-center gap-4 transition-all delay-300 duration-700 ${
+            className={`mt-9 flex flex-wrap items-center gap-4 transition-all delay-300 duration-700 lg:mt-[clamp(1.5rem,4vh,2.25rem)] ${
               mounted ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
             }`}
           >
             <Link
               href="#quy-trinh-san-xuat"
-              className="group relative isolate inline-flex items-center gap-2 overflow-hidden bg-[#FFFACD] px-7 py-3.5 text-sm font-bold text-[#06301B] shadow-lg transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl sm:text-base"
+              className="group relative isolate inline-flex items-center gap-2 overflow-hidden bg-[#FFFACD] px-7 py-3.5 text-sm font-bold text-[#06301B] shadow-lg transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl sm:text-base lg:py-[clamp(0.65rem,1.56vh,0.875rem)] lg:text-[clamp(0.85rem,1.78vh,1rem)]"
             >
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-[#87cefa]/70 blur-md animate-button-shine" />
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#006400] transition-transform duration-500 ease-out group-hover:scale-x-100" />
@@ -146,7 +150,7 @@ export default function NhaMayBanner() {
 
             <Link
               href="/du-an-hop-tac#hop-tac"
-              className="group relative isolate inline-flex items-center gap-2 overflow-hidden border border-white/50 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#FFFACD] hover:shadow-lg sm:text-base"
+              className="group relative isolate inline-flex items-center gap-2 overflow-hidden border border-white/50 px-7 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-[#FFFACD] hover:shadow-lg sm:text-base lg:py-[clamp(0.65rem,1.56vh,0.875rem)] lg:text-[clamp(0.85rem,1.78vh,1rem)]"
             >
               <span className="absolute inset-0 -z-10 origin-left scale-x-0 bg-[#FFFACD] transition-transform duration-500 ease-out group-hover:scale-x-100" />
               <span className="pointer-events-none absolute inset-y-0 -left-[80%] z-0 w-[45%] skew-x-[-20deg] bg-white/50 blur-md animate-button-shine" />
