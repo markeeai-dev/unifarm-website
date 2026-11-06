@@ -12,13 +12,18 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { neon } from "@neondatabase/serverless";
+import postgres from "postgres";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function loadEnvLocal() {
   const envPath = path.join(__dirname, "..", ".env.local");
-  const raw = readFileSync(envPath, "utf8");
+  let raw;
+  try {
+    raw = readFileSync(envPath, "utf8");
+  } catch {
+    return; // không có .env.local (vd. chạy trong container) — dùng process.env
+  }
   for (const line of raw.split("\n")) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#")) continue;
@@ -38,7 +43,7 @@ if (!DATABASE_URL) {
   process.exit(1);
 }
 
-const sql = neon(DATABASE_URL);
+const sql = postgres(DATABASE_URL, { ssl: "prefer" });
 
 const TARGET_LOCALES = ["en", "ja", "ko", "zh-TW"];
 const MYMEMORY_LANG_CODE = { en: "en", ja: "ja", ko: "ko", "zh-TW": "zh-TW" };
@@ -389,7 +394,9 @@ async function main() {
   console.log("\nHoàn tất backfill.");
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main()
+  .then(() => sql.end())
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

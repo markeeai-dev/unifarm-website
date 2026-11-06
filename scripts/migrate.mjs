@@ -3,13 +3,18 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { Client } from "@neondatabase/serverless";
+import postgres from "postgres";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function loadEnvLocal() {
   const envPath = path.join(__dirname, "..", ".env.local");
-  const raw = readFileSync(envPath, "utf8");
+  let raw;
+  try {
+    raw = readFileSync(envPath, "utf8");
+  } catch {
+    return; // không có .env.local (vd. chạy trong container) — dùng process.env
+  }
   for (const line of raw.split("\n")) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#")) continue;
@@ -30,13 +35,14 @@ async function main() {
 
   const schema = readFileSync(path.join(__dirname, "..", "db", "schema.sql"), "utf8");
 
-  const client = new Client(databaseUrl);
-  await client.connect();
+  // onnotice: schema.sql có nhiều "DROP ... IF EXISTS" → bỏ qua các NOTICE vô hại.
+  const sql = postgres(databaseUrl, { ssl: "prefer", max: 1, onnotice: () => {} });
   try {
-    await client.query(schema);
+    // unsafe() không có tham số → giao thức query đơn giản, chạy được nhiều câu lệnh một lượt.
+    await sql.unsafe(schema);
     console.log("Schema applied successfully.");
   } finally {
-    await client.end();
+    await sql.end();
   }
 }
 

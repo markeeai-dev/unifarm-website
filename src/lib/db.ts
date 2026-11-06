@@ -10,7 +10,22 @@ if (!process.env.DATABASE_URL) {
 // lại trong code không cần sửa gì thêm. `ssl: "prefer"` tự thương lượng SSL
 // nếu server hỗ trợ, vẫn kết nối được bình thường nếu server tự host không
 // bật SSL — không cần cấu hình riêng cho từng loại server.
-export const sql = postgres(process.env.DATABASE_URL, { ssl: "prefer" });
+//
+// `types.json`: các route admin truyền `${JSON.stringify(x)}::jsonb`. Driver này
+// mặc định JSON.stringify lại giá trị đó lần nữa (kể cả khi đã là chuỗi) →
+// mảng bị lưu thành chuỗi JSON, `translations || ...` thành mảng. Giữ nguyên
+// chuỗi đã stringify sẵn để cột jsonb nhận đúng mảng/object.
+export const sql = postgres(process.env.DATABASE_URL, {
+  ssl: "prefer",
+  types: {
+    json: {
+      to: 114,
+      from: [114, 3802],
+      serialize: (x: unknown) => (typeof x === "string" ? x : JSON.stringify(x)),
+      parse: (x: string) => JSON.parse(x),
+    },
+  },
+});
 
 /** Bản dịch nội dung admin — khoá ngoài là mã ngôn ngữ đích ("en"|"ja"|"ko"|"zh-TW"),
  * giá trị là các field đã dịch cùng tên với field gốc trên bản ghi (vd.
