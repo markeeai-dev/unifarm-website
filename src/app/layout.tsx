@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 
 import { siteConfig } from "@/config/site";
 import CustomCursor from "@/components/Customcursor";
@@ -48,13 +49,39 @@ export const metadata: Metadata = {
   },
 };
 
+const GTM_ID = "GTM-P2QPFZTP";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="vi"
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
+      <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-src"
+          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
+      </head>
       <body className="min-h-full flex flex-col">
+        {/* Google Tag Manager (noscript) — fallback khi trình duyệt tắt JS */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         {/* Script chặn, chạy đồng bộ trước khi trình duyệt vẽ khung hình đầu
             tiên — nếu intro đã chạy trong tab này rồi (sessionStorage) thì
             đánh dấu ngay trên <html> để CSS ẩn overlay tức thì, tránh chớp
